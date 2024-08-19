@@ -1,0 +1,38 @@
+{
+  "name": "@cortex/frontend",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "clean": "nuxi cleanup"
+  },
+  "dependencies": {
+    "@cortex/shared": "workspace:*",
+    "@nuxt/eslint": "^0.5.0",
+    "@nuxt/fonts": "^0.7.2",
+    "@nuxtjs/color-mode": "^3.4.2",
+    "@nuxtjs/mdc": "^0.8.3",
+    "@nuxtjs/seo": "2.0.0-rc.18",
+    "@pinia/nuxt": "^0.5.3",
+    "@vee-validate/nuxt": "^4.13.2",
+    "@vueuse/nuxt": "^10.11.1",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "lucide-vue-next": "^0.427.0",
+    "nuxt": "^3.12.4",
+    "nuxt-codemirror": "^0.0.11",
+    "radix-vue": "^1.9.4",
+    "shadcn-nuxt": "^0.10.4",
+    "tailwind-merge": "^2.5.2",
+    "tailwindcss-animate": "^1.0.7",
+    "vue": "latest"
+  },
+  "devDependencies": {
+    "@nuxtjs/tailwindcss": "^6.12.1",
+    "typescript": "^5.5.4"
+  }
+}

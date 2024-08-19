@@ -1,0 +1,72 @@
+
+services:
+  postgres:
+    image: postgres:alpine3.19
+    container_name: cortex_db
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    restart: unless-stopped
+  
+  directus:
+    image: directus/directus:11.0.2
+    container_name: cortex_directus
+    depends_on:
+      - postgres
+    ports:
+      - '8055:8055'
+    volumes:
+      - ./cms/database:/directus/database
+      - ./cms/uploads:/directus/uploads
+      - ./cms/extensions:/directus/extensions
+    env_file:
+      - .env
+    environment:
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      DB_CLIENT: ${DB_CLIENT}
+      DB_HOST: postgres
+      DB_PORT: ${DB_PORT}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+
+  maildev:
+    container_name: cortex_maildev
+    image: maildev/maildev
+    ports:
+      - '1080:1080'
+      - '1025:1025'
+    healthcheck:
+      test: 'wget -O - http://127.0.0.1:$${MAILDEV_WEB_PORT}$${MAILDEV_BASE_PATHNAME}/healthz || exit 1'
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: cortex_rabbitmq
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER:-guest}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASS:-guest}
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+  redis:
+    image: redis:alpine
+    container_name: cortex_redis
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis_data:/data
+volumes:
+  postgres_data:
+  rabbitmq_data:
+  redis_data:
