@@ -1,0 +1,35 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/cortex_db
+    username: cuervolu
+    password: kdDjkdaPspJn
+    driver-class-name: org.postgresql.Driver
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    data:
+      redis:
+        host: localhost
+        port: 6379
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+      database: postgresql
+      database-platform: org.hibernate.dialect.PostgreSQLDialect
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+        web: DEBUG
+docker:
+  cleanup:
+    interval-ms: 3600000  # 1 hora
+    container:
+      max-age-hours: 24  # 24 horas
