@@ -46,7 +46,7 @@
     }
   },
     "bundle": {
-      "publisher": "Cortex",
+      "publisher": "Bytech SpA",
       "createUpdaterArtifacts": true,
       "active": true,
       "targets": "all",
