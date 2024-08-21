@@ -30,7 +30,6 @@
     "@tauri-apps/plugin-process": "2.0.0-rc.0",
     "@tauri-apps/plugin-shell": "2.0.0-rc.0",
     "@tauri-apps/plugin-store": "2.0.0-rc.0",
-    "@tauri-apps/plugin-stronghold": "2.0.0-rc.0",
     "@tauri-apps/plugin-updater": "2.0.0-rc.0",
     "@tauri-apps/plugin-window-state": "2.0.0-rc.0",
     "@vee-validate/nuxt": "^4.13.2",
