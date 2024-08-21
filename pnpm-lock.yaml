@@ -12,11 +12,11 @@ importers:
         specifier: ^2.0.14
         version: 2.0.14
 
-  packages/desktop:
+  apps/desktop:
     dependencies:
       '@cortex/shared':
         specifier: workspace:*
-        version: link:../shared
+        version: link:../../packages/shared
       '@nuxt/eslint':
         specifier: ^0.5.0
         version: 0.5.1(eslint@8.57.0)(magicast@0.3.4)(rollup@4.21.0)(typescript@5.5.4)(vite@5.4.1(@types/node@22.4.1)(terser@5.31.6))
@@ -85,7 +85,7 @@ importers:
         version: 3.12.4(@parcel/watcher@2.4.1)(@types/node@22.4.1)(eslint@8.57.0)(ioredis@5.4.1)(magicast@0.3.4)(optionator@0.9.4)(rollup@4.21.0)(terser@5.31.6)(typescript@5.5.4)(vite@5.4.1(@types/node@22.4.1)(terser@5.31.6))
       nuxt-codemirror:
         specifier: ^0.0.11
-        version: 0.0.11(@codemirror/autocomplete@6.18.0(@codemirror/language@6.10.2)(@codemirror/state@6.4.1)(@codemirror/view@6.32.0)(@lezer/common@1.2.1))(@codemirror/language@6.10.2)(@codemirror/lint@6.8.1)(@codemirror/search@6.5.6)(magicast@0.3.4)(rollup@4.21.0)
+        version: 0.0.11(@codemirror/autocomplete@6.18.0(@codemirror/language@6.10.2)(@codemirror/state@6.4.1)(@codemirror/view@6.30.0)(@lezer/common@1.2.1))(@codemirror/language@6.10.2)(@codemirror/lint@6.8.1)(@codemirror/search@6.5.6)(magicast@0.3.4)(rollup@4.21.0)
       postcss:
         specifier: ^8.4.41
         version: 8.4.41
@@ -121,11 +121,11 @@ importers:
         specifier: ^5.5.4
         version: 5.5.4
 
-  packages/frontend:
+  apps/frontend:
     dependencies:
       '@cortex/shared':
         specifier: workspace:*
-        version: link:../shared
+        version: link:../../packages/shared
       '@nuxt/eslint':
         specifier: ^0.5.0
         version: 0.5.1(eslint@8.57.0)(magicast@0.3.4)(rollup@4.21.0)(typescript@5.5.4)(vite@5.4.1(@types/node@22.4.1)(terser@5.31.6))
@@ -167,7 +167,7 @@ importers:
         version: 3.12.4(@parcel/watcher@2.4.1)(@types/node@22.4.1)(eslint@8.57.0)(ioredis@5.4.1)(magicast@0.3.4)(optionator@0.9.4)(rollup@4.21.0)(terser@5.31.6)(typescript@5.5.4)(vite@5.4.1(@types/node@22.4.1)(terser@5.31.6))
       nuxt-codemirror:
         specifier: ^0.0.11
-        version: 0.0.11(@codemirror/autocomplete@6.18.0(@codemirror/language@6.10.2)(@codemirror/state@6.4.1)(@codemirror/view@6.30.0)(@lezer/common@1.2.1))(@codemirror/language@6.10.2)(@codemirror/lint@6.8.1)(@codemirror/search@6.5.6)(magicast@0.3.4)(rollup@4.21.0)
+        version: 0.0.11(@codemirror/autocomplete@6.18.0(@codemirror/language@6.10.2)(@codemirror/state@6.4.1)(@codemirror/view@6.32.0)(@lezer/common@1.2.1))(@codemirror/language@6.10.2)(@codemirror/lint@6.8.1)(@codemirror/search@6.5.6)(magicast@0.3.4)(rollup@4.21.0)
       postcss:
         specifier: ^8.4.41
         version: 8.4.41
@@ -5709,13 +5709,13 @@ snapshots:
     dependencies:
       '@codemirror/language': 6.10.2
       '@codemirror/state': 6.4.1
-      '@codemirror/view': 6.30.0
+      '@codemirror/view': 6.32.0
       '@lezer/common': 1.2.1
 
   '@codemirror/language@6.10.2':
     dependencies:
       '@codemirror/state': 6.4.1
-      '@codemirror/view': 6.30.0
+      '@codemirror/view': 6.32.0
       '@lezer/common': 1.2.1
       '@lezer/highlight': 1.2.1
       '@lezer/lr': 1.4.2
@@ -5739,7 +5739,7 @@ snapshots:
     dependencies:
       '@codemirror/language': 6.10.2
       '@codemirror/state': 6.4.1
-      '@codemirror/view': 6.30.0
+      '@codemirror/view': 6.32.0
       '@lezer/highlight': 1.2.1
 
   '@codemirror/view@6.30.0':
