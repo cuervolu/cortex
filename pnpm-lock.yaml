@@ -8,6 +8,109 @@ importers:
 
   .: {}
 
+  packages/desktop:
+    dependencies:
+      '@cortex/shared':
+        specifier: workspace:*
+        version: link:../shared
+      '@nuxt/eslint':
+        specifier: ^0.5.0
+        version: 0.5.1(eslint@8.57.0)(magicast@0.3.4)(rollup@4.21.0)(typescript@5.5.4)(vite@5.4.1(@types/node@22.4.1)(terser@5.31.6))
+      '@nuxt/fonts':
+        specifier: ^0.7.2
+        version: 0.7.2(ioredis@5.4.1)(magicast@0.3.4)(rollup@4.21.0)(vite@5.4.1(@types/node@22.4.1)(terser@5.31.6))
+      '@nuxtjs/color-mode':
+        specifier: ^3.4.4
+        version: 3.4.4(magicast@0.3.4)(rollup@4.21.0)
+      '@pinia/nuxt':
+        specifier: ^0.5.3
+        version: 0.5.3(magicast@0.3.4)(rollup@4.21.0)(typescript@5.5.4)(vue@3.4.38(typescript@5.5.4))
+      '@tauri-apps/api':
+        specifier: 2.0.0-rc.0
+        version: 2.0.0-rc.0
+      '@tauri-apps/plugin-clipboard-manager':
+        specifier: 2.0.0-rc.0
+        version: 2.0.0-rc.0
+      '@tauri-apps/plugin-dialog':
+        specifier: 2.0.0-rc.0
+        version: 2.0.0-rc.0
+      '@tauri-apps/plugin-fs':
+        specifier: 2.0.0-rc.0
+        version: 2.0.0-rc.0
+      '@tauri-apps/plugin-log':
+        specifier: 2.0.0-rc.0
+        version: 2.0.0-rc.0
+      '@tauri-apps/plugin-os':
+        specifier: 2.0.0-rc.0
+        version: 2.0.0-rc.0
+      '@tauri-apps/plugin-process':
+        specifier: 2.0.0-rc.0
+        version: 2.0.0-rc.0
+      '@tauri-apps/plugin-shell':
+        specifier: 2.0.0-rc.0
+        version: 2.0.0-rc.0
+      '@tauri-apps/plugin-store':
+        specifier: 2.0.0-rc.0
+        version: 2.0.0-rc.0
+      '@tauri-apps/plugin-stronghold':
+        specifier: 2.0.0-rc.0
+        version: 2.0.0-rc.0
+      '@tauri-apps/plugin-updater':
+        specifier: 2.0.0-rc.0
+        version: 2.0.0-rc.0
+      '@tauri-apps/plugin-window-state':
+        specifier: 2.0.0-rc.0
+        version: 2.0.0-rc.0
+      '@vee-validate/nuxt':
+        specifier: ^4.13.2
+        version: 4.13.2(magicast@0.3.4)(rollup@4.21.0)(vue@3.4.38(typescript@5.5.4))
+      '@vueuse/nuxt':
+        specifier: ^11.0.0
+        version: 11.0.1(magicast@0.3.4)(nuxt@3.12.4(@parcel/watcher@2.4.1)(@types/node@22.4.1)(eslint@8.57.0)(ioredis@5.4.1)(magicast@0.3.4)(optionator@0.9.4)(rollup@4.21.0)(terser@5.31.6)(typescript@5.5.4)(vite@5.4.1(@types/node@22.4.1)(terser@5.31.6)))(rollup@4.21.0)(vue@3.4.38(typescript@5.5.4))
+      class-variance-authority:
+        specifier: ^0.7.0
+        version: 0.7.0
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
+      lucide-vue-next:
+        specifier: ^0.427.0
+        version: 0.427.0(vue@3.4.38(typescript@5.5.4))
+      nuxt:
+        specifier: ^3.12.4
+        version: 3.12.4(@parcel/watcher@2.4.1)(@types/node@22.4.1)(eslint@8.57.0)(ioredis@5.4.1)(magicast@0.3.4)(optionator@0.9.4)(rollup@4.21.0)(terser@5.31.6)(typescript@5.5.4)(vite@5.4.1(@types/node@22.4.1)(terser@5.31.6))
+      nuxt-codemirror:
+        specifier: ^0.0.11
+        version: 0.0.11(@codemirror/autocomplete@6.18.0(@codemirror/language@6.10.2)(@codemirror/state@6.4.1)(@codemirror/view@6.30.0)(@lezer/common@1.2.1))(@codemirror/language@6.10.2)(@codemirror/lint@6.8.1)(@codemirror/search@6.5.6)(magicast@0.3.4)(rollup@4.21.0)
+      radix-vue:
+        specifier: ^1.9.4
+        version: 1.9.4(vue@3.4.38(typescript@5.5.4))
+      shadcn-nuxt:
+        specifier: ^0.10.4
+        version: 0.10.4(magicast@0.3.4)(rollup@4.21.0)
+      tailwind-merge:
+        specifier: ^2.5.2
+        version: 2.5.2
+      tailwindcss-animate:
+        specifier: ^1.0.7
+        version: 1.0.7(tailwindcss@3.4.10)
+      vue:
+        specifier: latest
+        version: 3.4.38(typescript@5.5.4)
+    devDependencies:
+      '@nuxtjs/tailwindcss':
+        specifier: ^6.12.1
+        version: 6.12.1(magicast@0.3.4)(rollup@4.21.0)
+      '@tauri-apps/cli':
+        specifier: 2.0.0-rc.6
+        version: 2.0.0-rc.6
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
+      typescript:
+        specifier: ^5.5.4
+        version: 5.5.4
+
   packages/frontend:
     dependencies:
       '@cortex/shared':
@@ -51,7 +154,7 @@ importers:
         version: 3.12.4(@parcel/watcher@2.4.1)(@types/node@22.4.1)(eslint@8.57.0)(ioredis@5.4.1)(magicast@0.3.4)(optionator@0.9.4)(rollup@4.21.0)(terser@5.31.6)(typescript@5.5.4)(vite@5.4.1(@types/node@22.4.1)(terser@5.31.6))
       nuxt-codemirror:
         specifier: ^0.0.11
-        version: 0.0.11(@codemirror/autocomplete@6.18.0(@codemirror/language@6.10.2)(@codemirror/state@6.4.1)(@codemirror/view@6.30.0)(@lezer/common@1.2.1))(@codemirror/language@6.10.2)(@codemirror/lint@6.8.1)(@codemirror/search@6.5.6)(magicast@0.3.4)(rollup@4.21.0)
+        version: 0.0.11(@codemirror/autocomplete@6.18.0(@codemirror/language@6.10.2)(@codemirror/state@6.4.1)(@codemirror/view@6.32.0)(@lezer/common@1.2.1))(@codemirror/language@6.10.2)(@codemirror/lint@6.8.1)(@codemirror/search@6.5.6)(magicast@0.3.4)(rollup@4.21.0)
       radix-vue:
         specifier: ^1.9.4
         version: 1.9.4(vue@3.4.38(typescript@5.5.4))
@@ -1377,6 +1480,108 @@ packages:
     peerDependencies:
       vue: ^2.7.0 || ^3.0.0
 
+  '@tauri-apps/api@2.0.0-rc.0':
+    resolution: {integrity: sha512-v454Qs3REHc3Za59U+/eSmBsdmF+3NE5+76+lFDaitVqN4ZglDHENDaMARYKGJVZuxiSkzyqG0SeG7lLQjVkPA==}
+    engines: {node: '>= 18.18', npm: '>= 6.6.0', yarn: '>= 1.19.1'}
+
+  '@tauri-apps/cli-darwin-arm64@2.0.0-rc.6':
+    resolution: {integrity: sha512-uLKb2hYMY3QYdcUDDVLPD7Jo4rWwJVjFBsnFydck7WhmUlERqTc2R1qr84beSPDDHqFiL38pHVYbTUItu0J6gA==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@tauri-apps/cli-darwin-x64@2.0.0-rc.6':
+    resolution: {integrity: sha512-4muxIQN24NKLf9GqOgS6dChA6/zIVzB5t79QaMmdbmJIa8T1inWa58HpCSHVhZpS4jkZHNt0LY5qf6/78pgslA==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [darwin]
+
+  '@tauri-apps/cli-linux-arm-gnueabihf@2.0.0-rc.6':
+    resolution: {integrity: sha512-PWWt6LH/uNUlXV/OFC0AK997F4FroTIJnA9UOt/gU0OD80+2/AxWPxZv9JBnKaO85aiDnB36r/PVeBC64b3LEA==}
+    engines: {node: '>= 10'}
+    cpu: [arm]
+    os: [linux]
+
+  '@tauri-apps/cli-linux-arm64-gnu@2.0.0-rc.6':
+    resolution: {integrity: sha512-AH8+AB1i0hqNbrzbTKKoMx8pQ9Wl4I3pDAaMDlY42hSgzh9KkHnGg1WqyRNbwiJ6rplKNVefvP26p9b+uvzu3g==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+
+  '@tauri-apps/cli-linux-arm64-musl@2.0.0-rc.6':
+    resolution: {integrity: sha512-j9leBklTyaYBZeyy0Fj3rwQpPqlV+kD/6Ro0REr5L1IPkF1gkiIJV/hbJOQ2sFdLH/KCBQ+DqBYn8qhBvKLukw==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+
+  '@tauri-apps/cli-linux-x64-gnu@2.0.0-rc.6':
+    resolution: {integrity: sha512-U0I1AwluC8wgkH3gi3k5D25UsXxBy9cNGr11FUSEhCifapRZ3cgpYPxCkepCsDnGThJivSV44BjBGD+STCj6Kw==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+
+  '@tauri-apps/cli-linux-x64-musl@2.0.0-rc.6':
+    resolution: {integrity: sha512-OL4BFZmrK6YbBkWvL5n6PfdcjuT6993uY+JoLJelrqKdoLWZeKy1+UIIIZGfrMMjpcD1YgqwUW6YiwkMPwcMyg==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+
+  '@tauri-apps/cli-win32-arm64-msvc@2.0.0-rc.6':
+    resolution: {integrity: sha512-hVZl4+FNLzdVQqH/VijF5V86KmShMAS2SkJDXk+RdcB5y52tbEsZyBUpDlc3XwCW11HBINT2Y3FIxLOT74MgqA==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [win32]
+
+  '@tauri-apps/cli-win32-ia32-msvc@2.0.0-rc.6':
+    resolution: {integrity: sha512-518O4YkYmifGlHSP4YJUCoiPvfdgnnA0/sxBT125IrTk67cnFmnwz18eniykYX8pwe7SleetRZ9JhEWpUYb0lQ==}
+    engines: {node: '>= 10'}
+    cpu: [ia32]
+    os: [win32]
+
+  '@tauri-apps/cli-win32-x64-msvc@2.0.0-rc.6':
+    resolution: {integrity: sha512-06Fb3xQCEyw/O0cphBN5w6XH6Acu6kskXBqMQNt+RfAdFfOM92hrg2gGR+DVv3JRsZctwC4WXLe++TCqcq7nuw==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [win32]
+
+  '@tauri-apps/cli@2.0.0-rc.6':
+    resolution: {integrity: sha512-yafCtmGDptkRASmn8WefoPYJjHqy2VE7tms+OQ0PK3vsgUU5+nrbhEyzpcVINHokWRhoT1kuUaNBnhTnUf7nWw==}
+    engines: {node: '>= 10'}
+    hasBin: true
+
+  '@tauri-apps/plugin-clipboard-manager@2.0.0-rc.0':
+    resolution: {integrity: sha512-2fS3wbRQEtorkk3Np2msJUeKCXRqLQ9sSo2FzlFdUPYNzThsu43uWCF55McGLAfltNOvXQIcQLUBf05jbBL/5w==}
+
+  '@tauri-apps/plugin-dialog@2.0.0-rc.0':
+    resolution: {integrity: sha512-DPOXYe8SQ6Radk/67EOdaomlxL7oF99JO/ZUaPp1IBEs3Wro7lhlz63CfdKIBfKIZTLJLzP1R7/EiPL/GTA3Bg==}
+
+  '@tauri-apps/plugin-fs@2.0.0-rc.0':
+    resolution: {integrity: sha512-74VCXEZlzTJ+Jv1V3KrV0qIHhSePpE/ljsF78rcEuvSfyTxLtt/Sb5CIUmVhFlKTRFOH9dX50T4dTZ3qFLyRnA==}
+
+  '@tauri-apps/plugin-log@2.0.0-rc.0':
+    resolution: {integrity: sha512-ztKfzUcq03dtr08vBu+xcwIEPusP6mCpuLAt6kpXEwG+HvYsC8e1/KFFokn3xvfwD+oBJ3UTL1h4kdM30GAqGw==}
+
+  '@tauri-apps/plugin-os@2.0.0-rc.0':
+    resolution: {integrity: sha512-OWAl8mooKnGykSD4iog8WRqcnOSx0gGmTJBlEExHdFeIuOHg0Ezvd+WiVLhT9LBg7go3ibNWRWpe/ZG7YEp4Vw==}
+
+  '@tauri-apps/plugin-process@2.0.0-rc.0':
+    resolution: {integrity: sha512-Z12D/kmQzG1vCVf+jLXPhPDUA0pEjFrsg4p0uwO2sotVLM9287IuTM+aIz9cuAYOxFLKcsnDG7amSCL9IfA1gw==}
+
+  '@tauri-apps/plugin-shell@2.0.0-rc.0':
+    resolution: {integrity: sha512-bhUcQcrqZoK8H1DFXapr5r1Z75oh6Kd5Tltz97XpZFLREEqp+KhN2Fvyh8r/fKAyenYsTYUIsDsyGdjdueuF9g==}
+
+  '@tauri-apps/plugin-store@2.0.0-rc.0':
+    resolution: {integrity: sha512-KqiEzq6EdRwxrl0/FwyNLwumDBM91xTchdu2a8vfkNub30GuP9z7RskP9ifVRI1gbxfa5TUDi0hKFk/SP7TANQ==}
+
+  '@tauri-apps/plugin-stronghold@2.0.0-rc.0':
+    resolution: {integrity: sha512-LklmHkUGHZNxxrtDg4BM1zGRz6EbwJhJQpoRqadADHXjNmKTFKxCwynhc1GvkTRUmBbTm9nj7H+yu7VoFjhFSw==}
+
+  '@tauri-apps/plugin-updater@2.0.0-rc.0':
+    resolution: {integrity: sha512-EKajf/sBpFif0cwXhTo3BmNvTZ2t2DDLRyhA8FFKugZNoOeqU97bHhPT5DIqMUPRE1tyDk9o7sXm8dKf7oz+EA==}
+
+  '@tauri-apps/plugin-window-state@2.0.0-rc.0':
+    resolution: {integrity: sha512-lR8reD+D1yIHT+53v56WltLS0+Y2zIkKqTuwrvz1yNbY5Hk4Z6foFV2Byo4kJAAvi5vbeGtvxYAjSiczZK5euw==}
+
   '@trysound/sax@0.2.0':
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
     engines: {node: '>=10.13.0'}
@@ -1668,6 +1873,11 @@ packages:
 
   '@vueuse/nuxt@10.11.1':
     resolution: {integrity: sha512-UiaYSIwOkmUVn8Gl1AqtLWYR12flO+8sEu9X0Y1fNjSR7EWy9jMuiCvOGqwtoeTsqfHrivl0d5HfMzr11GFnMA==}
+    peerDependencies:
+      nuxt: ^3.0.0
+
+  '@vueuse/nuxt@11.0.1':
+    resolution: {integrity: sha512-2utGiRItdFV6/ED39YMyVl/mWFg/Hfx21sVTpo/uv+ZVwg38bLP79Ziqy21WXow18t1E9NEOirU9KhB655ERug==}
     peerDependencies:
       nuxt: ^3.0.0
 
@@ -2139,6 +2349,11 @@ packages:
 
   cronstrue@2.50.0:
     resolution: {integrity: sha512-ULYhWIonJzlScCCQrPUG5uMXzXxSixty4djud9SS37DoNxDdkeRocxzHuAo4ImRBUK+mAuU5X9TSwEDccnnuPg==}
+    hasBin: true
+
+  cross-env@7.0.3:
+    resolution: {integrity: sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==}
+    engines: {node: '>=10.14', npm: '>=6', yarn: '>=1'}
     hasBin: true
 
   cross-fetch@3.1.8:
@@ -5433,6 +5648,13 @@ snapshots:
       '@codemirror/view': 6.30.0
       '@lezer/common': 1.2.1
 
+  '@codemirror/autocomplete@6.18.0(@codemirror/language@6.10.2)(@codemirror/state@6.4.1)(@codemirror/view@6.32.0)(@lezer/common@1.2.1)':
+    dependencies:
+      '@codemirror/language': 6.10.2
+      '@codemirror/state': 6.4.1
+      '@codemirror/view': 6.32.0
+      '@lezer/common': 1.2.1
+
   '@codemirror/commands@6.6.0':
     dependencies:
       '@codemirror/language': 6.10.2
@@ -6697,6 +6919,95 @@ snapshots:
       '@tanstack/virtual-core': 3.9.0
       vue: 3.4.38(typescript@5.5.4)
 
+  '@tauri-apps/api@2.0.0-rc.0': {}
+
+  '@tauri-apps/cli-darwin-arm64@2.0.0-rc.6':
+    optional: true
+
+  '@tauri-apps/cli-darwin-x64@2.0.0-rc.6':
+    optional: true
+
+  '@tauri-apps/cli-linux-arm-gnueabihf@2.0.0-rc.6':
+    optional: true
+
+  '@tauri-apps/cli-linux-arm64-gnu@2.0.0-rc.6':
+    optional: true
+
+  '@tauri-apps/cli-linux-arm64-musl@2.0.0-rc.6':
+    optional: true
+
+  '@tauri-apps/cli-linux-x64-gnu@2.0.0-rc.6':
+    optional: true
+
+  '@tauri-apps/cli-linux-x64-musl@2.0.0-rc.6':
+    optional: true
+
+  '@tauri-apps/cli-win32-arm64-msvc@2.0.0-rc.6':
+    optional: true
+
+  '@tauri-apps/cli-win32-ia32-msvc@2.0.0-rc.6':
+    optional: true
+
+  '@tauri-apps/cli-win32-x64-msvc@2.0.0-rc.6':
+    optional: true
+
+  '@tauri-apps/cli@2.0.0-rc.6':
+    optionalDependencies:
+      '@tauri-apps/cli-darwin-arm64': 2.0.0-rc.6
+      '@tauri-apps/cli-darwin-x64': 2.0.0-rc.6
+      '@tauri-apps/cli-linux-arm-gnueabihf': 2.0.0-rc.6
+      '@tauri-apps/cli-linux-arm64-gnu': 2.0.0-rc.6
+      '@tauri-apps/cli-linux-arm64-musl': 2.0.0-rc.6
+      '@tauri-apps/cli-linux-x64-gnu': 2.0.0-rc.6
+      '@tauri-apps/cli-linux-x64-musl': 2.0.0-rc.6
+      '@tauri-apps/cli-win32-arm64-msvc': 2.0.0-rc.6
+      '@tauri-apps/cli-win32-ia32-msvc': 2.0.0-rc.6
+      '@tauri-apps/cli-win32-x64-msvc': 2.0.0-rc.6
+
+  '@tauri-apps/plugin-clipboard-manager@2.0.0-rc.0':
+    dependencies:
+      '@tauri-apps/api': 2.0.0-rc.0
+
+  '@tauri-apps/plugin-dialog@2.0.0-rc.0':
+    dependencies:
+      '@tauri-apps/api': 2.0.0-rc.0
+
+  '@tauri-apps/plugin-fs@2.0.0-rc.0':
+    dependencies:
+      '@tauri-apps/api': 2.0.0-rc.0
+
+  '@tauri-apps/plugin-log@2.0.0-rc.0':
+    dependencies:
+      '@tauri-apps/api': 2.0.0-rc.0
+
+  '@tauri-apps/plugin-os@2.0.0-rc.0':
+    dependencies:
+      '@tauri-apps/api': 2.0.0-rc.0
+
+  '@tauri-apps/plugin-process@2.0.0-rc.0':
+    dependencies:
+      '@tauri-apps/api': 2.0.0-rc.0
+
+  '@tauri-apps/plugin-shell@2.0.0-rc.0':
+    dependencies:
+      '@tauri-apps/api': 2.0.0-rc.0
+
+  '@tauri-apps/plugin-store@2.0.0-rc.0':
+    dependencies:
+      '@tauri-apps/api': 2.0.0-rc.0
+
+  '@tauri-apps/plugin-stronghold@2.0.0-rc.0':
+    dependencies:
+      '@tauri-apps/api': 2.0.0-rc.0
+
+  '@tauri-apps/plugin-updater@2.0.0-rc.0':
+    dependencies:
+      '@tauri-apps/api': 2.0.0-rc.0
+
+  '@tauri-apps/plugin-window-state@2.0.0-rc.0':
+    dependencies:
+      '@tauri-apps/api': 2.0.0-rc.0
+
   '@trysound/sax@0.2.0': {}
 
   '@types/debug@4.1.12':
@@ -6862,6 +7173,16 @@ snapshots:
   '@uiw/codemirror-extensions-basic-setup@4.23.0(@codemirror/autocomplete@6.18.0(@codemirror/language@6.10.2)(@codemirror/state@6.4.1)(@codemirror/view@6.30.0)(@lezer/common@1.2.1))(@codemirror/commands@6.6.0)(@codemirror/language@6.10.2)(@codemirror/lint@6.8.1)(@codemirror/search@6.5.6)(@codemirror/state@6.4.1)(@codemirror/view@6.30.0)':
     dependencies:
       '@codemirror/autocomplete': 6.18.0(@codemirror/language@6.10.2)(@codemirror/state@6.4.1)(@codemirror/view@6.30.0)(@lezer/common@1.2.1)
+      '@codemirror/commands': 6.6.0
+      '@codemirror/language': 6.10.2
+      '@codemirror/lint': 6.8.1
+      '@codemirror/search': 6.5.6
+      '@codemirror/state': 6.4.1
+      '@codemirror/view': 6.30.0
+
+  '@uiw/codemirror-extensions-basic-setup@4.23.0(@codemirror/autocomplete@6.18.0(@codemirror/language@6.10.2)(@codemirror/state@6.4.1)(@codemirror/view@6.32.0)(@lezer/common@1.2.1))(@codemirror/commands@6.6.0)(@codemirror/language@6.10.2)(@codemirror/lint@6.8.1)(@codemirror/search@6.5.6)(@codemirror/state@6.4.1)(@codemirror/view@6.30.0)':
+    dependencies:
+      '@codemirror/autocomplete': 6.18.0(@codemirror/language@6.10.2)(@codemirror/state@6.4.1)(@codemirror/view@6.32.0)(@lezer/common@1.2.1)
       '@codemirror/commands': 6.6.0
       '@codemirror/language': 6.10.2
       '@codemirror/lint': 6.8.1
@@ -7139,6 +7460,21 @@ snapshots:
       '@nuxt/kit': 3.12.4(magicast@0.3.4)(rollup@4.21.0)
       '@vueuse/core': 10.11.1(vue@3.4.38(typescript@5.5.4))
       '@vueuse/metadata': 10.11.1
+      local-pkg: 0.5.0
+      nuxt: 3.12.4(@parcel/watcher@2.4.1)(@types/node@22.4.1)(eslint@8.57.0)(ioredis@5.4.1)(magicast@0.3.4)(optionator@0.9.4)(rollup@4.21.0)(terser@5.31.6)(typescript@5.5.4)(vite@5.4.1(@types/node@22.4.1)(terser@5.31.6))
+      vue-demi: 0.14.10(vue@3.4.38(typescript@5.5.4))
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - magicast
+      - rollup
+      - supports-color
+      - vue
+
+  '@vueuse/nuxt@11.0.1(magicast@0.3.4)(nuxt@3.12.4(@parcel/watcher@2.4.1)(@types/node@22.4.1)(eslint@8.57.0)(ioredis@5.4.1)(magicast@0.3.4)(optionator@0.9.4)(rollup@4.21.0)(terser@5.31.6)(typescript@5.5.4)(vite@5.4.1(@types/node@22.4.1)(terser@5.31.6)))(rollup@4.21.0)(vue@3.4.38(typescript@5.5.4))':
+    dependencies:
+      '@nuxt/kit': 3.12.4(magicast@0.3.4)(rollup@4.21.0)
+      '@vueuse/core': 11.0.1(vue@3.4.38(typescript@5.5.4))
+      '@vueuse/metadata': 11.0.1
       local-pkg: 0.5.0
       nuxt: 3.12.4(@parcel/watcher@2.4.1)(@types/node@22.4.1)(eslint@8.57.0)(ioredis@5.4.1)(magicast@0.3.4)(optionator@0.9.4)(rollup@4.21.0)(terser@5.31.6)(typescript@5.5.4)(vite@5.4.1(@types/node@22.4.1)(terser@5.31.6))
       vue-demi: 0.14.10(vue@3.4.38(typescript@5.5.4))
@@ -7602,6 +7938,10 @@ snapshots:
   croner@8.1.1: {}
 
   cronstrue@2.50.0: {}
+
+  cross-env@7.0.3:
+    dependencies:
+      cross-spawn: 7.0.3
 
   cross-fetch@3.1.8:
     dependencies:
@@ -9535,6 +9875,24 @@ snapshots:
       '@codemirror/view': 6.30.0
       '@nuxt/kit': 3.12.4(magicast@0.3.4)(rollup@4.21.0)
       '@uiw/codemirror-extensions-basic-setup': 4.23.0(@codemirror/autocomplete@6.18.0(@codemirror/language@6.10.2)(@codemirror/state@6.4.1)(@codemirror/view@6.30.0)(@lezer/common@1.2.1))(@codemirror/commands@6.6.0)(@codemirror/language@6.10.2)(@codemirror/lint@6.8.1)(@codemirror/search@6.5.6)(@codemirror/state@6.4.1)(@codemirror/view@6.30.0)
+    transitivePeerDependencies:
+      - '@codemirror/autocomplete'
+      - '@codemirror/language'
+      - '@codemirror/lint'
+      - '@codemirror/search'
+      - magicast
+      - rollup
+      - supports-color
+
+  nuxt-codemirror@0.0.11(@codemirror/autocomplete@6.18.0(@codemirror/language@6.10.2)(@codemirror/state@6.4.1)(@codemirror/view@6.32.0)(@lezer/common@1.2.1))(@codemirror/language@6.10.2)(@codemirror/lint@6.8.1)(@codemirror/search@6.5.6)(magicast@0.3.4)(rollup@4.21.0):
+    dependencies:
+      '@babel/runtime': 7.25.0
+      '@codemirror/commands': 6.6.0
+      '@codemirror/state': 6.4.1
+      '@codemirror/theme-one-dark': 6.1.2
+      '@codemirror/view': 6.30.0
+      '@nuxt/kit': 3.12.4(magicast@0.3.4)(rollup@4.21.0)
+      '@uiw/codemirror-extensions-basic-setup': 4.23.0(@codemirror/autocomplete@6.18.0(@codemirror/language@6.10.2)(@codemirror/state@6.4.1)(@codemirror/view@6.32.0)(@lezer/common@1.2.1))(@codemirror/commands@6.6.0)(@codemirror/language@6.10.2)(@codemirror/lint@6.8.1)(@codemirror/search@6.5.6)(@codemirror/state@6.4.1)(@codemirror/view@6.30.0)
     transitivePeerDependencies:
       - '@codemirror/autocomplete'
       - '@codemirror/language'

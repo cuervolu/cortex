@@ -1,0 +1,54 @@
+[package]
+name = "cortex"
+version = "0.1.0"
+description = "A Tauri App"
+authors = ["you"]
+license = ""
+repository = ""
+edition = "2021"
+rust-version = "1.70"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+name = "cortex_lib"
+crate-type = ["staticlib", "cdylib", "lib"]
+
+[build-dependencies]
+tauri-build = { version = "2.0.0-rc.5", features = [] }
+
+[dependencies]
+serde_json = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+log = "0.4.22"
+tauri = { version = "2.0.0-rc.2", features = [] }
+tauri-plugin-devtools = "2.0.0-rc"
+tauri-plugin-fs = "2.0.0-rc.0"
+tauri-plugin-dialog = "2.0.0-rc.0"
+tauri-plugin-log = { version = "2.0.0-rc.0", features = ["colored"] }
+tauri-plugin-os = "2.0.0-rc.0"
+tauri-plugin-process = "2.0.0-rc.0"
+tauri-plugin-shell = "2.0.0-rc.0"
+tauri-plugin-store = "2.0.0-rc.0"
+reqwest = { version = "0.12.5", features = ["json"] }
+sysinfo = "0.31.2"
+thiserror = "1.0.63"
+anyhow = "1.0.86"
+font-kit = "0.14.2"
+tauri-plugin-clipboard-manager = "2.0.0-rc.0"
+
+
+[target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
+tauri-plugin-updater = "2.0.0-rc.0"
+tauri-plugin-window-state = "2.0.0-rc.0"
+
+
+[profile.dev]
+incremental = true # Compile your binary in smaller steps.
+
+[profile.release]
+codegen-units = 1 # Allows LLVM to perform better optimization.
+lto = true # Enables link-time-optimizations.
+opt-level = "s" # Prioritizes small binary size. Use `3` if you prefer speed.
+panic = "abort" # Higher performance by disabling panic handlers.
+strip = true # Ensures debug symbols are removed.
