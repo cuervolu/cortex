@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "dev:frontend": "pnpm --filter frontend dev",
     "dev:desktop": "pnpm --filter desktop dev",
     "debug:desktop": "pnpm --filter desktop debug",
