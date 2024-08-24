@@ -33,3 +33,15 @@ docker:
     interval-ms: 3600000  # 1 hora
     container:
       max-age-hours: 24  # 24 horas
+application:
+  security:
+    jwt:
+      secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+      expiration: 86400000 # a day
+      refresh-token:
+        expiration: 604800000 # 7 days
+  mailing:
+    frontend:
+      activation-url: http://localhost:3000/activate-account
+server:
+  port: 8088
