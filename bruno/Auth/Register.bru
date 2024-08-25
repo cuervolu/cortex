@@ -6,16 +6,35 @@ meta {
 
 post {
   url: {{BASEURL}}/api/v1/auth/register
-  body: json
+  body: none
   auth: none
 }
 
 body:json {
-  {
-    "firstname": "Hamir",
-    "lastname":"Llanos",
-    "email": "ha.llanos@duocuc.cl",
-    "password": "{{PASSWORD}}",
-    "username": "miro"
-  }
+  {}
+}
+
+assert {
+  res.status: eq 202
+}
+
+script:pre-request {
+  const { faker } = require('@faker-js/faker');
+  
+  const firstName = faker.person.firstName();
+  const lastName = faker.person.lastName();
+  const randomEmail = faker.internet.email();
+  const password = faker.internet.password();
+  const username = faker.internet.userName();
+   
+  req.setBody({
+    firstname: firstName,
+    lastname: lastName,
+    username: username,
+    password: password,
+    email: randomEmail
+  });
+
+  bru.setVar('fakeUsername', username);
+  bru.setVar('fakePassword', password);
 }

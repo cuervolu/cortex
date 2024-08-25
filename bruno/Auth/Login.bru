@@ -16,3 +16,17 @@ body:json {
     "password": "{{PASSWORD}}"
   }
 }
+
+script:post-response {
+  bru.setVar("token", res.body.token);
+}
+
+tests {
+  test("should be able to login", function() {
+    expect(res.status).to.equal(200);
+  });
+   
+  test("should receive the token", function() {
+    expect(res.body.token).to.be.a('string');
+  });
+}
