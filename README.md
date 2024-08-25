@@ -18,7 +18,7 @@ Antes de comenzar, asegúrate de tener instalado lo siguiente:
 1. Clona el repositorio:
 
    ```bash
-   git clone https://github.com/tu-usuario/cortex.git
+   git clone https://github.com/cuervolu/cortex.git
    cd cortex
    ```
 
