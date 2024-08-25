@@ -1,17 +1,21 @@
 package com.cortex.backend.entities;
 
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -51,8 +55,14 @@ public class User implements UserDetails, Principal {
   private boolean accountLocked;
   
   private boolean enabled;
-  
-  private String provider;
+
+  @ElementCollection(fetch = FetchType.EAGER)
+  @CollectionTable(name = "user_providers", joinColumns = @JoinColumn(name = "user_id"))
+  @Column(name = "provider")
+  private Set<String> providers;
+
+  @Column(name = "external_id")
+  private String externalId;
   
   private String avatar;
 

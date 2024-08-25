@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -21,7 +22,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
   private final JwtFilter jwtAuthFilter;
+  private final JwtService jwtService;
   private final AuthenticationProvider authenticationProvider;
+  private final CustomOAuth2UserService customOAuth2UserService;
+  private final CustomOidcUserService customOidcUserService;
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -31,6 +35,8 @@ public class SecurityConfig {
             req ->
                 req.requestMatchers(
                         "/auth/**",
+                        "/oauth2/**",
+                        "/login/**",
                         "/v2/api-docs",
                         "/v3/api-docs",
                         "/v3/api-docs/**",
@@ -44,9 +50,21 @@ public class SecurityConfig {
                     .permitAll()
                     .anyRequest()
                     .authenticated())
+        .oauth2Login(oauth2 -> oauth2
+            .userInfoEndpoint(userInfo -> userInfo
+                .userService(customOAuth2UserService)
+                .oidcUserService(customOidcUserService)
+            )
+            .successHandler(oAuth2AuthenticationSuccessHandler())
+        )
         .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
         .authenticationProvider(authenticationProvider)
         .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
     return http.build();
+  }
+
+  @Bean
+  public AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler() {
+    return new OAuth2AuthenticationSuccessHandler(jwtService);
   }
 }

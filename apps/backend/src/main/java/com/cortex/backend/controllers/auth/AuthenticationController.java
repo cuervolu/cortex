@@ -10,8 +10,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.MessagingException;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,6 +42,11 @@ public class AuthenticationController {
   @GetMapping("/activate-account")
   public void confirm(@RequestParam String token) throws ResendException {
     service.activateAccount(token);
+  }
+
+  @GetMapping("/login/oauth2/code/{registrationId}")
+  public void oauth2LoginCallback(@PathVariable String registrationId) {
+    // This endpoint will be handled by Spring Security's OAuth2 flow
   }
 
 }
