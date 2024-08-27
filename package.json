@@ -9,7 +9,8 @@
     "debug:desktop": "pnpm --filter desktop debug",
     "clean:frontend": "pnpm --filter frontend clean",
     "build:frontend": "pnpm --filter frontend build",
-    "build:desktop": "pnpm --filter desktop build"
+    "build:desktop": "pnpm --filter desktop build",
+    "shadcn": "pnpm --filter @cortex/desktop exec npx shadcn-vue@latest add"
   },
   "packageManager": "pnpm@9.8.0+sha512.8e4c3550fb500e808dbc30bb0ce4dd1eb614e30b1c55245f211591ec2cdf9c611cabd34e1364b42f564bd54b3945ed0f49d61d1bbf2ec9bd74b866fcdc723276"
 }
