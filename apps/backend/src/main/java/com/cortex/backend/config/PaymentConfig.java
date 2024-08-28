@@ -11,7 +11,7 @@ import javax.annotation.PostConstruct;
 @Configuration
 public class PaymentConfig {
 
-  @Value("${mercadopago.access-token}")
+  @Value("${application.mercadopago.access-token}")
   private String mercadoPagoAccessToken;
 
   @PostConstruct // This method is executed after the bean has been created
