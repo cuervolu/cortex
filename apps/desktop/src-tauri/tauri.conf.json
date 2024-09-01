@@ -37,7 +37,7 @@
   },
   "plugins": {
     "updater": {
-      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEEyOENGMkYyMjgwOUNGODgKUldTSXp3a284dktNb3N3MUs2Tm11THovaEdtNjhaOU1lOWRXRHNRa3BiQTdRaFRoZk5uWnF5ckMK",
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDk5MzJDRTE5RkM3OUQxQjYKUldTMjBYbjhHYzR5bVRRbWhEYXBlV25yOWJmQ3YxQlRmaUY5Kzc1YnVsZmpnNE53QWhXOXRndGEK",
       "endpoints": [
         "https://github.com/cuervolu/cortex/releases/latest/download/latest.json"
       ],
