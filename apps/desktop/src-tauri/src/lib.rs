@@ -38,32 +38,21 @@ fn setup_logger(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     let builder = tauri::Builder::default()
+        .plugin(tauri_plugin_decorum::init())
         .setup(|app| {
             setup_logger(app)?;
             // Create a custom titlebar for main window
-            // On Windows this hides decoration and creates custom window controls
-            // On macOS it needs hiddenTitle: true and titleBarStyle: overlay
+            // On Windows this will hide decoration and render custom window controls
+            // On macOS it expects a hiddenTitle: true and titleBarStyle: overlay
             let main_window = app.get_webview_window("main").unwrap();
             main_window.create_overlay_titlebar().unwrap();
 
-            // Some macOS-specific helpers
-            #[cfg(target_os = "macos")] {
-                // Set a custom inset to the traffic lights
-                main_window.set_traffic_lights_inset(12.0, 16.0).unwrap();
-
-                // Make window transparent without privateApi
-                main_window.make_transparent().unwrap();
-
-                // Set window level
-                // NSWindowLevel: https://developer.apple.com/documentation/appkit/nswindowlevel
-                main_window.set_window_level(25).unwrap()
-            }
-
+            #[cfg(target_os = "macos")]
+            main_window.set_traffic_lights_inset(16.0, 20.0).unwrap();
             Ok(())
         });
 
     builder
-        .plugin(tauri_plugin_decorum::init())
         .plugin(tauri_plugin_notification::init())
         .plugin(tauri_plugin_oauth::init())
         .plugin(tauri_plugin_clipboard_manager::init())
