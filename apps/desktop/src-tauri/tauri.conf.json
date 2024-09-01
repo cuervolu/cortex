@@ -9,10 +9,10 @@
     "beforeBuildCommand": "pnpm generate"
   },
   "app": {
+    "withGlobalTauri": true,
     "windows": [
       {
         "title": "Cortex",
-        "decorations": false,
         "width": 1100,
         "height": 650,
         "resizable": true,
@@ -21,7 +21,8 @@
         "minHeight": 600,
         "minWidth": 800,
         "titleBarStyle": "Overlay",
-        "hiddenTitle": true
+        "hiddenTitle": true,
+        "decorations": false
       }
     ],
     "security": {
