@@ -10,6 +10,8 @@
 
 Cortex es una plataforma educativa de código abierto diseñada para facilitar el aprendizaje de tecnologías de la información y programación, enfocada principalmente en jóvenes y niños hispanohablantes. El proyecto busca democratizar el acceso a la educación tecnológica, ofreciendo una experiencia de aprendizaje interactiva, accesible y actualizada.
 
+Este proyecto se desarrolla como parte de la asignatura de Capstone en Duoc UC Puente Alto, sección 002D.
+
 ## Estructura del Proyecto
 
 Este proyecto es un monorepo que propone desarrollar un Producto Mínimo Viable (MVP) de Cortex, compuesto por tres elementos principales:
