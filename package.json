@@ -8,6 +8,7 @@
     "dev:desktop": "pnpm --filter desktop dev",
     "debug:desktop": "pnpm --filter desktop debug",
     "clean:frontend": "pnpm --filter frontend clean",
+    "clean:desktop": "pnpm --filter desktop clean",
     "build:frontend": "pnpm --filter frontend build",
     "build:desktop": "pnpm --filter desktop build",
     "shadcn": "pnpm --filter frontend exec npx shadcn-vue@latest add"
