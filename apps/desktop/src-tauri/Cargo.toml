@@ -30,13 +30,15 @@ tauri-plugin-os = "2.0.0-rc.0"
 tauri-plugin-process = "2.0.0-rc.0"
 tauri-plugin-shell = "2.0.0-rc.0"
 tauri-plugin-store = "2.0.0-rc.0"
+tauri-plugin-clipboard-manager = "2.0.0-rc.0"
+tauri-plugin-decorum = {git = "https://github.com/clearlysid/tauri-plugin-decorum", rev = "e1886310e33d411b866b126741d3ede7496634b5"}
+tauri-plugin-oauth = { git = "https://github.com/FabianLars/tauri-plugin-oauth", branch = "v2" }
+tauri-plugin-notification = "2.0.0-rc"
 reqwest = { version = "0.12.7", features = ["json"] }
 sysinfo = "0.31.2"
 thiserror = "1.0.63"
 anyhow = "1.0.86"
 font-kit = "0.14.2"
-tauri-plugin-clipboard-manager = "2.0.0-rc.0"
-
 
 [target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
 tauri-plugin-updater = "2.0.0-rc.0"
