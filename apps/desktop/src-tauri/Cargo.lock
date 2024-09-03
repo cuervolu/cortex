@@ -1118,12 +1118,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "dconf_rs"
-version = "0.3.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7046468a81e6a002061c01e6a7c83139daf91b11c30e66795b13217c2d885c8b"
-
-[[package]]
 name = "deranged"
 version = "0.3.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5286,11 +5280,10 @@ dependencies = [
 [[package]]
 name = "tauri-plugin-decorum"
 version = "1.0.0"
-source = "git+https://github.com/clearlysid/tauri-plugin-decorum?rev=ce415a1f563fb763d2f6d3a81661895ba9a931a9#ce415a1f563fb763d2f6d3a81661895ba9a931a9"
+source = "git+https://github.com/clearlysid/tauri-plugin-decorum?rev=e6973c2ba30f0ab3c63c09cbab06869c82c20d96#e6973c2ba30f0ab3c63c09cbab06869c82c20d96"
 dependencies = [
  "anyhow",
  "cocoa 0.25.0",
- "dconf_rs",
  "enigo",
  "linicon",
  "objc",

@@ -31,7 +31,7 @@ tauri-plugin-process = "2.0.0-rc.0"
 tauri-plugin-shell = "2.0.0-rc.0"
 tauri-plugin-store = "2.0.0-rc.0"
 tauri-plugin-clipboard-manager = "2.0.0-rc.0"
-tauri-plugin-decorum = {git = "https://github.com/clearlysid/tauri-plugin-decorum", rev = "ce415a1f563fb763d2f6d3a81661895ba9a931a9"}
+tauri-plugin-decorum = {git = "https://github.com/clearlysid/tauri-plugin-decorum", rev = "e6973c2ba30f0ab3c63c09cbab06869c82c20d96"}
 tauri-plugin-oauth = { git = "https://github.com/FabianLars/tauri-plugin-oauth", branch = "v2" }
 tauri-plugin-notification = "2.0.0-rc"
 reqwest = { version = "0.12.7", features = ["json"] }
