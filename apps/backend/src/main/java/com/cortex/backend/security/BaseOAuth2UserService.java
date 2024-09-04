@@ -1,7 +1,7 @@
 package com.cortex.backend.security;
 
-import com.cortex.backend.entities.Role;
-import com.cortex.backend.entities.User;
+import com.cortex.backend.entities.user.Role;
+import com.cortex.backend.entities.user.User;
 import com.cortex.backend.repositories.RoleRepository;
 import com.cortex.backend.repositories.UserRepository;
 import java.util.List;

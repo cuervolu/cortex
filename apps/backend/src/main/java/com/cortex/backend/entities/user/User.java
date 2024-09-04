@@ -1,4 +1,4 @@
-package com.cortex.backend.entities;
+package com.cortex.backend.entities.user;
 
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;

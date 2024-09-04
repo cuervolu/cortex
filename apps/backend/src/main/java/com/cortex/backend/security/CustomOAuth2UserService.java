@@ -1,6 +1,6 @@
 package com.cortex.backend.security;
 
-import com.cortex.backend.entities.User;
+import com.cortex.backend.entities.user.User;
 import com.cortex.backend.repositories.RoleRepository;
 import com.cortex.backend.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;

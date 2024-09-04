@@ -1,6 +1,6 @@
 package com.cortex.backend.security;
 
-import com.cortex.backend.entities.User;
+import com.cortex.backend.entities.user.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

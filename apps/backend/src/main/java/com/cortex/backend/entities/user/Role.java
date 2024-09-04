@@ -1,4 +1,4 @@
-package com.cortex.backend.entities;
+package com.cortex.backend.entities.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;

@@ -1,6 +1,6 @@
 package com.cortex.backend.config;
 
-import com.cortex.backend.entities.User;
+import com.cortex.backend.entities.user.User;
 import java.util.Optional;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;

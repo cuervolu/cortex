@@ -1,4 +1,4 @@
-package com.cortex.backend.entities;
+package com.cortex.backend.entities.user;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

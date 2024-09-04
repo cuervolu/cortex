@@ -1,6 +1,6 @@
 package com.cortex.backend;
 
-import com.cortex.backend.entities.Role;
+import com.cortex.backend.entities.user.Role;
 import com.cortex.backend.repositories.RoleRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

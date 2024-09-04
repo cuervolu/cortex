@@ -1,6 +1,6 @@
 package com.cortex.backend.security;
 
-import com.cortex.backend.entities.User;
+import com.cortex.backend.entities.user.User;
 import com.cortex.backend.repositories.RoleRepository;
 import com.cortex.backend.repositories.UserRepository;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;

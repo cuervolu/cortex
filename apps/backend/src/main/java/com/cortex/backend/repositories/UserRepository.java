@@ -1,6 +1,6 @@
 package com.cortex.backend.repositories;
 
-import com.cortex.backend.entities.User;
+import com.cortex.backend.entities.user.User;
 import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

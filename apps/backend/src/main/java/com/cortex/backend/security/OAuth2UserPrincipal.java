@@ -1,6 +1,6 @@
 package com.cortex.backend.security;
 
-import com.cortex.backend.entities.User;
+import com.cortex.backend.entities.user.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
