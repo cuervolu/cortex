@@ -5279,8 +5279,9 @@ dependencies = [
 
 [[package]]
 name = "tauri-plugin-decorum"
-version = "1.0.0"
-source = "git+https://github.com/clearlysid/tauri-plugin-decorum?rev=e6973c2ba30f0ab3c63c09cbab06869c82c20d96#e6973c2ba30f0ab3c63c09cbab06869c82c20d96"
+version = "1.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a10e40bb7a35c8cb1426839133b649de1fe48241a59bf413de93b984138aff4c"
 dependencies = [
  "anyhow",
  "cocoa 0.25.0",
