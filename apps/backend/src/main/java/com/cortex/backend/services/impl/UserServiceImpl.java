@@ -1,15 +1,21 @@
 package com.cortex.backend.services.impl;
 
+import com.cortex.backend.controllers.user.dto.ChangePasswordRequest;
 import com.cortex.backend.controllers.user.dto.UserResponse;
 import com.cortex.backend.entities.user.User;
+import com.cortex.backend.exception.IncorrectCurrentPasswordException;
+import com.cortex.backend.exception.NewPasswordDoesNotMatchException;
 import com.cortex.backend.mappers.UserMapper;
 import com.cortex.backend.repositories.UserRepository;
 import com.cortex.backend.security.JwtService;
 import com.cortex.backend.services.IUserService;
+import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,6 +25,7 @@ public class UserServiceImpl implements IUserService {
 
   private final UserMapper userMapper;
   private final UserRepository userRepository;
+  private final PasswordEncoder passwordEncoder;
 
   @Override
   public Optional<UserResponse> getUserById(Long id) {
@@ -43,6 +50,24 @@ public class UserServiceImpl implements IUserService {
   public List<UserResponse> getAllUsers() {
     List<User> users = (List<User>) userRepository.findAll();
     return users.stream().map(userMapper::toUserResponse).toList();
+  }
+
+  @Override
+  @Transactional
+  public void changePassword(ChangePasswordRequest request, Authentication connectedUser) {
+    var user = (User) connectedUser.getPrincipal();
+
+    if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+      throw new IncorrectCurrentPasswordException("Current password is incorrect");
+    }
+
+    if (!request.getNewPassword().equals(request.getConfirmPassword())) {
+      throw new NewPasswordDoesNotMatchException("New password and confirm password do not match");
+    }
+
+    user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+    userRepository.save(user);
+
   }
 
   @Override

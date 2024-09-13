@@ -4,12 +4,16 @@ package com.cortex.backend.handler;
 import static com.cortex.backend.handler.BusinessErrorCodes.ACCOUNT_DISABLED;
 import static com.cortex.backend.handler.BusinessErrorCodes.ACCOUNT_LOCKED;
 import static com.cortex.backend.handler.BusinessErrorCodes.BAD_CREDENTIALS;
+import static com.cortex.backend.handler.BusinessErrorCodes.INCORRECT_CURRENT_PASSWORD;
+import static com.cortex.backend.handler.BusinessErrorCodes.NEW_PASSWORD_DOES_NOT_MATCH;
 import static com.cortex.backend.handler.BusinessErrorCodes.USER_ALREADY_EXISTS;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
+import com.cortex.backend.exception.IncorrectCurrentPasswordException;
+import com.cortex.backend.exception.NewPasswordDoesNotMatchException;
 import com.cortex.backend.exception.OperationNotPermittedException;
 import com.resend.core.exception.ResendException;
 import java.util.HashSet;
@@ -86,8 +90,8 @@ public class GlobalExceptionHandler {
     return ResponseEntity.status(BAD_REQUEST)
         .body(ExceptionResponse.builder().error(exp.getMessage()).build());
   }
-  
-  
+
+
   @ExceptionHandler(DataIntegrityViolationException.class)
   public ResponseEntity<ExceptionResponse> handleException(DataIntegrityViolationException exp) {
     return ResponseEntity.status(CONFLICT)
@@ -95,6 +99,28 @@ public class GlobalExceptionHandler {
             ExceptionResponse.builder()
                 .businessErrorCode(USER_ALREADY_EXISTS.getCode())
                 .businessErrorDescription(USER_ALREADY_EXISTS.getDescription())
+                .error(exp.getMessage())
+                .build());
+  }
+
+  @ExceptionHandler(IncorrectCurrentPasswordException.class)
+  public ResponseEntity<ExceptionResponse> handleException(IncorrectCurrentPasswordException exp) {
+    return ResponseEntity.status(INCORRECT_CURRENT_PASSWORD.getHttpStatus())
+        .body(
+            ExceptionResponse.builder()
+                .businessErrorCode(INCORRECT_CURRENT_PASSWORD.getCode())
+                .businessErrorDescription(INCORRECT_CURRENT_PASSWORD.getDescription())
+                .error(exp.getMessage())
+                .build());
+  }
+  
+  @ExceptionHandler(NewPasswordDoesNotMatchException.class)
+  public ResponseEntity<ExceptionResponse> handleException(NewPasswordDoesNotMatchException exp) {
+    return ResponseEntity.status(NEW_PASSWORD_DOES_NOT_MATCH.getHttpStatus())
+        .body(
+            ExceptionResponse.builder()
+                .businessErrorCode(NEW_PASSWORD_DOES_NOT_MATCH.getCode())
+                .businessErrorDescription(NEW_PASSWORD_DOES_NOT_MATCH.getDescription())
                 .error(exp.getMessage())
                 .build());
   }
