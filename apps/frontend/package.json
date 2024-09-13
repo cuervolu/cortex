@@ -31,6 +31,7 @@
     "lucide-vue-next": "^0.437.0",
     "nuxt": "^3.13.0",
     "nuxt-codemirror": "^0.0.11",
+    "nuxt-seo-experiments": "^4.0.1",
     "postcss": "^8.4.42",
     "radix-vue": "^1.9.5",
     "shadcn-nuxt": "^0.10.4",
