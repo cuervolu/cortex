@@ -26,6 +26,7 @@ export default defineNuxtConfig({
     '@nuxt/fonts',
     '@nuxtjs/seo',
     'shadcn-nuxt',
+    'nuxt-seo-experiments'
   ],
   srcDir: 'src',
   shadcn: {
@@ -58,4 +59,9 @@ export default defineNuxtConfig({
       },
     ],
   },
+  site: {
+    url: 'https://cortex.com',
+    name: 'Cortex',
+    description: 'Shaping Tech Futures',
+  }
 });
