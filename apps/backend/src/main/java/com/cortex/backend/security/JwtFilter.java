@@ -34,6 +34,13 @@ public class JwtFilter extends OncePerRequestFilter {
       filterChain.doFilter(request, response);
       return;
     }
+
+    if (request.getMethod().equals("OPTIONS")) {
+      response.setStatus(HttpServletResponse.SC_OK);
+      filterChain.doFilter(request, response);
+      return;
+    }
+    
     final String authHeader = request.getHeader(AUTHORIZATION);
     final String jwt;
     final String username;

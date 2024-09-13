@@ -1,5 +1,7 @@
 package com.cortex.backend.controllers;
 
+import com.cortex.backend.entities.user.User;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -8,8 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
 
   @RequestMapping("/hello")
-  public String hello() {
-    return "Hello, World!";
+  public String hello(Authentication connectedUser) {
+    User user = (User) connectedUser.getPrincipal();
+
+    return "Hello, " + user.getUsername() + "!";
   }
 
 

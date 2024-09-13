@@ -4,7 +4,9 @@ package com.cortex.backend.handler;
 import static com.cortex.backend.handler.BusinessErrorCodes.ACCOUNT_DISABLED;
 import static com.cortex.backend.handler.BusinessErrorCodes.ACCOUNT_LOCKED;
 import static com.cortex.backend.handler.BusinessErrorCodes.BAD_CREDENTIALS;
+import static com.cortex.backend.handler.BusinessErrorCodes.USER_ALREADY_EXISTS;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
@@ -13,6 +15,7 @@ import com.resend.core.exception.ResendException;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -82,6 +85,18 @@ public class GlobalExceptionHandler {
   public ResponseEntity<ExceptionResponse> handleException(OperationNotPermittedException exp) {
     return ResponseEntity.status(BAD_REQUEST)
         .body(ExceptionResponse.builder().error(exp.getMessage()).build());
+  }
+  
+  
+  @ExceptionHandler(DataIntegrityViolationException.class)
+  public ResponseEntity<ExceptionResponse> handleException(DataIntegrityViolationException exp) {
+    return ResponseEntity.status(CONFLICT)
+        .body(
+            ExceptionResponse.builder()
+                .businessErrorCode(USER_ALREADY_EXISTS.getCode())
+                .businessErrorDescription(USER_ALREADY_EXISTS.getDescription())
+                .error(exp.getMessage())
+                .build());
   }
 
   @ExceptionHandler(Exception.class)
