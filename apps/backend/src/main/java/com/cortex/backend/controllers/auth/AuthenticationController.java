@@ -43,10 +43,4 @@ public class AuthenticationController {
   public void confirm(@RequestParam String token) throws ResendException {
     service.activateAccount(token);
   }
-
-  @GetMapping("/login/oauth2/code/{registrationId}")
-  public void oauth2LoginCallback(@PathVariable String registrationId) {
-    // This endpoint will be handled by Spring Security's OAuth2 flow
   }
-
-}
