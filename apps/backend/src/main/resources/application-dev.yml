@@ -55,5 +55,7 @@ application:
       activation-url: http://localhost:3000/activate-account
   mercadopago:
     access-token: ${MERCADOPAGO_ACCESS_TOKEN}
+  frontend:
+    url: http://localhost:3000/auth/callback
 server:
   port: 8088

@@ -4,6 +4,7 @@ import com.cortex.backend.entities.user.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -11,11 +12,15 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Component
 @RequiredArgsConstructor
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
   private final JwtService jwtService;
+
+  @Value("${application.frontend.url}")
+  private String frontendUrl;
 
   @Override
   public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -31,9 +36,10 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     }
 
     String jwt = jwtService.generateToken(user);
+    String redirectUrl = UriComponentsBuilder.fromUriString(frontendUrl)
+        .queryParam("token", jwt)
+        .build().toUriString();
 
-    response.setContentType("application/json");
-    response.setCharacterEncoding("UTF-8");
-    response.getWriter().write("{\"token\":\"" + jwt + "\"}");
+    getRedirectStrategy().sendRedirect(request, response, redirectUrl);
   }
 }
