@@ -9,8 +9,7 @@ import lombok.experimental.SuperBuilder;
 import java.util.Set;
 
 @Entity
-@Table(name = "forums",
-    indexes = @Index(name = "forums_index_0", columnList = "category_id"))
+@Table(name = "forums")
 @Getter
 @Setter
 @NoArgsConstructor
