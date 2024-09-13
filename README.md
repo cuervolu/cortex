@@ -1,7 +1,7 @@
 # Cortex
 
 <p align="center">
-  <img src=".github/images/icon2_dark (512px).png" alt="Logo de Cortex" width="200" height="200">
+  <img src=".github/images/icon1_dark (512px).png" alt="Logo de Cortex" width="200" height="200">
 </p>
 
 <p align="center">
