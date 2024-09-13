@@ -16,7 +16,7 @@ services:
     restart: unless-stopped
   
   directus:
-    image: directus/directus:11.0.2
+    image: directus/directus:11.1.0
     container_name: cortex_directus
     depends_on:
       - postgres
