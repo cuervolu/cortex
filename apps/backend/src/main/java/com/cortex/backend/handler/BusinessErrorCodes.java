@@ -2,6 +2,7 @@ package com.cortex.backend.handler;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_IMPLEMENTED;
 
 import lombok.Getter;
@@ -20,7 +21,7 @@ public enum BusinessErrorCodes {
 
   INVALID_TOKEN(306, BAD_REQUEST, "Invalid token"),
 
-  ;
+  EMAIL_SENDING_FAILED(307, INTERNAL_SERVER_ERROR, "Failed to send email");
 
   private final int code;
   private final String description;

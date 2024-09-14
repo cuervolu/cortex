@@ -1,6 +1,8 @@
 package com.cortex.backend.services;
 
 import com.cortex.backend.config.EmailTemplateName;
+import com.cortex.backend.exception.EmailSendingException;
+import com.cortex.backend.handler.BusinessErrorCodes;
 import com.resend.core.exception.ResendException;
 import com.resend.services.emails.model.CreateEmailOptions;
 import com.resend.services.emails.model.CreateEmailResponse;
@@ -18,13 +20,14 @@ import java.util.Map;
 @Slf4j
 @RequiredArgsConstructor
 public class EmailService {
+
   private final SpringTemplateEngine templateEngine;
 
   @Value("${RESEND_API_KEY}")
   private String resendApiKey;
 
-  public void sendEmail(String to, EmailTemplateName emailTemplate, Map<String, Object> templateVariables, String subject)
-      throws ResendException {
+  public void sendEmail(String to, EmailTemplateName emailTemplate,
+      Map<String, Object> templateVariables, String subject) {
     String templateName = emailTemplate.getName();
     Resend resend = new Resend(resendApiKey);
 
@@ -44,7 +47,7 @@ public class EmailService {
       log.info("Email sent to: {}", data.getId());
     } catch (ResendException e) {
       log.error("Error sending email: {}", e.getMessage());
-      throw new ResendException("Error sending email");
+      throw new EmailSendingException(BusinessErrorCodes.EMAIL_SENDING_FAILED, e);
     }
   }
 }

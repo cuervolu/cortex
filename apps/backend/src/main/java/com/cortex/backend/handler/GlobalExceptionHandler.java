@@ -13,6 +13,7 @@ import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
+import com.cortex.backend.exception.EmailSendingException;
 import com.cortex.backend.exception.IncorrectCurrentPasswordException;
 import com.cortex.backend.exception.InvalidTokenException;
 import com.cortex.backend.exception.NewPasswordDoesNotMatchException;
@@ -137,6 +138,19 @@ public class GlobalExceptionHandler {
                 .error(exp.getMessage())
                 .build());
   }
+
+  @ExceptionHandler(EmailSendingException.class)
+  public ResponseEntity<ExceptionResponse> handleEmailSendingException(EmailSendingException ex) {
+    BusinessErrorCodes errorCode = ex.getErrorCode();
+    ExceptionResponse response = ExceptionResponse.builder()
+        .businessErrorCode(errorCode.getCode())
+        .businessErrorDescription(errorCode.getDescription())
+        .error(ex.getMessage())
+        .build();
+    return ResponseEntity.status(errorCode.getHttpStatus()).body(response);
+  }
+  
+  
 
   @ExceptionHandler(Exception.class)
   public ResponseEntity<ExceptionResponse> handleException(Exception exp) {
