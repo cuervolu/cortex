@@ -55,6 +55,10 @@ application:
       activation-url: http://localhost:3000/activate-account
   mercadopago:
     access-token: ${MERCADOPAGO_ACCESS_TOKEN}
+  cloudinary:
+    cloud-name: ${CLOUDINARY_CLOUD_NAME}
+    api-key: ${CLOUDINARY_API_KEY}
+    api-secret: ${CLOUDINARY_API_SECRET}
   frontend:
     url: http://localhost:3000/auth/callback
 server:
