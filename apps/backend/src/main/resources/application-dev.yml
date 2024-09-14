@@ -60,6 +60,7 @@ application:
     api-key: ${CLOUDINARY_API_KEY}
     api-secret: ${CLOUDINARY_API_SECRET}
   frontend:
-    url: http://localhost:3000/auth/callback
+    callback-url: http://localhost:3000/auth/callback
+    password-reset-url: http://localhost:3000/reset-password
 server:
   port: 8088

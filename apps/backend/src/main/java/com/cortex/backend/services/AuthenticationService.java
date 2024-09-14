@@ -6,6 +6,7 @@ import com.cortex.backend.controllers.auth.dto.AuthenticationResponse;
 import com.cortex.backend.controllers.auth.dto.RegistrationRequest;
 import com.cortex.backend.entities.user.Token;
 import com.cortex.backend.entities.user.User;
+import com.cortex.backend.exception.InvalidTokenException;
 import com.cortex.backend.repositories.RoleRepository;
 import com.cortex.backend.repositories.TokenRepository;
 import com.cortex.backend.repositories.UserRepository;
@@ -15,6 +16,7 @@ import java.util.HashMap;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.MessagingException;
@@ -37,8 +39,7 @@ public class AuthenticationService {
 
   @Value("${application.mailing.frontend.activation-url}")
   private String activationUrl;
-
-
+  
   public void register(RegistrationRequest request) throws ResendException {
     var userRole =
         roleRepository
@@ -104,7 +105,7 @@ public class AuthenticationService {
 
     if (LocalDateTime.now().isAfter(savedToken.getExpiresAt())) {
       sendValidationEmail(savedToken.getUser());
-      throw new RuntimeException("Token expired, new token sent to email");
+      throw new InvalidTokenException("Token expired, new token sent to email");
     }
     var user =
         userRepository
@@ -116,16 +117,22 @@ public class AuthenticationService {
     tokenRepository.save(savedToken);
   }
 
-  private void sendValidationEmail(User user) throws MessagingException, ResendException {
+  private void sendValidationEmail(User user) throws ResendException {
     var newToken = generateAndSaveActivationToken(user);
+
+    Map<String, Object> templateVariables = new HashMap<>();
+    templateVariables.put("username", user.getUsername());
+    templateVariables.put("activationUrl", activationUrl);
+    templateVariables.put("activationCode", newToken);
+
     emailService.sendEmail(
         user.getEmail(),
-        user.getUsername(),
         EmailTemplateName.ACTIVATE_ACCOUNT,
-        activationUrl,
-        newToken,
-        "Account Activation");
+        templateVariables,
+        "Account Activation"
+    );
   }
+
 
 
 }

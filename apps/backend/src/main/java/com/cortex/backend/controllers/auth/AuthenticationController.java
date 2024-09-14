@@ -3,13 +3,18 @@ package com.cortex.backend.controllers.auth;
 import com.cortex.backend.controllers.auth.dto.AuthenticationRequest;
 import com.cortex.backend.controllers.auth.dto.AuthenticationResponse;
 import com.cortex.backend.controllers.auth.dto.RegistrationRequest;
+import com.cortex.backend.controllers.user.dto.ForgotPasswordRequest;
+import com.cortex.backend.controllers.user.dto.ResetPasswordRequest;
+import com.cortex.backend.exception.InvalidTokenException;
 import com.cortex.backend.services.AuthenticationService;
+import com.cortex.backend.services.IUserService;
 import com.resend.core.exception.ResendException;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +29,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @Tag(name = "Authentication")
 public class AuthenticationController {
+
   private final AuthenticationService service;
+  private final IUserService userService;
 
   @PostMapping("/register")
   @ResponseStatus(HttpStatus.ACCEPTED)
@@ -35,7 +42,8 @@ public class AuthenticationController {
   }
 
   @PostMapping("/authenticate")
-  public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody @Valid AuthenticationRequest request) {
+  public ResponseEntity<AuthenticationResponse> authenticate(
+      @RequestBody @Valid AuthenticationRequest request) {
     return ResponseEntity.ok(service.authenticate(request));
   }
 
@@ -43,4 +51,23 @@ public class AuthenticationController {
   public void confirm(@RequestParam String token) throws ResendException {
     service.activateAccount(token);
   }
+
+  @PostMapping("/forgot-password")
+  public ResponseEntity<?> forgotPassword(@RequestBody @Valid ForgotPasswordRequest request)
+      throws ResendException {
+
+    userService.initiatePasswordReset(request.email());
+    return ResponseEntity.ok().body("Password reset email sent successfully");
+
   }
+
+  @PostMapping("/reset-password")
+  public ResponseEntity<?> resetPassword(@RequestBody @Valid ResetPasswordRequest request) {
+
+    userService.resetPassword(request.token(), request.newPassword());
+    return ResponseEntity.ok().body("Password reset successfully");
+
+  }
+
+
+}

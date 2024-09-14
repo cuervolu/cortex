@@ -5,6 +5,7 @@ import static com.cortex.backend.handler.BusinessErrorCodes.ACCOUNT_DISABLED;
 import static com.cortex.backend.handler.BusinessErrorCodes.ACCOUNT_LOCKED;
 import static com.cortex.backend.handler.BusinessErrorCodes.BAD_CREDENTIALS;
 import static com.cortex.backend.handler.BusinessErrorCodes.INCORRECT_CURRENT_PASSWORD;
+import static com.cortex.backend.handler.BusinessErrorCodes.INVALID_TOKEN;
 import static com.cortex.backend.handler.BusinessErrorCodes.NEW_PASSWORD_DOES_NOT_MATCH;
 import static com.cortex.backend.handler.BusinessErrorCodes.USER_ALREADY_EXISTS;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
@@ -13,6 +14,7 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 import com.cortex.backend.exception.IncorrectCurrentPasswordException;
+import com.cortex.backend.exception.InvalidTokenException;
 import com.cortex.backend.exception.NewPasswordDoesNotMatchException;
 import com.cortex.backend.exception.OperationNotPermittedException;
 import com.resend.core.exception.ResendException;
@@ -113,7 +115,7 @@ public class GlobalExceptionHandler {
                 .error(exp.getMessage())
                 .build());
   }
-  
+
   @ExceptionHandler(NewPasswordDoesNotMatchException.class)
   public ResponseEntity<ExceptionResponse> handleException(NewPasswordDoesNotMatchException exp) {
     return ResponseEntity.status(NEW_PASSWORD_DOES_NOT_MATCH.getHttpStatus())
@@ -121,6 +123,17 @@ public class GlobalExceptionHandler {
             ExceptionResponse.builder()
                 .businessErrorCode(NEW_PASSWORD_DOES_NOT_MATCH.getCode())
                 .businessErrorDescription(NEW_PASSWORD_DOES_NOT_MATCH.getDescription())
+                .error(exp.getMessage())
+                .build());
+  }
+
+  @ExceptionHandler(InvalidTokenException.class)
+  public ResponseEntity<ExceptionResponse> handleException(InvalidTokenException exp) {
+    return ResponseEntity.status(INVALID_TOKEN.getHttpStatus())
+        .body(
+            ExceptionResponse.builder()
+                .businessErrorCode(INVALID_TOKEN.getCode())
+                .businessErrorDescription(INVALID_TOKEN.getDescription())
                 .error(exp.getMessage())
                 .build());
   }

@@ -1,23 +1,35 @@
 package com.cortex.backend.services.impl;
 
+import com.cortex.backend.config.EmailTemplateName;
 import com.cortex.backend.controllers.user.dto.ChangePasswordRequest;
 import com.cortex.backend.controllers.user.dto.UpdateProfileRequest;
 import com.cortex.backend.controllers.user.dto.UserResponse;
+import com.cortex.backend.entities.user.Token;
+import com.cortex.backend.entities.user.TokenType;
 import com.cortex.backend.entities.user.User;
 import com.cortex.backend.exception.IncorrectCurrentPasswordException;
+import com.cortex.backend.exception.InvalidTokenException;
 import com.cortex.backend.exception.NewPasswordDoesNotMatchException;
 import com.cortex.backend.mappers.UserMapper;
+import com.cortex.backend.repositories.TokenRepository;
 import com.cortex.backend.repositories.UserRepository;
 import com.cortex.backend.services.CloudinaryService;
+import com.cortex.backend.services.EmailService;
 import com.cortex.backend.services.IUserService;
+import com.resend.core.exception.ResendException;
 import jakarta.transaction.Transactional;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,8 +41,13 @@ public class UserServiceImpl implements IUserService {
 
   private final UserMapper userMapper;
   private final UserRepository userRepository;
+  private final TokenRepository tokenRepository;
   private final PasswordEncoder passwordEncoder;
   private final CloudinaryService cloudinaryService;
+  private final EmailService emailService;
+
+  @Value("${application.frontend.password-reset-url}")
+  private String passwordResetUrl;
 
   @Override
   public Optional<UserResponse> getUserById(Long id) {
@@ -75,6 +92,62 @@ public class UserServiceImpl implements IUserService {
 
   }
 
+  @Override
+  @Transactional
+  public void initiatePasswordReset(String email)
+      throws UsernameNotFoundException, ResendException {
+    User user = userRepository.findByEmail(email)
+        .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+
+    String tokenValue = generateUniqueToken();
+    LocalDateTime expiryDate = LocalDateTime.now().plusHours(1);
+
+    Token resetToken = Token.builder()
+        .token(tokenValue)
+        .tokenType(TokenType.PASSWORD_RESET)
+        .user(user)
+        .createdAt(LocalDateTime.now())
+        .expiresAt(expiryDate)
+        .build();
+
+    tokenRepository.save(resetToken);
+
+    String resetUrl = passwordResetUrl + "?token=" + tokenValue;
+    Map<String, Object> templateVariables = new HashMap<>();
+    templateVariables.put("username", user.getUsername());
+    templateVariables.put("resetUrl", resetUrl);
+
+    emailService.sendEmail(
+        user.getEmail(),
+        EmailTemplateName.RESET_PASSWORD,
+        templateVariables,
+        "Password Reset Request"
+    );
+  }
+
+  @Override
+  @Transactional
+  public void resetPassword(String tokenValue, String newPassword) {
+    Token resetToken = tokenRepository.findByTokenAndTokenType(tokenValue, TokenType.PASSWORD_RESET)
+        .orElseThrow(() -> new InvalidTokenException("Invalid or expired password reset token"));
+
+    if (resetToken.isExpired()) {
+      tokenRepository.delete(resetToken);
+      throw new InvalidTokenException("Password reset token has expired");
+    }
+
+    User user = resetToken.getUser();
+    user.setPassword(passwordEncoder.encode(newPassword));
+    userRepository.save(user);
+
+    resetToken.setValidatedAt(LocalDateTime.now());
+    tokenRepository.save(resetToken);
+  }
+
+  private String generateUniqueToken() {
+    return UUID.randomUUID().toString();
+  }
+
   @Transactional
   @Override
   public UserResponse updateProfile(Long userId, UpdateProfileRequest request) throws IOException {
@@ -113,7 +186,22 @@ public class UserServiceImpl implements IUserService {
 
   @Override
   public void deleteUser(Long id) {
-    //TODO: Implement this method
-    throw new UnsupportedOperationException("Not implemented yet");
+    User user = userRepository.findById(id)
+        .orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + id));
+
+    user.setEnabled(false);
+    
+    tokenRepository.findAllValidTokenByUser(id).forEach(token -> {
+      token.setExpiresAt(LocalDateTime.now());
+      tokenRepository.save(token);
+    });
+
+    user.setPassword(null);
+    user.setEmail("deleted_" + user.getId() + "@example.com");
+    user.setUsername("deleted_user_" + user.getId());
+
+    userRepository.save(user);
+
+    log.info("User with id {} has been disabled", id);
   }
 }

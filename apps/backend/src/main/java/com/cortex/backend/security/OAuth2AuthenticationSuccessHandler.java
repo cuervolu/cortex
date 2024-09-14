@@ -19,7 +19,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
   private final JwtService jwtService;
 
-  @Value("${application.frontend.url}")
+  @Value("${application.frontend.callback-url}")
   private String frontendUrl;
 
   @Override
