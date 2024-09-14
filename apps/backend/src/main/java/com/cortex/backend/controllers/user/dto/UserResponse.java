@@ -1,5 +1,6 @@
 package com.cortex.backend.controllers.user.dto;
 
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,6 +20,7 @@ public class UserResponse {
   private String lastName;
   private String fullName;
   private String avatar;
+  private LocalDate dateOfBirth;
   private boolean accountLocked;
   private boolean enabled;
 }

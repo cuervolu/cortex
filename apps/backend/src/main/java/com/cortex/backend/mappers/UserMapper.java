@@ -16,6 +16,7 @@ public class UserMapper {
         .lastName(user.getLastName())
         .fullName(user.getFullName())
         .avatar(user.getAvatar())
+        .dateOfBirth(user.getDateOfBirth())
         .accountLocked(user.isAccountLocked())
         .enabled(user.isEnabled())
         .build();

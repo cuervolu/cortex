@@ -1,0 +1,23 @@
+meta {
+  name: Update User
+  type: http
+  seq: 2
+}
+
+patch {
+  url: {{BASEURL}}/api/v1/user/me
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:multipart-form {
+  firstName: Ignacio
+  lastName: Carrasco
+  email: igna.carrasco@duocuc.cl
+  dateOfBirth: 1990-01-01
+  avatar: @file(/home/cuervolu/Imágenes/o05iJ6BsEm2ECuAp3fzVVIvxy1A9SBM3yAioBg~tplv-tej9nj120t-origin.png)
+}

@@ -19,7 +19,7 @@ public class CloudinaryService {
   private final Cloudinary cloudinary;
 
   public Map uploadImage(MultipartFile file, String folder) throws IOException {
-    Map<String, Object> params = ObjectUtils.asMap(
+    var params = ObjectUtils.asMap(
         "use_filename", true,
         "unique_filename", false,
         "overwrite", true,
