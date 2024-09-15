@@ -21,8 +21,13 @@ public enum BusinessErrorCodes {
 
   INVALID_TOKEN(306, BAD_REQUEST, "Invalid token"),
 
-  EMAIL_SENDING_FAILED(307, INTERNAL_SERVER_ERROR, "Failed to send email");
+  EMAIL_SENDING_FAILED(307, INTERNAL_SERVER_ERROR, "Failed to send email"),
+  ACCESS_DENIED(308, FORBIDDEN, "Access denied. You don't have permission to perform this action."),
 
+  FILE_SIZE_EXCEEDED(309, BAD_REQUEST, "File size exceeds the maximum allowed limit"),
+  INVALID_FILE_TYPE(310, BAD_REQUEST, "Invalid file type. Only JPEG, PNG, and WebP images are allowed")
+    
+    ;
   private final int code;
   private final String description;
   private final HttpStatus httpStatus;

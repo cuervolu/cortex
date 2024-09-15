@@ -1,10 +1,13 @@
-import {storeToRefs} from 'pinia'
-import {useAuthStore} from '~/stores/'
+import { storeToRefs } from 'pinia'
+import { useAuthStore } from '~/stores/'
 
 export default defineNuxtRouteMiddleware(async (to) => {
   const authStore = useAuthStore()
-  const {authenticated, user} = storeToRefs(authStore)
+  const { authenticated, user } = storeToRefs(authStore)
   const token = useCookie('token')
+
+  // List of routes that don't require authentication
+  const publicRoutes = ['login', 'register', 'activate-account']
 
   if (token.value) {
     authenticated.value = true
@@ -14,13 +17,13 @@ export default defineNuxtRouteMiddleware(async (to) => {
     }
   }
 
-  // If token exists and user is trying to access login page, redirect to home
-  if (token.value && to?.name === 'login') {
+  // If token exists and user is trying to access a public route, redirect to home
+  if (token.value && publicRoutes.includes(to?.name as string)) {
     return navigateTo('/')
   }
 
   // If no token and trying to access a protected route, redirect to log in
-  if (!token.value && to?.name !== 'login') {
+  if (!token.value && !publicRoutes.includes(to?.name as string)) {
     abortNavigation()
     return navigateTo('/auth/login')
   }

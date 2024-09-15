@@ -4,19 +4,21 @@ import com.cortex.backend.config.EmailTemplateName;
 import com.cortex.backend.controllers.user.dto.ChangePasswordRequest;
 import com.cortex.backend.controllers.user.dto.UpdateProfileRequest;
 import com.cortex.backend.controllers.user.dto.UserResponse;
+import com.cortex.backend.entities.user.Role;
 import com.cortex.backend.entities.user.Token;
 import com.cortex.backend.entities.user.TokenType;
 import com.cortex.backend.entities.user.User;
 import com.cortex.backend.exception.IncorrectCurrentPasswordException;
+import com.cortex.backend.exception.InvalidFileTypeException;
 import com.cortex.backend.exception.InvalidTokenException;
 import com.cortex.backend.exception.NewPasswordDoesNotMatchException;
 import com.cortex.backend.mappers.UserMapper;
+import com.cortex.backend.repositories.RoleRepository;
 import com.cortex.backend.repositories.TokenRepository;
 import com.cortex.backend.repositories.UserRepository;
 import com.cortex.backend.services.CloudinaryService;
 import com.cortex.backend.services.EmailService;
 import com.cortex.backend.services.IUserService;
-import com.resend.core.exception.ResendException;
 import jakarta.transaction.Transactional;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -39,8 +41,14 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 public class UserServiceImpl implements IUserService {
 
+  private static final String DELETED_USER_PREFIX = "deleted_user_";
+  private static final String DELETED_EMAIL_SUFFIX = "@example.com";
+  private static final String USER_NOT_FOUND_WITH_ID = "User not found with id: ";
+  private static final String USER_NOT_FOUND_WITH_EMAIL = "User not found with email: ";
+
   private final UserMapper userMapper;
   private final UserRepository userRepository;
+  private final RoleRepository roleRepository;
   private final TokenRepository tokenRepository;
   private final PasswordEncoder passwordEncoder;
   private final CloudinaryService cloudinaryService;
@@ -95,9 +103,9 @@ public class UserServiceImpl implements IUserService {
   @Override
   @Transactional
   public void initiatePasswordReset(String email)
-      throws UsernameNotFoundException, ResendException {
+      throws UsernameNotFoundException {
     User user = userRepository.findByEmail(email)
-        .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+        .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_WITH_EMAIL + email));
 
     String tokenValue = generateUniqueToken();
     LocalDateTime expiryDate = LocalDateTime.now().plusHours(1);
@@ -121,7 +129,7 @@ public class UserServiceImpl implements IUserService {
         user.getEmail(),
         EmailTemplateName.RESET_PASSWORD,
         templateVariables,
-        "Password Reset Request"
+        "Reset Your Cortex Password!"
     );
   }
 
@@ -152,7 +160,9 @@ public class UserServiceImpl implements IUserService {
   @Override
   public UserResponse updateProfile(Long userId, UpdateProfileRequest request) throws IOException {
     User user = userRepository.findById(userId)
-        .orElseThrow(() -> new RuntimeException("User not found"));
+        .orElseThrow(() -> new UsernameNotFoundException(
+            USER_NOT_FOUND_WITH_ID + userId
+        ));
 
     if (request.getFirstName() != null) {
       user.setFirstName(request.getFirstName());
@@ -171,6 +181,10 @@ public class UserServiceImpl implements IUserService {
     }
 
     if (request.getAvatar() != null && !request.getAvatar().isEmpty()) {
+      cloudinaryService.validateFileSize(request.getAvatar());
+      if (!cloudinaryService.isValidImageFile(request.getAvatar())) {
+        throw new InvalidFileTypeException("Invalid file type. Only images are allowed.");
+      }
       String avatarUrl = uploadAvatar(request.getAvatar(), userId);
       user.setAvatar(avatarUrl);
     }
@@ -187,21 +201,71 @@ public class UserServiceImpl implements IUserService {
   @Override
   public void deleteUser(Long id) {
     User user = userRepository.findById(id)
-        .orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + id));
+        .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_WITH_ID + id));
 
     user.setEnabled(false);
-    
+
     tokenRepository.findAllValidTokenByUser(id).forEach(token -> {
       token.setExpiresAt(LocalDateTime.now());
       tokenRepository.save(token);
     });
 
     user.setPassword(null);
-    user.setEmail("deleted_" + user.getId() + "@example.com");
-    user.setUsername("deleted_user_" + user.getId());
+    user.setEmail(DELETED_USER_PREFIX + user.getId() + DELETED_EMAIL_SUFFIX);
+    user.setUsername(DELETED_USER_PREFIX + user.getId());
 
     userRepository.save(user);
 
     log.info("User with id {} has been disabled", id);
+  }
+
+  @Override
+  @Transactional
+  public UserResponse reEnableUser(Long id) {
+    User user = userRepository.findById(id)
+        .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_WITH_ID + id));
+
+    if (user.isEnabled()) {
+      throw new IllegalStateException("User is already enabled");
+    }
+
+    // Re-enable the user
+    user.setEnabled(true);
+
+    // Reset the email and username if they were changed during deletion
+    if (user.getEmail().startsWith(DELETED_USER_PREFIX)) {
+      user.setEmail(
+          user.getEmail().replace(DELETED_USER_PREFIX + user.getId() + DELETED_EMAIL_SUFFIX, ""));
+    }
+    if (user.getUsername().startsWith(DELETED_USER_PREFIX)) {
+      user.setUsername(user.getUsername().replace(DELETED_USER_PREFIX + user.getId(), ""));
+    }
+
+    User reEnabledUser = userRepository.save(user);
+    log.info("User with id {} has been re-enabled", id);
+
+    // Trigger password reset email
+    initiatePasswordReset(reEnabledUser.getEmail());
+
+    return userMapper.toUserResponse(reEnabledUser);
+  }
+
+  @Override
+  @Transactional
+  public UserResponse updateUserRoles(Long userId, List<String> roleNames) {
+    User user = userRepository.findById(userId)
+        .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_WITH_ID + userId));
+
+    List<Role> roles = roleRepository.findAllByNameIn(roleNames);
+    if (roles.size() != roleNames.size()) {
+      throw new IllegalArgumentException("One or more role names are invalid");
+    }
+
+    user.setRoles(roles);
+    User updatedUser = userRepository.save(user);
+
+    log.info("Updated roles for user with id {}: {}", userId, roleNames);
+
+    return userMapper.toUserResponse(updatedUser);
   }
 }

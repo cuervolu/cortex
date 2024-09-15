@@ -2,17 +2,19 @@
 import {ref} from 'vue'
 import {useAuthStore} from '~/stores'
 
+definePageMeta({
+  layout: 'auth-default',
+})
+
 const auth = useAuthStore()
 const router = useRouter()
-
-const username = ref('')
-const password = ref('')
 const error = ref('')
 
-const handleSubmit = async () => {
+const handleSubmit = async (formData: { email: string, password: string }) => {
+  console.log(formData)
   error.value = ''
   try {
-    await auth.login({username: username.value, password: password.value})
+    await auth.login({username: formData.email, password: formData.password})
     await router.push('/')
   } catch (err) {
     error.value = err instanceof Error ? err.message : 'An error occurred during login'
@@ -20,30 +22,32 @@ const handleSubmit = async () => {
   }
 }
 
-const loginWithGithub = () => auth.loginWithProvider('github')
-const loginWithGoogle = () => auth.loginWithProvider('google')
+const handleLogin = (provider: 'github' | 'google') => {
+  auth.loginWithProvider(provider)
+}
 </script>
 
 <template>
-  <form @submit.prevent="handleSubmit">
-    <div v-if="error" class="error">{{ error }}</div>
-    <input v-model="username" type="text" placeholder="Username" required>
-    <input v-model="password" type="password" placeholder="Password" required>
-    <button type="submit" :disabled="auth.loading">
-      {{ auth.loading ? 'Logging in...' : 'Login' }}
-    </button>
-    <Button type="button" :disabled="auth.loading" @click="loginWithGithub">
-      Login with GitHub
-    </Button>
-    <Button type="button" :disabled="auth.loading" @click="loginWithGoogle">
-      Login with Google
-    </Button>
-  </form>
+  <AuthForm
+      title="Sign In"
+      subtitle="Log in with a provider or with email"
+      submit-text="Sign in"
+      :show-name-fields="false"
+      @submit="handleSubmit"
+      @login="handleLogin"
+  >
+    <template #footer>
+      <div class="text-center mt-4">
+        <a href="#" class="text-purple-900 hover:underline text-sm">
+          Forgot password?
+        </a>
+        <p class="mt-2 text-sm text-gray-600">
+          Don't have an account?
+          <NuxtLink to="/auth/register" class="text-purple-700 hover:underline">
+            Sign up
+          </NuxtLink>
+        </p>
+      </div>
+    </template>
+  </AuthForm>
 </template>
-
-<style scoped>
-.error {
-  color: red;
-  margin-bottom: 10px;
-}
-</style>

@@ -1,20 +1,26 @@
 package com.cortex.backend.handler;
 
 
+import static com.cortex.backend.handler.BusinessErrorCodes.ACCESS_DENIED;
 import static com.cortex.backend.handler.BusinessErrorCodes.ACCOUNT_DISABLED;
 import static com.cortex.backend.handler.BusinessErrorCodes.ACCOUNT_LOCKED;
 import static com.cortex.backend.handler.BusinessErrorCodes.BAD_CREDENTIALS;
+import static com.cortex.backend.handler.BusinessErrorCodes.FILE_SIZE_EXCEEDED;
 import static com.cortex.backend.handler.BusinessErrorCodes.INCORRECT_CURRENT_PASSWORD;
+import static com.cortex.backend.handler.BusinessErrorCodes.INVALID_FILE_TYPE;
 import static com.cortex.backend.handler.BusinessErrorCodes.INVALID_TOKEN;
 import static com.cortex.backend.handler.BusinessErrorCodes.NEW_PASSWORD_DOES_NOT_MATCH;
 import static com.cortex.backend.handler.BusinessErrorCodes.USER_ALREADY_EXISTS;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.CONFLICT;
+import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 import com.cortex.backend.exception.EmailSendingException;
+import com.cortex.backend.exception.FileSizeExceededException;
 import com.cortex.backend.exception.IncorrectCurrentPasswordException;
+import com.cortex.backend.exception.InvalidFileTypeException;
 import com.cortex.backend.exception.InvalidTokenException;
 import com.cortex.backend.exception.NewPasswordDoesNotMatchException;
 import com.cortex.backend.exception.OperationNotPermittedException;
@@ -24,9 +30,11 @@ import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -149,9 +157,57 @@ public class GlobalExceptionHandler {
         .build();
     return ResponseEntity.status(errorCode.getHttpStatus()).body(response);
   }
-  
-  
 
+  @ExceptionHandler(AccessDeniedException.class)
+  public ResponseEntity<ExceptionResponse> handleAccessDeniedException(AccessDeniedException ex) {
+    log.error("Access denied error: ", ex);
+    return ResponseEntity
+        .status(ACCESS_DENIED.getHttpStatus())
+        .body(ExceptionResponse.builder()
+            .businessErrorCode(ACCESS_DENIED.getCode())
+            .businessErrorDescription(ACCESS_DENIED.getDescription())
+            .error(ex.getMessage())
+            .build());
+  }
+
+  @ExceptionHandler(AuthenticationException.class)
+  public ResponseEntity<ExceptionResponse> handleAuthenticationException(
+      AuthenticationException ex) {
+    log.error("Authentication error: ", ex);
+    return ResponseEntity
+        .status(FORBIDDEN)
+        .body(ExceptionResponse.builder()
+            .businessErrorCode(BAD_CREDENTIALS.getCode())
+            .businessErrorDescription(BAD_CREDENTIALS.getDescription())
+            .error(ex.getMessage())
+            .build());
+  }
+
+
+  @ExceptionHandler(FileSizeExceededException.class)
+  public ResponseEntity<ExceptionResponse> handleFileSizeExceededException(
+      FileSizeExceededException exp) {
+    return ResponseEntity.status(FILE_SIZE_EXCEEDED.getHttpStatus())
+        .body(
+            ExceptionResponse.builder()
+                .businessErrorCode(FILE_SIZE_EXCEEDED.getCode())
+                .businessErrorDescription(FILE_SIZE_EXCEEDED.getDescription())
+                .error(exp.getMessage())
+                .build());
+  }
+
+  @ExceptionHandler(InvalidFileTypeException.class)
+  public ResponseEntity<ExceptionResponse> handleInvalidFileTypeException(
+      InvalidFileTypeException exp) {
+    return ResponseEntity.status(INVALID_FILE_TYPE.getHttpStatus())
+        .body(
+            ExceptionResponse.builder()
+                .businessErrorCode(INVALID_FILE_TYPE.getCode())
+                .businessErrorDescription(INVALID_FILE_TYPE.getDescription())
+                .error(exp.getMessage())
+                .build());
+  }
+  
   @ExceptionHandler(Exception.class)
   public ResponseEntity<ExceptionResponse> handleException(Exception exp) {
 

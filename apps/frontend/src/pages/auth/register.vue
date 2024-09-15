@@ -1,27 +1,98 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useAuthStore } from '~/stores'
+import { Button } from '@/components/ui/button'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
+
+definePageMeta({
+  layout: 'auth-default',
+})
 
 const auth = useAuthStore()
-const username = ref('')
-const email = ref('')
-const password = ref('')
+const router = useRouter()
+const error = ref('')
+const loading = ref(false)
+const showSuccessDialog = ref(false)
 
-const handleSubmit = async () => {
+const handleSubmit = async (formData: {
+  email: string,
+  firstName: string,
+  lastName: string,
+  username: string,
+  password: string
+}) => {
+  error.value = ''
+  loading.value = true
   try {
-    await auth.register({ username: username.value, email: email.value, password: password.value })
-    // Redirect or show success message
-  } catch (error) {
-    // Handle error
+    await auth.register({
+      email: formData.email,
+      firstname: formData.firstName,
+      lastname: formData.lastName,
+      username: formData.username,
+      password: formData.password
+    })
+    showSuccessDialog.value = true
+  } catch (err) {
+    error.value = err instanceof Error ? err.message : 'An error occurred during registration'
+    console.error(err)
+  } finally {
+    loading.value = false
   }
 }
-</script>
-<template>
-  <form @submit.prevent="handleSubmit">
-    <input v-model="username" type="text" placeholder="Username" required>
-    <input v-model="email" type="email" placeholder="Email" required>
-    <input v-model="password" type="password" placeholder="Password" required>
-    <button type="submit">Register</button>
-  </form>
-</template>
 
+const handleLogin = (provider: 'github' | 'google') => {
+  auth.loginWithProvider(provider)
+}
+
+const closeDialog = () => {
+  showSuccessDialog.value = false
+  router.push('/auth/login')
+}
+</script>
+
+<template>
+  <div>
+    <AuthForm
+        title="Create an Account"
+        subtitle="Enter your details below to create your account"
+        submit-text="Create account"
+        :show-name-fields="true"
+        :show-username-field="true"
+        :loading="loading"
+        @submit="handleSubmit"
+        @login="handleLogin"
+    >
+      <template #footer>
+        <p class="text-center mt-4 text-sm text-gray-600">
+          Already have an account?
+          <NuxtLink to="/auth/login" class="text-purple-700 hover:underline">
+            Sign in
+          </NuxtLink>
+        </p>
+      </template>
+    </AuthForm>
+
+    <Dialog :open="showSuccessDialog" @update:open="showSuccessDialog = $event">
+      <DialogContent class="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Registration Successful</DialogTitle>
+          <DialogDescription>
+            Your account has been created successfully. Please check your email to activate your account.
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <Button @click="closeDialog">
+            Go to Login
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  </div>
+</template>

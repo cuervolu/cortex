@@ -7,6 +7,14 @@ interface UserPayloadInterface {
   password: string;
 }
 
+interface RegisterPayloadInterface {
+  email: string,
+  firstname: string,
+  lastname: string,
+  username: string,
+  password: string
+}
+
 export const useAuthStore = defineStore('auth', () => {
   const user = ref<User | null>(null)
   const loading = ref(false)
@@ -56,6 +64,23 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+  const activateAccount = async (token: string) => {
+    try {
+      loading.value = true
+      await $fetch(API_ROUTES.ACTIVATE_ACCOUNT, {
+        method: 'GET',
+        params: { token }
+      })
+    } catch (error) {
+      console.error('Account activation error:', error)
+      throw new Error('Account activation failed')
+    } finally {
+      loading.value = false
+    }
+  }
+  
+  
+
   const login = async ({username, password}: UserPayloadInterface) => {
     try {
       loading.value = true
@@ -75,7 +100,7 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  const register = async (userData: User) => {
+  const register = async (userData: RegisterPayloadInterface) => {
     try {
       loading.value = true
       await $fetch(API_ROUTES.REGISTER, {
@@ -114,6 +139,7 @@ export const useAuthStore = defineStore('auth', () => {
     loading,
     authenticated,
     isAuthenticated,
+    activateAccount,
     setToken,
     login,
     register,

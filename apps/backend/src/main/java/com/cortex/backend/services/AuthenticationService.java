@@ -39,8 +39,8 @@ public class AuthenticationService {
 
   @Value("${application.mailing.frontend.activation-url}")
   private String activationUrl;
-  
-  public void register(RegistrationRequest request) throws ResendException {
+
+  public void register(RegistrationRequest request) {
     var userRole =
         roleRepository
             .findByName("USER")
@@ -97,7 +97,7 @@ public class AuthenticationService {
   }
 
   //  @Transactional
-  public void activateAccount(String token) throws ResendException {
+  public void activateAccount(String token) {
     Token savedToken =
         tokenRepository
             .findByToken(token)
@@ -117,19 +117,19 @@ public class AuthenticationService {
     tokenRepository.save(savedToken);
   }
 
-  private void sendValidationEmail(User user) throws ResendException {
+  private void sendValidationEmail(User user) {
     var newToken = generateAndSaveActivationToken(user);
 
     Map<String, Object> templateVariables = new HashMap<>();
     templateVariables.put("username", user.getUsername());
-    templateVariables.put("activationUrl", activationUrl);
+    templateVariables.put("activationUrl", activationUrl + "?token=" + newToken);
     templateVariables.put("activationCode", newToken);
 
     emailService.sendEmail(
         user.getEmail(),
         EmailTemplateName.ACTIVATE_ACCOUNT,
         templateVariables,
-        "Account Activation"
+        "Activate your Cortex account and start your coding adventure today! Click the button or use your token to get started."
     );
   }
 
