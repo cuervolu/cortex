@@ -6,7 +6,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -25,8 +29,16 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @AllArgsConstructor
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class Role {
+@Table(name = "role", indexes = {
+    @Index(name = "idx_role_name", columnList = "name", unique = true),
+    @Index(name = "idx_role_created_at", columnList = "created_at"),
+    @Index(name = "idx_role_updated_at", columnList = "updated_at")
+})
+public class Role implements Serializable {
 
+  @Serial
+  private static final long serialVersionUID = 1L;
+  
   @Id
   @GeneratedValue
   private Long id;
