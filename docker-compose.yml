@@ -1,4 +1,3 @@
-
 services:
   postgres:
     image: postgres:alpine3.19
@@ -14,7 +13,7 @@ services:
     ports:
       - '5432:5432'
     restart: unless-stopped
-  
+
   directus:
     image: directus/directus:11.1.0
     container_name: cortex_directus
@@ -37,16 +36,13 @@ services:
       DB_DATABASE: ${DB_DATABASE}
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
-
-  maildev:
-    container_name: cortex_maildev
-    image: maildev/maildev
-    ports:
-      - '1080:1080'
-      - '1025:1025'
-    healthcheck:
-      test: 'wget -O - http://127.0.0.1:$${MAILDEV_WEB_PORT}$${MAILDEV_BASE_PATHNAME}/healthz || exit 1'
-
+      STORAGE_LOCATIONS: ${STORAGE_LOCATIONS}
+      STORAGE_CLOUDINARY_DRIVER: "cloudinary"
+      STORAGE_CLOUDINARY_CLOUD_NAME: ${STORAGE_CLOUDINARY_CLOUD_NAME}
+      STORAGE_CLOUDINARY_API_KEY: ${STORAGE_CLOUDINARY_API_KEY}
+      STORAGE_CLOUDINARY_API_SECRET: ${STORAGE_CLOUDINARY_API_SECRET}
+      STORAGE_CLOUDINARY_ACCESS_MODE: ${STORAGE_CLOUDINARY_ACCESS_MODE}
+      STORAGE_CLOUDINARY_ROOT: ${STORAGE_CLOUDINARY_ROOT}
   rabbitmq:
     image: rabbitmq:3-management
     container_name: cortex_rabbitmq
