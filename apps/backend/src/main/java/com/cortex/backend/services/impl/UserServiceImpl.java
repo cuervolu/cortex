@@ -221,11 +221,7 @@ public class UserServiceImpl implements IUserService {
       token.setExpiresAt(LocalDateTime.now());
       tokenRepository.save(token);
     });
-
-    user.setPassword(null);
-    user.setEmail(DELETED_USER_PREFIX + user.getId() + DELETED_EMAIL_SUFFIX);
-    user.setUsername(DELETED_USER_PREFIX + user.getId());
-
+    
     userRepository.save(user);
 
     log.info("User with id {} has been disabled", id);
@@ -244,20 +240,8 @@ public class UserServiceImpl implements IUserService {
     // Re-enable the user
     user.setEnabled(true);
 
-    // Reset the email and username if they were changed during deletion
-    if (user.getEmail().startsWith(DELETED_USER_PREFIX)) {
-      user.setEmail(
-          user.getEmail().replace(DELETED_USER_PREFIX + user.getId() + DELETED_EMAIL_SUFFIX, ""));
-    }
-    if (user.getUsername().startsWith(DELETED_USER_PREFIX)) {
-      user.setUsername(user.getUsername().replace(DELETED_USER_PREFIX + user.getId(), ""));
-    }
-
     User reEnabledUser = userRepository.save(user);
     log.info("User with id {} has been re-enabled", id);
-
-    // Trigger password reset email
-    initiatePasswordReset(reEnabledUser.getEmail());
 
     return userMapper.toUserResponse(reEnabledUser);
   }
