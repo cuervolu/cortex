@@ -15,11 +15,12 @@ public class UserMapper {
         .firstName(user.getFirstName())
         .lastName(user.getLastName())
         .fullName(user.getFullName())
-        .avatar(user.getAvatar())
+        .avatarUrl(user.getAvatar() != null ? user.getAvatar().getUrl() : null)
         .dateOfBirth(user.getDateOfBirth())
+        .gender(user.getGender())
+        .countryCode(user.getCountryCode())
         .accountLocked(user.isAccountLocked())
         .enabled(user.isEnabled())
         .build();
   }
-
 }

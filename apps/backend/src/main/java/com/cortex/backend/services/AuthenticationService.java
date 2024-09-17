@@ -4,6 +4,7 @@ import com.cortex.backend.config.EmailTemplateName;
 import com.cortex.backend.controllers.auth.dto.AuthenticationRequest;
 import com.cortex.backend.controllers.auth.dto.AuthenticationResponse;
 import com.cortex.backend.controllers.auth.dto.RegistrationRequest;
+import com.cortex.backend.entities.user.Role;
 import com.cortex.backend.entities.user.Token;
 import com.cortex.backend.entities.user.User;
 import com.cortex.backend.exception.InvalidTokenException;
@@ -11,7 +12,8 @@ import com.cortex.backend.repositories.RoleRepository;
 import com.cortex.backend.repositories.TokenRepository;
 import com.cortex.backend.repositories.UserRepository;
 import com.cortex.backend.security.JwtService;
-import com.resend.core.exception.ResendException;
+import jakarta.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
@@ -19,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.messaging.MessagingException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -40,26 +41,37 @@ public class AuthenticationService {
   @Value("${application.mailing.frontend.activation-url}")
   private String activationUrl;
 
+  @Transactional
   public void register(RegistrationRequest request) {
-    var userRole =
-        roleRepository
-            .findByName("USER")
-            .orElseThrow(() -> new IllegalStateException("Role not found"));
-    var user =
-        User.builder()
-            .firstName(request.getFirstname())
-            .lastName(request.getLastname())
-            .username(request.getUsername())
-            .email(request.getEmail())
-            .password(passwordEncoder.encode(request.getPassword()))
-            .accountLocked(false)
-            .enabled(false)
-            .roles(List.of(userRole))
-            .build();
+    List<Role> roles = new ArrayList<>();
+
+    boolean isFirstUser = userRepository.count() == 0;
+
+    roles.add(roleRepository.findByName("USER")
+        .orElseThrow(() -> new IllegalStateException("USER role not found")));
+
+    if (isFirstUser) {
+      roles.add(roleRepository.findByName("ADMIN")
+          .orElseThrow(() -> new IllegalStateException("ADMIN role not found")));
+    }
+
+    var user = User.builder()
+        .firstName(request.getFirstname())
+        .lastName(request.getLastname())
+        .username(request.getUsername())
+        .email(request.getEmail())
+        .password(passwordEncoder.encode(request.getPassword()))
+        .accountLocked(false)
+        .enabled(false)
+        .roles(roles)
+        .dateOfBirth(request.getDateOfBirth())
+        .countryCode(request.getCountryCode())
+        .gender(request.getGender())
+        .build();
+
     userRepository.save(user);
     sendValidationEmail(user);
   }
-
 
   private String generateAndSaveActivationToken(User user) {
     String generatedToken = generateActivationCode(6);
@@ -132,7 +144,6 @@ public class AuthenticationService {
         "Activate your Cortex account and start your coding adventure today! Click the button or use your token to get started."
     );
   }
-
 
 
 }

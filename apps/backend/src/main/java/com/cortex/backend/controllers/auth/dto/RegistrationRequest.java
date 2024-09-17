@@ -1,17 +1,24 @@
 package com.cortex.backend.controllers.auth.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
+import com.cortex.backend.entities.user.Gender;
+import com.cortex.backend.validators.ValidCountry;
+import com.cortex.backend.validators.ValueOfEnum;
+import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDate;
 
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class RegistrationRequest {
+
   @NotEmpty(message = "First name is required")
   @NotBlank(message = "First name is required")
   private String firstname;
@@ -34,4 +41,16 @@ public class RegistrationRequest {
   @NotBlank(message = "Password is required")
   @Size(min = 8, message = "Password must be at least 8 characters")
   private String password;
+
+  @Past(message = "Date of birth must be in the past")
+  private LocalDate dateOfBirth;
+
+  @NotBlank(message = "Country code is required")
+  @Size(min = 2, max = 3, message = "Country code must be 2 or 3 characters")
+  @ValidCountry()
+  private String countryCode;
+
+  @NotNull(message = "Gender is required")
+  @ValueOfEnum(enumClass = Gender.class, message = "Invalid Gender type")
+  private Gender gender;
 }

@@ -5,6 +5,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,6 +29,7 @@ public class SecurityConfig {
   private final CustomOAuth2UserService customOAuth2UserService;
   private final CustomOidcUserService customOidcUserService;
   private final CorsFilter corsFilter;
+  
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http.cors(cors -> cors.configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()))

@@ -1,8 +1,10 @@
 package com.cortex.backend.security;
 
+import com.cortex.backend.common.ImageUtils;
 import com.cortex.backend.entities.user.User;
 import com.cortex.backend.repositories.RoleRepository;
 import com.cortex.backend.repositories.UserRepository;
+import com.cortex.backend.services.MediaService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -18,10 +20,12 @@ public class CustomOAuth2UserService extends BaseOAuth2UserService implements OA
 
   private final DefaultOAuth2UserService defaultOAuth2UserService = new DefaultOAuth2UserService();
 
-  public CustomOAuth2UserService(UserRepository userRepository, RoleRepository roleRepository) {
-    super(userRepository, roleRepository);
-  }
 
+  public CustomOAuth2UserService(UserRepository userRepository, ImageUtils imageUtils,
+      MediaService mediaService, RoleRepository roleRepository)  {
+    super(userRepository, imageUtils, mediaService, roleRepository);
+  }
+  
   @Override
   public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
     OAuth2User oauth2User = defaultOAuth2UserService.loadUser(userRequest);

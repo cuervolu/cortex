@@ -9,6 +9,7 @@ import static com.cortex.backend.handler.BusinessErrorCodes.FILE_SIZE_EXCEEDED;
 import static com.cortex.backend.handler.BusinessErrorCodes.INCORRECT_CURRENT_PASSWORD;
 import static com.cortex.backend.handler.BusinessErrorCodes.INVALID_FILE_TYPE;
 import static com.cortex.backend.handler.BusinessErrorCodes.INVALID_TOKEN;
+import static com.cortex.backend.handler.BusinessErrorCodes.INVALID_URI;
 import static com.cortex.backend.handler.BusinessErrorCodes.NEW_PASSWORD_DOES_NOT_MATCH;
 import static com.cortex.backend.handler.BusinessErrorCodes.USER_ALREADY_EXISTS;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
@@ -22,6 +23,7 @@ import com.cortex.backend.exception.FileSizeExceededException;
 import com.cortex.backend.exception.IncorrectCurrentPasswordException;
 import com.cortex.backend.exception.InvalidFileTypeException;
 import com.cortex.backend.exception.InvalidTokenException;
+import com.cortex.backend.exception.InvalidURIException;
 import com.cortex.backend.exception.NewPasswordDoesNotMatchException;
 import com.cortex.backend.exception.OperationNotPermittedException;
 import com.resend.core.exception.ResendException;
@@ -207,7 +209,20 @@ public class GlobalExceptionHandler {
                 .error(exp.getMessage())
                 .build());
   }
-  
+
+  @ExceptionHandler(InvalidURIException.class)
+  public ResponseEntity<ExceptionResponse> handleInvalidURLException(
+      InvalidURIException exp) {
+    return ResponseEntity.status(INVALID_URI.getHttpStatus())
+        .body(
+            ExceptionResponse.builder()
+                .businessErrorCode(INVALID_URI.getCode())
+                .businessErrorDescription(INVALID_URI.getDescription())
+                .error(exp.getMessage())
+                .build());
+  }
+
+
   @ExceptionHandler(Exception.class)
   public ResponseEntity<ExceptionResponse> handleException(Exception exp) {
 

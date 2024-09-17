@@ -1,9 +1,12 @@
 package com.cortex.backend.services.impl;
 
+import com.cortex.backend.common.ImageUtils;
 import com.cortex.backend.config.EmailTemplateName;
 import com.cortex.backend.controllers.user.dto.ChangePasswordRequest;
 import com.cortex.backend.controllers.user.dto.UpdateProfileRequest;
 import com.cortex.backend.controllers.user.dto.UserResponse;
+import com.cortex.backend.entities.Media;
+import com.cortex.backend.entities.user.Gender;
 import com.cortex.backend.entities.user.Role;
 import com.cortex.backend.entities.user.Token;
 import com.cortex.backend.entities.user.TokenType;
@@ -16,9 +19,9 @@ import com.cortex.backend.mappers.UserMapper;
 import com.cortex.backend.repositories.RoleRepository;
 import com.cortex.backend.repositories.TokenRepository;
 import com.cortex.backend.repositories.UserRepository;
-import com.cortex.backend.services.CloudinaryService;
 import com.cortex.backend.services.EmailService;
 import com.cortex.backend.services.IUserService;
+import com.cortex.backend.services.MediaService;
 import jakarta.transaction.Transactional;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -51,8 +54,9 @@ public class UserServiceImpl implements IUserService {
   private final RoleRepository roleRepository;
   private final TokenRepository tokenRepository;
   private final PasswordEncoder passwordEncoder;
-  private final CloudinaryService cloudinaryService;
   private final EmailService emailService;
+  private final MediaService mediaService;
+  private final ImageUtils imageUtils;
 
   @Value("${application.frontend.password-reset-url}")
   private String passwordResetUrl;
@@ -180,22 +184,30 @@ public class UserServiceImpl implements IUserService {
       user.setDateOfBirth(request.getDateOfBirth());
     }
 
+    if (request.getGender() != null) {
+      user.setGender(Gender.valueOf(request.getGender()));
+    }
+
+    if (request.getCountryCode() != null) {
+      user.setCountryCode(request.getCountryCode());
+    }
+
     if (request.getAvatar() != null && !request.getAvatar().isEmpty()) {
-      cloudinaryService.validateFileSize(request.getAvatar());
-      if (!cloudinaryService.isValidImageFile(request.getAvatar())) {
-        throw new InvalidFileTypeException("Invalid file type. Only images are allowed.");
+      imageUtils.validateFileSize(request.getAvatar());
+      if (!imageUtils.isValidImageFile(request.getAvatar())) {
+        throw new InvalidFileTypeException(
+            "Invalid file type. Only JPEG, PNG, and WebP are allowed.");
       }
-      String avatarUrl = uploadAvatar(request.getAvatar(), userId);
-      user.setAvatar(avatarUrl);
+      Media avatarMedia = uploadAvatar(request.getAvatar(), userId);
+      user.setAvatar(avatarMedia);
     }
 
     User updatedUser = userRepository.save(user);
     return userMapper.toUserResponse(updatedUser);
   }
 
-  private String uploadAvatar(MultipartFile file, Long userId) throws IOException {
-    var uploadResult = cloudinaryService.uploadImage(file, "avatars/" + userId);
-    return cloudinaryService.createUrl((String) uploadResult.get("public_id"), 200, 200);
+  private Media uploadAvatar(MultipartFile file, Long userId) throws IOException {
+    return mediaService.uploadMedia(file, "User avatar", "avatar", userId.toString());
   }
 
   @Override

@@ -25,7 +25,8 @@ public enum BusinessErrorCodes {
   ACCESS_DENIED(308, FORBIDDEN, "Access denied. You don't have permission to perform this action."),
 
   FILE_SIZE_EXCEEDED(309, BAD_REQUEST, "File size exceeds the maximum allowed limit"),
-  INVALID_FILE_TYPE(310, BAD_REQUEST, "Invalid file type. Only JPEG, PNG, and WebP images are allowed")
+  INVALID_FILE_TYPE(310, BAD_REQUEST, "Invalid file type. Only JPEG, PNG, and WebP images are allowed"),
+  INVALID_URI(311, BAD_REQUEST, "Invalid URI for avatar URL"),
     
     ;
   private final int code;

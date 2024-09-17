@@ -1,8 +1,10 @@
 package com.cortex.backend.security;
 
+import com.cortex.backend.common.ImageUtils;
 import com.cortex.backend.entities.user.User;
 import com.cortex.backend.repositories.RoleRepository;
 import com.cortex.backend.repositories.UserRepository;
+import com.cortex.backend.services.MediaService;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
@@ -15,8 +17,9 @@ public class CustomOidcUserService extends BaseOAuth2UserService implements OAut
 
   private final OidcUserService defaultOidcUserService = new OidcUserService();
 
-  public CustomOidcUserService(UserRepository userRepository, RoleRepository roleRepository) {
-    super(userRepository, roleRepository);
+  public CustomOidcUserService(UserRepository userRepository, ImageUtils imageUtils,
+      MediaService mediaService, RoleRepository roleRepository)  {
+    super(userRepository, imageUtils, mediaService, roleRepository);
   }
 
   @Override

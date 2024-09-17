@@ -1,5 +1,6 @@
 package com.cortex.backend.entities.user;
 
+import com.cortex.backend.entities.Media;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -12,6 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.security.Principal;
 import java.time.LocalDate;
@@ -65,8 +67,10 @@ public class User implements UserDetails, Principal {
 
   @Column(name = "external_id")
   private String externalId;
-  
-  private String avatar;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "avatar_id")
+  private Media avatar;
 
   @Column(name = "date_of_birth")
   private LocalDate dateOfBirth;
