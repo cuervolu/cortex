@@ -30,12 +30,13 @@ Utilizamos Docker para ejecutar los servicios, incluyendo:
 - [Bruno](https://www.usebruno.com/) como REST Client para pruebas de API
 - [Resend](https://resend.com/) para el envío de emails
 - [MercadoPago](https://www.mercadopago.cl/developers/es) para el procesamiento de pagos
+- [Cloudinary](https://cloudinary.com/) para el almacenamiento de imágenes
 
 ## Requisitos previos
 
 Antes de comenzar, asegúrate de tener instalado lo siguiente:
 
-1. Java 21 (OpenJDK)
+1. Java 22 (OpenJDK)
 2. Docker Desktop (Windows y macOS) o Docker Engine (Linux)
 3. IDE de tu preferencia (recomendado: IntelliJ IDEA y WebStorm o VS Code)
 4. Maven
@@ -51,20 +52,8 @@ Crea un archivo `.env` en la raíz del proyecto con el siguiente contenido:
 ```env
 # Configuración de PostgreSQL
 POSTGRES_DB=cortex_db
-POSTGRES_USER=tu_usuario
-POSTGRES_PASSWORD=tu_contraseña
-
-# Configuración de Directus
-SECRET=tu_secreto
-ADMIN_EMAIL=admin@tu_dominio.com
-ADMIN_PASSWORD=tu_contraseña
-DB_CLIENT=pg
-DB_HOST=postgres
-DB_PORT=5432
-DB_DATABASE=cortex_db
-DB_USER=tu_usuario
-DB_PASSWORD=tu_contraseña
-WEBSOCKETS_ENABLED=true
+POSTGRES_USER=your_user
+POSTGRES_PASSWORD=your_password
 ```
 
 ### Variables de entorno del backend
@@ -73,11 +62,18 @@ El backend requiere su propio archivo `.env` con las siguientes variables adicio
 
 ```env
 RESEND_API_KEY=your_resend_api_key
+
 GITHUB_CLIENT_ID=your_github_client_id
 GITHUB_CLIENT_SECRET=your_github_client_secret
+
 GOOGLE_CLIENT_ID=your_google_client_id
 GOOGLE_CLIENT_SECRET=your_google_client_secret
+
 MERCADOPAGO_ACCESS_TOKEN=your_mercadopago_access_token
+
+CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 ```
 
 ## Configuración de imágenes Docker
