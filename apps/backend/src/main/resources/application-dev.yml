@@ -9,10 +9,6 @@ spring:
     port: 5672
     username: guest
     password: guest
-    data:
-      redis:
-        host: localhost
-        port: 6379
   jpa:
     hibernate:
       ddl-auto: update
@@ -32,6 +28,10 @@ spring:
           github:
             client-id: ${GITHUB_CLIENT_ID}
             client-secret: ${GITHUB_CLIENT_SECRET}
+  data:
+    redis:
+      host: localhost
+      port: 6379
 logging:
   level:
     org:
