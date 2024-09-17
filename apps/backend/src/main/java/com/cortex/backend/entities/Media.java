@@ -2,6 +2,7 @@ package com.cortex.backend.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,7 +11,10 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Entity
-@Table(name = "media")
+@Table(name = "media", indexes = {
+    @Index(name = "idx_media_name", columnList = "name"),
+    @Index(name = "idx_media_cloudinary_public_id", columnList = "cloudinary_public_id")
+})
 @Getter
 @Setter
 @SuperBuilder

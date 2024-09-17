@@ -11,6 +11,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
@@ -35,7 +36,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Builder
 @Getter
 @Setter
-@Table(name = "_user")
+@Table(name = "_user", indexes = {
+    @Index(name = "idx_user_username", columnList = "username"),
+    @Index(name = "idx_user_email", columnList = "email"),
+    @Index(name = "idx_user_external_id", columnList = "external_id"),
+    @Index(name = "idx_user_country_code", columnList = "country_code"),
+    @Index(name = "idx_user_first_name", columnList = "first_name"),
+    @Index(name = "idx_user_last_name", columnList = "last_name")
+})
 @Entity
 @EntityListeners(AuditingEntityListener.class) 
 public class User implements UserDetails, Principal {

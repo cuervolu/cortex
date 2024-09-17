@@ -6,8 +6,10 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,6 +22,11 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "token", indexes = {
+    @Index(name = "idx_token_token", columnList = "token"),
+    @Index(name = "idx_token_user_id", columnList = "user_id"),
+    @Index(name = "idx_token_expires_at", columnList = "expires_at")
+})
 @Entity
 public class Token {
 
