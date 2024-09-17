@@ -27,6 +27,8 @@ Esta estructura permite una experiencia de aprendizaje completa y escalable, imp
 Utilizamos Docker para ejecutar los servicios, incluyendo:
 
 - Una base de datos PostgreSQL para almacenamiento persistente
+- [Redis](https://redis.io/) para almacenamiento en caché
+- [RabbitMQ](https://www.rabbitmq.com/) para la gestión de colas de mensajes
 - [Bruno](https://www.usebruno.com/) como REST Client para pruebas de API
 - [Resend](https://resend.com/) para el envío de emails
 - [MercadoPago](https://www.mercadopago.cl/developers/es) para el procesamiento de pagos
