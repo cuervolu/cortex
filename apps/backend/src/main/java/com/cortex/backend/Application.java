@@ -1,9 +1,8 @@
 package com.cortex.backend;
 
-import com.cortex.backend.entities.user.Role;
-import com.cortex.backend.repositories.RoleRepository;
-import com.cortex.backend.services.CountryService;
-import com.cortex.backend.services.RoleService;
+import com.cortex.backend.user.domain.Role;
+import com.cortex.backend.user.api.CountryService;
+import com.cortex.backend.user.api.RoleService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

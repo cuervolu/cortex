@@ -3,7 +3,7 @@ package com.cortex.backend.common;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.Transformation;
 import com.cloudinary.utils.ObjectUtils;
-import com.cortex.backend.exception.FileSizeExceededException;
+import com.cortex.backend.common.exception.FileSizeExceededException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import lombok.RequiredArgsConstructor;

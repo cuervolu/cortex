@@ -1,0 +1,12 @@
+package com.cortex.backend.infrastructure.persistence;
+
+import com.cortex.backend.user.domain.Country;
+import java.util.Optional;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface CountryRepository extends CrudRepository<Country, String> {
+
+  Optional<Country> findByCode(String code);
+}
