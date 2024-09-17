@@ -13,36 +13,6 @@ services:
     ports:
       - '5432:5432'
     restart: unless-stopped
-
-  directus:
-    image: directus/directus:11.1.0
-    container_name: cortex_directus
-    depends_on:
-      - postgres
-    ports:
-      - '8055:8055'
-    volumes:
-      - ./cms/database:/directus/database
-      - ./cms/uploads:/directus/uploads
-      - ./cms/extensions:/directus/extensions
-    env_file:
-      - .env
-    environment:
-      ADMIN_EMAIL: ${ADMIN_EMAIL}
-      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
-      DB_CLIENT: ${DB_CLIENT}
-      DB_HOST: postgres
-      DB_PORT: ${DB_PORT}
-      DB_DATABASE: ${DB_DATABASE}
-      DB_USER: ${DB_USER}
-      DB_PASSWORD: ${DB_PASSWORD}
-      STORAGE_LOCATIONS: ${STORAGE_LOCATIONS}
-      STORAGE_CLOUDINARY_DRIVER: "cloudinary"
-      STORAGE_CLOUDINARY_CLOUD_NAME: ${STORAGE_CLOUDINARY_CLOUD_NAME}
-      STORAGE_CLOUDINARY_API_KEY: ${STORAGE_CLOUDINARY_API_KEY}
-      STORAGE_CLOUDINARY_API_SECRET: ${STORAGE_CLOUDINARY_API_SECRET}
-      STORAGE_CLOUDINARY_ACCESS_MODE: ${STORAGE_CLOUDINARY_ACCESS_MODE}
-      STORAGE_CLOUDINARY_ROOT: ${STORAGE_CLOUDINARY_ROOT}
   rabbitmq:
     image: rabbitmq:3-management
     container_name: cortex_rabbitmq
