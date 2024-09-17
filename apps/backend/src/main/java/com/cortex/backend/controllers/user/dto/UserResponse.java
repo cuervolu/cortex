@@ -2,6 +2,7 @@ package com.cortex.backend.controllers.user.dto;
 
 import com.cortex.backend.entities.user.Gender;
 import java.time.LocalDate;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,4 +27,5 @@ public class UserResponse {
   private Gender gender;
   private boolean accountLocked;
   private boolean enabled;
+  private List<String> roles;
 }

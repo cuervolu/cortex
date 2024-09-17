@@ -1,6 +1,7 @@
 package com.cortex.backend.mappers;
 
 import com.cortex.backend.controllers.user.dto.UserResponse;
+import com.cortex.backend.entities.user.Role;
 import com.cortex.backend.entities.user.User;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,7 @@ public class UserMapper {
         .countryCode(user.getCountryCode())
         .accountLocked(user.isAccountLocked())
         .enabled(user.isEnabled())
+        .roles(user.getRoles().stream().map(Role::getName).toList())
         .build();
   }
 }
