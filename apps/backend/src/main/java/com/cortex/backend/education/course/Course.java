@@ -4,6 +4,7 @@ import com.cortex.backend.entities.BaseEntity;
 import com.cortex.backend.education.module.Module;
 import com.cortex.backend.education.roadmap.Roadmap;
 import com.cortex.backend.education.domain.Tag;
+import com.cortex.backend.media.domain.Media;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -25,8 +26,9 @@ public class Course extends BaseEntity {
   @Column(nullable = false, columnDefinition = "TEXT")
   private String description;
 
-  @Column(name = "image_url")
-  private String imageUrl;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "image_id")
+  private Media image;
 
   @Column(nullable = false)
   private String slug;

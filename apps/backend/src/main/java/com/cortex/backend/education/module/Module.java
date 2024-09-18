@@ -3,6 +3,7 @@ package com.cortex.backend.education.module;
 import com.cortex.backend.education.course.Course;
 import com.cortex.backend.education.lesson.Lesson;
 import com.cortex.backend.entities.BaseEntity;
+import com.cortex.backend.media.domain.Media;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -28,8 +29,9 @@ public class Module extends BaseEntity {
   @Column(nullable = false, columnDefinition = "TEXT")
   private String description;
 
-  @Column(name = "image_url")
-  private String imageUrl;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "image_id")
+  private Media image;
 
   @Column(nullable = false)
   private String slug;
