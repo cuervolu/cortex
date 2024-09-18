@@ -4,10 +4,7 @@ interface Props {
   height?: number;
 }
 
-const {width, height} = withDefaults(defineProps<Props>(), {
-  height: 250,
-  width: 256
-})
+const {width, height} = defineProps<Props>();
 
 </script>
 

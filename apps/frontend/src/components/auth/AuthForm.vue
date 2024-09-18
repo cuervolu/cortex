@@ -1,27 +1,11 @@
 <script setup lang="ts">
-import { toTypedSchema } from '@vee-validate/zod'
+import {toTypedSchema} from '@vee-validate/zod'
 import * as z from 'zod'
-import { useForm } from 'vee-validate'
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage
-} from '@/components/ui/form'
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter
-} from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Separator } from '@/components/ui/separator'
-import GithubIcon from "~/components/icons/GithubIcon.vue"
-import GoogleIcon from "~/components/icons/GoogleIcon.vue"
-import { Loader2 } from 'lucide-vue-next'
+import {useForm} from 'vee-validate'
+import {Loader2} from 'lucide-vue-next'
+import GoogleIcon from "~/components/icons/GoogleIcon.vue";
+import GithubIcon from "~/components/icons/GithubIcon.vue";
+
 
 interface Props {
   title: string
@@ -79,8 +63,14 @@ const handleLogin = (provider: 'github' | 'google') => {
   <div class="min-h-screen flex items-center justify-center">
     <Card class="w-full max-w-md bg-white bg-opacity-20 backdrop-blur-lg rounded-xl shadow-lg">
       <CardHeader>
-        <CardTitle class="text-3xl font-bold text-purple-900 text-center">{{ props.title }}</CardTitle>
-        <CardDescription class="text-lg text-purple-700 text-center">{{ props.subtitle }}</CardDescription>
+        <CardTitle class="text-3xl font-bold text-purple-900 text-center">{{
+            props.title
+          }}
+        </CardTitle>
+        <CardDescription class="text-lg text-purple-700 text-center">{{
+            props.subtitle
+          }}
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <div class="flex gap-4 mb-6">
@@ -154,8 +144,10 @@ const handleLogin = (provider: 'github' | 'google') => {
               <FormMessage/>
             </FormItem>
           </FormField>
-          <Button type="submit" class="w-full bg-purple-700 hover:bg-purple-800 text-white" :disabled="props.loading">
-            <Loader2 v-if="props.loading" class="mr-2 h-4 w-4 animate-spin" />
+          <Button
+              type="submit" class="w-full bg-purple-700 hover:bg-purple-800 text-white"
+              :disabled="props.loading">
+            <Loader2 v-if="props.loading" class="mr-2 h-4 w-4 animate-spin"/>
             {{ props.submitText }}
           </Button>
         </form>

@@ -40,6 +40,7 @@ export default defineNuxtConfig({
     },
   },
   srcDir: 'src',
+  extends: ['@cortex/shared'],
   modules: [
     '@nuxtjs/tailwindcss',
     '@pinia/nuxt',
@@ -49,28 +50,12 @@ export default defineNuxtConfig({
     '@vee-validate/nuxt',
     '@nuxt/fonts',
     'nuxt-codemirror',
-    'shadcn-nuxt',
   ],
   pinia: {
     storesDirs: ['src/stores/**'],
   },
-  tailwindcss: {
-    cssPath: ['~/assets/css/tailwind.css', { injectPosition: 'first' }],
-    configPath: 'tailwind.config.js',
-  },
   colorMode: {
     classSuffix: '',
-  },
-  shadcn: {
-    /**
-     * Prefix for all the imported component
-     */
-    prefix: '',
-    /**
-     * Directory that the component lives in.
-     * @default "./components/ui"
-     */
-    componentDir: 'src/components/ui',
   },
   fonts: {
     families: [

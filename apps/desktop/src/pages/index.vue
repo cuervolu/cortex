@@ -1,7 +1,6 @@
 <script setup>
 import {ref, computed} from 'vue'
 import {CodeIcon, UsersIcon, RocketIcon} from 'lucide-vue-next'
-import {Button} from "~/components/ui/button";
 
 const currentYear = computed(() => new Date().getFullYear())
 
@@ -67,8 +66,9 @@ const features = ref([
           </p>
           <div class="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
             <div class="rounded-md shadow">
-              <NuxtLink to="#"
-                        class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10">
+              <NuxtLink
+                  to="#"
+                  class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10">
                 Get Started
               </NuxtLink>
             </div>

@@ -1,15 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useAuthStore } from '~/stores'
-import { Button } from '@/components/ui/button'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
+import {ref} from 'vue'
+import {useAuthStore} from '~/stores'
 
 definePageMeta({
   layout: 'auth-default',
@@ -84,7 +75,8 @@ const closeDialog = () => {
         <DialogHeader>
           <DialogTitle>Registration Successful</DialogTitle>
           <DialogDescription>
-            Your account has been created successfully. Please check your email to activate your account.
+            Your account has been created successfully. Please check your email to activate your
+            account.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>

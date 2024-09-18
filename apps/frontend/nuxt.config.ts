@@ -13,8 +13,10 @@ export default defineNuxtConfig({
       exclude: ['vee-validate'],
     },
   },
+  extends:[
+      "@cortex/shared"
+  ],
   modules: [
-    '@cortex/shared',
     'nuxt-codemirror',
     '@nuxtjs/tailwindcss',
     '@pinia/nuxt',
@@ -25,21 +27,9 @@ export default defineNuxtConfig({
     '@vee-validate/nuxt',
     '@nuxt/fonts',
     '@nuxtjs/seo',
-    'shadcn-nuxt',
     'nuxt-seo-experiments'
   ],
   srcDir: 'src',
-  shadcn: {
-    /**
-     * Prefix for all the imported component
-     */
-    prefix: '',
-    /**
-     * Directory that the component lives in.
-     * @default "./components/ui"
-     */
-    componentDir: 'src/components/ui',
-  },
   pinia: {
     storesDirs: ['src/stores/**'],
   },

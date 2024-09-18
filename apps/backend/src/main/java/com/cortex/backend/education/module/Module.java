@@ -1,7 +1,7 @@
 package com.cortex.backend.education.module;
 
 import com.cortex.backend.education.course.Course;
-import com.cortex.backend.education.lesson.Lesson;
+import com.cortex.backend.education.lesson.domain.Lesson;
 import com.cortex.backend.entities.BaseEntity;
 import com.cortex.backend.media.domain.Media;
 import jakarta.persistence.*;

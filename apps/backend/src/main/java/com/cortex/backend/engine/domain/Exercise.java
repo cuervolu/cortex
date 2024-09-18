@@ -1,7 +1,7 @@
 package com.cortex.backend.engine.domain;
 
 import com.cortex.backend.entities.BaseEntity;
-import com.cortex.backend.education.lesson.Lesson;
+import com.cortex.backend.education.lesson.domain.Lesson;
 import com.cortex.backend.education.solution.Solution;
 import jakarta.persistence.*;
 import lombok.*;
