@@ -1,7 +1,6 @@
 package com.cortex.backend.media.internal;
 
 import com.cortex.backend.common.ImageUtils;
-import com.cortex.backend.infrastructure.persistence.MediaRepository;
 import com.cortex.backend.media.api.MediaService;
 import com.cortex.backend.media.domain.Media;
 import java.io.IOException;

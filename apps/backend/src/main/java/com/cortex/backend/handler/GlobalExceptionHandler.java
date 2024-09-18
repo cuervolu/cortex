@@ -1,23 +1,25 @@
 package com.cortex.backend.handler;
 
 
-import static com.cortex.backend.handler.BusinessErrorCodes.ACCESS_DENIED;
-import static com.cortex.backend.handler.BusinessErrorCodes.ACCOUNT_DISABLED;
-import static com.cortex.backend.handler.BusinessErrorCodes.ACCOUNT_LOCKED;
-import static com.cortex.backend.handler.BusinessErrorCodes.BAD_CREDENTIALS;
-import static com.cortex.backend.handler.BusinessErrorCodes.FILE_SIZE_EXCEEDED;
-import static com.cortex.backend.handler.BusinessErrorCodes.INCORRECT_CURRENT_PASSWORD;
-import static com.cortex.backend.handler.BusinessErrorCodes.INVALID_FILE_TYPE;
-import static com.cortex.backend.handler.BusinessErrorCodes.INVALID_TOKEN;
-import static com.cortex.backend.handler.BusinessErrorCodes.INVALID_URI;
-import static com.cortex.backend.handler.BusinessErrorCodes.NEW_PASSWORD_DOES_NOT_MATCH;
-import static com.cortex.backend.handler.BusinessErrorCodes.USER_ALREADY_EXISTS;
+import static com.cortex.backend.common.BusinessErrorCodes.ACCESS_DENIED;
+import static com.cortex.backend.common.BusinessErrorCodes.ACCOUNT_DISABLED;
+import static com.cortex.backend.common.BusinessErrorCodes.ACCOUNT_LOCKED;
+import static com.cortex.backend.common.BusinessErrorCodes.BAD_CREDENTIALS;
+import static com.cortex.backend.common.BusinessErrorCodes.EMAIL_SENDING_FAILED;
+import static com.cortex.backend.common.BusinessErrorCodes.FILE_SIZE_EXCEEDED;
+import static com.cortex.backend.common.BusinessErrorCodes.INCORRECT_CURRENT_PASSWORD;
+import static com.cortex.backend.common.BusinessErrorCodes.INVALID_FILE_TYPE;
+import static com.cortex.backend.common.BusinessErrorCodes.INVALID_TOKEN;
+import static com.cortex.backend.common.BusinessErrorCodes.INVALID_URI;
+import static com.cortex.backend.common.BusinessErrorCodes.NEW_PASSWORD_DOES_NOT_MATCH;
+import static com.cortex.backend.common.BusinessErrorCodes.USER_ALREADY_EXISTS;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
+import com.cortex.backend.common.BusinessErrorCodes;
 import com.cortex.backend.common.exception.EmailSendingException;
 import com.cortex.backend.common.exception.FileSizeExceededException;
 import com.cortex.backend.common.exception.IncorrectCurrentPasswordException;
@@ -151,13 +153,12 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(EmailSendingException.class)
   public ResponseEntity<ExceptionResponse> handleEmailSendingException(EmailSendingException ex) {
-    BusinessErrorCodes errorCode = ex.getErrorCode();
     ExceptionResponse response = ExceptionResponse.builder()
-        .businessErrorCode(errorCode.getCode())
-        .businessErrorDescription(errorCode.getDescription())
+        .businessErrorCode(EMAIL_SENDING_FAILED.getCode())
+        .businessErrorDescription(EMAIL_SENDING_FAILED.getDescription())
         .error(ex.getMessage())
         .build();
-    return ResponseEntity.status(errorCode.getHttpStatus()).body(response);
+    return ResponseEntity.status(EMAIL_SENDING_FAILED.getHttpStatus()).body(response);
   }
 
   @ExceptionHandler(AccessDeniedException.class)

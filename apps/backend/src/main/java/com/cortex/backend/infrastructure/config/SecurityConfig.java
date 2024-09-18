@@ -2,11 +2,11 @@ package com.cortex.backend.infrastructure.config;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
-import com.cortex.backend.infrastructure.security.CustomOAuth2UserService;
-import com.cortex.backend.infrastructure.security.CustomOidcUserService;
-import com.cortex.backend.infrastructure.security.JwtFilter;
-import com.cortex.backend.infrastructure.api.JwtService;
-import com.cortex.backend.infrastructure.security.OAuth2AuthenticationSuccessHandler;
+import com.cortex.backend.auth.internal.CustomOAuth2UserService;
+import com.cortex.backend.auth.internal.CustomOidcUserService;
+import com.cortex.backend.auth.internal.infrastructure.JwtFilter;
+import com.cortex.backend.common.security.JwtServiceImpl;
+import com.cortex.backend.auth.internal.OAuth2AuthenticationSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,7 +28,7 @@ import org.springframework.web.filter.CorsFilter;
 public class SecurityConfig {
 
   private final JwtFilter jwtAuthFilter;
-  private final JwtService jwtService;
+  private final JwtServiceImpl jwtService;
   private final AuthenticationProvider authenticationProvider;
   private final CustomOAuth2UserService customOAuth2UserService;
   private final CustomOidcUserService customOidcUserService;

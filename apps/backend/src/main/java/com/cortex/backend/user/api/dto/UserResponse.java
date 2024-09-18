@@ -1,6 +1,6 @@
 package com.cortex.backend.user.api.dto;
 
-import com.cortex.backend.user.domain.Gender;
+import com.cortex.backend.common.types.Gender;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.AllArgsConstructor;

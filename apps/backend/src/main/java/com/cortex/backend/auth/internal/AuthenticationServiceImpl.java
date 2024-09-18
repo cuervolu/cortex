@@ -1,18 +1,19 @@
 package com.cortex.backend.auth.internal;
+
 import com.cortex.backend.auth.api.AuthenticationService;
 import com.cortex.backend.auth.api.dto.AuthenticationRequest;
 import com.cortex.backend.auth.api.dto.AuthenticationResponse;
 import com.cortex.backend.auth.api.dto.RegistrationRequest;
-import com.cortex.backend.auth.domain.Token;
+import com.cortex.backend.user.domain.Token;
 import com.cortex.backend.common.exception.InvalidTokenException;
 import com.cortex.backend.user.domain.Role;
 import com.cortex.backend.user.domain.User;
-import com.cortex.backend.infrastructure.config.EmailTemplateName;
-import com.cortex.backend.infrastructure.api.JwtService;
-import com.cortex.backend.infrastructure.persistence.RoleRepository;
-import com.cortex.backend.infrastructure.persistence.TokenRepository;
-import com.cortex.backend.infrastructure.persistence.UserRepository;
-import com.cortex.backend.infrastructure.api.EmailService;
+import com.cortex.backend.common.email.EmailTemplateName;
+import com.cortex.backend.common.security.JwtServiceImpl;
+import com.cortex.backend.user.repository.RoleRepository;
+import com.cortex.backend.user.repository.TokenRepository;
+import com.cortex.backend.user.repository.UserRepository;
+import com.cortex.backend.common.email.EmailService;
 import jakarta.transaction.Transactional;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
@@ -30,12 +31,13 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
+
   private final RoleRepository roleRepository;
   private final PasswordEncoder passwordEncoder;
   private final UserRepository userRepository;
   private final TokenRepository tokenRepository;
   private final AuthenticationManager authenticationManager;
-  private final JwtService jwtService;
+  private final JwtServiceImpl jwtService;
   private final EmailService emailService;
 
   @Value("${application.mailing.frontend.activation-url}")

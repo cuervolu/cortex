@@ -1,5 +1,6 @@
 package com.cortex.backend.user.domain;
 
+import com.cortex.backend.common.types.Gender;
 import com.cortex.backend.media.domain.Media;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;

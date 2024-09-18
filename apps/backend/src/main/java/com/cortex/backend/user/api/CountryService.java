@@ -1,7 +1,7 @@
 package com.cortex.backend.user.api;
 
 import com.cortex.backend.user.domain.Country;
-import com.cortex.backend.infrastructure.persistence.CountryRepository;
+import com.cortex.backend.user.repository.CountryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;

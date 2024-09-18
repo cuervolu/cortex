@@ -1,8 +1,8 @@
 package com.cortex.backend.auth.api.dto;
 
-import com.cortex.backend.user.domain.Gender;
-import com.cortex.backend.auth.internal.validation.ValidCountry;
-import com.cortex.backend.auth.internal.validation.ValueOfEnum;
+import com.cortex.backend.common.types.Gender;
+import com.cortex.backend.user.validations.ValidCountry;
+import com.cortex.backend.common.validation.ValueOfEnum;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
