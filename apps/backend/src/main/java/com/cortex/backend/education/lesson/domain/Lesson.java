@@ -1,4 +1,4 @@
-package com.cortex.backend.education.lesson;
+package com.cortex.backend.education.lesson.domain;
 
 import com.cortex.backend.entities.BaseEntity;
 import com.cortex.backend.education.module.Module;
