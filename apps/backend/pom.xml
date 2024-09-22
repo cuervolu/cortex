@@ -211,6 +211,13 @@
       <artifactId>cloudinary-core</artifactId>
       <version>1.39.0</version>
     </dependency>
+
+    <!-- Slugify   -->
+    <dependency>
+      <groupId>com.github.slugify</groupId>
+      <artifactId>slugify</artifactId>
+      <version>3.0.7</version>
+    </dependency>
   </dependencies>
   <dependencyManagement>
     <dependencies>
