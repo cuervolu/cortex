@@ -1,6 +1,6 @@
 package com.cortex.backend.progress.domain;
 
-import com.cortex.backend.education.module.Module;
+import com.cortex.backend.education.module.domain.ModuleEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,7 +20,7 @@ public class ModuleLessonCount {
   @OneToOne
   @MapsId
   @JoinColumn(name = "module_id")
-  private Module module;
+  private ModuleEntity moduleEntity;
 
   @Column(name = "total_lessons", nullable = false)
   private Integer totalLessons;

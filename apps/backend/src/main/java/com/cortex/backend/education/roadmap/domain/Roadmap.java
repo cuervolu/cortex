@@ -1,6 +1,6 @@
-package com.cortex.backend.education.roadmap;
+package com.cortex.backend.education.roadmap.domain;
 
-import com.cortex.backend.education.course.Course;
+import com.cortex.backend.education.course.domain.Course;
 import com.cortex.backend.entities.BaseEntity;
 import com.cortex.backend.education.domain.Tag;
 import com.cortex.backend.media.domain.Media;

@@ -1,6 +1,6 @@
 package com.cortex.backend.progress.domain;
 
-import com.cortex.backend.education.course.Course;
+import com.cortex.backend.education.course.domain.Course;
 import jakarta.persistence.*;
 import lombok.*;
 

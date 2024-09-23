@@ -1,8 +1,8 @@
-package com.cortex.backend.education.course;
+package com.cortex.backend.education.course.domain;
 
 import com.cortex.backend.entities.BaseEntity;
-import com.cortex.backend.education.module.Module;
-import com.cortex.backend.education.roadmap.Roadmap;
+import com.cortex.backend.education.module.domain.ModuleEntity;
+import com.cortex.backend.education.roadmap.domain.Roadmap;
 import com.cortex.backend.education.domain.Tag;
 import com.cortex.backend.media.domain.Media;
 import jakarta.persistence.*;
@@ -45,5 +45,5 @@ public class Course extends BaseEntity {
   private Set<Tag> tags;
 
   @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
-  private Set<Module> modules;
+  private Set<ModuleEntity> moduleEntities;
 }

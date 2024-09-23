@@ -1,7 +1,7 @@
 package com.cortex.backend.education.lesson.domain;
 
 import com.cortex.backend.entities.BaseEntity;
-import com.cortex.backend.education.module.Module;
+import com.cortex.backend.education.module.domain.ModuleEntity;
 import com.cortex.backend.engine.domain.Exercise;
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,7 +20,7 @@ public class Lesson extends BaseEntity {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "module_id", nullable = false)
-  private Module module;
+  private ModuleEntity moduleEntity;
 
   @Column(nullable = false)
   private String name;

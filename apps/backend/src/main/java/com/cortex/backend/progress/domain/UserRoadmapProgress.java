@@ -1,6 +1,6 @@
 package com.cortex.backend.progress.domain;
 
-import com.cortex.backend.education.roadmap.Roadmap;
+import com.cortex.backend.education.roadmap.domain.Roadmap;
 import com.cortex.backend.user.domain.User;
 import jakarta.persistence.*;
 import lombok.*;

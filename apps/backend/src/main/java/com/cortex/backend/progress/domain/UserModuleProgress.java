@@ -1,6 +1,6 @@
 package com.cortex.backend.progress.domain;
 
-import com.cortex.backend.education.module.Module;
+import com.cortex.backend.education.module.domain.ModuleEntity;
 import com.cortex.backend.user.domain.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -25,7 +25,7 @@ public class UserModuleProgress {
 
   @ManyToOne
   @JoinColumn(name = "module_id", nullable = false)
-  private Module module;
+  private ModuleEntity moduleEntity;
 
   @Column(name = "lessons_completed", nullable = false)
   private Integer lessonsCompleted;

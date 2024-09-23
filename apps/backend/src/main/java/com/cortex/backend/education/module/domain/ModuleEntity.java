@@ -1,6 +1,6 @@
-package com.cortex.backend.education.module;
+package com.cortex.backend.education.module.domain;
 
-import com.cortex.backend.education.course.Course;
+import com.cortex.backend.education.course.domain.Course;
 import com.cortex.backend.education.lesson.domain.Lesson;
 import com.cortex.backend.entities.BaseEntity;
 import com.cortex.backend.media.domain.Media;
@@ -17,7 +17,7 @@ import java.util.Set;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Module extends BaseEntity {
+public class ModuleEntity extends BaseEntity {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "course_id", nullable = false)
@@ -36,6 +36,6 @@ public class Module extends BaseEntity {
   @Column(nullable = false)
   private String slug;
 
-  @OneToMany(mappedBy = "module", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "moduleEntity", cascade = CascadeType.ALL, orphanRemoval = true)
   private Set<Lesson> lessons;
 }
