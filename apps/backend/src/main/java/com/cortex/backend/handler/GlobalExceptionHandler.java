@@ -6,6 +6,7 @@ import static com.cortex.backend.common.BusinessErrorCodes.ACCOUNT_DISABLED;
 import static com.cortex.backend.common.BusinessErrorCodes.ACCOUNT_LOCKED;
 import static com.cortex.backend.common.BusinessErrorCodes.BAD_CREDENTIALS;
 import static com.cortex.backend.common.BusinessErrorCodes.EMAIL_SENDING_FAILED;
+import static com.cortex.backend.common.BusinessErrorCodes.EXPIRED_TOKEN;
 import static com.cortex.backend.common.BusinessErrorCodes.FILE_SIZE_EXCEEDED;
 import static com.cortex.backend.common.BusinessErrorCodes.INCORRECT_CURRENT_PASSWORD;
 import static com.cortex.backend.common.BusinessErrorCodes.INVALID_FILE_TYPE;
@@ -19,8 +20,8 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
-import com.cortex.backend.common.BusinessErrorCodes;
 import com.cortex.backend.common.exception.EmailSendingException;
+import com.cortex.backend.common.exception.ExpiredTokenException;
 import com.cortex.backend.common.exception.FileSizeExceededException;
 import com.cortex.backend.common.exception.IncorrectCurrentPasswordException;
 import com.cortex.backend.common.exception.InvalidFileTypeException;
@@ -29,6 +30,7 @@ import com.cortex.backend.common.exception.InvalidURIException;
 import com.cortex.backend.common.exception.NewPasswordDoesNotMatchException;
 import com.cortex.backend.common.exception.OperationNotPermittedException;
 import com.resend.core.exception.ResendException;
+import io.jsonwebtoken.ExpiredJwtException;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
@@ -219,6 +221,19 @@ public class GlobalExceptionHandler {
             ExceptionResponse.builder()
                 .businessErrorCode(INVALID_URI.getCode())
                 .businessErrorDescription(INVALID_URI.getDescription())
+                .error(exp.getMessage())
+                .build());
+  }
+
+
+  @ExceptionHandler(ExpiredTokenException.class)
+  public ResponseEntity<ExceptionResponse> handleExpiredJwtToken(
+      ExpiredTokenException exp) {
+    return ResponseEntity.status(EXPIRED_TOKEN.getHttpStatus())
+        .body(
+            ExceptionResponse.builder()
+                .businessErrorCode(EXPIRED_TOKEN.getCode())
+                .businessErrorDescription(EXPIRED_TOKEN.getDescription())
                 .error(exp.getMessage())
                 .build());
   }

@@ -4,6 +4,7 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_IMPLEMENTED;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,7 @@ public enum BusinessErrorCodes {
   FILE_SIZE_EXCEEDED(309, BAD_REQUEST, "File size exceeds the maximum allowed limit"),
   INVALID_FILE_TYPE(310, BAD_REQUEST, "Invalid file type. Only JPEG, PNG, and WebP images are allowed"),
   INVALID_URI(311, BAD_REQUEST, "Invalid URI for avatar URL"),
+  EXPIRED_TOKEN(312, UNAUTHORIZED, "Token has expired"),
     
     ;
   private final int code;
