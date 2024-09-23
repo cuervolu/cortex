@@ -6,12 +6,21 @@ meta {
 
 post {
   url: {{BASEURL}}/api/v1/education/roadmap
-  body: multipartForm
+  body: json
   auth: bearer
 }
 
 auth:bearer {
   token: {{token}}
+}
+
+body:json {
+  {
+    "title": "Java Roadmap",
+    "description": "Guía de como matar al nacho facilmente",
+    "tagIds": [],
+    "courseIds": []
+  }
 }
 
 body:multipart-form {
