@@ -47,21 +47,30 @@ public class RoadmapController {
         .orElse(ResponseEntity.notFound().build());
   }
 
-  @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+  @PostMapping()
   @PreAuthorize("hasAnyRole('MODERATOR', 'ADMIN')")
   @Operation(summary = "Create a new roadmap", description = "Creates a new roadmap with optional image upload")
   @ApiResponse(responseCode = "201", description = "Roadmap created successfully",
       content = @Content(schema = @Schema(implementation = RoadmapResponse.class)))
   public ResponseEntity<RoadmapResponse> createRoadmap(
-      @RequestParam("roadmapData") String roadmapDataJson,
-      @RequestParam(value = "image", required = false) MultipartFile image) throws IOException {
-    // Convert JSON string to RoadmapRequest object
-    ObjectMapper objectMapper = new ObjectMapper();
-    RoadmapRequest request = objectMapper.readValue(roadmapDataJson, RoadmapRequest.class);
-
-    RoadmapResponse createdRoadmap = roadmapService.createRoadmap(request, image);
+      @Valid @RequestBody RoadmapRequest request) {
+    RoadmapResponse createdRoadmap = roadmapService.createRoadmap(request);
     return ResponseEntity.status(HttpStatus.CREATED).body(createdRoadmap);
   }
+
+  @PostMapping(path = "/{id}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+  @PreAuthorize("hasAnyRole('MODERATOR', 'ADMIN')")
+  @Operation(summary = "Upload a roadmap image", description = "Uploads an image for a roadmap")
+  @ApiResponse(responseCode = "200", description = "Image uploaded successfully",
+      content = @Content(schema = @Schema(implementation = RoadmapResponse.class)))
+  public ResponseEntity<RoadmapResponse> uploadRoadmapImage(
+      @PathVariable Long id,
+      @RequestParam("image") MultipartFile image,
+      @RequestParam(value = "altText", required = false) String altText) throws IOException {
+    RoadmapResponse updatedRoadmap = roadmapService.uploadRoadmapImage(id, image, altText);
+    return ResponseEntity.ok(updatedRoadmap);
+  }
+
 
   @PatchMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   @PreAuthorize("hasAnyRole('MODERATOR', 'ADMIN')")
@@ -73,7 +82,7 @@ public class RoadmapController {
       @PathVariable Long id,
       @RequestParam("roadmapData") String roadmapDataJson,
       @RequestParam(value = "image", required = false) MultipartFile image) throws IOException {
-    
+
     ObjectMapper objectMapper = new ObjectMapper();
     RoadmapRequest request = objectMapper.readValue(roadmapDataJson, RoadmapRequest.class);
 

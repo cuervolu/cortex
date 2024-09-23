@@ -23,8 +23,6 @@ public class RoadmapRequest {
   @NotBlank(message = "Description is required")
   private String description;
 
-  private String imageAltText;
-
   private Set<Long> tagIds;
 
   private Set<Long> courseIds;

@@ -9,16 +9,19 @@ import java.util.Optional;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface RoadmapService {
-  
+
   List<RoadmapResponse> getAllRoadmaps();
-  
+
   Optional<RoadmapResponse> getRoadmapBySlug(String slug);
 
-  RoadmapResponse createRoadmap(RoadmapRequest request, MultipartFile image) throws IOException;
+  RoadmapResponse createRoadmap(RoadmapRequest request);
 
-  RoadmapResponse updateRoadmap(Long id, RoadmapRequest request, MultipartFile image) throws IOException ;
-  
+  RoadmapResponse updateRoadmap(Long id, RoadmapRequest request, MultipartFile image)
+      throws IOException;
+
   void deleteRoadmap(Long id);
-  
+
+  RoadmapResponse uploadRoadmapImage(Long id, MultipartFile image, String altText)
+      throws IOException;
 
 }

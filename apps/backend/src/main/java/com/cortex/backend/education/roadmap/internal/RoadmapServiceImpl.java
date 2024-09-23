@@ -36,13 +36,16 @@ public class RoadmapServiceImpl implements RoadmapService {
   private final SlugUtils slugUtils;
   private final TagRepository tagRepository;
   private final CourseRepository courseRepository;
+  
+  private static final String ROADMAP_IMAGE_UPLOAD_PATH = "roadmaps";
+  private static final String ROADMAP_NOT_FOUND_MESSAGE = "Roadmap not found";
 
   @Override
   @Transactional(readOnly = true)
   public List<RoadmapResponse> getAllRoadmaps() {
     return StreamSupport.stream(roadmapRepository.findAll().spliterator(), false)
         .map(roadmapMapper::toRoadmapResponse)
-        .collect(Collectors.toList());
+        .toList();
   }
 
   @Override
@@ -54,12 +57,10 @@ public class RoadmapServiceImpl implements RoadmapService {
 
   @Override
   @Transactional
-  public RoadmapResponse createRoadmap(RoadmapRequest request, MultipartFile image)
-      throws IOException {
+  public RoadmapResponse createRoadmap(RoadmapRequest request) {
     Roadmap roadmap = roadmapMapper.toRoadmap(request);
     roadmap.setSlug(generateUniqueSlug(request.getTitle()));
     setRoadmapRelations(roadmap, request);
-    handleImageUpload(roadmap, image, request.getImageAltText());
     Roadmap savedRoadmap = roadmapRepository.save(roadmap);
     return roadmapMapper.toRoadmapResponse(savedRoadmap);
   }
@@ -69,7 +70,7 @@ public class RoadmapServiceImpl implements RoadmapService {
   public RoadmapResponse updateRoadmap(Long id, RoadmapRequest request, MultipartFile image)
       throws IOException {
     Roadmap existingRoadmap = roadmapRepository.findById(id)
-        .orElseThrow(() -> new EntityNotFoundException("Roadmap not found"));
+        .orElseThrow(() -> new EntityNotFoundException(ROADMAP_NOT_FOUND_MESSAGE));
 
     if (request.getTitle() != null) {
       existingRoadmap.setTitle(request.getTitle());
@@ -82,7 +83,7 @@ public class RoadmapServiceImpl implements RoadmapService {
     }
 
     setRoadmapRelations(existingRoadmap, request);
-    handleImageUpload(existingRoadmap, image, request.getImageAltText());
+    handleImageUpload(existingRoadmap, image, request.getTitle());
     Roadmap updatedRoadmap = roadmapRepository.save(existingRoadmap);
     return roadmapMapper.toRoadmapResponse(updatedRoadmap);
   }
@@ -91,7 +92,7 @@ public class RoadmapServiceImpl implements RoadmapService {
   @Transactional
   public void deleteRoadmap(Long id) {
     Roadmap roadmap = roadmapRepository.findById(id)
-        .orElseThrow(() -> new EntityNotFoundException("Roadmap not found"));
+        .orElseThrow(() -> new EntityNotFoundException(ROADMAP_NOT_FOUND_MESSAGE));
     roadmapRepository.delete(roadmap);
   }
 
@@ -129,8 +130,19 @@ public class RoadmapServiceImpl implements RoadmapService {
   private void handleImageUpload(Roadmap roadmap, MultipartFile image, String altText)
       throws IOException {
     if (image != null && !image.isEmpty()) {
-      Media uploadedMedia = mediaService.uploadMedia(image, altText, "roadmaps", roadmap.getSlug());
+      Media uploadedMedia = mediaService.uploadMedia(image, altText, ROADMAP_IMAGE_UPLOAD_PATH, roadmap.getSlug());
       roadmap.setImage(uploadedMedia);
     }
+  }
+
+  @Override
+  @Transactional
+  public RoadmapResponse uploadRoadmapImage(Long id, MultipartFile image, String altText) throws IOException {
+    Roadmap roadmap = roadmapRepository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException(ROADMAP_NOT_FOUND_MESSAGE));
+
+    handleImageUpload(roadmap, image, altText);
+    Roadmap updatedRoadmap = roadmapRepository.save(roadmap);
+    return roadmapMapper.toRoadmapResponse(updatedRoadmap);
   }
 }
