@@ -3,6 +3,7 @@ package com.cortex.backend.user.api;
 import com.cortex.backend.user.domain.Country;
 import com.cortex.backend.user.repository.CountryRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import java.util.Locale;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CountryService {
 
   private final CountryRepository countryRepository;
@@ -34,6 +36,7 @@ public class CountryService {
 
       countryRepository.saveAll(countries);
     }
+    log.info("Countries are already initialized");
   }
 
   @Cacheable("countries")
