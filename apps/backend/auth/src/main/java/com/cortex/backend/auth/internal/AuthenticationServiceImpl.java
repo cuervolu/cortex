@@ -7,6 +7,7 @@ import com.cortex.backend.auth.api.dto.RegistrationRequest;
 import com.cortex.backend.core.common.email.EmailService;
 import com.cortex.backend.core.common.email.EmailTemplateName;
 import com.cortex.backend.core.common.exception.InvalidTokenException;
+import com.cortex.backend.core.common.types.Gender;
 import com.cortex.backend.core.domain.Role;
 import com.cortex.backend.core.domain.Token;
 import com.cortex.backend.core.domain.User;
@@ -67,7 +68,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         .roles(roles)
         .dateOfBirth(request.getDateOfBirth())
         .countryCode(request.getCountryCode())
-        .gender(request.getGender())
+        .gender(Gender.valueOf(request.getGender()))
         .build();
 
     userRepository.save(user);

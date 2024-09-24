@@ -56,5 +56,5 @@ public class RegistrationRequest {
 
   @NotNull(message = "Gender is required")
   @ValueOfEnum(enumClass = Gender.class, message = "Invalid Gender type")
-  private Gender gender;
+  private String gender;
 }
