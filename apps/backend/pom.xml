@@ -12,6 +12,7 @@
   <groupId>com.cortex</groupId>
   <artifactId>backend</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
   <name>backend</name>
   <description>Cortex Backend</description>
   <url/>
@@ -28,6 +29,18 @@
       </roles>
     </developer>
   </developers>
+  <modules>
+    <module>auth</module>
+    <module>user</module>
+    <module>core</module>
+    <module>education</module>
+    <module>media</module>
+    <module>discussions</module>
+    <module>blog</module>
+    <module>app</module>
+    <module>payments</module>
+    <module>engine</module>
+  </modules>
   <scm>
     <connection/>
     <developerConnection/>
@@ -161,23 +174,7 @@
       <version>3.4.0</version>
     </dependency>
 
-    <!-- JWT -->
-    <dependency>
-      <groupId>io.jsonwebtoken</groupId>
-      <artifactId>jjwt-api</artifactId>
-      <version>0.12.3</version>
-    </dependency>
-    <dependency>
-      <groupId>io.jsonwebtoken</groupId>
-      <artifactId>jjwt-impl</artifactId>
-      <version>0.12.6</version>
-    </dependency>
-    <dependency>
-      <groupId>io.jsonwebtoken</groupId>
-      <artifactId>jjwt-jackson</artifactId>
-      <version>0.12.5</version>
-    </dependency>
-
+    
     <!-- Spring Dotenv -->
     <dependency>
       <groupId>me.paulschwarz</groupId>
@@ -190,26 +187,6 @@
       <groupId>com.resend</groupId>
       <artifactId>resend-java</artifactId>
       <version>3.1.0</version>
-    </dependency>
-
-
-    <!-- Mercado pago -->
-    <dependency>
-      <groupId>com.mercadopago</groupId>
-      <artifactId>sdk-java</artifactId>
-      <version>2.1.28</version>
-    </dependency>
-
-    <!-- Cloudinary		-->
-    <dependency>
-      <groupId>com.cloudinary</groupId>
-      <artifactId>cloudinary-http45</artifactId>
-      <version>1.39.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.cloudinary</groupId>
-      <artifactId>cloudinary-core</artifactId>
-      <version>1.39.0</version>
     </dependency>
 
     <!-- Slugify   -->
