@@ -1,16 +1,20 @@
 package com.cortex.backend.auth.api.dto;
 
 import com.cortex.backend.common.types.Gender;
-import com.cortex.backend.user.validations.ValidCountry;
 import com.cortex.backend.common.validation.ValueOfEnum;
-import jakarta.validation.constraints.*;
+import com.cortex.backend.user.validations.ValidCountry;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.LocalDate;
 
 @Getter
 @Setter

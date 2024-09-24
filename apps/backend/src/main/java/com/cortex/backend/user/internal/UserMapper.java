@@ -1,14 +1,13 @@
 package com.cortex.backend.user.internal;
 
+import com.cortex.backend.media.domain.Media;
 import com.cortex.backend.user.api.dto.UserResponse;
 import com.cortex.backend.user.domain.Role;
 import com.cortex.backend.user.domain.User;
-import com.cortex.backend.media.domain.Media;
+import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
-
-import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {

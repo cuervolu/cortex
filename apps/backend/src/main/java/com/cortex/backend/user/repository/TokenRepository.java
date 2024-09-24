@@ -1,7 +1,7 @@
 package com.cortex.backend.user.repository;
 
-import com.cortex.backend.user.domain.Token;
 import com.cortex.backend.common.types.TokenType;
+import com.cortex.backend.user.domain.Token;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.Query;

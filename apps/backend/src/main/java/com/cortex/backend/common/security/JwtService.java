@@ -1,9 +1,9 @@
 package com.cortex.backend.common.security;
 
-import org.springframework.security.core.userdetails.UserDetails;
+import io.jsonwebtoken.Claims;
 import java.util.Map;
 import java.util.function.Function;
-import io.jsonwebtoken.Claims;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * The JwtService class provides methods for handling JWT tokens. It includes methods for extracting

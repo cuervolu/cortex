@@ -4,9 +4,9 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 
 import com.cortex.backend.auth.internal.CustomOAuth2UserService;
 import com.cortex.backend.auth.internal.CustomOidcUserService;
+import com.cortex.backend.auth.internal.OAuth2AuthenticationSuccessHandler;
 import com.cortex.backend.auth.internal.infrastructure.JwtFilter;
 import com.cortex.backend.common.security.JwtServiceImpl;
-import com.cortex.backend.auth.internal.OAuth2AuthenticationSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

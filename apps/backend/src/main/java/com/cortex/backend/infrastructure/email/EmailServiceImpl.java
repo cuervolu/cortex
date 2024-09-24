@@ -3,19 +3,17 @@ package com.cortex.backend.infrastructure.email;
 import com.cortex.backend.common.email.EmailService;
 import com.cortex.backend.common.email.EmailTemplateName;
 import com.cortex.backend.common.exception.EmailSendingException;
-import com.cortex.backend.common.BusinessErrorCodes;
+import com.resend.Resend;
 import com.resend.core.exception.ResendException;
 import com.resend.services.emails.model.CreateEmailOptions;
 import com.resend.services.emails.model.CreateEmailResponse;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import com.resend.*;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
-
-import java.util.Map;
 
 @Service
 @Slf4j

@@ -2,7 +2,7 @@ package com.cortex.backend.education.lesson.api;
 
 import com.cortex.backend.education.lesson.api.dto.LessonRequest;
 import com.cortex.backend.education.lesson.api.dto.LessonResponse;
-import com.cortex.backend.education.lesson.domain.Lesson;
+import com.cortex.backend.education.lesson.api.dto.LessonUpdateRequest;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +16,7 @@ public interface LessonService {
 
   LessonResponse createLesson(LessonRequest lesson);
 
-  LessonResponse updateLesson(Long id, LessonRequest lessonRequest);
+  LessonResponse updateLesson(Long id, LessonUpdateRequest lessonRequest);
 
   void deleteLesson(Long id);
 }

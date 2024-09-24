@@ -2,6 +2,7 @@ package com.cortex.backend.education.module.api;
 
 import com.cortex.backend.education.module.api.dto.ModuleRequest;
 import com.cortex.backend.education.module.api.dto.ModuleResponse;
+import com.cortex.backend.education.module.api.dto.ModuleUpdateRequest;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -15,10 +16,9 @@ public interface ModuleService {
 
   Optional<ModuleResponse> getModuleBySlug(String slug);
 
-  ModuleResponse createModule(ModuleRequest request, MultipartFile image) throws IOException;
-
-  ModuleResponse updateModule(Long id, ModuleRequest request, MultipartFile image) throws IOException;
+  ModuleResponse createModule(ModuleRequest request);
+  ModuleResponse updateModule(Long id, ModuleUpdateRequest request);
 
   void deleteModule(Long id);
-
+  ModuleResponse uploadModuleImage(Long id, MultipartFile image, String altText) throws IOException;
 }

@@ -8,22 +8,22 @@ import com.cortex.backend.education.internal.TagRepository;
 import com.cortex.backend.education.roadmap.api.RoadmapService;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapRequest;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapResponse;
+import com.cortex.backend.education.roadmap.api.dto.RoadmapUpdateRequest;
 import com.cortex.backend.education.roadmap.domain.Roadmap;
 import com.cortex.backend.media.api.MediaService;
 import com.cortex.backend.media.domain.Media;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @Slf4j
@@ -67,8 +67,7 @@ public class RoadmapServiceImpl implements RoadmapService {
 
   @Override
   @Transactional
-  public RoadmapResponse updateRoadmap(Long id, RoadmapRequest request, MultipartFile image)
-      throws IOException {
+  public RoadmapResponse updateRoadmap(Long id, RoadmapUpdateRequest request) {
     Roadmap existingRoadmap = roadmapRepository.findById(id)
         .orElseThrow(() -> new EntityNotFoundException(ROADMAP_NOT_FOUND_MESSAGE));
 
@@ -83,7 +82,6 @@ public class RoadmapServiceImpl implements RoadmapService {
     }
 
     setRoadmapRelations(existingRoadmap, request);
-    handleImageUpload(existingRoadmap, image, request.getTitle());
     Roadmap updatedRoadmap = roadmapRepository.save(existingRoadmap);
     return roadmapMapper.toRoadmapResponse(updatedRoadmap);
   }
@@ -108,6 +106,15 @@ public class RoadmapServiceImpl implements RoadmapService {
   private void setRoadmapRelations(Roadmap roadmap, RoadmapRequest request) {
     setRoadmapTags(roadmap, request.getTagIds());
     setRoadmapCourses(roadmap, request.getCourseIds());
+  }
+
+  private void setRoadmapRelations(Roadmap roadmap, RoadmapUpdateRequest request) {
+    if (request.getTagIds() != null) {
+      setRoadmapTags(roadmap, request.getTagIds());
+    }
+    if (request.getCourseIds() != null) {
+      setRoadmapCourses(roadmap, request.getCourseIds());
+    }
   }
 
   private void setRoadmapTags(Roadmap roadmap, Set<Long> tagIds) {

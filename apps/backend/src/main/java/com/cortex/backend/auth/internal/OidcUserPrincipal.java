@@ -1,13 +1,12 @@
 package com.cortex.backend.auth.internal;
 
 import com.cortex.backend.user.domain.User;
+import java.util.Collection;
+import java.util.Map;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
-
-import java.util.Collection;
-import java.util.Map;
 
 public record OidcUserPrincipal(User user, OidcUser oidcUser) implements OidcUser {
 

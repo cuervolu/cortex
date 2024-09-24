@@ -2,22 +2,31 @@ package com.cortex.backend.education.module.api;
 
 import com.cortex.backend.education.module.api.dto.ModuleRequest;
 import com.cortex.backend.education.module.api.dto.ModuleResponse;
+import com.cortex.backend.education.module.api.dto.ModuleUpdateRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import java.io.IOException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.util.List;
 
 @RestController
 @RequestMapping("/education/module")
@@ -57,29 +66,40 @@ public class ModuleController {
         .orElse(ResponseEntity.notFound().build());
   }
 
-  @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+
+  @PostMapping
   @PreAuthorize("hasAnyRole('MODERATOR', 'ADMIN')")
-  @Operation(summary = "Create a new module", description = "Creates a new module with optional image upload")
+  @Operation(summary = "Create a new module", description = "Creates a new module")
   @ApiResponse(responseCode = "201", description = "Module created successfully",
       content = @Content(schema = @Schema(implementation = ModuleResponse.class)))
-  public ResponseEntity<ModuleResponse> createModule(
-      @RequestPart("moduleData") @Valid ModuleRequest request,
-      @RequestPart(value = "image", required = false) MultipartFile image) throws IOException {
-    ModuleResponse createdModule = moduleService.createModule(request, image);
+  public ResponseEntity<ModuleResponse> createModule(@Valid @RequestBody ModuleRequest request) {
+    ModuleResponse createdModule = moduleService.createModule(request);
     return ResponseEntity.status(HttpStatus.CREATED).body(createdModule);
   }
 
-  @PatchMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+  @PatchMapping("/{id}")
   @PreAuthorize("hasAnyRole('MODERATOR', 'ADMIN')")
-  @Operation(summary = "Update a module", description = "Updates an existing module with optional image upload")
+  @Operation(summary = "Update a module", description = "Updates an existing module")
   @ApiResponse(responseCode = "200", description = "Module updated successfully",
       content = @Content(schema = @Schema(implementation = ModuleResponse.class)))
   @ApiResponse(responseCode = "404", description = "Module not found")
   public ResponseEntity<ModuleResponse> updateModule(
       @PathVariable Long id,
-      @RequestPart("moduleData") @Valid ModuleRequest request,
-      @RequestPart(value = "image", required = false) MultipartFile image) throws IOException {
-    ModuleResponse updatedModule = moduleService.updateModule(id, request, image);
+      @Valid @RequestBody ModuleUpdateRequest request) {
+    ModuleResponse updatedModule = moduleService.updateModule(id, request);
+    return ResponseEntity.ok(updatedModule);
+  }
+
+  @PostMapping(path = "/{id}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+  @PreAuthorize("hasAnyRole('MODERATOR', 'ADMIN')")
+  @Operation(summary = "Upload a module image", description = "Uploads an image for a module")
+  @ApiResponse(responseCode = "200", description = "Image uploaded successfully",
+      content = @Content(schema = @Schema(implementation = ModuleResponse.class)))
+  public ResponseEntity<ModuleResponse> uploadModuleImage(
+      @PathVariable Long id,
+      @RequestParam("image") MultipartFile image,
+      @RequestParam(value = "altText", required = false) String altText) throws IOException {
+    ModuleResponse updatedModule = moduleService.uploadModuleImage(id, image, altText);
     return ResponseEntity.ok(updatedModule);
   }
 

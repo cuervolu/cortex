@@ -1,15 +1,14 @@
 package com.cortex.backend.education.module.internal;
 
+import com.cortex.backend.education.lesson.domain.Lesson;
 import com.cortex.backend.education.module.api.dto.ModuleResponse;
 import com.cortex.backend.education.module.domain.ModuleEntity;
-import com.cortex.backend.education.lesson.domain.Lesson;
 import com.cortex.backend.media.domain.Media;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
-
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface ModuleMapper {

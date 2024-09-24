@@ -1,16 +1,15 @@
 package com.cortex.backend;
 
-import com.cortex.backend.user.domain.Role;
 import com.cortex.backend.user.api.CountryService;
 import com.cortex.backend.user.api.RoleService;
+import com.cortex.backend.user.domain.Role;
+import java.util.List;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-
-import java.util.List;
 
 @SpringBootApplication
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")

@@ -1,11 +1,11 @@
 package com.cortex.backend.auth.internal;
 
-import com.cortex.backend.common.ImageUtils;
 import com.cortex.backend.auth.internal.infrastructure.BaseOAuth2UserService;
+import com.cortex.backend.common.ImageUtils;
+import com.cortex.backend.media.api.MediaService;
 import com.cortex.backend.user.domain.User;
 import com.cortex.backend.user.repository.RoleRepository;
 import com.cortex.backend.user.repository.UserRepository;
-import com.cortex.backend.media.api.MediaService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;

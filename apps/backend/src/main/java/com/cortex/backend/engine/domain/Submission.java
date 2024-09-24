@@ -1,9 +1,17 @@
 package com.cortex.backend.engine.domain;
 
-import com.cortex.backend.entities.BaseEntity;
 import com.cortex.backend.education.solution.Solution;
-import jakarta.persistence.*;
-import lombok.*;
+import com.cortex.backend.entities.BaseEntity;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Entity

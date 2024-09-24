@@ -2,6 +2,7 @@ package com.cortex.backend.education.course.api;
 
 import com.cortex.backend.education.course.api.dto.CourseRequest;
 import com.cortex.backend.education.course.api.dto.CourseResponse;
+import com.cortex.backend.education.course.api.dto.CourseUpdateRequest;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -15,10 +16,11 @@ public interface CourseService {
   
   Optional<CourseResponse> getCourseBySlug(String slug);
 
-  CourseResponse createCourse(CourseRequest request, MultipartFile image) throws IOException;
+  CourseResponse createCourse(CourseRequest request);
 
-  CourseResponse updateCourse(Long id, CourseRequest request, MultipartFile image) throws IOException;
+  CourseResponse updateCourse(Long id, CourseUpdateRequest request);
   
   void deleteCourse(Long id);
-
+  
+  CourseResponse uploadCourseImage(Long id, MultipartFile image, String altText) throws IOException;
 }

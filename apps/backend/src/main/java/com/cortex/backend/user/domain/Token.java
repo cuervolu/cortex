@@ -1,7 +1,6 @@
 package com.cortex.backend.user.domain;
 
 import com.cortex.backend.common.types.TokenType;
-import com.cortex.backend.user.domain.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

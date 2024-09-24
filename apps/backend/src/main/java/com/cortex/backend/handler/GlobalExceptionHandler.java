@@ -30,7 +30,6 @@ import com.cortex.backend.common.exception.InvalidURIException;
 import com.cortex.backend.common.exception.NewPasswordDoesNotMatchException;
 import com.cortex.backend.common.exception.OperationNotPermittedException;
 import com.resend.core.exception.ResendException;
-import io.jsonwebtoken.ExpiredJwtException;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.extern.slf4j.Slf4j;

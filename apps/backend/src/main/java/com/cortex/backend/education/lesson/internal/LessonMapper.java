@@ -1,14 +1,13 @@
 package com.cortex.backend.education.lesson.internal;
 
-import com.cortex.backend.education.lesson.domain.Lesson;
 import com.cortex.backend.education.lesson.api.dto.LessonResponse;
+import com.cortex.backend.education.lesson.domain.Lesson;
 import com.cortex.backend.engine.domain.Exercise;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
-
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface LessonMapper {

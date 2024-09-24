@@ -3,16 +3,15 @@ package com.cortex.backend.education.course.internal;
 import com.cortex.backend.education.course.api.dto.CourseRequest;
 import com.cortex.backend.education.course.api.dto.CourseResponse;
 import com.cortex.backend.education.course.domain.Course;
-import com.cortex.backend.education.roadmap.domain.Roadmap;
 import com.cortex.backend.education.domain.Tag;
 import com.cortex.backend.education.module.domain.ModuleEntity;
+import com.cortex.backend.education.roadmap.domain.Roadmap;
 import com.cortex.backend.media.domain.Media;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
-
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface CourseMapper {

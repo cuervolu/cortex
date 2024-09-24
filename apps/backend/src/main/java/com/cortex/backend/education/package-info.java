@@ -3,4 +3,3 @@
 )
 package com.cortex.backend.education;
 
-import org.springframework.modulith.ApplicationModule;

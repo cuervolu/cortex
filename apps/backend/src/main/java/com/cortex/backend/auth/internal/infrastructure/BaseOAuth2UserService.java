@@ -1,26 +1,25 @@
 package com.cortex.backend.auth.internal.infrastructure;
 
-import com.cortex.backend.common.ImageUtils;
 import com.cortex.backend.auth.api.dto.RegistrationRequest;
+import com.cortex.backend.common.ImageUtils;
+import com.cortex.backend.common.exception.FileSizeExceededException;
+import com.cortex.backend.common.exception.InvalidURIException;
+import com.cortex.backend.media.api.MediaService;
 import com.cortex.backend.media.domain.Media;
 import com.cortex.backend.user.domain.Role;
 import com.cortex.backend.user.domain.User;
-import com.cortex.backend.common.exception.FileSizeExceededException;
-import com.cortex.backend.common.exception.InvalidURIException;
 import com.cortex.backend.user.repository.RoleRepository;
 import com.cortex.backend.user.repository.UserRepository;
-import com.cortex.backend.media.api.MediaService;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-
-import java.time.LocalDate;
-import java.util.Collections;
-import java.util.HashSet;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 

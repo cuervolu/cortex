@@ -3,6 +3,7 @@ package com.cortex.backend.education.roadmap.api;
 
 import com.cortex.backend.education.roadmap.api.dto.RoadmapRequest;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapResponse;
+import com.cortex.backend.education.roadmap.api.dto.RoadmapUpdateRequest;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -16,8 +17,7 @@ public interface RoadmapService {
 
   RoadmapResponse createRoadmap(RoadmapRequest request);
 
-  RoadmapResponse updateRoadmap(Long id, RoadmapRequest request, MultipartFile image)
-      throws IOException;
+  RoadmapResponse updateRoadmap(Long id, RoadmapUpdateRequest request);
 
   void deleteRoadmap(Long id);
 

@@ -1,8 +1,8 @@
 package com.cortex.backend.user.api.dto;
 
 import com.cortex.backend.common.types.Gender;
-import com.cortex.backend.user.validations.ValidCountry;
 import com.cortex.backend.common.validation.ValueOfEnum;
+import com.cortex.backend.user.validations.ValidCountry;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDate;

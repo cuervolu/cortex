@@ -2,22 +2,31 @@ package com.cortex.backend.education.course.api;
 
 import com.cortex.backend.education.course.api.dto.CourseRequest;
 import com.cortex.backend.education.course.api.dto.CourseResponse;
+import com.cortex.backend.education.course.api.dto.CourseUpdateRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import java.io.IOException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.util.List;
 
 @RestController
 @RequestMapping("/education/course")
@@ -57,29 +66,42 @@ public class CourseController {
         .orElse(ResponseEntity.notFound().build());
   }
 
-  @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+  @PostMapping()
   @PreAuthorize("hasAnyRole('MODERATOR', 'ADMIN')")
-  @Operation(summary = "Create a new course", description = "Creates a new course with optional image upload")
+  @Operation(summary = "Create a new course", description = "Creates a new course")
   @ApiResponse(responseCode = "201", description = "Course created successfully",
       content = @Content(schema = @Schema(implementation = CourseResponse.class)))
   public ResponseEntity<CourseResponse> createCourse(
-      @RequestPart("courseData") @Valid CourseRequest request,
-      @RequestPart(value = "image", required = false) MultipartFile image) throws IOException {
-    CourseResponse createdCourse = courseService.createCourse(request, image);
+      @Valid @RequestBody CourseRequest request
+  ) {
+    CourseResponse createdCourse = courseService.createCourse(request);
     return ResponseEntity.status(HttpStatus.CREATED).body(createdCourse);
   }
 
-  @PatchMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+  @PostMapping(path = "/{id}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   @PreAuthorize("hasAnyRole('MODERATOR', 'ADMIN')")
-  @Operation(summary = "Update a course", description = "Updates an existing course with optional image upload")
+  @Operation(summary = "Upload a course image", description = "Uploads an image for a course")
+  @ApiResponse(responseCode = "200", description = "Image uploaded successfully",
+      content = @Content(schema = @Schema(implementation = CourseResponse.class)))
+  public ResponseEntity<CourseResponse> uploadRoadmapImage(
+      @PathVariable Long id,
+      @RequestParam("image") MultipartFile image,
+      @RequestParam(value = "altText", required = false) String altText) throws IOException {
+    CourseResponse updatedCourse = courseService.uploadCourseImage(id, image, altText);
+    return ResponseEntity.ok(updatedCourse);
+  }
+
+
+  @PatchMapping(value = "/{id}")
+  @PreAuthorize("hasAnyRole('MODERATOR', 'ADMIN')")
+  @Operation(summary = "Update a course", description = "Updates an existing course")
   @ApiResponse(responseCode = "200", description = "Course updated successfully",
       content = @Content(schema = @Schema(implementation = CourseResponse.class)))
   @ApiResponse(responseCode = "404", description = "Course not found")
   public ResponseEntity<CourseResponse> updateCourse(
       @PathVariable Long id,
-      @RequestPart("courseData") @Valid CourseRequest request,
-      @RequestPart(value = "image", required = false) MultipartFile image) throws IOException {
-    CourseResponse updatedCourse = courseService.updateCourse(id, request, image);
+      @RequestBody @Valid CourseUpdateRequest request){
+    CourseResponse updatedCourse = courseService.updateCourse(id, request);
     return ResponseEntity.ok(updatedCourse);
   }
 

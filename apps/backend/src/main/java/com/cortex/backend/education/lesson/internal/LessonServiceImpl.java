@@ -4,13 +4,13 @@ import com.cortex.backend.common.SlugUtils;
 import com.cortex.backend.education.lesson.api.LessonService;
 import com.cortex.backend.education.lesson.api.dto.LessonRequest;
 import com.cortex.backend.education.lesson.api.dto.LessonResponse;
+import com.cortex.backend.education.lesson.api.dto.LessonUpdateRequest;
 import com.cortex.backend.education.lesson.domain.Lesson;
 import com.cortex.backend.education.module.domain.ModuleEntity;
 import com.cortex.backend.education.module.internal.ModuleRepository;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,12 +27,14 @@ public class LessonServiceImpl implements LessonService {
   private final ModuleRepository moduleRepository;
   private final SlugUtils slugUtils;
 
+  private static final String LESSON_NOT_FOUND_MESSAGE = "Lesson not found";
+
   @Override
   @Transactional(readOnly = true)
   public List<LessonResponse> getAllLessons() {
     return StreamSupport.stream(lessonRepository.findAll().spliterator(), false)
         .map(lessonMapper::toLessonResponse)
-        .collect(Collectors.toList());
+        .toList();
   }
 
   @Override
@@ -64,15 +66,13 @@ public class LessonServiceImpl implements LessonService {
 
   @Override
   @Transactional
-  public LessonResponse updateLesson(Long id, LessonRequest request) {
+  public LessonResponse updateLesson(Long id, LessonUpdateRequest request) {
     Lesson existingLesson = lessonRepository.findById(id)
-        .orElseThrow(() -> new EntityNotFoundException("Lesson not found"));
+        .orElseThrow(() -> new EntityNotFoundException(LESSON_NOT_FOUND_MESSAGE));
 
     if (request.getName() != null) {
       existingLesson.setName(request.getName());
-      if (!existingLesson.getName().equals(request.getName())) {
-        existingLesson.setSlug(generateUniqueSlug(request.getName(), existingLesson.getSlug()));
-      }
+      existingLesson.setSlug(generateUniqueSlug(request.getName(), existingLesson.getSlug()));
     }
     if (request.getContent() != null) {
       existingLesson.setContent(request.getContent());
@@ -92,7 +92,7 @@ public class LessonServiceImpl implements LessonService {
   @Transactional
   public void deleteLesson(Long id) {
     Lesson lesson = lessonRepository.findById(id)
-        .orElseThrow(() -> new EntityNotFoundException("Lesson not found"));
+        .orElseThrow(() -> new EntityNotFoundException(LESSON_NOT_FOUND_MESSAGE));
     lessonRepository.delete(lesson);
   }
 
