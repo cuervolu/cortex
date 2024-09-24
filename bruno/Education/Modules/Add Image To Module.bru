@@ -1,0 +1,20 @@
+meta {
+  name: Add Image To Module
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{BASEURL}}/api/v1/education/module/2/image
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:multipart-form {
+  image: @file(/home/cuervolu/wallpaper/e512bb5f-f1de-4a72-8f43-3c84be0fe97b.jpeg)
+  altText: Nacho Loco
+}
