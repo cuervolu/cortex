@@ -32,6 +32,16 @@
         "connect-src": "'self' ipc: http://ipc.localhost tauri: asset: https://asset.localhost",
         "img-src": "'self' asset: http://asset.localhost blob: data:",
         "style-src": "'unsafe-inline' 'self'"
+      },
+      "assetProtocol": {
+        "enable": true,
+        "scope": [
+          "$APPDATA/**",
+          "$APPDATA/images/**",
+          "$LOCALAPPDATA/**",
+          "$LOCALAPPDATA/images/**",
+          "$HOME/.local/share/com.cortex.app/**"
+        ]
       }
     }
   },
