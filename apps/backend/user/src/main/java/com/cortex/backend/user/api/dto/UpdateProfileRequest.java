@@ -4,6 +4,7 @@ import com.cortex.backend.core.common.types.Gender;
 import com.cortex.backend.core.common.validation.ValueOfEnum;
 import com.cortex.backend.user.validations.ValidCountry;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 import lombok.Builder;
@@ -33,7 +34,7 @@ public class UpdateProfileRequest {
   private MultipartFile avatar;
 
   @Size(min = 2, max = 3, message = "Country code must be 2 or 3 characters")
-  @ValidCountry()
+  @ValidCountry(allowNull = true)
   private String countryCode;
 
   @ValueOfEnum(enumClass = Gender.class, message = "Invalid Gender type")

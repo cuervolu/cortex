@@ -14,4 +14,5 @@ public @interface ValidCountry {
   String message() default "Invalid country code";
   Class<?>[] groups() default {};
   Class<? extends Payload>[] payload() default {};
+  boolean allowNull() default false;
 }
