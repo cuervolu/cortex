@@ -76,7 +76,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
   }
 
   private String generateAndSaveActivationToken(User user) {
-    String generatedToken = generateActivationCode(6);
+    String generatedToken = generateActivationCode();
     var token =
         Token.builder()
             .token(generatedToken)
@@ -88,11 +88,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     return generatedToken;
   }
 
-  private String generateActivationCode(int length) {
+  private String generateActivationCode() {
     String characters = "0123456789";
     StringBuilder codeBuilder = new StringBuilder();
     SecureRandom secureRandom = new SecureRandom();
-    for (int i = 0; i < length; i++) {
+    for (int i = 0; i < 6; i++) {
       int randomIndex = secureRandom.nextInt(characters.length());
       codeBuilder.append(characters.charAt(randomIndex));
     }
