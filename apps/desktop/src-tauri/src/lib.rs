@@ -1,8 +1,8 @@
+mod commands;
+mod error;
+
 use tauri_plugin_log::fern::colors::ColoredLevelConfig;
 use tauri_plugin_log::RotationStrategy;
-use tauri::Manager;
-
-use tauri_plugin_decorum::WebviewWindowExt;
 
 fn setup_logger(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> {
     // create the log plugin as usual, but call split() instead of build()
@@ -38,17 +38,8 @@ fn setup_logger(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     let builder = tauri::Builder::default()
-        .plugin(tauri_plugin_decorum::init())
         .setup(|app| {
             setup_logger(app)?;
-            // Create a custom titlebar for main window
-            // On Windows this will hide decoration and render custom window controls
-            // On macOS it expects a hiddenTitle: true and titleBarStyle: overlay
-            let main_window = app.get_webview_window("main").unwrap();
-            main_window.create_overlay_titlebar().unwrap();
-
-            #[cfg(target_os = "macos")]
-            main_window.set_traffic_lights_inset(16.0, 20.0).unwrap();
             Ok(())
         });
 
@@ -64,6 +55,11 @@ pub fn run() {
         .plugin(tauri_plugin_os::init())
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_fs::init())
+        .invoke_handler(tauri::generate_handler![
+            commands::ai::ollama::is_ollama_installed,
+            commands::ai::ollama::send_prompt_to_ollama,
+        ]
+        )
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
