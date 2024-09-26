@@ -60,7 +60,7 @@ const extensions = computed((): Extension[] => [
   getLanguageExtension(props.language) || javascript(),
   interact(),
   indentationMarkers(),
-  zebraStripes()
+  // zebraStripes()
 ]);
 
 const handleChange = (value: string, viewUpdate: ViewUpdate) => {
@@ -107,10 +107,23 @@ onMounted(() => {
 <style>
 .cm-editor {
   height: 100%;
+  border-radius: 10px; /* Bordes redondeados */
+  overflow: hidden; /* Ocultar scrollbar */
 }
 
-.cm-scroller { overflow: auto; min-height: 350px; }
+.cm-scroller {
+  overflow: hidden; /* Ocultar scrollbar */
+  min-height: 350px;
+}
 
-.cm-content, .cm-gutter { min-height: 150px; }
-.cm-gutters { margin: 1px; }
+.cm-content, .cm-gutter {
+  min-height: 150px;
+  font-family: "Source Code Pro", monospace;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.cm-gutters {
+  margin: 1px;
+}
 </style>
