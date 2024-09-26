@@ -24,22 +24,15 @@
     "@vee-validate/zod": "^4.13.2",
     "@vueuse/core": "^11.1.0",
     "@vueuse/nuxt": "^11.1.0",
-    "autoprefixer": "^10.4.20",
     "embla-carousel-vue": "^8.3.0",
     "lucide-vue-next": "^0.437.0",
     "nuxt": "^3.13.2",
-    "nuxt-codemirror": "^0.0.11",
     "nuxt-seo-experiments": "^4.0.1",
-    "postcss": "^8.4.47",
-    "tailwind-merge": "^2.5.2",
-    "tailwindcss": "^3.4.13",
-    "tailwindcss-animate": "^1.0.7",
     "vee-validate": "^4.13.2",
     "vue": "^3.5.8",
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@nuxtjs/tailwindcss": "^6.12.1",
     "typescript": "^5.6.2"
   }
 }
