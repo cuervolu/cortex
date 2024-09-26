@@ -21,7 +21,7 @@ tauri-build = { version = "2.0.0-rc.12", features = [] }
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
 log = "0.4.22"
-tauri = { version = "2.0.0-rc.15", features = ["protocol-asset"]}
+tauri = { version = "2.0.0-rc.15", features = ["protocol-asset"] }
 tauri-plugin-devtools = "2.0.0-rc"
 tauri-plugin-fs = "2.0.0-rc.0"
 tauri-plugin-dialog = "2.0.0-rc.0"
@@ -31,14 +31,15 @@ tauri-plugin-process = "2.0.0-rc.0"
 tauri-plugin-shell = "2.0.0-rc.0"
 tauri-plugin-store = "2.0.0-rc.0"
 tauri-plugin-clipboard-manager = "2.0.0-rc.0"
-tauri-plugin-decorum = "1.1.1"
 tauri-plugin-oauth = { git = "https://github.com/FabianLars/tauri-plugin-oauth", branch = "v2" }
-tauri-plugin-notification = "2.0.0-rc"
+tauri-plugin-notification = "2.0.0-rc.5"
 reqwest = { version = "0.12.7", features = ["json"] }
 sysinfo = "0.31.2"
 thiserror = "1.0.64"
 anyhow = "1.0.89"
 font-kit = "0.14.2"
+ollama-rs = "0.2.1"
+lazy_static = "1.5.0"
 
 [target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
 tauri-plugin-updater = "2.0.0-rc.0"
