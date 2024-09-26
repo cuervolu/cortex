@@ -82,7 +82,7 @@ module.exports = {
       },
       fontFamily: {
         sans: ['Montserrat', 'sans-serif'],
-        mono: ['"Cascadia Code"', 'monospace'],
+        mono: ['"Source Code Pro"', 'monospace'],
       },
     },
   },

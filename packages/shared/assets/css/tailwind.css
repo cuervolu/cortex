@@ -76,14 +76,14 @@
     @apply bg-background text-foreground;
   }
   pre, code {
-    font-family: "Cascadia Code", monospace;
+    font-family: "Source Code Pro", monospace;
   }
 }
 
 .mdc-content pre {
-  font-family: "Cascadia Code", monospace !important;
+  font-family: "Source Code Pro", monospace !important;
 }
 
 .mdc-content code {
-  font-family: "Cascadia Code", monospace !important;
+  font-family: "Source Code Pro", monospace !important;
 }
