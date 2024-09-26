@@ -947,6 +947,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "font-kit",
+ "futures",
  "lazy_static",
  "log",
  "ollama-rs",
@@ -3298,6 +3299,8 @@ dependencies = [
  "reqwest",
  "serde",
  "serde_json",
+ "tokio",
+ "tokio-stream",
  "url",
 ]
 
@@ -5621,6 +5624,7 @@ dependencies = [
  "bytes",
  "libc",
  "mio",
+ "parking_lot",
  "pin-project-lite",
  "signal-hook-registry",
  "socket2",

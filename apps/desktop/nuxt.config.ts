@@ -50,6 +50,7 @@ export default defineNuxtConfig({
     '@vee-validate/nuxt',
     '@nuxt/fonts',
     'nuxt-codemirror',
+    '@nuxtjs/mdc',
   ],
   pinia: {
     storesDirs: ['src/stores/**'],
