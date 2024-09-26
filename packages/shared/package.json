@@ -37,6 +37,7 @@
     "@replit/codemirror-interact": "^6.3.1",
     "@replit/codemirror-lang-csharp": "^6.2.0",
     "@uiw/codemirror-extensions-langs": "^4.23.3",
+    "@uiw/codemirror-extensions-line-numbers-relative": "^4.23.3",
     "@uiw/codemirror-extensions-zebra-stripes": "^4.23.3",
     "@uiw/codemirror-theme-dracula": "^4.23.3",
     "@uiw/codemirror-theme-okaidia": "^4.23.3",
