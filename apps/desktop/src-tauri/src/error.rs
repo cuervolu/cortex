@@ -22,6 +22,13 @@ pub enum AppError {
 
     #[error("AI Service error: {0}")]
     AIServiceError(String),
+
+    #[error("Failed to lock chat context")]
+    ContextLockError,
+
+    #[error("Context not found")]
+    ContextNotFound,
+
 }
 
 impl serde::Serialize for AppError {

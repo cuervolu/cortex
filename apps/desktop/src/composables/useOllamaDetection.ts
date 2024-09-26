@@ -2,12 +2,14 @@ import { ref } from 'vue'
 import { invoke } from '@tauri-apps/api/core'
 import { warn, debug, info, error } from '@tauri-apps/plugin-log'
 
-export function useOllamaDetection() {
-  const isOllamaInstalled = ref<boolean | null>(null)
-  const isChecking = ref(false)
-  const checkError = ref<string | null>(null)
+const isOllamaInstalled = ref<boolean | null>(null)
+const isChecking = ref(false)
+const checkError = ref<string | null>(null)
 
+export function useOllamaDetection() {
   async function checkOllamaInstallation() {
+    if (isChecking.value || isOllamaInstalled.value !== null) return
+
     isChecking.value = true
     checkError.value = null
 
@@ -40,7 +42,7 @@ export function useOllamaDetection() {
             checkError.value = `An unexpected error occurred: ${err.message}`
         }
       } else {
-        await  error('An unknown error occurred')
+        await error('An unknown error occurred')
         checkError.value = 'An unknown error occurred'
       }
     } finally {
