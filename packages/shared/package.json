@@ -19,11 +19,15 @@
     "@nuxtjs/tailwindcss": "^6.12.1",
     "eslint": "^9.11.1",
     "nuxt": "^3.13.2",
+    "nuxt-codemirror": "^0.0.11",
     "shadcn-nuxt": "^0.10.4",
     "typescript": "^5.6.2",
     "vue": "latest"
   },
   "dependencies": {
+    "@codemirror/state": "^6.4.1",
+    "@codemirror/view": "^6.34.0",
+    "@uiw/codemirror-theme-dracula": "^4.23.3",
     "@unovis/ts": "1.4.3-beta.0",
     "@unovis/vue": "1.4.3-beta.0",
     "@vee-validate/zod": "^4.13.2",
