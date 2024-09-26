@@ -52,6 +52,13 @@ export default defineNuxtConfig({
     'nuxt-codemirror',
     '@nuxtjs/mdc',
   ],
+  mdc: {
+    highlight: {
+      theme: 'material-theme-ocean',
+      langs: ['js','jsx','json','ts','tsx','vue','css','html','bash','md','mdc','yaml', "rust"],
+      wrapperStyle: true
+    }
+  },
   pinia: {
     storesDirs: ['src/stores/**'],
   },
@@ -65,6 +72,11 @@ export default defineNuxtConfig({
         provider: 'fontsource',
         weights: ['400', '500', '600', '700', '800', '900'],
       },
+      {
+        name: 'CascadiaCode',
+        provider: 'local',
+        weights: ['400', '500', '600', '700', '800', '900'],
+      }
     ],
   },
 });

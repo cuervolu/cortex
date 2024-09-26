@@ -1,12 +1,11 @@
 <script setup>
 
-import OllamaDetection from "~/components/OllamaDetection.vue";
 </script>
 
 
 <template>
 
-  <ollama-detection/>
+  <a-i-chat />
 
 
 </template>

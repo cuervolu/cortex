@@ -21,6 +21,7 @@ const {
 } = useOllamaInteraction();
 
 const parsedResponse = ref<MDCParserResult | null>(null);
+const hasCheckedInstallation = ref(false);
 
 watch(response, async (newResponse) => {
   if (newResponse) {
@@ -29,16 +30,21 @@ watch(response, async (newResponse) => {
     parsedResponse.value = null;
   }
 });
+
+const handleCheckInstallation = async () => {
+  await checkOllamaInstallation();
+  hasCheckedInstallation.value = true;
+};
 </script>
 
 <template>
-  <div class="h-screen flex items-center justify-center bg-muted/40 p-4">
-    <Card class="w-full max-w-2xl">
+  <div class="min-h-screen w-full flex items-center justify-center bg-muted/40 p-4">
+    <Card class="w-full max-w-[90vw] md:max-w-[80vw] lg:max-w-[70vw] xl:max-w-[60vw] 2xl:max-w-[50vw] max-h-[90vh] flex flex-col">
       <CardHeader>
         <CardTitle>Ollama Chat Interface</CardTitle>
         <CardDescription>Interact with Ollama AI model</CardDescription>
       </CardHeader>
-      <CardContent class="space-y-4">
+      <CardContent class="space-y-4 flex-grow overflow-y-auto">
         <Alert v-if="!isOllamaInstalled && !isChecking" variant="destructive">
           <AlertCircle class="h-4 w-4"/>
           <AlertTitle>Installation Required</AlertTitle>
@@ -52,9 +58,10 @@ watch(response, async (newResponse) => {
           <AlertDescription>{{ checkError }}</AlertDescription>
         </Alert>
         <Button
+            v-if="!isOllamaInstalled && !hasCheckedInstallation"
             :disabled="isChecking"
             class="w-full"
-            @click="checkOllamaInstallation"
+            @click="handleCheckInstallation"
         >
           <Loader2 v-if="isChecking" class="mr-2 h-4 w-4 animate-spin"/>
           {{ isChecking ? 'Checking...' : 'Check Ollama Installation' }}
@@ -63,7 +70,7 @@ watch(response, async (newResponse) => {
           <Textarea
               v-model="prompt"
               placeholder="Ask Ollama something..."
-              class="min-h-[100px]"
+              class="min-h-[100px] resize-none"
               @keyup.enter="sendPrompt"
           />
           <Button
@@ -81,19 +88,38 @@ watch(response, async (newResponse) => {
           <AlertTitle>Error</AlertTitle>
           <AlertDescription>{{ promptError }}</AlertDescription>
         </Alert>
-        <Card v-if="parsedResponse" class="mt-4">
-          <CardHeader>
-            <CardTitle>Ollama's Response</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <MDCRenderer
-                v-if="parsedResponse.body && parsedResponse.data"
-                :body="parsedResponse.body"
-                :data="parsedResponse.data"
+        <div v-if="parsedResponse" class="mt-4">
+          <h3 class="text-lg font-semibold mb-2">Ollama's Response</h3>
+          <div class="bg-muted p-4 rounded-md overflow-x-auto">
+            <MDC
+                v-if="parsedResponse"
+                :value="parsedResponse"
             />
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </CardContent>
     </Card>
   </div>
 </template>
+
+
+<style scoped>
+.overflow-y-auto {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(155, 155, 155, 0.5) transparent;
+}
+
+.overflow-y-auto::-webkit-scrollbar {
+  width: 6px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+  background-color: rgba(155, 155, 155, 0.5);
+  border-radius: 20px;
+  border: transparent;
+}
+</style>
