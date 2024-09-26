@@ -6,7 +6,7 @@ import {javascript} from '@codemirror/lang-javascript'
 import interact from '@replit/codemirror-interact';
 import {loadLanguage} from '@uiw/codemirror-extensions-langs';
 import {indentationMarkers} from '@replit/codemirror-indentation-markers';
-import {zebraStripes} from '@uiw/codemirror-extensions-zebra-stripes';
+// import {zebraStripes} from '@uiw/codemirror-extensions-zebra-stripes';
 import {lineNumbersRelative} from '@uiw/codemirror-extensions-line-numbers-relative'
 import {okaidia} from '@uiw/codemirror-theme-okaidia';
 import type {Extension} from "@codemirror/state";

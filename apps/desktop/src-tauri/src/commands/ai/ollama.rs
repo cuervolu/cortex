@@ -84,7 +84,7 @@ pub async fn send_prompt_to_ollama(
     info!("Attempting to send prompt to Ollama. Model: {}, Prompt: {}, User ID: {}", model, prompt, user_id);
     let ollama = get_ollama()?;
 
-    // Obtener el contexto del chat para este usuario
+    // Get chat context for this user
     let context = {
         let mut contexts = CHAT_CONTEXTS.lock().map_err(|_| AppError::ContextLockError)?;
         let context = contexts.entry(user_id.clone()).or_insert_with(Vec::new);
@@ -92,7 +92,7 @@ pub async fn send_prompt_to_ollama(
         context.clone()
     };
 
-    // Crear la solicitud de chat con el contexto completo
+    // Create chat request with full context
     let request = ChatMessageRequest::new(model, context);
 
     let mut stream = ollama.send_chat_messages_stream(request).await.map_err(|e| {
@@ -122,13 +122,15 @@ pub async fn send_prompt_to_ollama(
         }
     }
 
-    // Actualizar el contexto con la respuesta completa de la IA
+    window.emit("ollama-response-end", ())?; // Broadcast a final event to indicate that the stream has ended
+
+    //  Update context with full AI response
     {
         let mut contexts = CHAT_CONTEXTS.lock().map_err(|_| AppError::ContextLockError)?;
         let context = contexts.get_mut(&user_id).ok_or(AppError::ContextNotFound)?;
         context.push(ChatMessage::assistant(full_response));
 
-        // Limitar el tamaño del contexto si es necesario
+        // Limit context size if necessary
         if context.len() > 10 {
             *context = context.drain(context.len() - 10..).collect();
         }
