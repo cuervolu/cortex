@@ -6,8 +6,10 @@ import static com.cortex.backend.core.common.BusinessErrorCodes.ACCOUNT_DISABLED
 import static com.cortex.backend.core.common.BusinessErrorCodes.ACCOUNT_LOCKED;
 import static com.cortex.backend.core.common.BusinessErrorCodes.BAD_CREDENTIALS;
 import static com.cortex.backend.core.common.BusinessErrorCodes.EMAIL_SENDING_FAILED;
+import static com.cortex.backend.core.common.BusinessErrorCodes.EXERCISE_CREATE_FAILED;
 import static com.cortex.backend.core.common.BusinessErrorCodes.EXPIRED_TOKEN;
 import static com.cortex.backend.core.common.BusinessErrorCodes.FILE_SIZE_EXCEEDED;
+import static com.cortex.backend.core.common.BusinessErrorCodes.GITHUB_SYNC_FAILED;
 import static com.cortex.backend.core.common.BusinessErrorCodes.INCORRECT_CURRENT_PASSWORD;
 import static com.cortex.backend.core.common.BusinessErrorCodes.INVALID_FILE_TYPE;
 import static com.cortex.backend.core.common.BusinessErrorCodes.INVALID_TOKEN;
@@ -21,8 +23,10 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 import com.cortex.backend.core.common.exception.EmailSendingException;
+import com.cortex.backend.core.common.exception.ExerciseCreationException;
 import com.cortex.backend.core.common.exception.ExpiredTokenException;
 import com.cortex.backend.core.common.exception.FileSizeExceededException;
+import com.cortex.backend.core.common.exception.GitSyncException;
 import com.cortex.backend.core.common.exception.IncorrectCurrentPasswordException;
 import com.cortex.backend.core.common.exception.InvalidFileTypeException;
 import com.cortex.backend.core.common.exception.InvalidTokenException;
@@ -237,6 +241,28 @@ public class GlobalExceptionHandler {
                 .build());
   }
 
+  @ExceptionHandler(GitSyncException.class)
+  public ResponseEntity<ExceptionResponse> handleGitSyncException(GitSyncException exp) {
+    return ResponseEntity.status(GITHUB_SYNC_FAILED.getHttpStatus())
+        .body(
+            ExceptionResponse.builder()
+                .businessErrorCode(GITHUB_SYNC_FAILED.getCode())
+                .businessErrorDescription(GITHUB_SYNC_FAILED.getDescription())
+                .error(exp.getMessage())
+                .build());
+  }
+  
+  @ExceptionHandler(ExerciseCreationException.class)
+  public ResponseEntity<ExceptionResponse> handleExcerciseCreationException(
+      ExerciseCreationException exp) {
+    return ResponseEntity.status(EXERCISE_CREATE_FAILED.getHttpStatus())
+        .body(
+            ExceptionResponse.builder()
+                .businessErrorCode(EXERCISE_CREATE_FAILED.getCode())
+                .businessErrorDescription(EXERCISE_CREATE_FAILED.getDescription())
+                .error(exp.getMessage())
+                .build());
+  }
 
   @ExceptionHandler(Exception.class)
   public ResponseEntity<ExceptionResponse> handleException(Exception exp) {

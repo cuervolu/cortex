@@ -64,3 +64,9 @@ application:
     password-reset-url: http://localhost:3000/reset-password
 server:
   port: 8088
+github:
+  exercises:
+    repo-url: https://github.com/cuervolu/cortex-exercises
+    local-path: /tmp/cortex-exercises
+    branch: main
+    sync-interval-ms: 3600000 # An hour
