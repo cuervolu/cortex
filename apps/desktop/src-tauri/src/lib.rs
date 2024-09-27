@@ -1,6 +1,7 @@
-mod commands;
 mod error;
+pub(crate) mod ai;
 
+use log::error;
 use tauri_plugin_log::fern::colors::ColoredLevelConfig;
 use tauri_plugin_log::RotationStrategy;
 
@@ -35,11 +36,23 @@ fn setup_logger(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> 
     Ok(())
 }
 
+async fn init_ollama_models(app_handle: tauri::AppHandle) {
+    if let Err(e) = ai::ollama_models::init(&app_handle).await {
+        error!("Failed to initialize Ollama models: {:?}", e);
+    }
+}
+
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     let builder = tauri::Builder::default()
-        .setup(|app| {
+        .plugin(tauri_plugin_store::Builder::new().build())
+        .setup(|app|  {
             setup_logger(app)?;
+            let app_handle = app.handle().clone();
+            tauri::async_runtime::spawn(async move {
+                init_ollama_models(app_handle).await;
+            });
             Ok(())
         });
 
@@ -49,15 +62,17 @@ pub fn run() {
         .plugin(tauri_plugin_clipboard_manager::init())
         .plugin(tauri_plugin_window_state::Builder::new().build())
         .plugin(tauri_plugin_updater::Builder::new().build())
-        .plugin(tauri_plugin_store::Builder::new().build())
         .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_process::init())
         .plugin(tauri_plugin_os::init())
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_fs::init())
         .invoke_handler(tauri::generate_handler![
-            commands::ai::ollama::is_ollama_installed,
-            commands::ai::ollama::send_prompt_to_ollama,
+            ai::commands::is_ollama_installed,
+            ai::commands::send_prompt_to_ollama,
+            ai::commands::list_local_models,
+            ai::commands::get_ollama_models,
+            ai::commands::refresh_ollama_models,
         ]
         )
         .run(tauri::generate_context!())

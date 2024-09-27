@@ -1,10 +1,11 @@
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue'
+import {ref, onMounted} from 'vue'
 import ChatMessage from './ChatMessage.vue'
 import CortexLogo from "~/components/CortexLogo.vue"
-import { useOllamaInteraction } from '@/composables/useOllamaInteraction'
-import { useChatStore } from '~/stores'
-import { Send } from 'lucide-vue-next'
+import {useOllamaInteraction} from '@/composables/useOllamaInteraction'
+import {useChatStore} from '~/stores'
+import {Send} from 'lucide-vue-next'
+import ModelSelector from "~/components/ai/ModelSelector.vue";
 
 const props = defineProps({
   editorContent: {
@@ -17,9 +18,10 @@ const props = defineProps({
   }
 })
 
-const { sendPrompt } = useOllamaInteraction()
+const {sendPrompt} = useOllamaInteraction()
 const chatStore = useChatStore()
 const prompt = ref('')
+const selectedModel = ref('')
 
 onMounted(() => {
   if (chatStore.messages.length === 0) {
@@ -31,7 +33,7 @@ onMounted(() => {
 })
 
 async function handleSendPrompt() {
-  if (!prompt.value.trim()) return
+  if (!prompt.value.trim() || !selectedModel.value) return
   const userMessage = prompt.value.trim()
   chatStore.addMessage({
     sender: 'user',
@@ -40,7 +42,13 @@ async function handleSendPrompt() {
   prompt.value = ''
   chatStore.setIsSending(true)
   try {
-    await sendPrompt(userMessage, 'user-id', props.editorContent, props.editorLanguage)
+    await sendPrompt({
+      message: userMessage,
+      userId: 'user-id',
+      editorContent: props.editorContent,
+      language: props.editorLanguage,
+      selectedModel: selectedModel.value
+    })
   } catch (error) {
     if (error instanceof Error) {
       chatStore.setPromptError(error.message)
@@ -54,9 +62,11 @@ async function handleSendPrompt() {
 </script>
 
 <template>
-  <div class="h-full flex flex-col bg-background rounded-2xl shadow-lg overflow-hidden text-foreground border-2 border-border">
-    <div class="p-4 border-b border-border">
-      <CortexLogo />
+  <div
+      class="h-full flex flex-col bg-background rounded-2xl shadow-lg overflow-hidden text-foreground border-2 border-border">
+    <div class="p-4 border-b border-border flex justify-between items-center">
+      <CortexLogo/>
+      <ModelSelector v-model="selectedModel"/>
     </div>
     <div class="flex-grow overflow-auto p-6 space-y-4">
       <ChatMessage
@@ -87,10 +97,10 @@ async function handleSendPrompt() {
         <Button
             size="icon"
             class="absolute right-3 h-10 w-10 flex items-center justify-center rounded-lg"
-            :disabled="chatStore.isSending || chatStore.isStreaming"
+            :disabled="chatStore.isSending || chatStore.isStreaming || !selectedModel"
             @click="handleSendPrompt"
         >
-          <Send class="h-5 w-5" />
+          <Send class="h-5 w-5"/>
         </Button>
       </div>
     </div>

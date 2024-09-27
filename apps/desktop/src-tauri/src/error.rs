@@ -4,6 +4,9 @@ use thiserror::Error;
 pub enum AppError {
     #[error("Tauri error: {0}")]
     TauriError(#[from] tauri::Error),
+    
+    #[error("Tauri store error: {0}")]
+    TauriStoreError(#[from] tauri_plugin_store::Error),
 
     #[error("IO error: {0}")]
     Io(#[from] std::io::Error),
@@ -28,6 +31,10 @@ pub enum AppError {
 
     #[error("Context not found")]
     ContextNotFound,
+    
+    #[error("Unknown error")]
+    Unknown(#[from] anyhow::Error),
+    
 
 }
 

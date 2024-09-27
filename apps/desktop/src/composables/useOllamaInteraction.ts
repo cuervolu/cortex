@@ -4,6 +4,14 @@ import {listen, type UnlistenFn} from '@tauri-apps/api/event'
 import {info, error} from '@tauri-apps/plugin-log'
 import {useChatStore} from "~/stores"
 
+interface SendPromptParams {
+  message: string;
+  userId: string;
+  editorContent?: string;
+  language?: string;
+  selectedModel: string;
+}
+
 export function useOllamaInteraction() {
   const chatStore = useChatStore()
   let unlisten: UnlistenFn | null = null
@@ -28,8 +36,14 @@ export function useOllamaInteraction() {
     if (unlisten) unlisten()
   })
 
-  async function sendPrompt(message: string, userId: string, editorContent?: string, language?: string) {
-    if (!message.trim()) return
+  async function sendPrompt({
+                              message,
+                              userId,
+                              editorContent,
+                              language,
+                              selectedModel
+                            }: SendPromptParams) {
+    if (!message.trim() || !selectedModel) return
     chatStore.setIsSending(true)
     chatStore.setIsStreaming(true)
     chatStore.setPromptError(null)
@@ -43,17 +57,17 @@ export function useOllamaInteraction() {
       }
 
       await invoke('send_prompt_to_ollama', {
-        model: "llama3:8b",
+        model: selectedModel,
         prompt: fullPrompt,
         userId: userId
       })
-      await info('Prompt sent successfully')
+      await info(`Prompt sent successfully to model: ${selectedModel}`)
     } catch (err) {
       if (err instanceof Error) {
-        await error(`Failed to send prompt to Ollama: ${err.message}`)
+        await error(`Failed to send prompt to Ollama model ${selectedModel}: ${err.message}`)
         chatStore.setPromptError(err.message)
       } else {
-        await error('An unknown error occurred while sending prompt to Ollama')
+        await error(`An unknown error occurred while sending prompt to Ollama model ${selectedModel}`)
         chatStore.setPromptError('An unknown error occurred')
       }
     } finally {
