@@ -1,8 +1,10 @@
+use tauri::{command, Emitter, Window};
+use tauri::Manager;
+use tauri_plugin_shell::ShellExt;
 use std::process::Command;
 use std::sync::Mutex;
 use futures::StreamExt;
-use tauri::{command, Emitter, Window};
-use anyhow::{Result, Context};
+use anyhow::Result;
 use lazy_static::lazy_static;
 use log::{error, info};
 use ollama_rs::Ollama;
@@ -31,47 +33,89 @@ fn get_ollama() -> Result<Ollama, AppError> {
 }
 
 #[cfg(target_os = "windows")]
-fn check_ollama_windows() -> Result<bool> {
-    Command::new("where")
-        .arg("ollama")
+async fn check_ollama_windows(app_handle: &tauri::AppHandle) -> Result<bool, AppError> {
+    let shell = app_handle.shell();
+    match shell.command("where")
+        .args(["ollama"])
         .output()
-        .context("Failed to execute 'where' command")?
-        .status
-        .success()
-        .then_some(true)
-        .ok_or(AppError::OllamaNotFound.into())
+        .await
+    {
+        Ok(output) => {
+            if output.status.success() && !output.stdout.is_empty() {
+                Ok(true)
+            } else {
+                Ok(false)
+            }
+        },
+        Err(e) => {
+            error!("Failed to execute 'where' command: {}", e);
+            Err(AppError::CommandExecutionError)
+        }
+    }
 }
 
 #[cfg(target_os = "macos")]
-fn check_ollama_macos() -> Result<bool> {
-    std::path::Path::new("/usr/local/bin/ollama")
-        .exists()
-        .then_some(true)
-        .ok_or(AppError::OllamaNotFound.into())
+async fn check_ollama_macos(app_handle: &tauri::AppHandle) -> Result<bool, AppError> {
+    use std::path::Path;
+
+    if Path::new("/usr/local/bin/ollama").exists() {
+        Ok(true)
+    } else {
+        let shell = app_handle.shell();
+        match shell.command("which")
+            .args(["ollama"])
+            .output()
+            .await
+        {
+            Ok(output) => Ok(output.status.success() && !output.stdout.is_empty()),
+            Err(e) => {
+                error!("Failed to execute 'which' command: {}", e);
+                Err(AppError::CommandExecutionError)
+            }
+        }
+    }
 }
 
 #[cfg(target_os = "linux")]
-fn check_ollama_linux() -> Result<bool> {
-    Command::new("which")
-        .arg("ollama")
+async fn check_ollama_linux(app_handle: &tauri::AppHandle) -> Result<bool, AppError> {
+    let shell = app_handle.shell();
+    match shell.command("which")
+        .args(["ollama"])
         .output()
-        .context("Failed to execute 'which' command")?
-        .status
-        .success()
-        .then_some(true)
-        .ok_or(AppError::OllamaNotFound.into())
+        .await
+    {
+        Ok(output) => {
+            if output.status.success() && !output.stdout.is_empty() {
+                Ok(true)
+            } else {
+                Ok(false)
+            }
+        },
+        Err(e) => {
+            error!("Failed to execute 'which' command: {}", e);
+            Err(AppError::CommandExecutionError)
+        }
+    }
 }
 
 #[command]
-pub fn is_ollama_installed() -> Result<bool, AppError> {
+pub async fn is_ollama_installed(app_handle: tauri::AppHandle) -> Result<bool, AppError> {
     #[cfg(target_os = "windows")]
-    return check_ollama_windows().map_err(|e| e.downcast().unwrap_or(AppError::CommandExecutionError));
+    {
+        check_ollama_windows(&app_handle).await
+    }
     #[cfg(target_os = "macos")]
-    return check_ollama_macos().map_err(|e| e.downcast().unwrap_or(AppError::CommandExecutionError));
+    {
+        check_ollama_macos(&app_handle).await
+    }
     #[cfg(target_os = "linux")]
-    return check_ollama_linux().map_err(|e| e.downcast().unwrap_or(AppError::CommandExecutionError));
+    {
+        check_ollama_linux(&app_handle).await
+    }
     #[cfg(not(any(target_os = "windows", target_os = "macos", target_os = "linux")))]
-    Err(AppError::UnsupportedOS)
+    {
+        Err(AppError::UnsupportedOS)
+    }
 }
 
 #[command]

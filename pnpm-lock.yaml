@@ -207,6 +207,9 @@ importers:
       '@uiw/codemirror-extensions-langs':
         specifier: ^4.23.3
         version: 4.23.3(@codemirror/autocomplete@6.18.0(@codemirror/language@6.10.3)(@codemirror/state@6.4.1)(@codemirror/view@6.30.0)(@lezer/common@1.2.1))(@codemirror/language-data@6.5.1(@codemirror/view@6.30.0))(@codemirror/language@6.10.3)(@codemirror/legacy-modes@6.4.1)(@codemirror/state@6.4.1)(@codemirror/view@6.30.0)(@lezer/common@1.2.1)(@lezer/highlight@1.2.1)(@lezer/javascript@1.4.18)(@lezer/lr@1.4.2)
+      '@uiw/codemirror-extensions-line-numbers-relative':
+        specifier: ^4.23.3
+        version: 4.23.3(@codemirror/state@6.4.1)(@codemirror/view@6.30.0)
       '@uiw/codemirror-extensions-zebra-stripes':
         specifier: ^4.23.3
         version: 4.23.3(@codemirror/state@6.4.1)(@codemirror/view@6.30.0)
@@ -2196,6 +2199,12 @@ packages:
     peerDependencies:
       '@codemirror/language-data': '>=6.0.0'
       '@codemirror/legacy-modes': '>=6.0.0'
+
+  '@uiw/codemirror-extensions-line-numbers-relative@4.23.3':
+    resolution: {integrity: sha512-AotboTWSgMRivXSBIFTsoQbiAXgTIVLZVp9s8xAQVFLbJ4SLN8PuGTT5U5TPDsBqxRn8PNqq6FtImntK9xkJ7g==}
+    peerDependencies:
+      '@codemirror/state': '>=6.0.0'
+      '@codemirror/view': '>=6.0.0'
 
   '@uiw/codemirror-extensions-zebra-stripes@4.23.3':
     resolution: {integrity: sha512-KSp0EOy/cT3QhVCRQqGxrcEQpKsEtT35uiIfczpOVQz5n0qbuazi/bSoGyl12oCywZq/ghyoHVPQUyUnj0FITA==}
@@ -8837,6 +8846,11 @@ snapshots:
       - '@lezer/highlight'
       - '@lezer/javascript'
       - '@lezer/lr'
+
+  '@uiw/codemirror-extensions-line-numbers-relative@4.23.3(@codemirror/state@6.4.1)(@codemirror/view@6.30.0)':
+    dependencies:
+      '@codemirror/state': 6.4.1
+      '@codemirror/view': 6.30.0
 
   '@uiw/codemirror-extensions-zebra-stripes@4.23.3(@codemirror/state@6.4.1)(@codemirror/view@6.30.0)':
     dependencies:
