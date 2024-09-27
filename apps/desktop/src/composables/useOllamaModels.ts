@@ -2,7 +2,7 @@ import { ref, onMounted } from 'vue'
 import { invoke } from '@tauri-apps/api/core'
 import { info, error as logError } from '@tauri-apps/plugin-log'
 
-interface OllamaModel {
+export interface OllamaModel {
   name: string
   tags: string[]
   description: string
