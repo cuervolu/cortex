@@ -34,8 +34,8 @@ public enum BusinessErrorCodes {
   GITHUB_SYNC_FAILED(313, INTERNAL_SERVER_ERROR, "Failed to sync exercises"),
   EXERCISE_CREATE_FAILED(314, INTERNAL_SERVER_ERROR, "Failed to create exercise"),
   EXERCISE_UPDATE_FAILED(315, INTERNAL_SERVER_ERROR, "Failed to update exercise"),
-  EXERCISE_NOT_FOUND(316, NOT_FOUND, "Exercise not found")
-  
+  EXERCISE_NOT_FOUND(316, NOT_FOUND, "Exercise not found"),
+  EXERCISE_READ_FAILED(317, INTERNAL_SERVER_ERROR, "Failed to read exercise"),
   
   ;
   private final int code;

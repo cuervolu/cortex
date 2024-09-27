@@ -1,6 +1,7 @@
 package com.cortex.backend.engine.api;
 
 import com.cortex.backend.engine.api.dto.CreateExercise;
+import com.cortex.backend.engine.api.dto.ExerciseDetailsResponse;
 import com.cortex.backend.engine.api.dto.ExerciseResponse;
 import com.cortex.backend.engine.api.dto.UpdateExercise;
 
@@ -17,4 +18,5 @@ public interface ExerciseService {
   boolean isExerciseRepositoryEmpty();
   void updateOrCreateExercise(String exerciseName, String githubPath, String instructions, String hints);
   boolean areLessonsAvailable();
+  ExerciseDetailsResponse getExerciseDetails(Long id);
 }

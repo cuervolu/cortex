@@ -7,6 +7,7 @@ import static com.cortex.backend.core.common.BusinessErrorCodes.ACCOUNT_LOCKED;
 import static com.cortex.backend.core.common.BusinessErrorCodes.BAD_CREDENTIALS;
 import static com.cortex.backend.core.common.BusinessErrorCodes.EMAIL_SENDING_FAILED;
 import static com.cortex.backend.core.common.BusinessErrorCodes.EXERCISE_CREATE_FAILED;
+import static com.cortex.backend.core.common.BusinessErrorCodes.EXERCISE_READ_FAILED;
 import static com.cortex.backend.core.common.BusinessErrorCodes.EXPIRED_TOKEN;
 import static com.cortex.backend.core.common.BusinessErrorCodes.FILE_SIZE_EXCEEDED;
 import static com.cortex.backend.core.common.BusinessErrorCodes.GITHUB_SYNC_FAILED;
@@ -24,6 +25,7 @@ import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 import com.cortex.backend.core.common.exception.EmailSendingException;
 import com.cortex.backend.core.common.exception.ExerciseCreationException;
+import com.cortex.backend.core.common.exception.ExerciseReadException;
 import com.cortex.backend.core.common.exception.ExpiredTokenException;
 import com.cortex.backend.core.common.exception.FileSizeExceededException;
 import com.cortex.backend.core.common.exception.GitSyncException;
@@ -260,6 +262,19 @@ public class GlobalExceptionHandler {
             ExceptionResponse.builder()
                 .businessErrorCode(EXERCISE_CREATE_FAILED.getCode())
                 .businessErrorDescription(EXERCISE_CREATE_FAILED.getDescription())
+                .error(exp.getMessage())
+                .build());
+  }
+  
+  
+  @ExceptionHandler(ExerciseReadException.class)
+  public ResponseEntity<ExceptionResponse> handleExcerciseReadException(
+      ExerciseReadException exp) {
+    return ResponseEntity.status(EXERCISE_READ_FAILED.getHttpStatus())
+        .body(
+            ExceptionResponse.builder()
+                .businessErrorCode(EXERCISE_READ_FAILED.getCode())
+                .businessErrorDescription(EXERCISE_READ_FAILED.getDescription())
                 .error(exp.getMessage())
                 .build());
   }
