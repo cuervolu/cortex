@@ -19,6 +19,7 @@
     "@codemirror/state": "^6.4.1",
     "@codemirror/view": "^6.34.0",
     "@cortex/shared": "workspace:^",
+    "@fabianlars/tauri-plugin-oauth": "github:FabianLars/tauri-plugin-oauth#v2",
     "@nuxt/eslint": "^0.5.7",
     "@nuxt/fonts": "^0.7.2",
     "@nuxtjs/color-mode": "^3.5.1",
