@@ -1,26 +1,13 @@
-<script setup lang="ts">
-import { ref } from 'vue'
-
-const isSidebarOpen = ref(true)
-
-const toggleSidebar = () => {
-  isSidebarOpen.value = !isSidebarOpen.value
-}
-</script>
-
 <template>
-  <div class="flex h-screen w-full bg-background text-foreground overflow-hidden">
-    <AppSidebar :is-open="isSidebarOpen" />
-    <div class="flex-1 flex flex-col min-w-0 w-full">
-      <AppHeader :is-sidebar-open="isSidebarOpen" @toggle-sidebar="toggleSidebar" />
-      <main class="flex-1 overflow-hidden">
-        <ScrollArea class="h-full p-6">
-          <div class="space-y-4">
-            <slot />
-          </div>
-        </ScrollArea>
-      </main>
-      <AppFooter />
-    </div>
+  <div class="flex h-screen bg-gradient-to-br from-purple-900 via-indigo-800 to-pink-700">
+    <AppSidebar />
+    <main class="flex-grow flex">
+      <div class="flex-grow bg-white rounded-3xl m-6 p-8 overflow-auto">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-2xl font-bold">Dashboard</h2>
+          <Button variant="secondary">Add Custom Widget</Button>
+        </div>
+      </div>
+    </main>
   </div>
 </template>
