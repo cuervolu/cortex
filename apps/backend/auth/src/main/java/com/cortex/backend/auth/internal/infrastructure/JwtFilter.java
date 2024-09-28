@@ -79,8 +79,8 @@ public class JwtFilter extends OncePerRequestFilter {
 
   private void handleExpiredJwtException(HttpServletResponse response, ExpiredJwtException e) throws IOException {
     ExceptionResponse exceptionResponse = ExceptionResponse.builder()
-        .businessErrorCode(EXPIRED_TOKEN.getCode())
-        .businessErrorDescription(EXPIRED_TOKEN.getDescription())
+        .code(EXPIRED_TOKEN.getCode())
+        .description(EXPIRED_TOKEN.getDescription())
         .error(e.getMessage())
         .build();
 

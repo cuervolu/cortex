@@ -36,7 +36,7 @@ public enum BusinessErrorCodes {
   EXERCISE_UPDATE_FAILED(315, INTERNAL_SERVER_ERROR, "Failed to update exercise"),
   EXERCISE_NOT_FOUND(316, NOT_FOUND, "Exercise not found"),
   EXERCISE_READ_FAILED(317, INTERNAL_SERVER_ERROR, "Failed to read exercise"),
-  
+  UNSUPPORTED_LANGUAGE(318, BAD_REQUEST, "Unsupported language"),
   ;
   private final int code;
   private final String description;

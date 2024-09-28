@@ -1,15 +1,10 @@
 package com.cortex.backend.engine.api.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-@Getter
-@Setter
-@Builder
-public class CodeExecutionRequest {
-  private String language;
-  private String initialCode;
-  private String userCode;
-  private String testCode;
-}
+public record CodeExecutionRequest(
+    String language,
+    @JsonProperty("initial_code") String initialCode,
+    @JsonProperty("user_code") String userCode,
+    @JsonProperty("test_code") String testCode
+) {}
