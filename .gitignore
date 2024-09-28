@@ -214,3 +214,7 @@ dist
 .turbo
 
 .vscode/
+
+target/
+
+Cargo.lock
