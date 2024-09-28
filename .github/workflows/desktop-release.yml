@@ -44,7 +44,7 @@ jobs:
       - name: Rust cache
         uses: swatinem/rust-cache@v2
         with:
-          workspaces: 'apps/desktop/src-tauri -> target'
+          workspaces: './apps/desktop/src-tauri -> target'
       - name: Install dependencies
         run: pnpm install
       - name: Build Tauri app
