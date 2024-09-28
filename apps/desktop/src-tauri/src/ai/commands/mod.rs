@@ -1,10 +1,19 @@
 use futures::StreamExt;
 use log::{error, info};
-use ollama_rs::generation::chat::ChatMessage;
 use ollama_rs::generation::chat::request::ChatMessageRequest;
+use ollama_rs::generation::chat::ChatMessage;
 use tauri::{AppHandle, Emitter, Window, Wry};
+
+#[cfg(target_os = "linux")]
 use crate::ai::ollama::check_ollama_linux;
-use crate::ai::ollama_models::{OllamaModel, update_ollama_models};
+
+#[cfg(target_os = "macos")]
+use crate::ai::ollama::check_ollama_macos;
+
+#[cfg(target_os = "windows")]
+use crate::ai::ollama::check_ollama_windows;
+
+use crate::ai::ollama_models::{update_ollama_models, OllamaModel};
 use crate::error::AppError;
 
 #[tauri::command]
@@ -44,12 +53,17 @@ pub async fn send_prompt_to_ollama(
     user_id: String,
     window: Window,
 ) -> Result<(), AppError> {
-    info!("Attempting to send prompt to Ollama. Model: {}, Prompt: {}, User ID: {}", model, prompt, user_id);
+    info!(
+        "Attempting to send prompt to Ollama. Model: {}, Prompt: {}, User ID: {}",
+        model, prompt, user_id
+    );
     let ollama = crate::ai::ollama::get_ollama()?;
 
     // Get chat context for this user
     let context = {
-        let mut contexts = crate::ai::ollama::CHAT_CONTEXTS.lock().map_err(|_| AppError::ContextLockError)?;
+        let mut contexts = crate::ai::ollama::CHAT_CONTEXTS
+            .lock()
+            .map_err(|_| AppError::ContextLockError)?;
         let context = contexts.entry(user_id.clone()).or_insert_with(Vec::new);
         context.push(ChatMessage::user(prompt.clone()));
         context.clone()
@@ -58,10 +72,13 @@ pub async fn send_prompt_to_ollama(
     // Create chat request with full context
     let request = ChatMessageRequest::new(model, context);
 
-    let mut stream = ollama.send_chat_messages_stream(request).await.map_err(|e| {
-        error!("Error generating response stream from Ollama: {:?}", e);
-        AppError::AIServiceError(format!("Ollama error: {}", e))
-    })?;
+    let mut stream = ollama
+        .send_chat_messages_stream(request)
+        .await
+        .map_err(|e| {
+            error!("Error generating response stream from Ollama: {:?}", e);
+            AppError::AIServiceError(format!("Ollama error: {}", e))
+        })?;
 
     let mut full_response = String::new();
 
@@ -70,17 +87,22 @@ pub async fn send_prompt_to_ollama(
             Ok(response) => {
                 if let Some(message) = response.message {
                     full_response.push_str(&message.content);
-                    window.emit("ollama-response", &message.content).map_err(|e| {
-                        error!("Error emitting Ollama response: {:?}", e);
-                        AppError::TauriError(e)
-                    })?;
+                    window
+                        .emit("ollama-response", &message.content)
+                        .map_err(|e| {
+                            error!("Error emitting Ollama response: {:?}", e);
+                            AppError::TauriError(e)
+                        })?;
                 } else {
                     error!("Received empty message from Ollama");
                 }
             }
             Err(e) => {
                 error!("Error in Ollama response stream: {:?}", e);
-                return Err(AppError::AIServiceError(format!("Ollama stream error: {:?}", e)));
+                return Err(AppError::AIServiceError(format!(
+                    "Ollama stream error: {:?}",
+                    e
+                )));
             }
         }
     }
@@ -89,8 +111,12 @@ pub async fn send_prompt_to_ollama(
 
     // Update context with full AI response
     {
-        let mut contexts = crate::ai::ollama::CHAT_CONTEXTS.lock().map_err(|_| AppError::ContextLockError)?;
-        let context = contexts.get_mut(&user_id).ok_or(AppError::ContextNotFound)?;
+        let mut contexts = crate::ai::ollama::CHAT_CONTEXTS
+            .lock()
+            .map_err(|_| AppError::ContextLockError)?;
+        let context = contexts
+            .get_mut(&user_id)
+            .ok_or(AppError::ContextNotFound)?;
         context.push(ChatMessage::assistant(full_response));
 
         // Limit context size if necessary
