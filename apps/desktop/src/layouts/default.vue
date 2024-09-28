@@ -7,6 +7,7 @@
           <h2 class="text-2xl font-bold">Dashboard</h2>
           <Button variant="secondary">Add Custom Widget</Button>
         </div>
+<!--      <slot />-->
       </div>
     </main>
   </div>
