@@ -28,7 +28,7 @@ pub(crate) fn get_ollama() -> Result<Ollama, AppError> {
 }
 
 #[cfg(target_os = "windows")]
-async fn check_ollama_windows(app_handle: &tauri::AppHandle) -> Result<bool, AppError> {
+pub(crate) async fn check_ollama_windows(app_handle: &tauri::AppHandle) -> Result<bool, AppError> {
     let shell = app_handle.shell();
     match shell.command("where")
         .args(["ollama"])
@@ -44,13 +44,13 @@ async fn check_ollama_windows(app_handle: &tauri::AppHandle) -> Result<bool, App
         }
         Err(e) => {
             error!("Failed to execute 'where' command: {}", e);
-            Err(AppError::CommandExecutionError)
+            Err(AppError::CommandExecutionError(e.to_string()))
         }
     }
 }
 
 #[cfg(target_os = "macos")]
-async fn check_ollama_macos(app_handle: &tauri::AppHandle) -> Result<bool, AppError> {
+pub(crate) async fn check_ollama_macos(app_handle: &tauri::AppHandle) -> Result<bool, AppError> {
     use std::path::Path;
 
     if Path::new("/usr/local/bin/ollama").exists() {
