@@ -16,7 +16,7 @@ export const useOllamaStore = defineStore('ollama', () => {
   const currentStreamingMessage = ref('')
   const promptError = ref<string | null>(null)
   const localModels = ref<OllamaModelInfo[]>([])
-  
+
   // Ollama Detection
   const isOllamaInstalled = ref<boolean | null>(null)
   const isChecking = ref(false)
@@ -64,6 +64,7 @@ export const useOllamaStore = defineStore('ollama', () => {
     try {
       localModels.value = await invoke<OllamaModelInfo[]>('list_ollama_models')
       await info(`Successfully fetched ${localModels.value.length} local Ollama models`)
+      await info(`Local Ollama models: ${JSON.stringify(localModels.value)}`)
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred'
       if (retries > 0) {
@@ -80,22 +81,40 @@ export const useOllamaStore = defineStore('ollama', () => {
   }
 
   const pullModel = async (modelName: string) => {
+    pullProgress.value = '0%'
     try {
-      await invoke('pull_ollama_model', {modelName})
-      error.value = null
-
-      await listen<string>('ollama-pull-progress', (event) => {
+      const unlistenProgress = await listen<string>('ollama-pull-progress', (event) => {
         pullProgress.value = event.payload
       })
 
-      await listen<string>('ollama-pull-error', (event) => {
+      const unlistenError = await listen<string>('ollama-pull-error', (event) => {
         error.value = event.payload
       })
+
+      await invoke('pull_ollama_model', {modelName})
+
+      unlistenProgress()
+      unlistenError()
+
+      error.value = null
+      await fetchLocalModels()
+    } catch (err) {
+      error.value = err instanceof Error ? err.message : 'An unknown error occurred'
+    } finally {
+      pullProgress.value = ''
+    }
+  }
+
+
+  const deleteModel = async (modelName: string) => {
+    try {
+      await invoke('delete_ollama_model', { modelName })
+      await fetchLocalModels()
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'An unknown error occurred'
     }
   }
-
+  
   const setupListeners = async () => {
     unlistenResponse = await listen<string>('ollama-response', (event) => {
       currentStreamingMessage.value += event.payload
@@ -215,6 +234,7 @@ export const useOllamaStore = defineStore('ollama', () => {
     fetchModelDetails,
     fetchLocalModels,
     pullModel,
+    deleteModel,
     setupListeners,
     removeListeners,
     sendPrompt,

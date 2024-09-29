@@ -1,7 +1,8 @@
 use futures::StreamExt;
-use log::{error, info};
+use log::{error, info, warn};
 use ollama_rs::generation::chat::request::ChatMessageRequest;
 use ollama_rs::generation::chat::ChatMessage;
+use regex::Regex;
 use tauri::{AppHandle, Emitter, Manager, Window, Wry};
 use tauri_plugin_shell::process::CommandEvent;
 use tauri_plugin_shell::ShellExt;
@@ -240,21 +241,31 @@ pub async fn pull_ollama_model(app_handle: AppHandle, model_name: String) -> Res
     while let Some(event) = rx.recv().await {
         match event {
             CommandEvent::Stdout(line) => {
-                info!("Ollama pull progress: {:?}", line);
-                window.emit("ollama-pull-progress", &line)
+                let cleaned_line = clean_ansi_codes(&line);
+                window.emit("ollama-pull-progress", &cleaned_line)
                     .map_err(|e| {
                         error!("Failed to emit ollama-pull-progress event: {}", e);
                         AppError::TauriError(e)
                     })?;
             }
             CommandEvent::Stderr(line) => {
-                error!("Ollama pull error:  {:?}", line);
-                window.emit("ollama-pull-error", &line)
-                    .map_err(|e| {
-                        error!("Failed to emit ollama-pull-error event: {}", e);
-                        AppError::TauriError(e)
-                    })?;
-                break;
+                let cleaned_line = clean_ansi_codes(&line);
+                // Check if the line indicates an actual error
+                if cleaned_line.to_lowercase().contains("error") {
+                    error!("Ollama pull error: {}", cleaned_line);
+                    window.emit("ollama-pull-error", &cleaned_line)
+                        .map_err(|e| {
+                            error!("Failed to emit ollama-pull-error event: {}", e);
+                            AppError::TauriError(e)
+                        })?;
+                } else {
+                    // Treat as progress information
+                    window.emit("ollama-pull-progress", &cleaned_line)
+                        .map_err(|e| {
+                            error!("Failed to emit ollama-pull-progress event: {}", e);
+                            AppError::TauriError(e)
+                        })?;
+                }
             }
             CommandEvent::Error(err) => {
                 error!("Ollama pull command error: {}", err);
@@ -265,7 +276,7 @@ pub async fn pull_ollama_model(app_handle: AppHandle, model_name: String) -> Res
                 break;
             }
             _ => {
-                info!("Received unexpected event from ollama pull command");
+                warn!("Received unexpected event from ollama pull command");
             }
         }
     }
@@ -277,4 +288,32 @@ pub async fn pull_ollama_model(app_handle: AppHandle, model_name: String) -> Res
 #[tauri::command]
 pub async fn forced_update(app_handle: AppHandle) -> Result<(), AppError> {
     force_update_ollama_models(&app_handle).await
+}
+
+
+#[tauri::command]
+pub async fn delete_ollama_model(app_handle: AppHandle, model_name: String) -> Result<(), AppError> {
+    let shell = app_handle.shell();
+    let output = shell.command("ollama")
+        .args(["rm", &model_name])
+        .output()
+        .await
+        .map_err(|e| AppError::CommandExecutionError(e.to_string()))?;
+
+    if !output.status.success() {
+        let error_message = String::from_utf8_lossy(&output.stderr);
+        return Err(AppError::AIServiceError(format!("Failed to delete model: {}", error_message)));
+    }
+
+    Ok(())
+}
+
+fn clean_ansi_codes(input: &[u8]) -> String {
+    let input_str = match std::str::from_utf8(input) {
+        Ok(s) => s,
+        Err(_) => return String::from_utf8_lossy(input).into_owned(),
+    };
+
+    let re = Regex::new(r"\x1B\[[0-9;]*[a-zA-Z]").unwrap();
+    re.replace_all(input_str, "").into_owned()
 }

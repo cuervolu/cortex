@@ -1,10 +1,18 @@
 <script setup lang="ts">
-import {AlertCircle, Download, ChevronLeft, ChevronRight} from 'lucide-vue-next'
-import {useOllamaStore} from '~/stores'
+import {ref, computed, onMounted, watch} from 'vue'
 import {storeToRefs} from 'pinia'
+import {AlertCircle, Download, ChevronLeft, ChevronRight, Check, Trash2} from 'lucide-vue-next'
+import {useOllamaStore} from '~/stores'
 
 const ollamaStore = useOllamaStore()
-const {models, isLoading, error, isOllamaInstalled, pullProgress} = storeToRefs(ollamaStore)
+const {
+  models,
+  isLoading,
+  error,
+  isOllamaInstalled,
+  pullProgress,
+  localModels
+} = storeToRefs(ollamaStore)
 
 const downloadingModels = ref<Record<string, boolean>>({})
 const currentPage = ref(1)
@@ -18,11 +26,37 @@ const totalPages = computed(() =>
     Math.ceil(sortedModels.value.length / itemsPerPage)
 )
 
+const getBaseModelName = (fullName: string) => {
+  return fullName.split(':')[0]
+}
+
 const paginatedModels = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage
   const end = start + itemsPerPage
   return sortedModels.value.slice(start, end)
 })
+
+const isModelDownloaded = (modelName: string) => {
+  return localModels.value.some(model => model.name === modelName)
+}
+
+const getProgressInfo = computed(() => {
+  const progressString = pullProgress.value
+  const percentMatch = progressString.match(/(\d+(?:\.\d+)?)%/)
+  const sizeMatch = progressString.match(/(\d+(?:\.\d+)?\s*(?:GB|MB|KB))/)
+  const totalSizeMatch = progressString.match(/(\d+(?:\.\d+)?\s*(?:GB|MB|KB))(\/(\d+(?:\.\d+)?\s*(?:GB|MB|KB)))/)
+
+  return {
+    percent: percentMatch ? parseFloat(percentMatch[1]) : 0,
+    downloadedSize: sizeMatch ? sizeMatch[1] : '',
+    totalSize: totalSizeMatch ? totalSizeMatch[3] : ''
+  }
+})
+
+const getLocalModelInfo = (modelName: string) => {
+  const baseModelName = getBaseModelName(modelName)
+  return localModels.value.find(model => getBaseModelName(model.name) === baseModelName)
+}
 
 const handleModelDownload = async (modelName: string) => {
   downloadingModels.value[modelName] = true
@@ -32,11 +66,29 @@ const handleModelDownload = async (modelName: string) => {
     console.error('Failed to download model:', err)
   } finally {
     downloadingModels.value[modelName] = false
+    await ollamaStore.fetchLocalModels()
+  }
+}
+
+
+
+const handleModelDelete = async (modelName: string) => {
+  try {
+    const localModel = getLocalModelInfo(modelName)
+    if (localModel) {
+      await ollamaStore.deleteModel(localModel.name)
+      await ollamaStore.fetchLocalModels()
+    } else {
+      console.error('Local model not found:', modelName)
+    }
+  } catch (err) {
+    console.error('Failed to delete model:', err)
   }
 }
 
 const handleRefresh = async () => {
   await ollamaStore.fetchOllamaModels()
+  await ollamaStore.fetchLocalModels()
   currentPage.value = 1
 }
 
@@ -56,9 +108,13 @@ onMounted(async () => {
   await ollamaStore.checkOllamaInstallation()
   if (ollamaStore.isOllamaInstalled) {
     await ollamaStore.fetchOllamaModels()
+    await ollamaStore.fetchLocalModels()
   }
 })
 
+watch(pullProgress, (newProgress) => {
+  console.log('Pull progress:', newProgress)
+})
 </script>
 
 <template>
@@ -116,19 +172,34 @@ onMounted(async () => {
                 </Badge>
               </div>
             </div>
+            <div v-if="downloadingModels[model.name]" class="space-y-2">
+              <div class="flex justify-between items-center">
+                <span class="text-sm text-gray-600">Downloading: {{ getProgressInfo.percent.toFixed(0) }}%</span>
+                <span class="text-sm text-gray-600">{{ getProgressInfo.downloadedSize }} / {{ getProgressInfo.totalSize }}</span>
+              </div>
+              <Progress :value="getProgressInfo.percent" class="w-full" />
+            </div>
+            <div v-else-if="isModelDownloaded(model.name)" class="flex justify-between items-center">
+              <span class="text-sm text-green-600 flex items-center">
+                <Check class="mr-2 h-4 w-4"/>
+                Downloaded ({{ getLocalModelInfo(model.name)?.size }})
+              </span>
+              <Button
+                  variant="outline"
+                  size="sm"
+                  @click="handleModelDelete(model.name)"
+              >
+                <Trash2 class="h-4 w-4 mr-2"/>
+                Delete
+              </Button>
+            </div>
             <Button
-                :disabled="downloadingModels[model.name]"
+                v-else
                 class="w-full"
                 @click="handleModelDownload(model.name)"
             >
-              <template v-if="downloadingModels[model.name]">
-                <span class="mr-2">Downloading...</span>
-                {{ pullProgress }}
-              </template>
-              <template v-else>
-                <Download class="mr-2 h-4 w-4"/>
-                Download Model
-              </template>
+              <Download class="mr-2 h-4 w-4"/>
+              Download Model
             </Button>
           </CardContent>
         </Card>

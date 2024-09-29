@@ -76,7 +76,8 @@ pub fn run() {
             ai::commands::list_ollama_models,
             ai::commands::show_ollama_model,
             ai::commands::pull_ollama_model,
-            ai::commands::forced_update,
+            ai::commands::forced_update,  
+            ai::commands::delete_ollama_model,
         ]
         )
         .run(tauri::generate_context!())
