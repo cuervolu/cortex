@@ -5,17 +5,22 @@ import static com.cortex.backend.core.common.BusinessErrorCodes.ACCESS_DENIED;
 import static com.cortex.backend.core.common.BusinessErrorCodes.ACCOUNT_DISABLED;
 import static com.cortex.backend.core.common.BusinessErrorCodes.ACCOUNT_LOCKED;
 import static com.cortex.backend.core.common.BusinessErrorCodes.BAD_CREDENTIALS;
+import static com.cortex.backend.core.common.BusinessErrorCodes.CODE_EXECUTION_FAILED;
+import static com.cortex.backend.core.common.BusinessErrorCodes.CONTENT_CHANGED;
 import static com.cortex.backend.core.common.BusinessErrorCodes.EMAIL_SENDING_FAILED;
 import static com.cortex.backend.core.common.BusinessErrorCodes.EXERCISE_CREATE_FAILED;
 import static com.cortex.backend.core.common.BusinessErrorCodes.EXERCISE_READ_FAILED;
 import static com.cortex.backend.core.common.BusinessErrorCodes.EXPIRED_TOKEN;
 import static com.cortex.backend.core.common.BusinessErrorCodes.FILE_SIZE_EXCEEDED;
 import static com.cortex.backend.core.common.BusinessErrorCodes.GITHUB_SYNC_FAILED;
+import static com.cortex.backend.core.common.BusinessErrorCodes.HASH_GENERATION_FAILED;
 import static com.cortex.backend.core.common.BusinessErrorCodes.INCORRECT_CURRENT_PASSWORD;
 import static com.cortex.backend.core.common.BusinessErrorCodes.INVALID_FILE_TYPE;
 import static com.cortex.backend.core.common.BusinessErrorCodes.INVALID_TOKEN;
 import static com.cortex.backend.core.common.BusinessErrorCodes.INVALID_URI;
 import static com.cortex.backend.core.common.BusinessErrorCodes.NEW_PASSWORD_DOES_NOT_MATCH;
+import static com.cortex.backend.core.common.BusinessErrorCodes.RESULT_NOT_AVAILABLE;
+import static com.cortex.backend.core.common.BusinessErrorCodes.UNSUPPORTED_LANGUAGE;
 import static com.cortex.backend.core.common.BusinessErrorCodes.USER_ALREADY_EXISTS;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.CONFLICT;
@@ -23,18 +28,23 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
+import com.cortex.backend.core.common.exception.CodeExecutionException;
+import com.cortex.backend.core.common.exception.ContentChangedException;
 import com.cortex.backend.core.common.exception.EmailSendingException;
 import com.cortex.backend.core.common.exception.ExerciseCreationException;
 import com.cortex.backend.core.common.exception.ExerciseReadException;
 import com.cortex.backend.core.common.exception.ExpiredTokenException;
 import com.cortex.backend.core.common.exception.FileSizeExceededException;
 import com.cortex.backend.core.common.exception.GitSyncException;
+import com.cortex.backend.core.common.exception.HashGenerationException;
 import com.cortex.backend.core.common.exception.IncorrectCurrentPasswordException;
 import com.cortex.backend.core.common.exception.InvalidFileTypeException;
 import com.cortex.backend.core.common.exception.InvalidTokenException;
 import com.cortex.backend.core.common.exception.InvalidURIException;
 import com.cortex.backend.core.common.exception.NewPasswordDoesNotMatchException;
 import com.cortex.backend.core.common.exception.OperationNotPermittedException;
+import com.cortex.backend.core.common.exception.ResultNotAvailableException;
+import com.cortex.backend.core.common.exception.UnsupportedLanguageException;
 import com.resend.core.exception.ResendException;
 import java.util.HashSet;
 import java.util.Set;
@@ -59,8 +69,8 @@ public class GlobalExceptionHandler {
     return ResponseEntity.status(UNAUTHORIZED)
         .body(
             ExceptionResponse.builder()
-                .businessErrorCode(ACCOUNT_LOCKED.getCode())
-                .businessErrorDescription(ACCOUNT_LOCKED.getDescription())
+                .code(ACCOUNT_LOCKED.getCode())
+                .description(ACCOUNT_LOCKED.getDescription())
                 .error(exp.getMessage())
                 .build());
   }
@@ -70,8 +80,8 @@ public class GlobalExceptionHandler {
     return ResponseEntity.status(UNAUTHORIZED)
         .body(
             ExceptionResponse.builder()
-                .businessErrorCode(ACCOUNT_DISABLED.getCode())
-                .businessErrorDescription(ACCOUNT_DISABLED.getDescription())
+                .code(ACCOUNT_DISABLED.getCode())
+                .description(ACCOUNT_DISABLED.getDescription())
                 .error(exp.getMessage())
                 .build());
   }
@@ -81,8 +91,8 @@ public class GlobalExceptionHandler {
     return ResponseEntity.status(UNAUTHORIZED)
         .body(
             ExceptionResponse.builder()
-                .businessErrorCode(BAD_CREDENTIALS.getCode())
-                .businessErrorDescription(BAD_CREDENTIALS.getDescription())
+                .code(BAD_CREDENTIALS.getCode())
+                .description(BAD_CREDENTIALS.getDescription())
                 .error(exp.getMessage())
                 .build());
   }
@@ -119,8 +129,8 @@ public class GlobalExceptionHandler {
     return ResponseEntity.status(CONFLICT)
         .body(
             ExceptionResponse.builder()
-                .businessErrorCode(USER_ALREADY_EXISTS.getCode())
-                .businessErrorDescription(USER_ALREADY_EXISTS.getDescription())
+                .code(USER_ALREADY_EXISTS.getCode())
+                .description(USER_ALREADY_EXISTS.getDescription())
                 .error(exp.getMessage())
                 .build());
   }
@@ -130,8 +140,8 @@ public class GlobalExceptionHandler {
     return ResponseEntity.status(INCORRECT_CURRENT_PASSWORD.getHttpStatus())
         .body(
             ExceptionResponse.builder()
-                .businessErrorCode(INCORRECT_CURRENT_PASSWORD.getCode())
-                .businessErrorDescription(INCORRECT_CURRENT_PASSWORD.getDescription())
+                .code(INCORRECT_CURRENT_PASSWORD.getCode())
+                .description(INCORRECT_CURRENT_PASSWORD.getDescription())
                 .error(exp.getMessage())
                 .build());
   }
@@ -141,8 +151,8 @@ public class GlobalExceptionHandler {
     return ResponseEntity.status(NEW_PASSWORD_DOES_NOT_MATCH.getHttpStatus())
         .body(
             ExceptionResponse.builder()
-                .businessErrorCode(NEW_PASSWORD_DOES_NOT_MATCH.getCode())
-                .businessErrorDescription(NEW_PASSWORD_DOES_NOT_MATCH.getDescription())
+                .code(NEW_PASSWORD_DOES_NOT_MATCH.getCode())
+                .description(NEW_PASSWORD_DOES_NOT_MATCH.getDescription())
                 .error(exp.getMessage())
                 .build());
   }
@@ -152,8 +162,8 @@ public class GlobalExceptionHandler {
     return ResponseEntity.status(INVALID_TOKEN.getHttpStatus())
         .body(
             ExceptionResponse.builder()
-                .businessErrorCode(INVALID_TOKEN.getCode())
-                .businessErrorDescription(INVALID_TOKEN.getDescription())
+                .code(INVALID_TOKEN.getCode())
+                .description(INVALID_TOKEN.getDescription())
                 .error(exp.getMessage())
                 .build());
   }
@@ -161,8 +171,8 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(EmailSendingException.class)
   public ResponseEntity<ExceptionResponse> handleEmailSendingException(EmailSendingException ex) {
     ExceptionResponse response = ExceptionResponse.builder()
-        .businessErrorCode(EMAIL_SENDING_FAILED.getCode())
-        .businessErrorDescription(EMAIL_SENDING_FAILED.getDescription())
+        .code(EMAIL_SENDING_FAILED.getCode())
+        .description(EMAIL_SENDING_FAILED.getDescription())
         .error(ex.getMessage())
         .build();
     return ResponseEntity.status(EMAIL_SENDING_FAILED.getHttpStatus()).body(response);
@@ -174,8 +184,8 @@ public class GlobalExceptionHandler {
     return ResponseEntity
         .status(ACCESS_DENIED.getHttpStatus())
         .body(ExceptionResponse.builder()
-            .businessErrorCode(ACCESS_DENIED.getCode())
-            .businessErrorDescription(ACCESS_DENIED.getDescription())
+            .code(ACCESS_DENIED.getCode())
+            .description(ACCESS_DENIED.getDescription())
             .error(ex.getMessage())
             .build());
   }
@@ -187,8 +197,8 @@ public class GlobalExceptionHandler {
     return ResponseEntity
         .status(FORBIDDEN)
         .body(ExceptionResponse.builder()
-            .businessErrorCode(BAD_CREDENTIALS.getCode())
-            .businessErrorDescription(BAD_CREDENTIALS.getDescription())
+            .code(BAD_CREDENTIALS.getCode())
+            .description(BAD_CREDENTIALS.getDescription())
             .error(ex.getMessage())
             .build());
   }
@@ -200,8 +210,8 @@ public class GlobalExceptionHandler {
     return ResponseEntity.status(FILE_SIZE_EXCEEDED.getHttpStatus())
         .body(
             ExceptionResponse.builder()
-                .businessErrorCode(FILE_SIZE_EXCEEDED.getCode())
-                .businessErrorDescription(FILE_SIZE_EXCEEDED.getDescription())
+                .code(FILE_SIZE_EXCEEDED.getCode())
+                .description(FILE_SIZE_EXCEEDED.getDescription())
                 .error(exp.getMessage())
                 .build());
   }
@@ -212,8 +222,8 @@ public class GlobalExceptionHandler {
     return ResponseEntity.status(INVALID_FILE_TYPE.getHttpStatus())
         .body(
             ExceptionResponse.builder()
-                .businessErrorCode(INVALID_FILE_TYPE.getCode())
-                .businessErrorDescription(INVALID_FILE_TYPE.getDescription())
+                .code(INVALID_FILE_TYPE.getCode())
+                .description(INVALID_FILE_TYPE.getDescription())
                 .error(exp.getMessage())
                 .build());
   }
@@ -224,8 +234,8 @@ public class GlobalExceptionHandler {
     return ResponseEntity.status(INVALID_URI.getHttpStatus())
         .body(
             ExceptionResponse.builder()
-                .businessErrorCode(INVALID_URI.getCode())
-                .businessErrorDescription(INVALID_URI.getDescription())
+                .code(INVALID_URI.getCode())
+                .description(INVALID_URI.getDescription())
                 .error(exp.getMessage())
                 .build());
   }
@@ -237,8 +247,8 @@ public class GlobalExceptionHandler {
     return ResponseEntity.status(EXPIRED_TOKEN.getHttpStatus())
         .body(
             ExceptionResponse.builder()
-                .businessErrorCode(EXPIRED_TOKEN.getCode())
-                .businessErrorDescription(EXPIRED_TOKEN.getDescription())
+                .code(EXPIRED_TOKEN.getCode())
+                .description(EXPIRED_TOKEN.getDescription())
                 .error(exp.getMessage())
                 .build());
   }
@@ -248,33 +258,93 @@ public class GlobalExceptionHandler {
     return ResponseEntity.status(GITHUB_SYNC_FAILED.getHttpStatus())
         .body(
             ExceptionResponse.builder()
-                .businessErrorCode(GITHUB_SYNC_FAILED.getCode())
-                .businessErrorDescription(GITHUB_SYNC_FAILED.getDescription())
+                .code(GITHUB_SYNC_FAILED.getCode())
+                .description(GITHUB_SYNC_FAILED.getDescription())
                 .error(exp.getMessage())
                 .build());
   }
-  
+
   @ExceptionHandler(ExerciseCreationException.class)
   public ResponseEntity<ExceptionResponse> handleExcerciseCreationException(
       ExerciseCreationException exp) {
     return ResponseEntity.status(EXERCISE_CREATE_FAILED.getHttpStatus())
         .body(
             ExceptionResponse.builder()
-                .businessErrorCode(EXERCISE_CREATE_FAILED.getCode())
-                .businessErrorDescription(EXERCISE_CREATE_FAILED.getDescription())
+                .code(EXERCISE_CREATE_FAILED.getCode())
+                .description(EXERCISE_CREATE_FAILED.getDescription())
                 .error(exp.getMessage())
                 .build());
   }
-  
-  
+
+
   @ExceptionHandler(ExerciseReadException.class)
   public ResponseEntity<ExceptionResponse> handleExcerciseReadException(
       ExerciseReadException exp) {
     return ResponseEntity.status(EXERCISE_READ_FAILED.getHttpStatus())
         .body(
             ExceptionResponse.builder()
-                .businessErrorCode(EXERCISE_READ_FAILED.getCode())
-                .businessErrorDescription(EXERCISE_READ_FAILED.getDescription())
+                .code(EXERCISE_READ_FAILED.getCode())
+                .description(EXERCISE_READ_FAILED.getDescription())
+                .error(exp.getMessage())
+                .build());
+  }
+
+  @ExceptionHandler(UnsupportedLanguageException.class)
+  public ResponseEntity<ExceptionResponse> handleUnsupportedLanguageException(
+      UnsupportedLanguageException exp) {
+    return ResponseEntity.status(UNSUPPORTED_LANGUAGE.getHttpStatus())
+        .body(
+            ExceptionResponse.builder()
+                .code(UNSUPPORTED_LANGUAGE.getCode())
+                .description(UNSUPPORTED_LANGUAGE.getDescription())
+                .error(exp.getMessage())
+                .build());
+  }
+
+  @ExceptionHandler(HashGenerationException.class)
+  public ResponseEntity<ExceptionResponse> handleHashGenerationException(
+      HashGenerationException exp) {
+    return ResponseEntity.status(HASH_GENERATION_FAILED.getHttpStatus())
+        .body(
+            ExceptionResponse.builder()
+                .code(HASH_GENERATION_FAILED.getCode())
+                .description(HASH_GENERATION_FAILED.getDescription())
+                .error(exp.getMessage())
+                .build());
+  }
+
+  @ExceptionHandler(ResultNotAvailableException.class)
+  public ResponseEntity<ExceptionResponse> handleResultNotAvailableException(
+      ResultNotAvailableException exp) {
+    return ResponseEntity.status(RESULT_NOT_AVAILABLE.getHttpStatus())
+        .body(
+            ExceptionResponse.builder()
+                .code(RESULT_NOT_AVAILABLE.getCode())
+                .description(RESULT_NOT_AVAILABLE.getDescription())
+                .error(exp.getMessage())
+                .build());
+  }
+
+  @ExceptionHandler(ContentChangedException.class)
+  public ResponseEntity<ExceptionResponse> handleContentChangedException(
+      ContentChangedException exp) {
+    return ResponseEntity.status(CONTENT_CHANGED.getHttpStatus())
+        .body(
+            ExceptionResponse.builder()
+                .code(CONTENT_CHANGED.getCode())
+                .description(CONTENT_CHANGED.getDescription())
+                .error(exp.getMessage())
+                .build());
+  }
+
+  @ExceptionHandler(CodeExecutionException.class)
+  public ResponseEntity<ExceptionResponse> handleCodeExecutionException(
+      CodeExecutionException exp) {
+    return ResponseEntity.status(CODE_EXECUTION_FAILED.getHttpStatus())
+        .body(
+            ExceptionResponse.builder()
+                .code(CODE_EXECUTION_FAILED.getCode())
+                .description(CODE_EXECUTION_FAILED.getDescription())
                 .error(exp.getMessage())
                 .build());
   }
@@ -287,7 +357,7 @@ public class GlobalExceptionHandler {
     return ResponseEntity.status(INTERNAL_SERVER_ERROR)
         .body(
             ExceptionResponse.builder()
-                .businessErrorDescription("Internal error, please contact support")
+                .description("Internal error, please contact support")
                 .error(exp.getMessage())
                 .build());
   }

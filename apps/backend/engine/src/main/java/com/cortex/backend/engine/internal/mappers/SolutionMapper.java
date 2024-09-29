@@ -1,4 +1,4 @@
-package com.cortex.backend.engine.internal;
+package com.cortex.backend.engine.internal.mappers;
 
 import com.cortex.backend.core.domain.Solution;
 import com.cortex.backend.engine.api.dto.SolutionResponse;

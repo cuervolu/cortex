@@ -13,14 +13,18 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 public class ExerciseDetailsResponse {
+
   private Long id;
   private String title;
   private String instructions;
   private String hints;
-  
+
   @JsonProperty("initial_code")
   private String initialCode;
-  
+
   @JsonProperty("test_code")
   private String testCode;
+
+  @JsonProperty("content_hash")
+  private String contentHash;
 }

@@ -1,4 +1,4 @@
-package com.cortex.backend.engine.internal;
+package com.cortex.backend.engine.internal.services;
 
 import com.cortex.backend.core.common.exception.GitSyncException;
 import com.cortex.backend.engine.api.ExerciseService;

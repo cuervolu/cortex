@@ -37,6 +37,11 @@ public enum BusinessErrorCodes {
   EXERCISE_NOT_FOUND(316, NOT_FOUND, "Exercise not found"),
   EXERCISE_READ_FAILED(317, INTERNAL_SERVER_ERROR, "Failed to read exercise"),
   UNSUPPORTED_LANGUAGE(318, BAD_REQUEST, "Unsupported language"),
+  HASH_GENERATION_FAILED(319, INTERNAL_SERVER_ERROR, "Failed to generate hash"),
+  
+  RESULT_NOT_AVAILABLE(320, NOT_FOUND, "Execution result not available yet"),
+  CONTENT_CHANGED(321, BAD_REQUEST, "Content has changed since submission"),
+  CODE_EXECUTION_FAILED(322, INTERNAL_SERVER_ERROR, "Code execution failed"),
   ;
   private final int code;
   private final String description;

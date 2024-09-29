@@ -30,7 +30,7 @@ public class Exercise extends BaseEntity {
   private String githubPath;
 
   @Column(name = "last_github_sync", nullable = false)
-  private LocalDateTime lastGithubSync = LocalDateTime.now();
+  private LocalDateTime lastGithubSync;
 
   @Column(nullable = false)
   private Integer points;

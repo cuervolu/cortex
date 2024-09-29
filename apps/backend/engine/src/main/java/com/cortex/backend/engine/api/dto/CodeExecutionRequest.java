@@ -1,10 +1,23 @@
 package com.cortex.backend.engine.api.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.cortex.backend.engine.internal.validations.Base64Encoded;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 public record CodeExecutionRequest(
+
+    @Base64Encoded(message = "Code must be base64 encoded")
+    @NotNull(message = "Code is required")
+    @NotBlank(message = "Code must not be blank")
+    String code,
+
+    @NotNull(message = "Language is required")
+    @NotBlank(message = "Language must not be blank")
     String language,
-    @JsonProperty("initial_code") String initialCode,
-    @JsonProperty("user_code") String userCode,
-    @JsonProperty("test_code") String testCode
-) {}
+
+    @Positive(message = "Exercise ID must be positive")
+    Long exerciseId
+) {
+
+}

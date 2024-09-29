@@ -1,7 +1,7 @@
 package com.cortex.backend.engine.config;
 
 
-import static com.cortex.backend.engine.internal.Constants.CODE_EXECUTION_QUEUE;
+import static com.cortex.backend.engine.internal.utils.Constants.CODE_EXECUTION_QUEUE;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
