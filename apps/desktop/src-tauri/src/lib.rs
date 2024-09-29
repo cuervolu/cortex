@@ -47,7 +47,7 @@ async fn init_ollama_models(app_handle: tauri::AppHandle) {
 pub fn run() {
     let builder = tauri::Builder::default()
         .plugin(tauri_plugin_store::Builder::new().build())
-        .setup(|app|  {
+        .setup(|app| {
             setup_logger(app)?;
             let app_handle = app.handle().clone();
             tauri::async_runtime::spawn(async move {
@@ -73,6 +73,10 @@ pub fn run() {
             ai::commands::list_local_models,
             ai::commands::get_ollama_models,
             ai::commands::refresh_ollama_models,
+            ai::commands::list_ollama_models,
+            ai::commands::show_ollama_model,
+            ai::commands::pull_ollama_model,
+            ai::commands::forced_update,
         ]
         )
         .run(tauri::generate_context!())

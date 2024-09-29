@@ -18,11 +18,11 @@ defineEmits(['toggle-sidebar']);
 const selectedButton = ref('Dashboard');
 
 const navigationButtons = [
-  {name: 'Dashboard', icon: DashboardIcon},
-  {name: 'Analytics', icon: CubeIcon},
-  {name: 'Roadmaps', icon: RoadmapIcon},
-  {name: 'Courses', icon: CourseIcon},
-  {name: 'Support', icon: SupportIcon},
+  {name: 'Dashboard', icon: DashboardIcon, route: '/dashboard'},
+  {name: 'Analytics', icon: CubeIcon, route: '/analytics'},
+  {name: 'Roadmaps', icon: RoadmapIcon, route: '/roadmaps'},
+  {name: 'Courses', icon: CourseIcon, route: '/courses'},
+  {name: 'Support', icon: SupportIcon, route: '/settings'},
 ];
 </script>
 
@@ -60,6 +60,7 @@ const navigationButtons = [
               v-for="button in navigationButtons" :key="button.name"
               :name="button.name"
               :icon="button.icon"
+              :route="button.route"
               :is-selected="selectedButton === button.name"
               :is-collapsed="isCollapsed"
               @click="selectedButton = button.name"

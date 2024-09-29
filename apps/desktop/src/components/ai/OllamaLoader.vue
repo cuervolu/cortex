@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { useOllamaDetection } from '~/composables/useOllamaDetection'
+import { storeToRefs } from 'pinia'
+import { useOllamaStore } from '~/stores'
 import { onMounted } from 'vue'
 
-const { isOllamaInstalled, isChecking, checkError, checkOllamaInstallation } = useOllamaDetection()
+const ollamaStore = useOllamaStore()
+const { isOllamaInstalled, isChecking, checkError } = storeToRefs(ollamaStore)
 
 onMounted(() => {
-  checkOllamaInstallation()
+  ollamaStore.checkOllamaInstallation()
 })
 </script>
 
@@ -17,7 +19,7 @@ onMounted(() => {
     </div>
     <div v-else-if="checkError" class="text-center text-error">
       <p>{{ checkError }}</p>
-      <Button variant="outline" @click="checkOllamaInstallation">
+      <Button variant="outline" @click="ollamaStore.checkOllamaInstallation">
         Reintentar
       </Button>
     </div>

@@ -12,7 +12,10 @@ pub enum AppError {
     Io(#[from] std::io::Error),
 
     #[error("Failed to execute system command")]
-    CommandExecutionError,
+    CommandExecutionError(String),
+
+    #[error("Window not found")]
+    WindowNotFound,
 
     #[error("Ollama not found")]
     OllamaNotFound,

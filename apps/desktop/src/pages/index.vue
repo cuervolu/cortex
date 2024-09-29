@@ -1,18 +1,23 @@
 <script setup>
-import {onMounted, ref, watch} from 'vue';
+import { onMounted, ref, watch } from 'vue';
+import { useOllamaStore } from '~/stores';
 import ChatInterface from "~/components/ai/ChatInterface.vue";
 import OllamaLoader from "~/components/ai/OllamaLoader.vue";
-import {useOllamaDetection} from '@/composables/useOllamaDetection';
 import CodeEditor from "@cortex/shared/components/ui/CodeEditor.vue";
 
-const {isOllamaInstalled, checkOllamaInstallation} = useOllamaDetection();
+const ollamaStore = useOllamaStore();
+const { isOllamaInstalled, isChecking } = storeToRefs(ollamaStore);
+
 const code = ref('');
 const editorContent = ref('');
 const editorLanguage = ref('rust');
 
-onMounted(() => {
+onMounted(async () => {
   if (isOllamaInstalled.value === null) {
-    checkOllamaInstallation();
+    await ollamaStore.checkOllamaInstallation();
+  }
+  if (isOllamaInstalled.value) {
+    await ollamaStore.setupListeners();
   }
 });
 
@@ -22,7 +27,7 @@ watch(code, (newCode) => {
 </script>
 
 <template>
-  <OllamaLoader v-if="isOllamaInstalled === null" />
+  <OllamaLoader v-if="isChecking || isOllamaInstalled === null" />
   <div v-else-if="isOllamaInstalled" class="flex h-full w-full">
     <div class="flex-grow overflow-hidden">
       <CodeEditor

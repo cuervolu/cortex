@@ -1,32 +1,35 @@
 <script setup lang="ts">
-import {ref} from 'vue'
-import {getVersion} from '@tauri-apps/api/app'
+import { ref } from 'vue'
+import { getVersion } from '@tauri-apps/api/app'
 
-type Theme = 'light' | 'dark' | 'system'
 type Font = 'system' | 'arial' | 'helvetica' | 'times'
 
-const theme = ref<Theme>('light')
+const colorMode = useColorMode()
 const font = ref<Font>('system')
 const appVersion = await getVersion()
+
+const themes = [
+  { value: 'light', label: 'Light' },
+  { value: 'dark', label: 'Dark' },
+  { value: 'system', label: 'System' }
+]
+
+const fonts = [
+  { value: 'system', label: 'System Default' },
+  { value: 'arial', label: 'Arial' },
+  { value: 'helvetica', label: 'Helvetica' },
+  { value: 'times', label: 'Times New Roman' }
+]
 </script>
 
-
 <template>
-  <div class="space-y-6">
+  <div class="space-y-8">
     <div>
       <h2 class="text-xl font-semibold mb-4">Theme</h2>
-      <RadioGroup v-model="theme">
-        <div class="flex items-center space-x-2">
-          <RadioGroupItem id="light" value="light"/>
-          <Label for="light">Light</Label>
-        </div>
-        <div class="flex items-center space-x-2">
-          <RadioGroupItem id="dark" value="dark"/>
-          <Label for="dark">Dark</Label>
-        </div>
-        <div class="flex items-center space-x-2">
-          <RadioGroupItem id="system" value="system"/>
-          <Label for="system">System</Label>
+      <RadioGroup v-model="colorMode.preference" class="flex space-x-4">
+        <div v-for="theme in themes" :key="theme.value" class="flex items-center space-x-2">
+          <RadioGroupItem :id="theme.value" :value="theme.value" />
+          <Label :for="theme.value">{{ theme.label }}</Label>
         </div>
       </RadioGroup>
     </div>
@@ -34,22 +37,46 @@ const appVersion = await getVersion()
     <div>
       <h2 class="text-xl font-semibold mb-4">Font</h2>
       <Select v-model="font">
-        <SelectTrigger class="w-[180px]">
-          <SelectValue placeholder="Select a font"/>
+        <SelectTrigger class="w-[200px]">
+          <SelectValue placeholder="Select a font" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="system">System Default</SelectItem>
-          <SelectItem value="arial">Arial</SelectItem>
-          <SelectItem value="helvetica">Helvetica</SelectItem>
-          <SelectItem value="times">Times New Roman</SelectItem>
+          <SelectItem v-for="option in fonts" :key="option.value" :value="option.value">
+            {{ option.label }}
+          </SelectItem>
         </SelectContent>
       </Select>
     </div>
 
     <div>
       <h2 class="text-xl font-semibold mb-4">App Version</h2>
-      <p>{{ appVersion }}</p>
+      <p class="text-sm">{{ appVersion }}</p>
     </div>
   </div>
 </template>
 
+<style scoped>
+.dark {
+  @apply bg-gray-900 text-white;
+}
+
+:deep(.radio-group-item) {
+  @apply w-5 h-5 rounded-full border-2 border-primary;
+}
+
+:deep(.radio-group-item[data-state="checked"]) {
+  @apply bg-primary;
+}
+
+:deep(.select-trigger) {
+  @apply bg-background border border-input hover:bg-accent hover:text-accent-foreground;
+}
+
+:deep(.select-content) {
+  @apply bg-popover text-popover-foreground;
+}
+
+:deep(.select-item) {
+  @apply text-sm;
+}
+</style>

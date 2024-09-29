@@ -88,7 +88,7 @@ pub(crate) async fn check_ollama_linux(app_handle: &tauri::AppHandle) -> Result<
         }
         Err(e) => {
             error!("Failed to execute 'which' command: {}", e);
-            Err(AppError::CommandExecutionError)
+            Err(AppError::CommandExecutionError(e.to_string()))
         }
     }
 }

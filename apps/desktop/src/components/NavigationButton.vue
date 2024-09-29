@@ -2,6 +2,7 @@
 interface Props {
   name: string;
   icon: Component;
+  route: string;
   isSelected: boolean;
   isCollapsed: boolean;
 }
@@ -11,26 +12,32 @@ defineEmits(['click']);
 </script>
 
 <template>
-  <button
-      :class="[
-      'min-w-[50px] p-[5px] rounded-[27px] justify-start items-center gap-2.5 flex w-full transition-all duration-300',
-      isSelected ? 'navigation-button-selected' : '',
-      !isCollapsed ? 'self-stretch' : ''
-    ]"
-      @click="$emit('click')"
+  <NuxtLink
+      v-slot="{ navigate }"
+      :to="route"
+      custom
   >
-    <div
-        class="min-w-10 h-10 p-2 from-white to-white rounded-[20px] justify-center items-center gap-2.5 flex navigation-button-icon-background"
+    <button
+        :class="[
+        'min-w-[50px] p-[5px] rounded-[27px] justify-start items-center gap-2.5 flex w-full transition-all duration-300',
+        isSelected ? 'navigation-button-selected' : '',
+        !isCollapsed ? 'self-stretch' : ''
+      ]"
+        @click="navigate(); $emit('click')"
     >
-      <component :is="icon" class="w-[18.79px] h-[19.84px]"/>
-    </div>
-    <div
-        v-if="!isCollapsed"
-        :class="['text-base font-semibold', isSelected ? 'text-[#f4f8f7]' : 'text-[#f4f8f7]/60']"
-    >
-      {{ name }}
-    </div>
-  </button>
+      <div
+          class="min-w-10 h-10 p-2 from-white to-white rounded-[20px] justify-center items-center gap-2.5 flex navigation-button-icon-background"
+      >
+        <component :is="icon" class="w-[18.79px] h-[19.84px]"/>
+      </div>
+      <div
+          v-if="!isCollapsed"
+          :class="['text-base font-semibold', isSelected ? 'text-[#f4f8f7]' : 'text-[#f4f8f7]/60']"
+      >
+        {{ name }}
+      </div>
+    </button>
+  </NuxtLink>
 </template>
 
 <style scoped>
