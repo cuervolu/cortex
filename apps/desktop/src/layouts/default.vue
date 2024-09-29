@@ -1,14 +1,28 @@
+<script lang="ts" setup>
+import { ref } from 'vue';
+import AppSidebar from '~/components/AppSidebar.vue';
+
+const isCollapsed = ref(false);
+
+function toggleSidebar() {
+  isCollapsed.value = !isCollapsed.value;
+}
+</script>
+
 <template>
-  <div class="flex h-screen bg-gradient-to-br from-purple-900 via-indigo-800 to-pink-700">
-    <AppSidebar />
-    <main class="flex-grow flex">
-      <div class="flex-grow bg-white rounded-3xl m-6 p-8 overflow-auto">
-        <div class="flex justify-between items-center mb-6">
-          <h2 class="text-2xl font-bold">Dashboard</h2>
-          <Button variant="secondary">Add Custom Widget</Button>
-        </div>
-<!--      <slot />-->
-      </div>
+  <div class="w-screen h-screen p-5 rounded-[55px] justify-start items-start gap-2.5 inline-flex screen-background">
+    <app-sidebar
+        :is-collapsed="isCollapsed"
+        @toggle-sidebar="toggleSidebar"
+    />
+    <main class="grow shrink basis-0 self-stretch p-[30px] bg-[#f4f8f7] rounded-[34px] flex-col justify-start items-start gap-2.5 inline-flex">
+      <slot />
     </main>
   </div>
 </template>
+
+<style>
+.screen-background {
+  background: conic-gradient(from -29deg at 57.08% 50.06%, #381653 0deg, #6C319A 95.39999485015869deg, #D085A5 153.00000429153442deg, #1D848F 217.80000686645508deg, #381653 333.0000042915344deg);
+}
+</style>

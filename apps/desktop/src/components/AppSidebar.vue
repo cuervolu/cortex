@@ -1,54 +1,72 @@
-<script setup lang="ts">
-import { Home, BarChart2, GitFork, BookOpen, HelpCircle } from 'lucide-vue-next'
+<script lang="ts" setup>
+import {ref} from 'vue';
+import {PanelRightOpen} from "lucide-vue-next";
+import NavigationButton from "~/components/NavigationButton.vue";
+import UserAccount from "~/components/UserAccount.vue";
+import DashboardIcon from "~/components/icons/DashboardIcon.vue";
+import CubeIcon from "~/components/icons/CubeIcon.vue";
+import RoadmapIcon from "~/components/icons/RoadmapIcon.vue";
+import CourseIcon from "~/components/icons/CourseIcon.vue";
+import SupportIcon from "~/components/icons/SupportIcon.vue";
 
-interface NavItem {
-  icon: typeof Home
-  label: string
-  to: string
-}
+const {isCollapsed} = defineProps<{
+  isCollapsed: boolean;
+}>();
 
-const navItems: NavItem[] = [
-  { icon: Home, label: "Dashboard", to: "/" },
-  { icon: BarChart2, label: "Analytics", to: "/analytics" },
-  { icon: GitFork, label: "Roadmaps", to: "/roadmaps" },
-  { icon: BookOpen, label: "Courses", to: "/courses" },
-  { icon: HelpCircle, label: "Support", to: "/support" },
-]
+defineEmits(['toggle-sidebar']);
+
+const selectedButton = ref('Dashboard');
+
+const navigationButtons = [
+  {name: 'Dashboard', icon: DashboardIcon},
+  {name: 'Analytics', icon: CubeIcon},
+  {name: 'Roadmaps', icon: RoadmapIcon},
+  {name: 'Courses', icon: CourseIcon},
+  {name: 'Support', icon: SupportIcon},
+];
 </script>
 
 <template>
-  <aside class="w-64 bg-purple-900 bg-opacity-50 text-white p-6 flex flex-col">
-    <div class="flex items-center mb-8">
-      <img src="~/assets/img/Cortex%20Logo.svg" alt="Cortex Logo" class="w-8 h-8 mr-2">
-      <h1 class="text-xl font-bold">CORTEX</h1>
-    </div>
-    <nav class="flex-grow">
-      <h2 class="text-xs uppercase text-purple-300 mb-4">Navigation</h2>
-      <ul class="space-y-2">
-        <li v-for="(item, index) in navItems" :key="index">
-          <NuxtLink
-              :to="item.to"
-              :class="`flex items-center p-2 rounded-lg hover:bg-purple-800 transition-colors ${
-              index === 0 ? 'bg-purple-800' : ''
-            }`"
-          >
-            <component :is="item.icon" class="w-5 h-5 mr-3" />
-            {{ item.label }}
-          </NuxtLink>
-        </li>
-      </ul>
-    </nav>
-    <div class="mt-auto pt-6 border-t border-purple-700">
-      <div class="flex items-center">
-        <Avatar class="w-10 h-10 mr-3">
-          <AvatarImage src="/placeholder.svg" alt="Alex Williamson" />
-          <AvatarFallback>AW</AvatarFallback>
-        </Avatar>
-        <div>
-          <h3 class="font-medium">Alex Williamson</h3>
-          <p class="text-sm text-purple-300">#alexwil227</p>
+  <div
+      :class="['shrink basis self-stretch flex-col justify-between items-start inline-flex transition-all duration-300', isCollapsed ? 'w-[115px]' : 'w-[270px]']">
+    <div
+        class="self-stretch h-[459px] px-[7px] py-2.5 flex-col justify-start items-start gap-2.5 flex">
+      <div
+          class="self-stretch p-2.5 border-b border-[#f9cf87] items-center gap-2.5 inline-flex justify-between">
+        <div class="w-[185.92px] flex-col justify-center items-start gap-[14.64px] inline-flex">
+          <div class="justify-between items-center inline-flex">
+            <img
+                src="~/assets/img/Cortex Logo.svg" alt="Cortex Logo"
+                class="min-w[46.85px] min-h[54px] w-[46.85px] h-[54px] relative">
+            <span
+                :class="['text-[#f4f8f7] text-logo transition-all duration-300 pl-2 uppercase', isCollapsed ? 'hidden' : '']">Cortex</span>
+          </div>
+        </div>
+        <Button
+            size="icon" variant="ghost" class="w-6 h-6"
+            @click="$emit('toggle-sidebar')">
+          <PanelRightOpen
+              :class="['transition-transform duration-300 w-6', { 'rotate-180': !isCollapsed }]"/>
+        </Button>
+      </div>
+      <div class="self-stretch h-[355px] py-2.5 flex-col justify-start items-start gap-2.5 flex">
+        <div
+            class="w-[121px] h-[35px] text-[#f4f8f7]/80 text-xs font-semibold tracking-tight uppercase">
+          Navigation
+        </div>
+        <div
+            :class="['h-[290px] flex-col justify-start items-start gap-2.5 flex', !isCollapsed ? 'self-stretch transition-all duration-300' : 'transition-all duration-300']">
+          <NavigationButton
+              v-for="button in navigationButtons" :key="button.name"
+              :name="button.name"
+              :icon="button.icon"
+              :is-selected="selectedButton === button.name"
+              :is-collapsed="isCollapsed"
+              @click="selectedButton = button.name"
+          />
         </div>
       </div>
     </div>
-  </aside>
+    <UserAccount :is-collapsed="isCollapsed"/>
+  </div>
 </template>

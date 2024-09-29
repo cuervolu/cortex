@@ -76,7 +76,7 @@ export default defineNuxtConfig({
         name: 'Source Code Pro',
         provider: 'fontsource',
         weights: ['400', '500', '600', '700', '800', '900'],
-      }
+      },
     ],
   },
 });

@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import {ref, onMounted} from 'vue'
+import { ref, onMounted } from 'vue'
 import ChatMessage from './ChatMessage.vue'
 import CortexLogo from "~/components/CortexLogo.vue"
-import {useOllamaInteraction} from '@/composables/useOllamaInteraction'
-import {useChatStore} from '~/stores'
-import {Send} from 'lucide-vue-next'
-import ModelSelector from "~/components/ai/ModelSelector.vue";
+import { useOllamaInteraction } from '@/composables/useOllamaInteraction'
+import { useChatStore } from '~/stores'
+import { Send } from 'lucide-vue-next'
+import ModelSelector from "~/components/ai/ModelSelector.vue"
 
 const props = defineProps({
   editorContent: {
@@ -18,7 +18,7 @@ const props = defineProps({
   }
 })
 
-const {sendPrompt} = useOllamaInteraction()
+const { sendPrompt } = useOllamaInteraction()
 const chatStore = useChatStore()
 const prompt = ref('')
 const selectedModel = ref('')
@@ -33,7 +33,7 @@ onMounted(() => {
 })
 
 async function handleSendPrompt() {
-  if (!prompt.value.trim() || !selectedModel.value) return
+  if (!prompt.value.trim()) return
   const userMessage = prompt.value.trim()
   chatStore.addMessage({
     sender: 'user',
@@ -59,14 +59,22 @@ async function handleSendPrompt() {
     chatStore.setIsSending(false)
   }
 }
+
+function handleKeydown(event: KeyboardEvent) {
+  if (event.key === 'Enter' && !event.ctrlKey && !event.shiftKey) {
+    event.preventDefault()
+    handleSendPrompt()
+  }
+}
 </script>
 
 <template>
   <div
-      class="h-full flex flex-col bg-background rounded-2xl shadow-lg overflow-hidden text-foreground border-2 border-border">
+      class="h-full flex flex-col bg-background rounded-2xl shadow-lg overflow-hidden text-foreground border-2 border-border"
+  >
     <div class="p-4 border-b border-border flex justify-between items-center">
-      <CortexLogo/>
-      <ModelSelector v-model="selectedModel"/>
+      <CortexLogo />
+      <ModelSelector v-model="selectedModel" />
     </div>
     <div class="flex-grow overflow-auto p-6 space-y-4">
       <ChatMessage
@@ -87,20 +95,19 @@ async function handleSendPrompt() {
     </div>
     <div class="p-4 bg-muted/20">
       <div class="relative flex items-center">
-       <Textarea
-           v-model="prompt"
-           class="w-full pr-16 py-3 px-4 rounded-xl bg-background border border-border focus:outline-none focus:ring-2 focus:ring-primary resize-none min-h-[48px] max-h-[200px] overflow-y-auto"
-           rows="1"
-           placeholder="Escribe tu mensaje aquí..."
-           @keyup.enter.prevent="handleSendPrompt"
-       />
+        <Textarea
+            v-model="prompt"
+            class="w-full pr-16 py-3 px-4 rounded-xl bg-background border border-border focus:outline-none focus:ring-2 focus:ring-primary resize-none"
+            placeholder="Escribe tu mensaje aquí..."
+            @keydown="handleKeydown"
+        />
         <Button
             size="icon"
             class="absolute right-3 h-10 w-10 flex items-center justify-center rounded-lg"
             :disabled="chatStore.isSending || chatStore.isStreaming || !selectedModel"
             @click="handleSendPrompt"
         >
-          <Send class="h-5 w-5"/>
+          <Send class="h-5 w-5" />
         </Button>
       </div>
     </div>
