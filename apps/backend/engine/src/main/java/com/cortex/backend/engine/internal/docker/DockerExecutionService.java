@@ -61,27 +61,51 @@ public class DockerExecutionService {
     Files.createDirectories(codePath);
     Files.createDirectories(exerciseTestPath);
 
-    // Copy the exercise files to the code directory
-    copyDirectory(exercisePath, codePath);
+    if (language.getName().equals("typescript")) {
+      // Special handling for TypeScript exercises
+      String exerciseName = exercisePath.getFileName().toString();
+      Path exerciseSpecificPath = codePath.resolve("practice").resolve(exerciseName);
+      Files.createDirectories(exerciseSpecificPath);
 
-    // Find the main file in the code directory
-    Path mainFilePath = findMainFile(codePath, language.getFileExtension());
-    if (mainFilePath == null) {
-      throw new IOException("Could not find main file in exercise directory: " + codePath);
-    }
+      // Copy only the specific exercise
+      copyDirectory(exercisePath, exerciseSpecificPath);
 
-    // We need to write the decoded code to the main file
-    Files.writeString(mainFilePath, decodedCode, StandardCharsets.UTF_8);
-    log.info("Code written to main file: {}", mainFilePath);
+      // Find the main file in the exercise directory
+      Path mainFilePath = findMainFile(exerciseSpecificPath, language.getFileExtension());
 
-    // Handle Go-specific setup
-    if (language.getName().equals("go")) {
-      setupGoModule(codePath);
-    }
+      if (mainFilePath == null) {
+        throw new IOException(
+            "Could not find main file in TypeScript exercise directory: " + exerciseSpecificPath);
+      }
 
-    // Some languages require the test files to be in a separate directory
-    if (!language.getName().equals("typescript") && !language.getName().equals("java")) {
-      copyDirectory(exercisePath, exerciseTestPath);
+      // Write the decoded code to the main file
+      Files.writeString(mainFilePath, decodedCode, StandardCharsets.UTF_8);
+      log.info("Code written to TypeScript main file: {}", mainFilePath);
+
+      // Update the execute command with the specific exercise name
+      language.setExecuteCommand(
+          language.getExecuteCommand().replace("{exerciseName}", exerciseName));
+    } else {
+      // Handle all other languages
+      copyDirectory(exercisePath, codePath);
+
+      Path mainFilePath = findMainFile(codePath, language.getFileExtension());
+      if (mainFilePath == null) {
+        throw new IOException("Could not find main file in exercise directory: " + codePath);
+      }
+
+      Files.writeString(mainFilePath, decodedCode, StandardCharsets.UTF_8);
+      log.info("Code written to main file: {}", mainFilePath);
+
+      // Handle Go-specific setup
+      if (language.getName().equals("go")) {
+        setupGoModule(codePath);
+      }
+
+      // Copy the exercise directory to the test directory
+      if (!language.getName().equals("java")) {
+        copyDirectory(exercisePath, exerciseTestPath);
+      }
     }
   }
 
@@ -101,28 +125,47 @@ public class DockerExecutionService {
 
   private ExecutionResult runContainer(Language language, Path codePath, Path exerciseTestPath,
       String containerId) {
-    HostConfig hostConfig = HostConfig.newHostConfig()
-        .withBinds(
-            Bind.parse(codePath.toString() + ":/code"),
-            Bind.parse(exerciseTestPath.toString() + ":/exercise")
-        )
-        .withMemory(language.getDefaultMemoryLimit())
-        .withCpuCount(language.getDefaultCpuLimit());
-
+    HostConfig hostConfig;
+    String workingDir;
+    if (language.getName().equals("typescript")) {
+      hostConfig = HostConfig.newHostConfig()
+          .withBinds(
+              Bind.parse(codePath.toString() + ":/app/exercises"),
+              Bind.parse(exerciseTestPath.toString() + ":/exercise")
+          )
+          .withMemory(language.getDefaultMemoryLimit())
+          .withCpuCount(language.getDefaultCpuLimit());
+      workingDir = "/app/exercises";
+    } else {
+      hostConfig = HostConfig.newHostConfig()
+          .withBinds(
+              Bind.parse(codePath.toString() + ":/code"),
+              Bind.parse(exerciseTestPath.toString() + ":/exercise")
+          )
+          .withMemory(language.getDefaultMemoryLimit())
+          .withCpuCount(language.getDefaultCpuLimit());
+      workingDir = "/code";
+    }
     CreateContainerResponse container = dockerClient.createContainerCmd(language.getDockerImage())
         .withHostConfig(hostConfig)
         .withName("code-execution-" + containerId)
         .withCmd("sh", "-c", language.getExecuteCommand())
-        .withWorkingDir("/code")
+        .withWorkingDir(workingDir)
         .exec();
-
     try (AutoCloseableContainer _ = new AutoCloseableContainer(container, dockerClient)) {
       dockerClient.startContainerCmd(container.getId()).exec();
 
       ExecutionData executionData = executeAndCollectData(container.getId(),
           language.getDefaultTimeout());
-      return new ExecutionResult(executionData.exitCode(), executionData.logs().stdout(),
-          executionData.logs().stderr(), 0L, 0L);
+
+      if (language.getName().equals("rust")) {
+        // Para Rust, combina stdout y stderr
+        String combinedOutput = executionData.logs().stdout() + executionData.logs().stderr();
+        return new ExecutionResult(executionData.exitCode(), combinedOutput, "", 0L, 0L);
+      } else {
+        return new ExecutionResult(executionData.exitCode(), executionData.logs().stdout(),
+            executionData.logs().stderr(), 0L, 0L);
+      }
     } catch (RuntimeException e) {
       // Re-throw RuntimeExceptions (including our interrupted exception) as is
       throw e;
@@ -137,8 +180,6 @@ public class DockerExecutionService {
           if (containerExists) {
             dockerClient.removeContainerCmd(container.getId()).withForce(true).exec();
             log.info("Container {} removed successfully", container.getId());
-          } else {
-            log.info("Container {} does not exist, skipping removal", container.getId());
           }
         } catch (NotFoundException e) {
           log.info("Container {} does not exist, skipping removal", container.getId());
@@ -248,7 +289,8 @@ public class DockerExecutionService {
         return;
       } catch (IOException e) {
         if (retry == maxRetries - 1) {
-          log.error("Failed to clean up temporary directory after {} retries: {}", maxRetries, tempDir, e);
+          log.error("Failed to clean up temporary directory after {} retries: {}", maxRetries,
+              tempDir, e);
         } else {
           log.warn("Cleanup attempt {} failed, retrying after delay: {}", retry + 1, tempDir);
           try {

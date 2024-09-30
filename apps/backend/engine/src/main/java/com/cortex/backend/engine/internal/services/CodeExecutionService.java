@@ -123,7 +123,8 @@ public class CodeExecutionService {
       log.info("Docker execution stdout: \n{}", dockerResult.stdout());
       log.info("Docker execution stderr: \n{}", dockerResult.stderr());
 
-      List<TestCaseResult> testCaseResults = parseTestResults(dockerResult.stdout(), request.language());
+      List<TestCaseResult> testCaseResults = parseTestResults(dockerResult.stdout(),
+          request.language());
 
       return CodeExecutionResult.builder()
           .success(dockerResult.exitCode() == 0)
