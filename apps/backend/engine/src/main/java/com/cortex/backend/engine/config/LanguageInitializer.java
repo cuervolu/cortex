@@ -37,7 +37,7 @@ public class LanguageInitializer {
         LanguageConfig.builder()
             .name("java")
             .dockerImage("maven:3.9.9-eclipse-temurin-21")
-            .executeCommand("cd /code && mvn test -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn")// Only print test results, for Debug use `.executeCommand("cd /code && mvn test")`
+            .executeCommand("cd /code && mvn test -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -Dsurefire.useFile=false")// Only print test results, for Debug use `.executeCommand("cd /code && mvn test")`
             .fileExtension(".java")
             .memoryLimit(512 * MB)
             .cpuLimit(DEFAULT_CPU_LIMIT)
