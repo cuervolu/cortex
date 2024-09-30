@@ -1,33 +1,33 @@
 package com.cortex.backend.engine.internal.services;
 
-import static com.cortex.backend.engine.internal.utils.Constants.*;
+import static com.cortex.backend.engine.internal.utils.Constants.CODE_EXECUTION_QUEUE;
+import static com.cortex.backend.engine.internal.utils.Constants.RESULT_EXPIRATION_HOURS;
+import static com.cortex.backend.engine.internal.utils.Constants.RESULT_KEY_PREFIX;
 
-import com.cortex.backend.core.common.exception.CodeExecutionException;
 import com.cortex.backend.core.common.exception.ContentChangedException;
 import com.cortex.backend.core.common.exception.ResultNotAvailableException;
 import com.cortex.backend.core.common.exception.UnsupportedLanguageException;
 import com.cortex.backend.core.domain.Exercise;
-import com.cortex.backend.engine.api.LanguageRepository;
 import com.cortex.backend.engine.api.ExerciseRepository;
+import com.cortex.backend.engine.api.LanguageRepository;
 import com.cortex.backend.engine.api.dto.CodeExecutionRequest;
 import com.cortex.backend.engine.api.dto.CodeExecutionResult;
 import com.cortex.backend.engine.api.dto.CodeExecutionTask;
 import com.cortex.backend.engine.api.dto.TestCaseResult;
 import com.cortex.backend.engine.internal.docker.DockerExecutionService;
 import com.cortex.backend.engine.internal.utils.HashUtil;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Service;
-
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
@@ -53,7 +53,8 @@ public class CodeExecutionService {
     String taskId = UUID.randomUUID().toString();
     String contentHash = HashUtil.generateSHA256Hash(request.code() + exercise.getGithubPath());
 
-    CodeExecutionTask task = new CodeExecutionTask(taskId, request, contentHash, exercise.getGithubPath());
+    CodeExecutionTask task = new CodeExecutionTask(taskId, request, contentHash,
+        exercise.getGithubPath());
     rabbitTemplate.convertAndSend(CODE_EXECUTION_QUEUE, task);
 
     return taskId;
@@ -110,37 +111,28 @@ public class CodeExecutionService {
       log.info("Executing code for language: {}", request.language());
       log.info("Exercise path: {}", exercisePath);
       log.info("Decoded code length: {}", decodedCode.length());
-      log.info("Decoded code content: \n{}", decodedCode);
+      log.debug("Decoded code content: \n{}", decodedCode);
 
       DockerExecutionService.ExecutionResult dockerResult = dockerExecutionService.executeCode(
           decodedCode,
           exercisePath,
           request.language()
       );
-
+      Thread.sleep(500);
       log.info("Docker execution result - Exit code: {}", dockerResult.exitCode());
       log.info("Docker execution stdout: \n{}", dockerResult.stdout());
       log.info("Docker execution stderr: \n{}", dockerResult.stderr());
 
       List<TestCaseResult> testCaseResults = parseTestResults(dockerResult.stdout(), request.language());
 
-      boolean success = dockerResult.exitCode() == 0;
-
       return CodeExecutionResult.builder()
-          .success(success)
+          .success(dockerResult.exitCode() == 0)
           .stdout(dockerResult.stdout())
           .stderr(dockerResult.stderr())
-          .executionTime(dockerResult.executionTime())
+          .executionTime((int) dockerResult.executionTime())
           .language(request.language())
-          .memoryUsed(dockerResult.memoryUsed())
+          .memoryUsed((int) dockerResult.memoryUsed())
           .testCaseResults(testCaseResults)
-          .build();
-    } catch (CodeExecutionException e) {
-      log.error("Error executing code in Docker container", e);
-      return CodeExecutionResult.builder()
-          .success(false)
-          .stderr("Error executing code in Docker container: " + e.getMessage())
-          .language(request.language())
           .build();
     } catch (Exception e) {
       log.error("Unexpected error executing code", e);

@@ -24,7 +24,7 @@ public class Language extends BaseEntity {
   @Column(nullable = false, name = "docker_image")
   private String dockerImage;
 
-  @Column(nullable = false, name = "execute_command")
+  @Column(nullable = false, name = "execute_command", columnDefinition = "TEXT")
   private String executeCommand;
 
   @Column(nullable = false, name = "file_extension")

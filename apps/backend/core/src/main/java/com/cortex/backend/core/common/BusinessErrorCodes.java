@@ -42,6 +42,7 @@ public enum BusinessErrorCodes {
   RESULT_NOT_AVAILABLE(320, NOT_FOUND, "Execution result not available yet"),
   CONTENT_CHANGED(321, BAD_REQUEST, "Content has changed since submission"),
   CODE_EXECUTION_FAILED(322, INTERNAL_SERVER_ERROR, "Code execution failed"),
+  CONTAINER_EXECUTION_FAILED(323, INTERNAL_SERVER_ERROR, "Container execution failed"),
   ;
   private final int code;
   private final String description;

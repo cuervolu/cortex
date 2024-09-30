@@ -4,12 +4,11 @@ import com.cortex.backend.core.domain.Language;
 import com.cortex.backend.engine.api.LanguageRepository;
 import com.cortex.backend.engine.internal.LanguageConfig;
 import jakarta.annotation.PostConstruct;
+import java.util.Arrays;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Arrays;
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -19,7 +18,7 @@ public class LanguageInitializer {
 
   private static final long MB = 1024 * 1024L;
   private static final long DEFAULT_CPU_LIMIT = 1L;
-  private static final long DEFAULT_TIMEOUT = 5000L;
+  private static final long DEFAULT_TIMEOUT = 30000L;
 
   @PostConstruct
   @Transactional
@@ -28,7 +27,7 @@ public class LanguageInitializer {
         LanguageConfig.builder()
             .name("python")
             .dockerImage("python:3.12-slim")
-            .executeCommand("python /code/{fileName} && python -m unittest discover /exercise")
+            .executeCommand("python /code/{fileName} && python -m unittest discover /code")
             .fileExtension(".py")
             .memoryLimit(128 * MB)
             .cpuLimit(DEFAULT_CPU_LIMIT)
@@ -36,50 +35,51 @@ public class LanguageInitializer {
             .build(),
         LanguageConfig.builder()
             .name("java")
-            .dockerImage("eclipse-temurin:21")
-            .executeCommand("javac -cp /code:/exercise /code/{fileName} $(find /exercise -name '*.java') && java -cp /code:/exercise org.junit.platform.console.ConsoleLauncher --scan-classpath")
+            .dockerImage("maven:3.9.9-eclipse-temurin-21")
+            .executeCommand("cd /code && mvn test")
             .fileExtension(".java")
-            .memoryLimit(256 * MB)
+            .memoryLimit(512 * MB)
             .cpuLimit(DEFAULT_CPU_LIMIT)
-            .timeout(10000L)
+            .timeout(60000L) 
             .build(),
         LanguageConfig.builder()
-            .name("javascript")
-            .dockerImage("node:20-alpine3.19")
-            .executeCommand("node /code/{fileName} && mocha /exercise")
-            .fileExtension(".js")
-            .memoryLimit(128 * MB)
+            .name("typescript")
+            .dockerImage("node:20-alpine")
+            .executeCommand("cd /code && pnpm install && pnpm run test")
+            .fileExtension(".ts")
+            .memoryLimit(256 * MB)
             .cpuLimit(DEFAULT_CPU_LIMIT)
-            .timeout(DEFAULT_TIMEOUT)
+            .timeout(60000L) 
             .build(),
         LanguageConfig.builder()
             .name("rust")
             .dockerImage("rust:1.80-slim")
-            .executeCommand("rustc -o /code/main /code/{fileName} && rustc --test -o /exercise/test /exercise/*.rs && /code/main && /exercise/test")
+            .executeCommand("cd /code && cargo test")
             .fileExtension(".rs")
             .memoryLimit(256 * MB)
             .cpuLimit(DEFAULT_CPU_LIMIT)
-            .timeout(15000L)
+            .timeout(DEFAULT_TIMEOUT)
             .build(),
         LanguageConfig.builder()
             .name("csharp")
             .dockerImage("mcr.microsoft.com/dotnet/sdk:8.0")
-            .executeCommand("dotnet new console -o /code && mv /code/{fileName} /code/Program.cs && dotnet new xunit -o /exercise && dotnet test /exercise")
+            .executeCommand("cd /code && dotnet test")
             .fileExtension(".cs")
             .memoryLimit(512 * MB)
             .cpuLimit(2L)
-            .timeout(30000L)
+            .timeout(60000L) 
             .build(),
         LanguageConfig.builder()
             .name("go")
-            .dockerImage("golang:1.22-bookworm")
-            .executeCommand("go run /code/{fileName} && go test /exercise")
+            .dockerImage("golang:1.23-bookworm")
+            .executeCommand("cd /code && go mod tidy && go test")
             .fileExtension(".go")
-            .memoryLimit(256 * MB)
-            .cpuLimit(DEFAULT_CPU_LIMIT)
-            .timeout(10000L)
+            .memoryLimit(512 * MB)
+            .cpuLimit(2L)
+            .timeout(30000L)
             .build()
     );
+
 
     for (LanguageConfig config : languageConfigs) {
       Language language = createLanguage(config);

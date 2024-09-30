@@ -6,6 +6,7 @@ import static com.cortex.backend.core.common.BusinessErrorCodes.ACCOUNT_DISABLED
 import static com.cortex.backend.core.common.BusinessErrorCodes.ACCOUNT_LOCKED;
 import static com.cortex.backend.core.common.BusinessErrorCodes.BAD_CREDENTIALS;
 import static com.cortex.backend.core.common.BusinessErrorCodes.CODE_EXECUTION_FAILED;
+import static com.cortex.backend.core.common.BusinessErrorCodes.CONTAINER_EXECUTION_FAILED;
 import static com.cortex.backend.core.common.BusinessErrorCodes.CONTENT_CHANGED;
 import static com.cortex.backend.core.common.BusinessErrorCodes.EMAIL_SENDING_FAILED;
 import static com.cortex.backend.core.common.BusinessErrorCodes.EXERCISE_CREATE_FAILED;
@@ -29,6 +30,7 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 import com.cortex.backend.core.common.exception.CodeExecutionException;
+import com.cortex.backend.core.common.exception.ContainerExecutionException;
 import com.cortex.backend.core.common.exception.ContentChangedException;
 import com.cortex.backend.core.common.exception.EmailSendingException;
 import com.cortex.backend.core.common.exception.ExerciseCreationException;
@@ -345,6 +347,18 @@ public class GlobalExceptionHandler {
             ExceptionResponse.builder()
                 .code(CODE_EXECUTION_FAILED.getCode())
                 .description(CODE_EXECUTION_FAILED.getDescription())
+                .error(exp.getMessage())
+                .build());
+  }
+  
+  @ExceptionHandler(ContainerExecutionException.class)
+  public ResponseEntity<ExceptionResponse> handleContainerExecutionException(
+      ContainerExecutionException exp) {
+    return ResponseEntity.status(CONTAINER_EXECUTION_FAILED.getHttpStatus())
+        .body(
+            ExceptionResponse.builder()
+                .code(CONTAINER_EXECUTION_FAILED.getCode())
+                .description(CONTAINER_EXECUTION_FAILED.getDescription())
                 .error(exp.getMessage())
                 .build());
   }

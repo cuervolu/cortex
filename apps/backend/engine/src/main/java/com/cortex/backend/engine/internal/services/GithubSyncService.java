@@ -5,6 +5,10 @@ import com.cortex.backend.engine.api.ExerciseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
@@ -32,16 +36,21 @@ public class GithubSyncService {
   @Value("${github.exercises.branch}")
   private String branch;
 
+
+  private String lastSyncedCommit;
+
   @EventListener(ApplicationReadyEvent.class)
   public void initializeExercises() {
     if (!exerciseService.areLessonsAvailable()) {
       log.warn("No lessons found in the database. Skipping exercise initialization.");
       return;
     }
-    if (exerciseService.isExerciseRepositoryEmpty()) {
-      log.info("No exercises found. Initializing from GitHub...");
-      syncExercises();
+    Path localPath = Path.of(localPathString);
+    if (!Files.exists(localPath)) {
+      log.info("Local repository does not exist. Cloning from GitHub...");
+      cloneRepository(localPath);
     }
+    syncExercises();
   }
 
   @Scheduled(fixedRateString = "${github.exercises.sync-interval-ms}")
@@ -60,37 +69,59 @@ public class GithubSyncService {
       return;
     }
     Path localPath = Path.of(localPathString);
-    log.info("Syncing exercises from {} to {}", repoUrl, localPath);
+    log.info("Checking for updates in repository at {}", localPath);
     try {
-      if (Files.exists(localPath)) {
-        pullLatestChanges(localPath);
+      if (pullLatestChanges(localPath)) {
+        updateExercisesFromLocalRepo(localPath);
       } else {
-        cloneRepository(localPath);
+        log.info("No new changes in the repository. Skipping update.");
       }
-      updateExercisesFromLocalRepo(localPath);
     } catch (Exception e) {
       log.error("Failed to sync exercises", e);
       throw new GitSyncException("Failed to sync exercises", e);
     }
   }
 
-  private void pullLatestChanges(Path localPath) throws Exception {
-    try (Git git = Git.open(localPath.toFile())) {
+  private boolean pullLatestChanges(Path localPath) throws Exception {
+    try (Repository repository = new FileRepositoryBuilder()
+        .setGitDir(new File(localPath.toFile(), ".git"))
+        .build();
+        Git git = new Git(repository)) {
+
+      ObjectId oldHead = repository.resolve("HEAD");
+
       git.pull().setRemoteBranchName(branch).call();
-      log.info("Successfully pulled latest changes from remote repository");
+
+      ObjectId newHead = repository.resolve("HEAD");
+
+      if (!newHead.equals(oldHead)) {
+        RevCommit latestCommit = git.log().setMaxCount(1).call().iterator().next();
+        String newCommitId = latestCommit.getName();
+        log.info("New changes detected. Latest commit: {}", newCommitId);
+        lastSyncedCommit = newCommitId;
+        return true;
+      }
+
+      return false;
     } catch (Exception e) {
       log.error("Error pulling latest changes", e);
       throw e;
     }
   }
 
-  private void cloneRepository(Path localPath) throws Exception {
-    try (Git _ = Git.cloneRepository()
+  private void cloneRepository(Path localPath) {
+    try (Git git = Git.cloneRepository()
         .setURI(repoUrl)
         .setDirectory(localPath.toFile())
         .setBranch(branch)
         .call()) {
       log.info("Successfully cloned repository to {}", localPath);
+      RevCommit latestCommit = git.log().setMaxCount(1).call().iterator().next();
+      lastSyncedCommit = latestCommit.getName();
+      log.info("Latest commit after cloning: {}", lastSyncedCommit);
+    } catch (Exception e) {
+      log.error("Failed to clone repository", e);
+      throw new GitSyncException("Failed to clone repository", e);
     }
   }
 
@@ -99,16 +130,16 @@ public class GithubSyncService {
     File exercisesDir = localPath.resolve("exercises").toFile();
     log.info("Exercises directory: {}", exercisesDir);
 
-    if (!isValidDirectory(exercisesDir)) {
+    if (isInvalidDirectory(exercisesDir)) {
       log.warn("Exercises directory does not exist or is not a directory: {}", exercisesDir);
       return;
     }
 
     processLanguageDirectories(exercisesDir);
   }
-
-  private boolean isValidDirectory(File directory) {
-    return directory.exists() && directory.isDirectory();
+  
+  private boolean isInvalidDirectory(File directory) {
+    return !directory.exists() || !directory.isDirectory();
   }
 
   private void processLanguageDirectories(File exercisesDir) {
@@ -125,7 +156,7 @@ public class GithubSyncService {
     File practiceDir = new File(languageDir, "practice");
     log.info("Practice directory: {}", practiceDir);
 
-    if (!isValidDirectory(practiceDir)) {
+    if (isInvalidDirectory(practiceDir)) {
       log.warn("Practice directory does not exist or is not a directory: {}", practiceDir);
       return;
     }
