@@ -20,6 +20,9 @@ COPY cortex-exercises/exercises/typescript /app/exercises
 # Install the dependencies of the exercises
 RUN cd /app/exercises && pnpm install --frozen-lockfile
 
+# Add node_modules/.bin to PATH
+ENV PATH /app/node_modules/.bin:$PATH
+
 # Set the working directory to the typescript exercises
 WORKDIR /app/exercises
 
