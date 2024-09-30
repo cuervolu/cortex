@@ -4,7 +4,7 @@
 images=(
     "python:3.12-slim"
     "maven:3.9.9-eclipse-temurin-21"
-    "node:20-alpine3.19"
+    "node:20-alpine"
     "rust:1.80-slim"
     "mcr.microsoft.com/dotnet/sdk:8.0"
     "golang:1.23-bookworm"
