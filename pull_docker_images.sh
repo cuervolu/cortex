@@ -3,11 +3,11 @@
 # Array of Docker images to pull
 images=(
     "python:3.12-slim"
-    "eclipse-temurin:21"
+    "maven:3.9.9-eclipse-temurin-21"
     "node:20-alpine3.19"
     "rust:1.80-slim"
     "mcr.microsoft.com/dotnet/sdk:8.0"
-    "golang:1.22-bookworm"
+    "golang:1.23-bookworm"
 )
 
 # Function to check if an image exists locally
