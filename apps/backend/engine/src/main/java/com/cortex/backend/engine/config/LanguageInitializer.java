@@ -27,7 +27,8 @@ public class LanguageInitializer {
         LanguageConfig.builder()
             .name("python")
             .dockerImage("python:3.12-slim")
-            .executeCommand("python /code/{fileName} && python -m unittest discover /code")
+            .executeCommand(
+                "python $(find /code -name '*.py' ! -name '*_test.py') && python -m unittest discover /code")
             .fileExtension(".py")
             .memoryLimit(128 * MB)
             .cpuLimit(DEFAULT_CPU_LIMIT)
@@ -36,20 +37,21 @@ public class LanguageInitializer {
         LanguageConfig.builder()
             .name("java")
             .dockerImage("maven:3.9.9-eclipse-temurin-21")
-            .executeCommand("cd /code && mvn test")
+            .executeCommand("cd /code && mvn test -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn")// Only print test results, for Debug use `.executeCommand("cd /code && mvn test")`
             .fileExtension(".java")
             .memoryLimit(512 * MB)
             .cpuLimit(DEFAULT_CPU_LIMIT)
-            .timeout(60000L) 
+            .timeout(60000L)
             .build(),
         LanguageConfig.builder()
             .name("typescript")
-            .dockerImage("node:20-alpine")
-            .executeCommand("cd /code && pnpm install && pnpm run test")
+            .dockerImage("cortex-typescript-exercises:latest") // Custom image with pnpm installed
+            .executeCommand(
+                "cd /app/exercises/practice/{exerciseName} && pnpm install && pnpm test")
             .fileExtension(".ts")
-            .memoryLimit(256 * MB)
+            .memoryLimit(1024 * MB)
             .cpuLimit(DEFAULT_CPU_LIMIT)
-            .timeout(60000L) 
+            .timeout(180000L)
             .build(),
         LanguageConfig.builder()
             .name("rust")
@@ -67,7 +69,7 @@ public class LanguageInitializer {
             .fileExtension(".cs")
             .memoryLimit(512 * MB)
             .cpuLimit(2L)
-            .timeout(60000L) 
+            .timeout(60000L)
             .build(),
         LanguageConfig.builder()
             .name("go")
@@ -79,7 +81,6 @@ public class LanguageInitializer {
             .timeout(30000L)
             .build()
     );
-
 
     for (LanguageConfig config : languageConfigs) {
       Language language = createLanguage(config);
