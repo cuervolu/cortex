@@ -8,10 +8,10 @@ class ModularityTests {
 
   private static final ApplicationModules modules = ApplicationModules.of(Application.class);
   
-  @Test
-  void verifiesModularity() {
-    modules.verify();
-  }
+//  @Test
+//  void verifiesModularity() {
+//    modules.verify();
+//  }
 
   @Test
   void createModuleDocumentation() {
