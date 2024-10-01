@@ -10,9 +10,11 @@ import com.cortex.backend.core.common.exception.UnsupportedLanguageException;
 import com.cortex.backend.core.domain.Exercise;
 import com.cortex.backend.engine.api.ExerciseRepository;
 import com.cortex.backend.engine.api.LanguageRepository;
+import com.cortex.backend.engine.api.SubmissionService;
 import com.cortex.backend.engine.api.dto.CodeExecutionRequest;
 import com.cortex.backend.engine.api.dto.CodeExecutionResult;
 import com.cortex.backend.engine.api.dto.CodeExecutionTask;
+import com.cortex.backend.engine.api.dto.SubmissionResponse;
 import com.cortex.backend.engine.api.dto.TestCaseResult;
 import com.cortex.backend.engine.internal.docker.DockerExecutionService;
 import com.cortex.backend.engine.internal.parser.TestResultParser;
@@ -41,11 +43,12 @@ public class CodeExecutionService {
   private final RabbitTemplate rabbitTemplate;
   private final RedisTemplate<String, CodeExecutionResult> redisTemplate;
   private final DockerExecutionService dockerExecutionService;
+  private final SubmissionService submissionService;
 
   @Value("${github.exercises.local-path}")
   private String localExercisesPath;
 
-  public String submitCodeExecution(CodeExecutionRequest request) {
+  public String submitCodeExecution(CodeExecutionRequest request, Long userId) {
     Exercise exercise = exerciseRepository.findById(request.exerciseId())
         .orElseThrow(() -> new IllegalArgumentException("Exercise not found"));
     if (!languageRepository.existsByName(request.language())) {
@@ -53,10 +56,9 @@ public class CodeExecutionService {
     }
 
     String taskId = UUID.randomUUID().toString();
-    String contentHash = HashUtil.generateSHA256Hash(request.code() + exercise.getGithubPath());
-
-    CodeExecutionTask task = new CodeExecutionTask(taskId, request, contentHash,
-        exercise.getGithubPath());
+    SubmissionResponse submission = submissionService.createSubmission(request, userId);
+    CodeExecutionTask task = new CodeExecutionTask(taskId, request,
+        exercise.getGithubPath(), submission.getId());
     rabbitTemplate.convertAndSend(CODE_EXECUTION_QUEUE, task);
 
     return taskId;
@@ -75,12 +77,8 @@ public class CodeExecutionService {
 
   public void processCodeExecution(CodeExecutionTask task) {
     try {
-      String currentHash = HashUtil.generateSHA256Hash(task.request().code() + task.githubPath());
-      if (!currentHash.equals(task.contentHash())) {
-        throw new ContentChangedException("Content has changed since submission");
-      }
-
       CodeExecutionResult result = executeCode(task.request(), task.githubPath());
+      submissionService.updateSubmissionWithResult(task.submissionId(), result);
       redisTemplate.opsForValue().set(
           RESULT_KEY_PREFIX + task.taskId(),
           result,

@@ -6,8 +6,9 @@ public record CodeExecutionTask(
     @JsonProperty("task_id")
     String taskId,
     CodeExecutionRequest request,
-    @JsonProperty("content_hash") String contentHash,
-    @JsonProperty("github_path") String githubPath
+    @JsonProperty("github_path") String githubPath,
+    @JsonProperty("submission_id")
+    Long submissionId
 ) {
 
 }

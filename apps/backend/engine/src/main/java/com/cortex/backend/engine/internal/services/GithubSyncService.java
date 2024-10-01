@@ -2,11 +2,12 @@ package com.cortex.backend.engine.internal.services;
 
 import com.cortex.backend.core.common.exception.GitSyncException;
 import com.cortex.backend.engine.api.ExerciseService;
+import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jgit.api.CreateBranchCommand.SetupUpstreamMode;
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.errors.InvalidConfigurationException;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
@@ -43,6 +44,8 @@ public class GithubSyncService {
 
   private String lastSyncedCommit;
 
+  private static final String ORIGIN = "origin/";
+
   @EventListener(ApplicationReadyEvent.class)
   public void initializeExercises() {
     if (!exerciseService.areLessonsAvailable()) {
@@ -68,8 +71,8 @@ public class GithubSyncService {
     log.info("Forcing update of all exercises from local repository");
     updateExercisesFromLocalRepo(localPath);
   }
-  
-  
+
+
   @Scheduled(fixedRateString = "${github.exercises.sync-interval-ms}")
   public void scheduledSync() {
     if (!exerciseService.areLessonsAvailable()) {
@@ -96,8 +99,16 @@ public class GithubSyncService {
   }
 
   private boolean pullLatestChanges(Path localPath) throws Exception {
+    File gitDir = new File(localPath.toFile(), ".git");
+    if (!gitDir.exists()) {
+      log.warn("Git directory not found. Attempting to clone the repository.");
+      return cloneRepository(localPath);
+    }
+
     try (Repository repository = new FileRepositoryBuilder()
         .setGitDir(new File(localPath.toFile(), ".git"))
+        .readEnvironment()
+        .findGitDir()
         .build();
         Git git = new Git(repository)) {
 
@@ -120,18 +131,18 @@ public class GithubSyncService {
       ObjectId oldHead = repository.resolve("HEAD");
 
       // Obtener el último commit del remoto
-      ObjectId remoteHead = repository.resolve("origin/" + branch);
+      ObjectId remoteHead = repository.resolve(ORIGIN + branch);
 
       if (remoteHead == null) {
         log.warn("Remote branch not found. Attempting to set upstream branch.");
         git.branchCreate()
             .setName(branch)
             .setUpstreamMode(SetupUpstreamMode.SET_UPSTREAM)
-            .setStartPoint("origin/" + branch)
+            .setStartPoint(ORIGIN + branch)
             .setForce(true)
             .call();
         git.pull().setRemoteBranchName(branch).call();
-        remoteHead = repository.resolve("origin/" + branch);
+        remoteHead = repository.resolve(ORIGIN + branch);
       }
 
       if (!remoteHead.equals(oldHead)) {
@@ -147,25 +158,36 @@ public class GithubSyncService {
 
       log.info("No new changes detected in the remote repository.");
       return false;
-    } catch (Exception e) {
-      log.error("Error pulling latest changes", e);
+    } catch (IOException e) {
+      log.error("IO error occurred while pulling changes. Attempting to re-clone.", e);
+      return cloneRepository(localPath);
+    } catch (GitAPIException e) {
+      log.error("Git API error occurred while pulling changes.", e);
       throw e;
     }
   }
 
-  private void cloneRepository(Path localPath) {
+  private boolean cloneRepository(Path localPath) {
+    log.info("Attempting to clone repository to {}", localPath);
+    try {
+      Files.createDirectories(localPath);
+      log.info("Created directory: {}", localPath);
+    } catch (IOException e) {
+      log.error("Failed to create directory: {}", localPath, e);
+      return false;
+    }
+
     try (Git git = Git.cloneRepository()
         .setURI(repoUrl)
         .setDirectory(localPath.toFile())
         .setBranch(branch)
         .call()) {
-      log.info("Successfully cloned repository to {}", localPath);
-      RevCommit latestCommit = git.log().setMaxCount(1).call().iterator().next();
-      lastSyncedCommit = latestCommit.getName();
-      log.info("Latest commit after cloning: {}", lastSyncedCommit);
-    } catch (Exception e) {
-      log.error("Failed to clone repository", e);
-      throw new GitSyncException("Failed to clone repository", e);
+
+      log.info("Repository cloned successfully to {}", localPath);
+      return true;
+    } catch (GitAPIException e) {
+      log.error("Failed to clone repository to {}", localPath, e);
+      return false;
     }
   }
 
@@ -197,6 +219,7 @@ public class GithubSyncService {
     }
     return totalUpdated;
   }
+
   private int processPracticeDirectory(File languageDir) {
     log.info("Processing language directory: {}", languageDir.getName());
     File practiceDir = new File(languageDir, "practice");
@@ -231,7 +254,9 @@ public class GithubSyncService {
 
   private boolean updateExercise(File exerciseDir, String language) {
     String exerciseName = exerciseDir.getName();
-    String githubPath = "exercises" + File.separatorChar + language + File.separatorChar + "practice" + File.separatorChar + exerciseName;
+    String githubPath =
+        "exercises" + File.separatorChar + language + File.separatorChar + "practice"
+            + File.separatorChar + exerciseName;
     String instructions = readFileContent(exerciseDir, ".docs/instructions.md");
     String hints = readFileContent(exerciseDir, ".docs/hints.md");
 
