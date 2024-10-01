@@ -48,7 +48,7 @@ def build_custom_ts_image() -> None:
             input("Is the directory name 'capstone' or 'cortex'? ").strip().lower()
         )
 
-    dockerfile_path = f"{directory}/docker/Dockerfile"
+    dockerfile_path = f"{directory}/docker/Dockerfile.typescript"
 
     # Build the Docker image using the specified Dockerfile
     result = subprocess.run(
