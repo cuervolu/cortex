@@ -15,6 +15,8 @@ import com.cortex.backend.engine.api.dto.CodeExecutionResult;
 import com.cortex.backend.engine.api.dto.CodeExecutionTask;
 import com.cortex.backend.engine.api.dto.TestCaseResult;
 import com.cortex.backend.engine.internal.docker.DockerExecutionService;
+import com.cortex.backend.engine.internal.parser.TestResultParser;
+import com.cortex.backend.engine.internal.parser.TestResultParserFactory;
 import com.cortex.backend.engine.internal.utils.HashUtil;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -123,8 +125,11 @@ public class CodeExecutionService {
       log.info("Docker execution stdout: \n{}", dockerResult.stdout());
       log.info("Docker execution stderr: \n{}", dockerResult.stderr());
 
-      List<TestCaseResult> testCaseResults = parseTestResults(dockerResult.stdout(),
-          request.language());
+      List<TestCaseResult> testCaseResults = parseTestResults(
+          dockerResult.stdout(),
+          dockerResult.stderr(),
+          request.language()
+      );
 
       return CodeExecutionResult.builder()
           .success(dockerResult.exitCode() == 0)
@@ -145,9 +150,8 @@ public class CodeExecutionService {
     }
   }
 
-  private List<TestCaseResult> parseTestResults(String output, String language) {
-    // TODO: Implement parsing logic for test results based on the output format and language
-    // This will depend on how your test runner for each language formats its output
-    return List.of(); // Placeholder
+  private List<TestCaseResult> parseTestResults(String stdout, String stderr, String language) {
+    TestResultParser parser = TestResultParserFactory.getParser(language);
+    return parser.parseTestResults(stdout + "\n" + stderr);
   }
 }
