@@ -56,6 +56,8 @@ Crea un archivo `.env` en la raíz del proyecto con el siguiente contenido:
 POSTGRES_DB=cortex_db
 POSTGRES_USER=your_user
 POSTGRES_PASSWORD=your_password
+
+CLAUDE_API_KEY=your_api_key
 ```
 
 ### Variables de entorno del backend
@@ -80,26 +82,20 @@ CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 
 ## Configuración de imágenes Docker
 
-- En Windows (PowerShell) o macOS/Linux (Bash):
+- En Windows y macOS, puedes ejecutar el script `pull_docker_images.py` para descargar las imágenes necesarias:
 
 ```bash
-./pull_docker_images.sh
+python pull_docker_images.py
 ```
 
-- Si estás en Windows y el script no se ejecuta, puedes usar este comando en PowerShell:
-
-```bash
-bash pull_docker_images.sh
-```
-
-- Si no tienes Bash en Windows, puedes ejecutar estos comandos individualmente:
+- Si no tienes Python en Windows o prefieres hacerlo manualmente, puedes ejecutar los siguientes comandos:
 
 ```bash
 docker pull python:3.12-slim
-docker pull eclipse-temurin:21
-docker pull node:20-alpine3.19
+docker pull maven:3.9.9-eclipse-temurin-21
 docker pull rust:1.80-slim
 docker pull mcr.microsoft.com/dotnet/sdk:8.0
+docker pull golang:1.23-bookworm
 ```
 
 ## Solución de problemas comunes
