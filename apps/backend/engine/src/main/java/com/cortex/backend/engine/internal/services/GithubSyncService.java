@@ -1,7 +1,12 @@
 package com.cortex.backend.engine.internal.services;
 
+import com.cortex.backend.core.common.SlugUtils;
 import com.cortex.backend.core.common.exception.GitSyncException;
+import com.cortex.backend.engine.api.ExerciseRepository;
 import com.cortex.backend.engine.api.ExerciseService;
+import com.cortex.backend.engine.internal.ExerciseConfig;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +29,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
+import org.yaml.snakeyaml.Yaml;
 
 @Service
 @Slf4j
@@ -31,6 +37,8 @@ import java.util.Objects;
 public class GithubSyncService {
 
   private final ExerciseService exerciseService;
+  private final ExerciseRepository exerciseRepository;
+  private final SlugUtils slugUtils;
 
   @Value("${github.exercises.repo-url}")
   private String repoUrl;
@@ -254,11 +262,10 @@ public class GithubSyncService {
 
   private boolean updateExercise(File exerciseDir, String language) {
     String exerciseName = exerciseDir.getName();
-    String githubPath =
-        "exercises" + File.separatorChar + language + File.separatorChar + "practice"
-            + File.separatorChar + exerciseName;
+    String githubPath = "exercises" + File.separatorChar + language + File.separatorChar + "practice" + File.separatorChar + exerciseName;
     String instructions = readFileContent(exerciseDir, ".docs/instructions.md");
     String hints = readFileContent(exerciseDir, ".docs/hints.md");
+    String configYaml = readFileContent(exerciseDir, ".docs/config.yml");
 
     log.info("Updating exercise: {} ({})", exerciseName, githubPath);
     log.debug("Instructions length: {}, Hints length: {}", instructions.length(), hints.length());
@@ -268,10 +275,23 @@ public class GithubSyncService {
       return false;
     }
 
-    exerciseService.updateOrCreateExercise(exerciseName, githubPath, instructions, hints);
+    String slug = slugUtils.generateExerciseSlug(exerciseName, language, s -> exerciseRepository.findBySlug(s).isPresent());
+
+    ExerciseConfig config;
+    try {
+      ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+      config = mapper.readValue(configYaml, ExerciseConfig.class);
+      log.info("Parsed config: points={}, creator={}, lessonId={}",
+          config.getPoints(), config.getCreator(), config.getLessonId());
+    } catch (Exception e) {
+      log.error("Error parsing config.yml for exercise {}: {}", exerciseName, e.getMessage());
+      config = new ExerciseConfig();
+    }
+
+    exerciseService.updateOrCreateExercise(exerciseName, githubPath, instructions, hints, slug, language, config);
     return true;
   }
-
+  
   private String readFileContent(File exerciseDir, String relativePath) {
     try {
       Path filePath = exerciseDir.toPath().resolve(relativePath);

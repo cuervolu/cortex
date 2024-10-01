@@ -53,6 +53,19 @@
       <artifactId>docker-java-transport-httpclient5</artifactId>
       <version>3.4.0</version>
     </dependency>
+    
+    <!--  YAML  -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.dataformat</groupId>
+      <artifactId>jackson-dataformat-yaml</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.cortex.backend</groupId>
+      <artifactId>auth</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
+
   </dependencies>
 
   <build>

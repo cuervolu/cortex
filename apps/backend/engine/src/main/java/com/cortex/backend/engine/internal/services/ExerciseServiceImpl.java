@@ -1,9 +1,12 @@
 package com.cortex.backend.engine.internal.services;
 
+import com.cortex.backend.auth.config.ApplicationAuditAware;
 import com.cortex.backend.core.common.SlugUtils;
 import com.cortex.backend.core.common.exception.ExerciseCreationException;
 import com.cortex.backend.core.common.exception.ExerciseReadException;
 import com.cortex.backend.core.domain.Exercise;
+import com.cortex.backend.core.domain.Lesson;
+import com.cortex.backend.core.domain.User;
 import com.cortex.backend.education.lesson.internal.LessonRepository;
 import com.cortex.backend.engine.api.ExerciseRepository;
 import com.cortex.backend.engine.api.ExerciseService;
@@ -12,8 +15,11 @@ import com.cortex.backend.engine.api.dto.ExerciseDetailsResponse;
 import com.cortex.backend.engine.api.dto.ExerciseResponse;
 import com.cortex.backend.engine.api.dto.UpdateExercise;
 import com.cortex.backend.engine.internal.CodeFileReader;
+import com.cortex.backend.engine.internal.ExerciseConfig;
 import com.cortex.backend.engine.internal.mappers.ExerciseMapper;
 import com.cortex.backend.engine.internal.utils.HashUtil;
+import com.cortex.backend.user.api.UserService;
+import com.cortex.backend.user.api.dto.UserResponse;
 import jakarta.persistence.EntityNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -37,7 +43,7 @@ public class ExerciseServiceImpl implements ExerciseService {
   private final ExerciseRepository exerciseRepository;
   private final LessonRepository lessonRepository;
   private final ExerciseMapper exerciseMapper;
-  private final SlugUtils slugUtils;
+  private final UserService userService;
   private final CodeFileReader codeFileReader;
 
 
@@ -99,14 +105,14 @@ public class ExerciseServiceImpl implements ExerciseService {
   @Override
   @Transactional
   public void updateOrCreateExercise(String exerciseName, String githubPath, String instructions,
-      String hints) {
+      String hints, String slug, String language, ExerciseConfig config) {
     log.info("Updating or creating exercise: {}", exerciseName);
     try {
       Exercise existingExercise = exerciseRepository.findByGithubPath(githubPath).orElse(null);
       if (existingExercise == null) {
-        createNewExercise(exerciseName, githubPath, instructions, hints);
+        createNewExercise(exerciseName, githubPath, instructions, hints, slug, config);
       } else {
-        updateExistingExercise(existingExercise, exerciseName, instructions, hints);
+        updateExistingExercise(existingExercise, exerciseName, instructions, hints, slug, config);
       }
     } catch (Exception e) {
       log.error("Error updating or creating exercise: {}", exerciseName, e);
@@ -115,47 +121,59 @@ public class ExerciseServiceImpl implements ExerciseService {
   }
 
   private void createNewExercise(String exerciseName, String githubPath, String instructions,
-      String hints) {
+      String hints, String slug, ExerciseConfig config) {
     log.info("Creating new exercise: {}", exerciseName);
-    CreateExercise createExercise = CreateExercise.builder()
-        .title(exerciseName)
-        .githubPath(githubPath)
-        .points(0)
-        .lessonId(1L) // TODO: Change this to a real lesson ID
-        .instructions(instructions)
-        .hints(hints)
-        .lastGithubSync(LocalDateTime.now())
-        .build();
-    Exercise newExercise = exerciseMapper.createExerciseDtoToExercise(createExercise);
+    Optional<UserResponse> user = userService.getUserByUsername(config.getCreator().toLowerCase());
+    if (user.isEmpty()) {
+      log.error("User not found with username: {}", config.getCreator());
+      throw new EntityNotFoundException("User not found with username: " + config.getCreator());
+    }
 
-    String slug = slugUtils.generateUniqueSlug(exerciseName,
-        s -> exerciseRepository.findBySlug(s).isPresent());
-    newExercise.setSlug(slug);
-
-    exerciseRepository.save(newExercise);
-    log.info("New exercise created with ID: {} and slug: {}", newExercise.getId(),
-        newExercise.getSlug());
+    try {
+      ApplicationAuditAware.setCurrentAuditor(user.get().getId());
+      Exercise newExercise = Exercise.builder()
+          .title(exerciseName)
+          .githubPath(githubPath)
+          .instructions(instructions)
+          .hints(hints)
+          .slug(slug)
+          .points(config.getPoints())
+          .lastGithubSync(LocalDateTime.now())
+          .lesson(getLessonById(config.getLessonId()))
+          .build();
+      exerciseRepository.save(newExercise);
+      log.info("New exercise created with ID: {} and slug: {}", newExercise.getId(),
+          newExercise.getSlug());
+    } finally {
+      ApplicationAuditAware.clearCurrentAuditor();
+    }
   }
 
   private void updateExistingExercise(Exercise existingExercise, String exerciseName,
-      String instructions, String hints) {
-    log.info("Updating existing exercise: {}", exerciseName);
-    existingExercise.setLastGithubSync(LocalDateTime.now());
-    existingExercise.setInstructions(instructions);
-    existingExercise.setHints(hints);
-
-    if (existingExercise.getSlug() == null || existingExercise.getSlug().isEmpty()) {
-      String slug = slugUtils.generateUniqueSlug(exerciseName,
-          s -> !s.equals(existingExercise.getSlug()) && exerciseRepository.findBySlug(s)
-              .isPresent());
-      existingExercise.setSlug(slug);
+      String instructions, String hints, String slug, ExerciseConfig config) {
+    Optional<UserResponse> user = userService.getUserByUsername(config.getCreator().toLowerCase());
+    if (user.isEmpty()) {
+      log.error("User not found with username: {}", config.getCreator());
+      throw new EntityNotFoundException("User not found with username: " + config.getCreator());
     }
 
-    exerciseRepository.save(existingExercise);
-    log.info("Exercise updated with ID: {} and slug: {}", existingExercise.getId(),
-        existingExercise.getSlug());
+    try {
+      ApplicationAuditAware.setCurrentAuditor(user.get().getId());
+      log.info("Updating existing exercise: {}", exerciseName);
+      existingExercise.setTitle(exerciseName);
+      existingExercise.setInstructions(instructions);
+      existingExercise.setHints(hints);
+      existingExercise.setSlug(slug);
+      existingExercise.setPoints(config.getPoints());
+      existingExercise.setLastGithubSync(LocalDateTime.now());
+      existingExercise.setLesson(getLessonById(config.getLessonId()));
+      exerciseRepository.save(existingExercise);
+      log.info("Exercise updated with ID: {} and slug: {}", existingExercise.getId(),
+          existingExercise.getSlug());
+    } finally {
+      ApplicationAuditAware.clearCurrentAuditor();
+    }
   }
-
 
   @Override
   @Transactional(readOnly = true)
@@ -183,17 +201,23 @@ public class ExerciseServiceImpl implements ExerciseService {
     } catch (IOException e) {
       log.error("Error reading exercise files for exercise id: {}", id, e);
       throw new ExerciseReadException("Failed to read exercise files", e);
-    } 
+    }
   }
-  
+
   private String generateContentHash(String initialCode, String testCode) {
     String content = initialCode + testCode;
     return HashUtil.generateSHA256Hash(content);
   }
-  
+
   @Override
   public boolean areLessonsAvailable() {
     return lessonRepository.count() > 0;
   }
+
+  private Lesson getLessonById(Long lessonId) {
+    return lessonRepository.findById(lessonId)
+        .orElseThrow(() -> new IllegalArgumentException("Lesson not found with id: " + lessonId));
+  }
+
 
 }

@@ -77,7 +77,6 @@ public class SubmissionServiceImpl implements SubmissionService {
 
     submission.setStdin(result.getStdout());
     submission.setExpectedOutput(result.getStderr());
-    submission.setCpuTimeLimit((float) result.getExecutionTime());
 
     Solution solution = submission.getSolution();
     if (result.isSuccess()) {
