@@ -1,23 +1,18 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/cortex_db
-    username: cuervolu
-    password: kdDjkdaPspJn
+    url: jdbc:postgresql://${SPRING_DATASOURCE_URL:localhost:5432/${POSTGRES_DB}}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
   rabbitmq:
-    host: localhost
+    host: ${SPRING_RABBITMQ_HOST:localhost}
     port: 5672
-    username: guest
-    password: guest
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-      database: postgresql
-      database-platform: org.hibernate.dialect.PostgreSQLDialect
+    username: ${SPRING_RABBITMQ_USERNAME:guest}
+    password: ${SPRING_RABBITMQ_PASSWORD:guest}
+  data:
+    redis:
+      host: ${SPRING_DATA_REDIS_HOST:localhost}
+      port: 6379
   security:
     oauth2:
       client:
@@ -28,10 +23,6 @@ spring:
           github:
             client-id: ${GITHUB_CLIENT_ID}
             client-secret: ${GITHUB_CLIENT_SECRET}
-  data:
-    redis:
-      host: localhost
-      port: 6379
 logging:
   level:
     org:
@@ -40,9 +31,9 @@ logging:
         web: DEBUG
 docker:
   cleanup:
-    interval-ms: 3600000  # 1 hora
+    interval-ms: 3600000 # 1 hora
     container:
-      max-age-hours: 24  # 24 horas
+      max-age-hours: 24 # 24 horas
 application:
   security:
     jwt:
@@ -67,6 +58,6 @@ server:
 github:
   exercises:
     repo-url: https://github.com/cuervolu/cortex-exercises
-    local-path: /tmp/cortex-exercises
+    local-path: ./exercises
     branch: main
-    sync-interval-ms: 3600000 # An hour
+    sync-interval-ms: 3600000

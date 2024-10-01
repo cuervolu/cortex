@@ -34,3 +34,8 @@ build/
 
 ### Local Configuration ###
 .env
+
+
+### Exercises ###
+exercises
+exercises/
