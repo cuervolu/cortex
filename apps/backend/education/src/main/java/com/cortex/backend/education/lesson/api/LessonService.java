@@ -19,4 +19,9 @@ public interface LessonService {
   LessonResponse updateLesson(Long id, LessonUpdateRequest lessonRequest);
 
   void deleteLesson(Long id);
+
+  void completeLesson(Long lessonId, Long userId);
+  
+  Long getModuleIdForLesson(Long lessonId);
+  
 }

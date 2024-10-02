@@ -1,6 +1,7 @@
 package com.cortex.backend.auth.internal;
 
 import com.cortex.backend.core.domain.User;
+import com.cortex.backend.user.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -17,6 +18,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RequiredArgsConstructor
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
   private final JwtServiceImpl jwtService;
+  private final UserRepository userRepository;
 
   @Value("${application.frontend.callback-url}")
   private String frontendUrl;
@@ -33,7 +35,8 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
       case OidcUserPrincipal oidcUserPrincipal -> user = oidcUserPrincipal.user();
       default -> throw new IllegalStateException("Unexpected OAuth2User type: " + oAuth2User.getClass());
     }
-
+    user.updateLoginStats(); // Update last login date
+    userRepository.save(user);
     String jwt = jwtService.generateToken(user);
     String redirectUrl = UriComponentsBuilder.fromUriString(frontendUrl)
         .queryParam("token", jwt)

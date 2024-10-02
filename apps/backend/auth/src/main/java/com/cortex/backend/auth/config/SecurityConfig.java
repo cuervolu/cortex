@@ -7,6 +7,7 @@ import com.cortex.backend.auth.internal.CustomOidcUserService;
 import com.cortex.backend.auth.internal.JwtServiceImpl;
 import com.cortex.backend.auth.internal.OAuth2AuthenticationSuccessHandler;
 import com.cortex.backend.auth.internal.infrastructure.JwtFilter;
+import com.cortex.backend.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,10 +34,12 @@ public class SecurityConfig {
   private final CustomOAuth2UserService customOAuth2UserService;
   private final CustomOidcUserService customOidcUserService;
   private final CorsFilter corsFilter;
-  
+  private final UserRepository userRepository;
+
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    http.cors(cors -> cors.configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()))
+    http.cors(cors -> cors.configurationSource(
+            request -> new CorsConfiguration().applyPermitDefaultValues()))
         .csrf(AbstractHttpConfigurer::disable)
         .authorizeHttpRequests(
             req ->
@@ -74,6 +77,6 @@ public class SecurityConfig {
 
   @Bean
   public AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler() {
-    return new OAuth2AuthenticationSuccessHandler(jwtService);
+    return new OAuth2AuthenticationSuccessHandler(jwtService,userRepository);
   }
 }

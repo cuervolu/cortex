@@ -24,4 +24,6 @@ public interface RoadmapService {
   RoadmapResponse uploadRoadmapImage(Long id, MultipartFile image, String altText)
       throws IOException;
 
+  boolean areAllCoursesCompleted(Long userId, Long roadmapId);
+
 }

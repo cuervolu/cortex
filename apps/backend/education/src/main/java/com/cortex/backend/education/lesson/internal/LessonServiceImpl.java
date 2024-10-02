@@ -1,19 +1,24 @@
 package com.cortex.backend.education.lesson.internal;
 
 import com.cortex.backend.core.common.SlugUtils;
+import com.cortex.backend.core.domain.EntityType;
+import com.cortex.backend.education.lesson.api.LessonRepository;
 import com.cortex.backend.education.lesson.api.LessonService;
 import com.cortex.backend.education.lesson.api.dto.LessonRequest;
 import com.cortex.backend.education.lesson.api.dto.LessonResponse;
 import com.cortex.backend.education.lesson.api.dto.LessonUpdateRequest;
 import com.cortex.backend.core.domain.Lesson;
 import com.cortex.backend.core.domain.ModuleEntity;
-import com.cortex.backend.education.module.internal.ModuleRepository;
+import com.cortex.backend.education.module.api.ModuleRepository;
+import com.cortex.backend.education.progress.api.LessonCompletedEvent;
+import com.cortex.backend.education.progress.api.ProgressTrackingService;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +30,7 @@ public class LessonServiceImpl implements LessonService {
   private final LessonRepository lessonRepository;
   private final LessonMapper lessonMapper;
   private final ModuleRepository moduleRepository;
+  private final ApplicationEventPublisher eventPublisher;
   private final SlugUtils slugUtils;
 
   private static final String LESSON_NOT_FOUND_MESSAGE = "Lesson not found";
@@ -94,6 +100,21 @@ public class LessonServiceImpl implements LessonService {
     Lesson lesson = lessonRepository.findById(id)
         .orElseThrow(() -> new EntityNotFoundException(LESSON_NOT_FOUND_MESSAGE));
     lessonRepository.delete(lesson);
+  }
+
+  @Override
+  @Transactional
+  public void completeLesson(Long lessonId, Long userId) {
+    Lesson lesson = lessonRepository.findById(lessonId)
+        .orElseThrow(() -> new EntityNotFoundException("Lesson not found"));
+    eventPublisher.publishEvent(new LessonCompletedEvent(lessonId, userId));
+  }
+
+  @Override
+  public Long getModuleIdForLesson(Long lessonId) {
+    return lessonRepository.findById(lessonId)
+        .map(lesson -> lesson.getModuleEntity().getId())
+        .orElseThrow(() -> new EntityNotFoundException("Lesson not found"));
   }
 
   private String generateUniqueSlug(String name) {

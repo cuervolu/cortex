@@ -16,6 +16,7 @@ import com.cortex.backend.user.repository.TokenRepository;
 import com.cortex.backend.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import java.security.SecureRandom;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -106,6 +107,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
     var claims = new HashMap<String, Object>();
     var user = ((User) auth.getPrincipal());
+    user.updateLoginStats(); 
+    userRepository.save(user);
     claims.put("fullname", user.getFullName());
     var jwtToken = jwtService.generateToken(claims, user);
     return AuthenticationResponse.builder().token(jwtToken).build();

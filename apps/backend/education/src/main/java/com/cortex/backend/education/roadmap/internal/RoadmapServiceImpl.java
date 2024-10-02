@@ -2,9 +2,12 @@ package com.cortex.backend.education.roadmap.internal;
 
 import com.cortex.backend.core.common.SlugUtils;
 import com.cortex.backend.core.domain.Course;
-import com.cortex.backend.education.course.internal.CourseRepository;
+import com.cortex.backend.core.domain.EntityType;
+import com.cortex.backend.education.course.api.CourseRepository;
 import com.cortex.backend.core.domain.Tag;
 import com.cortex.backend.education.internal.TagRepository;
+import com.cortex.backend.education.progress.api.UserProgressService;
+import com.cortex.backend.education.roadmap.api.RoadmapRepository;
 import com.cortex.backend.education.roadmap.api.RoadmapService;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapRequest;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapResponse;
@@ -36,6 +39,7 @@ public class RoadmapServiceImpl implements RoadmapService {
   private final SlugUtils slugUtils;
   private final TagRepository tagRepository;
   private final CourseRepository courseRepository;
+  private final UserProgressService userProgressService;
   
   private static final String ROADMAP_IMAGE_UPLOAD_PATH = "roadmaps";
   private static final String ROADMAP_NOT_FOUND_MESSAGE = "Roadmap not found";
@@ -151,5 +155,18 @@ public class RoadmapServiceImpl implements RoadmapService {
     handleImageUpload(roadmap, image, altText);
     Roadmap updatedRoadmap = roadmapRepository.save(roadmap);
     return roadmapMapper.toRoadmapResponse(updatedRoadmap);
+  }
+
+  @Override
+  public boolean areAllCoursesCompleted(Long userId, Long roadmapId) {
+    Roadmap roadmap = roadmapRepository.findById(roadmapId)
+        .orElseThrow(() -> new EntityNotFoundException(ROADMAP_NOT_FOUND_MESSAGE));
+
+    long totalCourses = courseRepository.countByRoadmapsContaining(roadmap);
+    long completedCourses = roadmap.getCourses().stream()
+        .filter(course -> userProgressService.isEntityCompleted(userId, course.getId(), EntityType.COURSE))
+        .count();
+
+    return totalCourses == completedCourses;
   }
 }

@@ -10,5 +10,9 @@ import java.util.Optional;
 
 @Repository
 public interface SolutionRepository extends CrudRepository<Solution, Long> {
+
   Optional<Solution> findByUserAndExercise(User user, Exercise exercise);
+
+  boolean existsByUserAndExerciseAndStatusGreaterThanEqual(User user, Exercise exercise,
+      Long status);
 }

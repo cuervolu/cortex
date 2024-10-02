@@ -1,13 +1,11 @@
 package com.cortex.backend.engine.internal.services;
 
 import com.cortex.backend.auth.config.ApplicationAuditAware;
-import com.cortex.backend.core.common.SlugUtils;
 import com.cortex.backend.core.common.exception.ExerciseCreationException;
 import com.cortex.backend.core.common.exception.ExerciseReadException;
 import com.cortex.backend.core.domain.Exercise;
 import com.cortex.backend.core.domain.Lesson;
-import com.cortex.backend.core.domain.User;
-import com.cortex.backend.education.lesson.internal.LessonRepository;
+import com.cortex.backend.education.lesson.api.LessonRepository;
 import com.cortex.backend.engine.api.ExerciseRepository;
 import com.cortex.backend.engine.api.ExerciseService;
 import com.cortex.backend.engine.api.dto.CreateExercise;

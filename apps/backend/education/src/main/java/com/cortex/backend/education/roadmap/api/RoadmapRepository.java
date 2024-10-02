@@ -1,4 +1,4 @@
-package com.cortex.backend.education.roadmap.internal;
+package com.cortex.backend.education.roadmap.api;
 
 import com.cortex.backend.core.domain.Roadmap;
 import java.util.Optional;

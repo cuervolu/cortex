@@ -92,8 +92,15 @@ public class User implements UserDetails, Principal {
 
   @ManyToMany(fetch = FetchType.EAGER)
   private List<Role> roles;
-  
-  
+
+  @Column(name = "last_login")
+  private LocalDate lastLogin;
+
+  @Column(name = "login_streak")
+  private int loginStreak = 0;
+
+  @Column(name = "total_logins")
+  private int totalLogins = 0;
 
   @Override
   public String getName() {
@@ -109,5 +116,26 @@ public class User implements UserDetails, Principal {
   
   public String getFullName() {
     return firstName + " " + lastName;
+  }
+
+  public void updateLoginStats() {
+    LocalDate currentDate = LocalDate.now();
+    this.totalLogins++;
+
+    if (this.lastLogin != null) {
+      if (this.lastLogin.plusDays(1).isEqual(currentDate)) {
+        // The user has logged in on consecutive days
+        this.loginStreak++;
+      } else if (this.lastLogin.isBefore(currentDate)) {
+        // The user has logged in after at least one day of inactivity.
+        this.loginStreak = 1;
+      }
+      // If it is connected several times in the same day, it does not affect the streak.
+    } else {
+      // First user connection
+      this.loginStreak = 1;
+    }
+
+    this.lastLogin = currentDate;
   }
 }

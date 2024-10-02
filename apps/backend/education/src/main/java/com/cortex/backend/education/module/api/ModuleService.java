@@ -21,4 +21,7 @@ public interface ModuleService {
 
   void deleteModule(Long id);
   ModuleResponse uploadModuleImage(Long id, MultipartFile image, String altText) throws IOException;
+
+  Long getCourseIdForModule(Long moduleId);
+  boolean areAllLessonsCompleted(Long userId, Long moduleId);
 }

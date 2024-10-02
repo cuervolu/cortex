@@ -2,12 +2,16 @@ package com.cortex.backend.education.module.internal;
 
 import com.cortex.backend.core.common.SlugUtils;
 import com.cortex.backend.core.domain.Course;
-import com.cortex.backend.education.course.internal.CourseRepository;
+import com.cortex.backend.core.domain.EntityType;
+import com.cortex.backend.education.course.api.CourseRepository;
+import com.cortex.backend.education.lesson.api.LessonRepository;
+import com.cortex.backend.education.module.api.ModuleRepository;
 import com.cortex.backend.education.module.api.ModuleService;
 import com.cortex.backend.education.module.api.dto.ModuleRequest;
 import com.cortex.backend.education.module.api.dto.ModuleResponse;
 import com.cortex.backend.education.module.api.dto.ModuleUpdateRequest;
 import com.cortex.backend.core.domain.ModuleEntity;
+import com.cortex.backend.education.progress.api.UserProgressService;
 import com.cortex.backend.media.api.MediaService;
 import com.cortex.backend.core.domain.Media;
 import jakarta.persistence.EntityNotFoundException;
@@ -29,7 +33,10 @@ public class ModuleServiceImpl implements ModuleService {
   private final ModuleRepository moduleRepository;
   private final ModuleMapper moduleMapper;
   private final CourseRepository courseRepository;
+  private final LessonRepository lessonRepository;
   private final MediaService mediaService;
+  private final UserProgressService userProgressService;
+
   private final SlugUtils slugUtils;
 
   private static final String MODULE_NOT_FOUND_MESSAGE = "Module not found";
@@ -100,6 +107,26 @@ public class ModuleServiceImpl implements ModuleService {
     handleImageUpload(module, image, altText);
     ModuleEntity updatedModule = moduleRepository.save(module);
     return moduleMapper.toModuleResponse(updatedModule);
+  }
+
+  @Override
+  public Long getCourseIdForModule(Long moduleId) {
+    return moduleRepository.findById(moduleId)
+        .map(module -> module.getCourse().getId())
+        .orElseThrow(() -> new EntityNotFoundException(MODULE_NOT_FOUND_MESSAGE));
+  }
+
+  @Override
+  public boolean areAllLessonsCompleted(Long userId, Long moduleId) {
+    ModuleEntity module = moduleRepository.findById(moduleId)
+        .orElseThrow(() -> new EntityNotFoundException(MODULE_NOT_FOUND_MESSAGE));
+
+    long totalLessons = lessonRepository.countByModuleEntity(module);
+    long completedLessons = module.getLessons().stream()
+        .filter(lesson -> userProgressService.isEntityCompleted(userId, lesson.getId(), EntityType.LESSON))
+        .count();
+
+    return totalLessons == completedLessons;
   }
 
   @Override

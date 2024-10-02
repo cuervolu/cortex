@@ -1,6 +1,9 @@
 package com.cortex.backend.education.course.internal;
 
 import com.cortex.backend.core.common.SlugUtils;
+import com.cortex.backend.core.domain.BaseEntity;
+import com.cortex.backend.core.domain.EntityType;
+import com.cortex.backend.education.course.api.CourseRepository;
 import com.cortex.backend.education.course.api.CourseService;
 import com.cortex.backend.education.course.api.dto.CourseRequest;
 import com.cortex.backend.education.course.api.dto.CourseResponse;
@@ -8,6 +11,8 @@ import com.cortex.backend.education.course.api.dto.CourseUpdateRequest;
 import com.cortex.backend.core.domain.Course;
 import com.cortex.backend.core.domain.Tag;
 import com.cortex.backend.education.internal.TagRepository;
+import com.cortex.backend.education.module.api.ModuleRepository;
+import com.cortex.backend.education.progress.api.UserProgressService;
 import com.cortex.backend.media.api.MediaService;
 import com.cortex.backend.core.domain.Media;
 import jakarta.persistence.EntityNotFoundException;
@@ -29,6 +34,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class CourseServiceImpl implements CourseService {
 
   private final CourseRepository courseRepository;
+  private final ModuleRepository moduleRepository;
+  private final UserProgressService userProgressService;
   private final CourseMapper courseMapper;
   private final MediaService mediaService;
   private final SlugUtils slugUtils;
@@ -141,6 +148,26 @@ public class CourseServiceImpl implements CourseService {
     handleImageUpload(course, image, altText);
     Course updateCourse = courseRepository.save(course);
     return courseMapper.toCourseResponse(updateCourse);
+  }
+
+  @Override
+  public Long getRoadmapIdForCourse(Long courseId) {
+    return courseRepository.findById(courseId)
+        .flatMap(course -> course.getRoadmaps().stream().findFirst().map(BaseEntity::getId))
+        .orElseThrow(() -> new EntityNotFoundException("Course not found or not associated with a roadmap"));
+  }
+
+  @Override
+  public boolean areAllModulesCompleted(Long userId, Long courseId) {
+    Course course = courseRepository.findById(courseId)
+        .orElseThrow(() -> new EntityNotFoundException(COURSE_NOT_FOUND_MESSAGE));
+
+    long totalModules = moduleRepository.countByCourse(course);
+    long completedModules = course.getModuleEntities().stream()
+        .filter(module -> userProgressService.isEntityCompleted(userId, module.getId(), EntityType.MODULE))
+        .count();
+
+    return totalModules == completedModules;
   }
 
 

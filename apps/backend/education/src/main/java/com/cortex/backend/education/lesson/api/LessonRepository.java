@@ -1,6 +1,7 @@
-package com.cortex.backend.education.lesson.internal;
+package com.cortex.backend.education.lesson.api;
 
 import com.cortex.backend.core.domain.Lesson;
+import com.cortex.backend.core.domain.ModuleEntity;
 import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -15,5 +16,13 @@ public interface LessonRepository extends CrudRepository<Lesson, Long> {
    * @return the lesson
    */
   Optional<Lesson> findBySlug(String slug);
+
+  /**
+   * Count the number of lessons in a module.
+   *
+   * @param moduleEntity the module entity
+   * @return the count of lessons in the module
+   */
+  long countByModuleEntity(ModuleEntity moduleEntity);
 
 }

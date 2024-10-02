@@ -23,4 +23,7 @@ public interface CourseService {
   void deleteCourse(Long id);
   
   CourseResponse uploadCourseImage(Long id, MultipartFile image, String altText) throws IOException;
+
+  Long getRoadmapIdForCourse(Long courseId);
+  boolean areAllModulesCompleted(Long userId, Long courseId);
 }

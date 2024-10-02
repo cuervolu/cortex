@@ -1,41 +1,35 @@
 package com.cortex.backend.core.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import java.time.LocalDate;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "user_achievement")
+@Table(name = "user_achievement", indexes = {
+    @Index(name = "idx_user_achievement_user_id", columnList = "user_id"),
+    @Index(name = "idx_user_achievement_achievement_id", columnList = "achievement_id"),
+    @Index(name = "idx_user_achievement_obtained_date", columnList = "obtained_date")
+})
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class UserAchievement {
+  @EmbeddedId
+  private UserAchievementKey id;
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
-
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
+  @MapsId("userId")
   @JoinColumn(name = "user_id")
   private User user;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
+  @MapsId("achievementId")
   @JoinColumn(name = "achievement_id")
   private Achievement achievement;
 
   @Column(name = "obtained_date", nullable = false)
-  private LocalDate obtainedDate;
+  private LocalDateTime obtainedDate;
 }
