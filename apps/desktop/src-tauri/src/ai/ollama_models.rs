@@ -3,7 +3,7 @@
     get the list of models, this is a temporary solution until Ollama provides an API Endpoint to
     fetch all models.
 */
-use tauri_plugin_store::{with_store, Store, StoreCollection};
+use tauri_plugin_store::StoreExt;
 use scraper::{Html, Selector};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
@@ -16,7 +16,7 @@ use tokio::sync::RwLock;
 use log::{info, warn, error};
 use reqwest::Client;
 use serde_json::json;
-use tauri::{AppHandle, Manager, Wry};
+use tauri::{AppHandle, Wry};
 use crate::error::AppError;
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
@@ -106,16 +106,15 @@ async fn fetch_ollama_models() -> Result<Vec<OllamaModel>, AppError> {
 
 
 pub async fn update_ollama_models(app_handle: &AppHandle<Wry>, force: bool) -> Result<(), AppError> {
-    let stores = app_handle.state::<StoreCollection<Wry>>();
-    let path = PathBuf::from(STORE_PATH);
+    let store = app_handle.store_builder(PathBuf::from(STORE_PATH)).build();
 
-    let should_update = with_store(app_handle.clone(), stores.clone(), path.clone(), |store: &mut Store<Wry>| {
+    let should_update = {
         let models: Vec<OllamaModel> = store.get("ollama_models")
             .and_then(|v| serde_json::from_value(v.clone()).ok())
             .unwrap_or_default();
 
-        Ok(models.is_empty() || force)
-    }).map_err(AppError::TauriStoreError)?;
+        models.is_empty() || force
+    };
 
     if !should_update {
         info!("Skipping Ollama models update, update not forced");
@@ -125,11 +124,8 @@ pub async fn update_ollama_models(app_handle: &AppHandle<Wry>, force: bool) -> R
     info!("Updating Ollama models cache");
     match fetch_ollama_models().await {
         Ok(models) => {
-            with_store(app_handle.clone(), stores, path, |store: &mut Store<Wry>| {
-                store.insert("ollama_models".to_string(), json!(models))?;
-                store.save()?;
-                Ok(())
-            }).map_err(AppError::TauriStoreError)?;
+            store.set("ollama_models".to_string(), json!(models));
+            store.save()?;
 
             info!("Ollama models cache updated successfully with {} models", models.len());
             Ok(())
@@ -142,19 +138,16 @@ pub async fn update_ollama_models(app_handle: &AppHandle<Wry>, force: bool) -> R
 }
 
 pub async fn get_ollama_models(app_handle: &AppHandle<Wry>) -> Result<Vec<OllamaModel>, AppError> {
-    let stores = app_handle.state::<StoreCollection<Wry>>();
-    let path = PathBuf::from(STORE_PATH);
+    let store = app_handle.store_builder(PathBuf::from(STORE_PATH)).build();
 
     let mut models: Vec<OllamaModel> = Vec::new();
     let mut attempts = 0;
     const MAX_ATTEMPTS: u8 = 2;
 
     while attempts < MAX_ATTEMPTS {
-        models = with_store(app_handle.clone(), stores.clone(), path.clone(), |store: &mut Store<Wry>| {
-            Ok(store.get("ollama_models")
-                .and_then(|value| serde_json::from_value(value.clone()).ok())
-                .unwrap_or_default())
-        }).map_err(AppError::TauriStoreError)?;
+        models = store.get("ollama_models")
+            .and_then(|value| serde_json::from_value(value.clone()).ok())
+            .unwrap_or_default();
 
         if !models.is_empty() {
             break;
