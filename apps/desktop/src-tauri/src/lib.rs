@@ -10,6 +10,7 @@ fn setup_logger(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> 
     let (tauri_plugin_log, _max_level, logger) = tauri_plugin_log::Builder::new()
         .max_file_size(1024 * 1024 * 10) // 10 MB
         .rotation_strategy(RotationStrategy::KeepAll) // keep all logs in the log directory
+        .timezone_strategy(tauri_plugin_log::TimezoneStrategy::UseLocal)
         .level(log::LevelFilter::Info)
         .with_colors(ColoredLevelConfig::default())
         .level_for("tauri", log::LevelFilter::Warn)
