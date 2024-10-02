@@ -1,20 +1,19 @@
 use tauri_plugin_shell::ShellExt;
-use std::sync::Mutex;
+use std::sync::{Mutex, OnceLock};
 use anyhow::Result;
-use lazy_static::lazy_static;
 use log::error;
 use ollama_rs::Ollama;
 use ollama_rs::generation::chat::{ChatMessage};
 use std::collections::HashMap;
 use crate::error::AppError;
 
-lazy_static! {
-    static ref OLLAMA: Mutex<Option<Ollama>> = Mutex::new(None);
-    pub static ref CHAT_CONTEXTS: Mutex<HashMap<String, Vec<ChatMessage>>> = Mutex::new(HashMap::new());
-}
+static OLLAMA: OnceLock<Mutex<Option<Ollama>>> = OnceLock::new();
+pub static CHAT_CONTEXTS: OnceLock<Mutex<HashMap<String, Vec<ChatMessage>>>> = OnceLock::new();
+
 
 fn init_ollama() -> Result<(), AppError> {
-    let mut ollama = OLLAMA.lock().map_err(|_| AppError::OllamaInitializationError)?;
+    let ollama_mutex = OLLAMA.get_or_init(|| Mutex::new(None));
+    let mut ollama = ollama_mutex.lock().map_err(|_| AppError::OllamaInitializationError)?;
     if ollama.is_none() {
         *ollama = Some(Ollama::default());
     }
@@ -23,7 +22,8 @@ fn init_ollama() -> Result<(), AppError> {
 
 pub(crate) fn get_ollama() -> Result<Ollama, AppError> {
     init_ollama()?;
-    let ollama = OLLAMA.lock().map_err(|_| AppError::OllamaInitializationError)?;
+    let ollama_mutex = OLLAMA.get_or_init(|| Mutex::new(None));
+    let ollama = ollama_mutex.lock().map_err(|_| AppError::OllamaInitializationError)?;
     ollama.as_ref().cloned().ok_or(AppError::OllamaInitializationError)
 }
 

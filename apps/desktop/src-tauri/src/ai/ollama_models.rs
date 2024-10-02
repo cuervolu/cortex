@@ -8,10 +8,9 @@ use scraper::{Html, Selector};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::path::PathBuf;
-use std::sync::Arc;
+use std::sync::{Arc, OnceLock};
 use std::time::Instant;
 use chrono::{DateTime, Utc};
-use lazy_static::lazy_static;
 use tokio::sync::RwLock;
 use log::{info, warn, error};
 use reqwest::Client;
@@ -27,11 +26,8 @@ pub struct OllamaModel {
     pub last_scraped: DateTime<Utc>,
 }
 
-lazy_static! {
-    pub static ref OLLAMA_MODELS: Arc<RwLock<HashMap<String, OllamaModel>>> =
-        Arc::new(RwLock::new(HashMap::new()));
-      static ref LAST_FETCH: RwLock<Instant> = RwLock::new(Instant::now());
-}
+pub static OLLAMA_MODELS: OnceLock<Arc<RwLock<HashMap<String, OllamaModel>>>> = OnceLock::new();
+pub static LAST_FETCH: OnceLock<RwLock<Instant>> = OnceLock::new();
 
 pub const STORE_PATH: &str = ".ollama_models.dat";
 
