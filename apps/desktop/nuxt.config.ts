@@ -3,12 +3,16 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
   ssr: false,
+  telemetry: false,
   alias: {
     '@vue/devtools-api': '@vue/devtools-api',
   },
+  // Enables the development server to be discoverable by other devices when running on iOS physical devices
+  devServer: { host: process.env.TAURI_DEV_HOST || 'localhost' },
   vite: {
     // Better support for Tauri CLI output
     clearScreen: false,
+    envPrefix: ['VITE_', 'TAURI_'],
     // https://github.com/tauri-apps/tauri/security/advisories/GHSA-2rcp-jvr4-r259
     define: {
       TAURI_PLATFORM: JSON.stringify(process.env.TAURI_PLATFORM),
@@ -20,20 +24,9 @@ export default defineNuxtConfig({
       TAURI_PLATFORM_TYPE: JSON.stringify(process.env.TAURI_PLATFORM_TYPE),
       TAURI_DEBUG: JSON.stringify(process.env.TAURI_DEBUG),
     },
-    // Dev server configurations
     server: {
       // Tauri requires a consistent port
       strictPort: true,
-      // Enables the development server to be discoverable by other devices for mobile development
-      host: '0.0.0.0',
-      hmr: {
-        // Use websocket for mobile hot reloading
-        protocol: 'ws',
-        // Make sure it's available on the network
-        host: '0.0.0.0',
-        // Use a specific port for hmr
-        port: 5183,
-      },
     },
     optimizeDeps: {
       exclude: ['vee-validate'],
