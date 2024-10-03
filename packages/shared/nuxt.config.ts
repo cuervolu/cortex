@@ -12,6 +12,7 @@ export default defineNuxtConfig({
     "@nuxt/eslint",
     "@nuxtjs/tailwindcss",
     "shadcn-nuxt",
+    '@nuxtjs/mdc'
   ],
   components: [
     {
