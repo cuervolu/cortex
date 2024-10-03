@@ -1,0 +1,142 @@
+{
+  "admin": {
+    "firstname": "Ángel",
+    "lastname": "Cuervo",
+    "username": "cuervolu",
+    "email": "angel.cuervo187@gmail.com",
+    "password": "adminPassword123!",
+    "dateOfBirth": "2002-07-29",
+    "countryCode": "CL",
+    "gender": "MALE"
+  },
+  "users": [
+    {
+      "firstname": "Ignacio",
+      "lastname": "Carrasco",
+      "username": "igna.carrasco",
+      "email": "igna.carrasco@duocuc.cl",
+      "password": "password123!",
+      "dateOfBirth": "1660-01-01",
+      "countryCode": "CL",
+      "gender": "PREFER_NOT_TO_SAY"
+    },
+    {
+      "firstname": "Hamir",
+      "lastname": "Llanos",
+      "username": "kiwi",
+      "email": "ha.llanos@duocuc.cl",
+      "password": "password123!",
+      "dateOfBirth": "2002-12-03",
+      "countryCode": "CL",
+      "gender": "MALE"
+    },
+    {
+      "firstname": "Cristopher",
+      "lastname": "Hurtado",
+      "username": "crihurtado",
+      "email": "cri.hurtado@duocuc.cl",
+      "password": "password123!",
+      "dateOfBirth": "1990-01-03",
+      "countryCode": "CL",
+      "gender": "MALE"
+    }
+  ],
+  "roadmaps": [
+    {
+      "title": "Python Adventure Path",
+      "description": "Embark on a fun journey to learn Python, the friendly snake of coding!",
+      "courseIds": [1, 2]
+    },
+    {
+      "title": "Java Island Expedition",
+      "description": "Explore the magical island of Java and discover its programming treasures!",
+      "courseIds": [2, 3]
+    },
+    {
+      "title": "Go Kart Racing",
+      "description": "Zoom through the exciting world of Go programming with our Go Kart adventure!",
+      "courseIds": [3, 4]
+    },
+    {
+      "title": "TypeScript Castle Quest",
+      "description": "Conquer the TypeScript castle and become a master of typed JavaScript!",
+      "courseIds": [4, 5]
+    },
+    {
+      "title": "Rust Robot Workshop",
+      "description": "Build amazing robots with Rust in this fun and educational workshop!",
+      "courseIds": [5, 1]
+    }
+  ],
+  "courses": [
+    {
+      "name": "Python's Playful Basics",
+      "description": "Learn the basics of Python through fun games and activities!"
+    },
+    {
+      "name": "Java Jungle Adventure",
+      "description": "Swing through the Java jungle and learn programming along the way!"
+    },
+    {
+      "name": "Go's Treasure Hunt",
+      "description": "Join the exciting treasure hunt and discover the gems of Go programming!"
+    },
+    {
+      "name": "TypeScript's Magical Spells",
+      "description": "Cast magical spells with TypeScript and enchant your web applications!"
+    },
+    {
+      "name": "Rust's Robot Factory",
+      "description": "Create your own robots using Rust in this exciting factory simulation!"
+    }
+  ],
+  "modules": [
+    {
+      "name": "Python's Friendly Animals",
+      "description": "Meet Python's animal friends and learn basic programming concepts!"
+    },
+    {
+      "name": "Java's Treehouse Builder",
+      "description": "Build amazing treehouses while learning Java fundamentals!"
+    },
+    {
+      "name": "Go's Racing Tracks",
+      "description": "Design and code racing tracks to learn Go programming!"
+    },
+    {
+      "name": "TypeScript's Wizard School",
+      "description": "Attend a magical wizard school and learn TypeScript spells!"
+    },
+    {
+      "name": "Rust's Robot Parts",
+      "description": "Assemble robot parts and learn Rust programming along the way!"
+    }
+  ],
+  "lessons": [
+    {
+      "name": "Making Friends with Python",
+      "content": "# Welcome to Python's Friendly Zoo!\n\nHello, young programmer! Today we're going to make friends with Python, the friendliest snake in the coding world!\n\n## What is Python?\n\nPython is like a magical language that helps us talk to computers. It's named after a snake, but don't worry - it's super friendly!\n\n## Your First Python Friend\n\nLet's say hello to our first Python friend:\n\n```python\nprint('Hello, I'm Python!')\n```\n\nWhen you run this code, Python will say hello to you!\n\n## Fun Fact\n\nDid you know? In Python, we use `print()` to make the computer talk to us. It's like giving the computer a megaphone!\n\n## Let's Play!\n\nTry making Python say your name:\n\n```python\nname = 'Your Name Here'\nprint('Hello, ' + name + '! Welcome to the Python Zoo!')\n```\n\nReplace 'Your Name Here' with your actual name and see what happens!\n\nGreat job! You've made your first Python friend. In our next lesson, we'll meet more animal friends and learn how they can help us count and do math!",
+      "credits": 10
+    },
+    {
+      "name": "Building Java Treehouses",
+      "content": "# Welcome to Java's Treehouse Adventure!\n\nHey there, future Java architect! Today we're going to build amazing treehouses using Java blocks!\n\n## What is Java?\n\nJava is like a big box of LEGO bricks for building cool stuff on computers. It's used to create all sorts of awesome things, from games to robots!\n\n## Your First Java Treehouse\n\nLet's build a simple treehouse with Java:\n\n```java\npublic class Treehouse {\n    public static void main(String[] args) {\n        System.out.println('Welcome to my Java Treehouse!');    \n    }\n}\n```\n\nWhen you run this code, Java will welcome you to your new treehouse!\n\n## Fun Fact\n\nIn Java, we use `System.out.println()` to make the computer talk to us. It's like shouting from the top of our treehouse!\n\n## Let's Play!\n\nTry adding a room to your treehouse:\n\n```java\npublic class Treehouse {\n    public static void main(String[] args) {\n        String roomName = 'Playroom';\n        System.out.println('Welcome to my Java Treehouse!');   \n        System.out.println('I have a ' + roomName + ' in my treehouse!'); \n    }\n}\n```\n\nChange 'Playroom' to any room you'd like in your treehouse!\n\nAwesome job! You've built your first Java treehouse. In our next lesson, we'll add more rooms and learn how to decorate them with Java!",
+      "credits": 15
+    },
+    {
+      "name": "Racing with Go Karts",
+      "content": "# Welcome to Go Kart Racing!\n\nVroom vroom! Are you ready to race with Go, the speediest gopher in the programming world?\n\n## What is Go?\n\nGo (or Golang) is like a super-fast race car in the world of coding. It helps us build quick and powerful programs!\n\n## Your First Go Race Track\n\nLet's create our first race track with Go:\n\n```go\npackage main\n\nimport 'fmt'\n\nfunc main() {\n    fmt.Println('Welcome to the Go Kart Racing Track!')\n}\n```\n\nWhen you run this code, Go will welcome you to the racing track!\n\n## Fun Fact\n\nIn Go, we use `fmt.Println()` to make the computer talk to us. It's like the announcer at a race track!\n\n## Let's Play!\n\nLet's add a racer to our track:\n\n```go\npackage main\n\nimport 'fmt'\n\nfunc main() {\n    racerName := 'Speed Gopher'\n    fmt.Println('Welcome to the Go Kart Racing Track!')\n    fmt.Println(racerName + ' is ready to race!')\n}\n```\n\nChange 'Speed Gopher' to your racing nickname and see what happens!\n\nFantastic job! You've created your first Go racing track. In our next lesson, we'll add more racers and learn how to make them zoom around the track!",
+      "credits": 20
+    },
+    {
+      "name": "Casting TypeScript Spells",
+      "content": "# Welcome to TypeScript's School of Wizardry!\n\nGreetings, young wizard! Today we're going to learn how to cast amazing spells using TypeScript magic!\n\n## What is TypeScript?\n\nTypeScript is like a magical upgrade for JavaScript. It gives us special powers to write better spells (code) and avoid magical accidents!\n\n## Your First TypeScript Spell\n\nLet's cast our first spell with TypeScript:\n\n```typescript\nlet wizardName: string = 'Merlin';\nconsole.log(`Hello, I am ${wizardName} the TypeScript Wizard!`);\n```\n\nWhen you run this code, TypeScript will introduce you to a wizard!\n\n## Fun Fact\n\nIn TypeScript, we use `: string` to tell our spell that `wizardName` should always be words. This helps prevent magical mix-ups!\n\n## Let's Play!\n\nNow, let's create a magic wand:\n\n```typescript\ntype Wand = {\n    wood: string;\n    core: string;\n    length: number;\n};\n\nlet myWand: Wand = {\n    wood: 'Oak',\n    core: 'Phoenix feather',\n    length: 11\n};\n\nconsole.log(`My wand is made of ${myWand.wood} wood with a ${myWand.core} core, and it's ${myWand.length} inches long!`);\n```\n\nTry changing the wand properties to create your own unique magic wand!\n\nMagnificent work, young wizard! You've cast your first TypeScript spell. In our next lesson, we'll learn how to use our wands to create more complex magical effects!",
+      "credits": 25
+    },
+    {
+      "name": "Building Rust Robots",
+      "content": "# Welcome to Rust's Robot Workshop!\n\nBeep boop! Are you ready to build some awesome robots with Rust, the most reliable mechanic in the programming world?\n\n## What is Rust?\n\nRust is like a high-tech toolbox that helps us build super strong and fast robots (programs) that never break down!\n\n## Your First Rust Robot\n\nLet's create our first robot with Rust:\n\n```rust\nfn main() {\n    println!('Hello, I am a Rust Robot!');\n}\n```\n\nWhen you run this code, your Rust Robot will say hello!\n\n## Fun Fact\n\nIn Rust, we use `println!()` to make our robot talk. The `!` means it's a macro, which is like a special command for our robot!\n\n## Let's Play!\n\nNow, let's give our robot a name and a job:\n\n```rust\nfn main() {\n    let robot_name = 'Rusty';\n    let robot_job = 'Assistant';\n    println!('Hello, I am {0} the Rust Robot!', robot_name);\n    println!('My job is to be your {0}!', robot_job);\n}\n```\n\nTry changing the robot's name and job to create your own unique Rust Robot!\n\nAmazing work, young engineer! You've built your first Rust Robot. In our next lesson, we'll add more parts to our robot and teach it to do cool tasks!",
+      "credits": 30
+    }
+  ]
+}
