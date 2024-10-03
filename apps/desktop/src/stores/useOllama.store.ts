@@ -116,16 +116,17 @@ export const useOllamaStore = defineStore('ollama', () => {
   }
   
   const setupListeners = async () => {
+    const chatStore = useChatStore()
+    
     unlistenResponse = await listen<string>('ollama-response', (event) => {
-      currentStreamingMessage.value += event.payload
+      chatStore.updateStreamingMessage(prev => prev + event.payload)
+      chatStore.setIsStreaming(true)
       isStreaming.value = true
     })
 
     unlistenResponseEnd = await listen('ollama-response-end', () => {
       isStreaming.value = false
-      // Here you might want to add the message to a chat history if needed
-      currentStreamingMessage.value = ''
-      info('Ollama response stream ended');
+      info('Ollama response stream ended')
     })
   }
 
@@ -135,17 +136,19 @@ export const useOllamaStore = defineStore('ollama', () => {
   }
 
   const sendPrompt = async ({
-                              message,
-                              userId,
-                              editorContent,
-                              language,
-                              selectedModel
-                            }: SendPromptParams) => {
+    message,
+    userId,
+    editorContent,
+    language,
+    selectedModel
+  }: SendPromptParams) => {
     if (!message.trim() || !selectedModel) return
+    const chatStore = useChatStore()
     isSending.value = true
     isStreaming.value = true
+    chatStore.setIsStreaming(true)
+    chatStore.clearStreamingMessage()
     promptError.value = null
-    currentStreamingMessage.value = ''
     try {
       let fullPrompt: string
       if (editorContent && editorContent.trim()) {

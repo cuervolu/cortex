@@ -92,6 +92,8 @@ pub fn run() {
             ai::commands::delete_ollama_model,
             education::roadmaps::commands::fetch_all_roadmaps,
             education::roadmaps::commands::get_roadmap,
+             education::exercises::commands::get_exercises,
+             education::exercises::commands::get_exercise_details,
         ]
         )
         .run(tauri::generate_context!())

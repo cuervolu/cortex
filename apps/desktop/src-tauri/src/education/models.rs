@@ -22,7 +22,9 @@ pub struct ExerciseDetail {
     pub hints: String,
     pub initial_code: String,
     pub test_code: String,
-    pub content_hash: String,
+    pub lesson_name: String,
+    pub file_name: String,
+    pub language: String,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -92,7 +94,6 @@ pub struct Course {
     pub created_at: String,
     pub updated_at: String,
 }
-
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct RoadmapListResponse(pub Vec<Roadmap>);

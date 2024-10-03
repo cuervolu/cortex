@@ -25,6 +25,11 @@ public class ExerciseDetailsResponse {
   @JsonProperty("test_code")
   private String testCode;
 
-  @JsonProperty("content_hash")
-  private String contentHash;
+  @JsonProperty("lesson_name")
+  private String lessonName;
+
+  @JsonProperty("file_name")
+  private String fileName;
+  
+  private String language;
 }

@@ -130,7 +130,7 @@ public class CodeFileReader {
         Language.stream().anyMatch(lang -> pathString.endsWith(lang.extension));
   }
 
-  private String readFileContent(Path path) {
+  public String readFileContent(Path path) {
     if (Files.isDirectory(path)) {
       log.warn("Attempted to read a directory as a file: {}", path);
       return "";

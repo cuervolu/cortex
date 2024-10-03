@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { ref } from 'vue'
 
 interface Message {
   sender: 'ai' | 'user'
@@ -22,6 +23,17 @@ export const useChatStore = defineStore('chat', () => {
     } else {
       currentStreamingMessage.value = content
     }
+  }
+
+  const finishAIMessage = () => {
+    if (currentStreamingMessage.value) {
+      addMessage({
+        sender: 'ai',
+        content: currentStreamingMessage.value
+      })
+      currentStreamingMessage.value = ''
+    }
+    setIsStreaming(false)
   }
 
   const clearStreamingMessage = () => {
@@ -48,6 +60,7 @@ export const useChatStore = defineStore('chat', () => {
     promptError,
     addMessage,
     updateStreamingMessage,
+    finishAIMessage,
     clearStreamingMessage,
     setIsStreaming,
     setIsSending,

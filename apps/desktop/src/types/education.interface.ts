@@ -16,9 +16,11 @@ export interface ExerciseDetail {
   title: string;
   instructions: string;
   hints: string;
-  initialCode: string;
-  testCode: string;
-  contentHash: string;
+  initial_code: string;
+  test_code: string;
+  lesson_name: string;
+  file_name: string;
+  language: string;
 }
 
 export interface Roadmap {

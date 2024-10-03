@@ -15,13 +15,14 @@ import com.cortex.backend.engine.api.dto.UpdateExercise;
 import com.cortex.backend.engine.internal.CodeFileReader;
 import com.cortex.backend.engine.internal.ExerciseConfig;
 import com.cortex.backend.engine.internal.mappers.ExerciseMapper;
-import com.cortex.backend.engine.internal.utils.HashUtil;
 import com.cortex.backend.user.api.UserService;
 import com.cortex.backend.user.api.dto.UserResponse;
 import jakarta.persistence.EntityNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -182,10 +183,24 @@ public class ExerciseServiceImpl implements ExerciseService {
     Path exercisePath = Paths.get(localRepoPath, exercise.getGithubPath());
 
     try {
-      String initialCode = codeFileReader.readInitialCode(exercisePath);
-      String testCode = codeFileReader.readTestCode(exercisePath);
+      String language = determineLanguage(exercise.getGithubPath());
+      String initialCode = "";
+      String testCode = "";
 
-      String contentHash = generateContentHash(initialCode, testCode);
+      if ("python".equals(language)) {
+        String baseFileName = exercise.getTitle().toLowerCase().replace("-", "_");
+        initialCode = codeFileReader.readFileContent(exercisePath.resolve(baseFileName + ".py"));
+        testCode = codeFileReader.readFileContent(exercisePath.resolve("test_" + baseFileName + ".py"));
+      } else if ("go".equals(language)) {
+        String baseFileName = exercise.getTitle().toLowerCase().replace("-", "_");
+        initialCode = codeFileReader.readFileContent(exercisePath.resolve(baseFileName + ".go"));
+        testCode = codeFileReader.readFileContent(exercisePath.resolve(baseFileName + "_test.go"));
+      } else {
+        initialCode = codeFileReader.readInitialCode(exercisePath);
+        testCode = codeFileReader.readTestCode(exercisePath);
+      }
+
+      String fileName = determineFileName(exercisePath, language);
 
       return ExerciseDetailsResponse.builder()
           .id(exercise.getId())
@@ -194,19 +209,16 @@ public class ExerciseServiceImpl implements ExerciseService {
           .hints(exercise.getHints())
           .initialCode(initialCode)
           .testCode(testCode)
-          .contentHash(contentHash)
+          .lessonName(exercise.getLesson().getName())
+          .fileName(fileName)
+          .language(language)
           .build();
     } catch (IOException e) {
       log.error("Error reading exercise files for exercise id: {}", id, e);
       throw new ExerciseReadException("Failed to read exercise files", e);
     }
   }
-
-  private String generateContentHash(String initialCode, String testCode) {
-    String content = initialCode + testCode;
-    return HashUtil.generateSHA256Hash(content);
-  }
-
+  
   @Override
   public boolean areLessonsAvailable() {
     return lessonRepository.count() > 0;
@@ -217,5 +229,38 @@ public class ExerciseServiceImpl implements ExerciseService {
         .orElseThrow(() -> new IllegalArgumentException("Lesson not found with id: " + lessonId));
   }
 
+  private String determineLanguage(String githubPath) {
+    String[] parts = githubPath.split("/");
+    if (parts.length > 1) {
+      return parts[1]; 
+    }
+    return "unknown";
+  }
+
+  private String determineFileName(Path exercisePath, String language) throws IOException {
+    try (Stream<Path> paths = Files.walk(exercisePath)) {
+      return paths
+          .filter(Files::isRegularFile)
+          .map(Path::getFileName)
+          .map(Path::toString)
+          .filter(name -> name.endsWith(getFileExtension(language)))
+          .filter(name -> !name.contains("test") && !name.contains("Test"))
+          .findFirst()
+          .orElse("main" + getFileExtension(language)); 
+    }
+  }
+
+  private String getFileExtension(String language) {
+    // Mapeo de lenguajes a extensiones de archivo
+    return switch (language.toLowerCase()) {
+      case "java" -> ".java";
+      case "python" -> ".py";
+      case "javascript" -> ".js";
+      case "typescript" -> ".ts";
+      case "go" -> ".go";
+      case "rust" -> ".rs";
+      default -> ".txt";
+    };
+  }
 
 }
