@@ -1,69 +1,81 @@
 <script setup lang="ts">
-import {ref, computed, onMounted} from 'vue'
-import type {ViewUpdate} from '@codemirror/view'
-import type {CodeMirrorRef, Statistics} from "#build/nuxt-codemirror";
-import {javascript} from '@codemirror/lang-javascript'
+import { ref, computed, onMounted, watch } from 'vue'
+import type { ViewUpdate } from '@codemirror/view'
+import type { CodeMirrorRef, Statistics } from "#build/nuxt-codemirror";
+import { javascript } from '@codemirror/lang-javascript'
 import interact from '@replit/codemirror-interact';
-import {loadLanguage} from '@uiw/codemirror-extensions-langs';
-import {indentationMarkers} from '@replit/codemirror-indentation-markers';
-// import {zebraStripes} from '@uiw/codemirror-extensions-zebra-stripes';
-import {lineNumbersRelative} from '@uiw/codemirror-extensions-line-numbers-relative'
-import {okaidia} from '@uiw/codemirror-theme-okaidia';
-import type {Extension} from "@codemirror/state";
+import { loadLanguage } from '@uiw/codemirror-extensions-langs';
+import { indentationMarkers } from '@replit/codemirror-indentation-markers';
+import { lineNumbersRelative } from '@uiw/codemirror-extensions-line-numbers-relative'
+import { okaidia } from '@uiw/codemirror-theme-okaidia';
+import type { Extension as CodeMirrorExtension } from "@codemirror/state";
+import type {LanguageSupport} from "@codemirror/language";
+import {noctisLilac} from 'thememirror';
 
-const props = defineProps({
-  modelValue: {
-    type: String,
-    default: ''
-  },
-  placeholder: {
-    type: String,
-    default: '// Type some code here'
-  },
-  language: {
-    type: String,
-    default: 'javascript'
-  }
+interface Props {
+  initialCode: string;
+  language: string;
+  placeholder?: string;
+  availableExtensions: string[];
+  availableThemes: Record<string, CodeMirrorExtension>;
+  activeExtensions: string[];
+  activeTheme: string;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  placeholder: '// Type some code here',
+  availableExtensions: () => ['lineNumbersRelative', 'indentationMarkers', 'interact'],
+  availableThemes: () => ({ noctisLilac, okaidia }),
+  activeExtensions: () => ['lineNumbersRelative', 'indentationMarkers', 'interact'],
+  activeTheme: 'noctisLilac'
 })
 
-const emit = defineEmits(['update:modelValue', 'change', 'update'])
+const emit = defineEmits(['update:code', 'change', 'update'])
 
-const code = computed({
-  get: () => props.modelValue,
-  set: (value) => emit('update:modelValue', value)
-})
-
+const code = ref(props.initialCode)
 const codemirror = ref<CodeMirrorRef>()
 
-const getLanguageExtension = (lang: string) => {
+const getLanguageExtension = (lang: string): CodeMirrorExtension => {
+  let extension: LanguageSupport | CodeMirrorExtension;
   switch (lang) {
     case 'javascript':
     case 'typescript':
-      return javascript({jsx: true, typescript: true})
+      extension = javascript({ jsx: true, typescript: true });
+      break;
     case 'java':
-      return loadLanguage('java')
+      extension = loadLanguage('java') || javascript();
+      break;
     case 'rust':
-      return loadLanguage('rust')
+      extension = loadLanguage('rust') || javascript();
+      break;
     case 'python':
-      return loadLanguage('python')
+      extension = loadLanguage('python') || javascript();
+      break;
     case 'csharp':
-      return loadLanguage('csharp')
+      extension = loadLanguage('csharp') || javascript();
+      break;
     case 'go':
-      return loadLanguage("go")
+      extension = loadLanguage("go") || javascript();
+      break;
     default:
-      return javascript()
+      extension = javascript();
   }
+  return extension;
 }
 
-const extensions = computed((): Extension[] => [
-  lineNumbersRelative,
-  getLanguageExtension(props.language) || javascript(),
-  interact(),
-  indentationMarkers(),
-  // zebraStripes()
-]);
+const activeExtensions = computed((): CodeMirrorExtension[] => {
+  const extensions: CodeMirrorExtension[] = [getLanguageExtension(props.language)]
+  if (props.activeExtensions.includes('lineNumbersRelative')) extensions.push(lineNumbersRelative)
+  if (props.activeExtensions.includes('indentationMarkers')) extensions.push(indentationMarkers())
+  if (props.activeExtensions.includes('interact')) extensions.push(interact())
+  return extensions
+})
+
+
+const activeTheme = computed(() => props.availableThemes[props.activeTheme] || okaidia)
 
 const handleChange = (value: string, viewUpdate: ViewUpdate) => {
+  emit('update:code', value)
   emit('change', value, viewUpdate)
 }
 
@@ -75,6 +87,10 @@ const handleStatistics = (stats: Statistics) => {
   console.log('Statistics:', stats)
 }
 
+watch(() => code.value, (newCode) => {
+  emit('update:code', newCode)
+})
+
 onMounted(() => {
   if (codemirror.value) {
     console.log('Editor initialized:', codemirror.value.editor)
@@ -82,13 +98,14 @@ onMounted(() => {
 })
 </script>
 
+
 <template>
   <ClientOnly>
     <NuxtCodeMirror
       ref="codemirror"
       v-model="code"
-      :extensions="extensions"
-      :theme="okaidia"
+      :extensions="activeExtensions"
+      :theme="activeTheme"
       :placeholder="placeholder"
       class="w-full h-full"
       :line-numbers="true"
@@ -104,25 +121,23 @@ onMounted(() => {
 </template>
 
 
+
 <style>
 .cm-editor {
   height: 100%;
-  border-radius: 10px; /* Bordes redondeados */
-  overflow: hidden; /* Ocultar scrollbar */
+  border-radius: 10px;
+  overflow: hidden;
 }
-
 .cm-scroller {
-  overflow: hidden; /* Ocultar scrollbar */
+  overflow: hidden;
   min-height: 350px;
 }
-
 .cm-content, .cm-gutter {
   min-height: 150px;
   font-family: "Source Code Pro", monospace;
   font-size: 1.2rem;
   font-weight: 600;
 }
-
 .cm-gutters {
   margin: 1px;
 }

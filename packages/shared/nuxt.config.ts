@@ -8,10 +8,10 @@ export default defineNuxtConfig({
 
   compatibilityDate: "2024-09-18",
   modules: [
+    'nuxt-codemirror',
     "@nuxt/eslint",
     "@nuxtjs/tailwindcss",
     "shadcn-nuxt",
-    'nuxt-codemirror'
   ],
   components: [
     {
@@ -31,16 +31,6 @@ export default defineNuxtConfig({
   shadcn: {
     prefix: '',
     componentDir: join(currentDir, './components/ui'),
-  },
-  vite: {
-    server: {
-      fs: {
-        deny: [
-          "/lost+found",
-        ],
-        strict: true
-      },
-    },
   },
   build: {
     transpile: ['shadcn-vue'],
