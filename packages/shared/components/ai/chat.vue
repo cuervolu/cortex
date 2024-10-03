@@ -31,9 +31,10 @@ const emit = defineEmits<{
 }>();
 
 const userMessage = ref("");
-
-// Arreglo para almacenar los mensajes de tipo "ai" procesados con MDC
 const processedMessages = ref<(Message & { parsedContent?: MDCParserResult | null })[]>([]);
+
+// Nueva referencia para almacenar el resultado procesado del currentStreamingMessage
+const processedStreamingMessage = ref<MDCParserResult | null>(null);
 
 // Función para procesar los mensajes de "ai"
 const processAIMessages = async () => {
@@ -46,6 +47,15 @@ const processAIMessages = async () => {
   });
 
   processedMessages.value = await Promise.all(aiMessages);
+};
+
+// Función para procesar el currentStreamingMessage
+const processStreamingMessage = async () => {
+  if (props.currentStreamingMessage) {
+    processedStreamingMessage.value = await parseMarkdown(props.currentStreamingMessage);
+  } else {
+    processedStreamingMessage.value = null;
+  }
 };
 
 // Watch para procesar los mensajes cuando cambian
@@ -61,6 +71,15 @@ watch(
     });
   },
   { deep: true, immediate: true }
+);
+
+// Watch para procesar el currentStreamingMessage
+watch(
+  () => props.currentStreamingMessage,
+  async () => {
+    await processStreamingMessage();
+  },
+  { immediate: true }
 );
 
 const sendMessage = () => {
@@ -95,7 +114,7 @@ const sendMessage = () => {
           class="absolute w-[29px] h-[33px] top-0 left-0"
           alt="Cortex logo"
           :src="cortexLogo"
-        />
+        >
       </div>
     </div>
 
@@ -139,10 +158,13 @@ const sendMessage = () => {
       {{ streamingMessage }}
     </div>
 
-    <div v-if="currentStreamingMessage" class="bg-white rounded-lg p-2">
-      <p class="text-xs sm:text-sm text-gray-800">
-        {{ currentStreamingMessage }}
-      </p>
+    <!-- Procesar el currentStreamingMessage usando MDCRenderer -->
+    <div v-if="processedStreamingMessage" class="bg-white rounded-lg p-2">
+      <MDCRenderer
+        :data="processedStreamingMessage.data"
+        :body="processedStreamingMessage.body"
+        class="text-xs sm:text-sm text-gray-800"
+      />
     </div>
 
     <div v-if="explanation" class="text-xs sm:text-sm" />
