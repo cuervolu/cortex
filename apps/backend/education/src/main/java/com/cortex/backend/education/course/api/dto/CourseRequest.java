@@ -1,5 +1,6 @@
 package com.cortex.backend.education.course.api.dto;
 
+import com.cortex.backend.education.tags.api.dto.TagDTO;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import java.util.Set;
@@ -19,5 +20,5 @@ public class CourseRequest {
   @NotBlank(message = "Description is required")
   private String description;
 
-  private Set<Long> tagIds;
+  private Set<TagDTO> tags;
 }

@@ -10,9 +10,10 @@ import com.cortex.backend.education.course.api.dto.CourseResponse;
 import com.cortex.backend.education.course.api.dto.CourseUpdateRequest;
 import com.cortex.backend.core.domain.Course;
 import com.cortex.backend.core.domain.Tag;
-import com.cortex.backend.education.internal.TagRepository;
 import com.cortex.backend.education.module.api.ModuleRepository;
 import com.cortex.backend.education.progress.api.UserProgressService;
+import com.cortex.backend.education.tags.api.dto.TagDTO;
+import com.cortex.backend.education.tags.internal.TagService;
 import com.cortex.backend.media.api.MediaService;
 import com.cortex.backend.core.domain.Media;
 import jakarta.persistence.EntityNotFoundException;
@@ -20,7 +21,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +39,7 @@ public class CourseServiceImpl implements CourseService {
   private final CourseMapper courseMapper;
   private final MediaService mediaService;
   private final SlugUtils slugUtils;
-  private final TagRepository tagRepository;
+  private final TagService tagService;
 
   private static final String COURSE_IMAGE_UPLOAD_PATH = "courses";
   private static final String COURSE_NOT_FOUND_MESSAGE = "Course not found";
@@ -71,7 +71,7 @@ public class CourseServiceImpl implements CourseService {
   public CourseResponse createCourse(CourseRequest request) {
     Course course = courseMapper.toCourse(request);
     course.setSlug(generateUniqueSlug(request.getName()));
-    setCourseRelations(course, request);
+    setCourseTags(course, request.getTags());
     Course savedCourse = courseRepository.save(course);
     return courseMapper.toCourseResponse(savedCourse);
   }
@@ -90,7 +90,9 @@ public class CourseServiceImpl implements CourseService {
       existingCourse.setDescription(request.getDescription());
     }
 
-    setCourseRelations(existingCourse, request);
+    if (request.getTags() != null) {
+      setCourseTags(existingCourse, request.getTags());
+    }
     Course updatedCourse = courseRepository.save(existingCourse);
     return courseMapper.toCourseResponse(updatedCourse);
   }
@@ -113,18 +115,9 @@ public class CourseServiceImpl implements CourseService {
         slug -> !slug.equals(currentSlug) && courseRepository.findBySlug(slug).isPresent());
   }
 
-  private void setCourseRelations(Course course, CourseRequest request) {
-    setCourseTags(course, request.getTagIds());
-  }
-
-  private void setCourseRelations(Course course, CourseUpdateRequest request) {
-    setCourseTags(course, request.getTagIds());
-  }
-
-  private void setCourseTags(Course course, Set<Long> tagIds) {
-    if (tagIds != null) {
-      Set<Tag> tags = StreamSupport.stream(tagRepository.findAllById(tagIds).spliterator(), false)
-          .collect(Collectors.toSet());
+  private void setCourseTags(Course course, Set<TagDTO> tagDTOs) {
+    if (tagDTOs != null) {
+      Set<Tag> tags = tagService.getOrCreateTags(tagDTOs);
       course.setTags(tags);
     }
   }
@@ -154,7 +147,8 @@ public class CourseServiceImpl implements CourseService {
   public Long getRoadmapIdForCourse(Long courseId) {
     return courseRepository.findById(courseId)
         .flatMap(course -> course.getRoadmaps().stream().findFirst().map(BaseEntity::getId))
-        .orElseThrow(() -> new EntityNotFoundException("Course not found or not associated with a roadmap"));
+        .orElseThrow(
+            () -> new EntityNotFoundException("Course not found or not associated with a roadmap"));
   }
 
   @Override
@@ -164,7 +158,8 @@ public class CourseServiceImpl implements CourseService {
 
     long totalModules = moduleRepository.countByCourse(course);
     long completedModules = course.getModuleEntities().stream()
-        .filter(module -> userProgressService.isEntityCompleted(userId, module.getId(), EntityType.MODULE))
+        .filter(module -> userProgressService.isEntityCompleted(userId, module.getId(),
+            EntityType.MODULE))
         .count();
 
     return totalModules == completedModules;
