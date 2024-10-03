@@ -1,5 +1,6 @@
 package com.cortex.backend.education.course.api.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
 import java.util.Set;
 import lombok.Builder;
@@ -13,11 +14,23 @@ public class CourseResponse {
   private Long id;
   private String name;
   private String description;
+  
+  @JsonProperty("image_url")
   private String imageUrl;
   private String slug;
+  
+  @JsonProperty("roadmap_slugs")
   private Set<String> roadmapSlugs;
+  
+  @JsonProperty("tag_names")
   private Set<String> tagNames;
+  
+  @JsonProperty("module_ids")
   private Set<Long> moduleIds;
+  
+  @JsonProperty("created_at")
   private LocalDateTime createdAt;
+  
+  @JsonProperty("updated_at")
   private LocalDateTime updatedAt;
 }
