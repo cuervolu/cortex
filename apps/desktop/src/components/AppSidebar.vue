@@ -43,10 +43,10 @@ const navigationButtons = [
           </div>
         </div>
         <Button
-            size="icon" variant="ghost" class="w-6 h-6"
+            size="icon" variant="ghost"
             @click="$emit('toggle-sidebar')">
           <PanelRightOpen
-              :class="['transition-transform duration-300 w-6', { 'rotate-180': !isCollapsed }]"/>
+              :class="['transition-transform duration-300 w-6 text-[#f4f8f7]/80   dark:text-foreground', { 'rotate-180': !isCollapsed }]"/>
         </Button>
       </div>
       <div class="self-stretch h-[355px] py-2.5 flex-col justify-start items-start gap-2.5 flex">
