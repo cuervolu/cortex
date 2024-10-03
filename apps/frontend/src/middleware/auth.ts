@@ -7,7 +7,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
   const token = useCookie('token')
 
   // List of routes that don't require authentication
-  const publicRoutes = ['login', 'register', 'activate-account']
+  const publicRoutes = ['login', 'register', 'activate-account', 'index']
 
   if (token.value) {
     authenticated.value = true
@@ -18,12 +18,12 @@ export default defineNuxtRouteMiddleware(async (to) => {
   }
 
   // If token exists and user is trying to access a public route, redirect to home
-  if (token.value && publicRoutes.includes(to?.name as string)) {
+  if (token.value && (publicRoutes.includes(to?.name as string) || to.path === '/')) {
     return navigateTo('/')
   }
 
   // If no token and trying to access a protected route, redirect to log in
-  if (!token.value && !publicRoutes.includes(to?.name as string)) {
+  if (!token.value && !(publicRoutes.includes(to?.name as string) || to.path === '/')) {
     abortNavigation()
     return navigateTo('/auth/login')
   }
