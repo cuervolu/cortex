@@ -3,7 +3,7 @@ import { onMounted, ref, watch } from 'vue';
 import { useOllamaStore } from '~/stores';
 import ChatInterface from "~/components/ai/ChatInterface.vue";
 import OllamaLoader from "~/components/ai/OllamaLoader.vue";
-import CodeEditor from "@cortex/shared/components/ui/CodeEditor.vue";
+import CodeEditor from "@cortex/shared/components/CodeEditor.vue";
 
 const ollamaStore = useOllamaStore();
 const { isOllamaInstalled, isChecking } = storeToRefs(ollamaStore);
