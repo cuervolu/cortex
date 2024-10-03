@@ -1,11 +1,15 @@
 const animate = require("tailwindcss-animate")
-
+const path = require('path')
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
   safelist: ["dark"],
   prefix: "",
-
+  content: [
+    path.join(__dirname, '../..', 'apps/frontend/src/**/*.{js,ts,jsx,tsx,vue}'),
+    path.join(__dirname, '../..', 'apps/desktop/src/**/*.{js,ts,jsx,tsx,vue}'),
+    path.join(__dirname, 'components/**/*.{js,ts,jsx,tsx,vue}'),
+  ],
   theme: {
     container: {
       center: true,
@@ -86,5 +90,6 @@ module.exports = {
       },
     },
   },
+  ignoreFiles: ['/lost+found/**/*'],
   plugins: [animate],
 }

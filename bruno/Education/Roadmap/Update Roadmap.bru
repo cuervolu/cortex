@@ -5,7 +5,7 @@ meta {
 }
 
 patch {
-  url: {{BASEURL}}/api/v1/education/roadmap/152
+  url: {{BASEURL}}/api/v1/education/roadmap/1
   body: json
   auth: bearer
 }
@@ -16,6 +16,11 @@ auth:bearer {
 
 body:json {
   {
-    "courseIds": [1,2]
+    "tags": [
+      {"name": "Python"},
+      {"name": "Programación"},
+      {"name": "Desarrollo Web"},
+      {"name": "Análisis de Datos"}
+    ]
   }
 }

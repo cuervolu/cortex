@@ -8,6 +8,9 @@ pub enum AppError {
     #[error("Tauri store error: {0}")]
     TauriStoreError(#[from] tauri_plugin_store::Error),
 
+    #[error("Request failed: {0}")]
+    RequestError(#[from] reqwest::Error),
+
     #[error("IO error: {0}")]
     Io(#[from] std::io::Error),
 

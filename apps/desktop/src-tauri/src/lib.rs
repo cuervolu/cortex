@@ -1,9 +1,20 @@
 mod error;
 pub(crate) mod ai;
+mod education;
 
+use std::sync::LazyLock;
 use log::error;
+use reqwest::Client;
 use tauri_plugin_log::fern::colors::ColoredLevelConfig;
 use tauri_plugin_log::RotationStrategy;
+
+pub const API_BASE_URL: &str = "http://localhost:8088/api/v1";
+
+pub static CLIENT: LazyLock<Client> = LazyLock::new(|| {
+    Client::builder()
+        .build()
+        .expect("Failed to build reqwest client")
+});
 
 fn setup_logger(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> {
     // create the log plugin as usual, but call split() instead of build()
@@ -79,6 +90,8 @@ pub fn run() {
             ai::commands::pull_ollama_model,
             ai::commands::forced_update,  
             ai::commands::delete_ollama_model,
+            education::roadmaps::commands::fetch_all_roadmaps,
+            education::roadmaps::commands::get_roadmap,
         ]
         )
         .run(tauri::generate_context!())

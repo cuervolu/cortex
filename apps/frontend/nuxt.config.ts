@@ -33,10 +33,6 @@ export default defineNuxtConfig({
   pinia: {
     storesDirs: ['src/stores/**'],
   },
-  tailwindcss: {
-    cssPath: ['~/assets/css/tailwind.css', {injectPosition: 'first'}],
-    configPath: 'tailwind.config.js',
-  },
   colorMode: {
     classSuffix: '',
   },

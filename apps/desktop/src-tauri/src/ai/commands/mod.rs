@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+use std::sync::Mutex;
 use futures::StreamExt;
 use log::{error, info, warn};
 use ollama_rs::generation::chat::request::ChatMessageRequest;
@@ -18,6 +20,7 @@ use crate::ai::ollama::check_ollama_windows;
 
 use crate::ai::ollama_models::{force_update_ollama_models, update_ollama_models, OllamaModel};
 use crate::ai::{OllamaModelDetails, OllamaModelInfo};
+use crate::ai::ollama::CHAT_CONTEXTS;
 use crate::error::AppError;
 
 #[tauri::command]
@@ -65,9 +68,11 @@ pub async fn send_prompt_to_ollama(
 
     // Get chat context for this user
     let context = {
-        let mut contexts = crate::ai::ollama::CHAT_CONTEXTS
+        let mut contexts = CHAT_CONTEXTS
+            .get_or_init(|| Mutex::new(HashMap::new()))
             .lock()
             .map_err(|_| AppError::ContextLockError)?;
+
         let context = contexts.entry(user_id.clone()).or_insert_with(Vec::new);
         context.push(ChatMessage::user(prompt.clone()));
         context.clone()
@@ -115,7 +120,8 @@ pub async fn send_prompt_to_ollama(
 
     // Update context with full AI response
     {
-        let mut contexts = crate::ai::ollama::CHAT_CONTEXTS
+        let mut contexts = CHAT_CONTEXTS
+            .get_or_init(|| Mutex::new(HashMap::new()))
             .lock()
             .map_err(|_| AppError::ContextLockError)?;
         let context = contexts
