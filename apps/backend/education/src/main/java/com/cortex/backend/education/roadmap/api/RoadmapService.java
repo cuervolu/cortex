@@ -1,6 +1,7 @@
 package com.cortex.backend.education.roadmap.api;
 
 
+import com.cortex.backend.education.roadmap.api.dto.RoadmapDetails;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapRequest;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapResponse;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapUpdateRequest;
@@ -13,7 +14,7 @@ public interface RoadmapService {
 
   List<RoadmapResponse> getAllRoadmaps();
 
-  Optional<RoadmapResponse> getRoadmapBySlug(String slug);
+  Optional<RoadmapDetails> getRoadmapBySlug(String slug);
 
   RoadmapResponse createRoadmap(RoadmapRequest request);
 

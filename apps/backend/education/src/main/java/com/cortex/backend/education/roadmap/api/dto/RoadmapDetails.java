@@ -1,8 +1,9 @@
 package com.cortex.backend.education.roadmap.api.dto;
 
+import com.cortex.backend.education.course.api.dto.CourseResponse;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,20 +11,24 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class RoadmapResponse {
+public class RoadmapDetails {
 
   private Long id;
   private String title;
   private String description;
+
   @JsonProperty("image_url")
   private String imageUrl;
   private String slug;
+
   @JsonProperty("tag_names")
-  private Set<String> tagNames;
-  @JsonProperty("course_slugs")
-  private Set<String> courseSlugs;
+  private List<String> tagNames;
+  private List<CourseResponse> courses;
+
   @JsonProperty("created_at")
   private LocalDateTime createdAt;
+
   @JsonProperty("updated_at")
   private LocalDateTime updatedAt;
+
 }

@@ -1,4 +1,4 @@
-package com.cortex.backend.education.internal;
+package com.cortex.backend.education.tags.api;
 
 import com.cortex.backend.core.domain.Tag;
 import java.util.Optional;

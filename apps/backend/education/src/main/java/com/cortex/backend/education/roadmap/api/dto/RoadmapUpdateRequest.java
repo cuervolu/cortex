@@ -1,5 +1,7 @@
 package com.cortex.backend.education.roadmap.api.dto;
 
+import com.cortex.backend.education.tags.api.dto.TagDTO;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Size;
 import java.util.Set;
 import lombok.AllArgsConstructor;
@@ -19,8 +21,9 @@ public class RoadmapUpdateRequest {
   private String title;
 
   private String description;
+  
+  private Set<TagDTO> tags;
 
-  private Set<Long> tagIds;
-
+  @JsonProperty("course_ids")
   private Set<Long> courseIds;
 }

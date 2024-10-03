@@ -5,14 +5,15 @@ import com.cortex.backend.core.domain.Course;
 import com.cortex.backend.core.domain.EntityType;
 import com.cortex.backend.education.course.api.CourseRepository;
 import com.cortex.backend.core.domain.Tag;
-import com.cortex.backend.education.internal.TagRepository;
 import com.cortex.backend.education.progress.api.UserProgressService;
 import com.cortex.backend.education.roadmap.api.RoadmapRepository;
 import com.cortex.backend.education.roadmap.api.RoadmapService;
+import com.cortex.backend.education.roadmap.api.dto.RoadmapDetails;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapRequest;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapResponse;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapUpdateRequest;
 import com.cortex.backend.core.domain.Roadmap;
+import com.cortex.backend.education.tags.internal.TagService;
 import com.cortex.backend.media.api.MediaService;
 import com.cortex.backend.core.domain.Media;
 import jakarta.persistence.EntityNotFoundException;
@@ -37,7 +38,7 @@ public class RoadmapServiceImpl implements RoadmapService {
   private final RoadmapMapper roadmapMapper;
   private final MediaService mediaService;
   private final SlugUtils slugUtils;
-  private final TagRepository tagRepository;
+  private final TagService tagService;
   private final CourseRepository courseRepository;
   private final UserProgressService userProgressService;
   
@@ -54,9 +55,9 @@ public class RoadmapServiceImpl implements RoadmapService {
 
   @Override
   @Transactional(readOnly = true)
-  public Optional<RoadmapResponse> getRoadmapBySlug(String slug) {
+  public Optional<RoadmapDetails> getRoadmapBySlug(String slug) {
     return roadmapRepository.findBySlug(slug)
-        .map(roadmapMapper::toRoadmapResponse);
+        .map(roadmapMapper::toRoadmapDetails);
   }
 
   @Override
@@ -107,28 +108,25 @@ public class RoadmapServiceImpl implements RoadmapService {
         slug -> !slug.equals(currentSlug) && roadmapRepository.existsBySlug(slug));
   }
 
+
   private void setRoadmapRelations(Roadmap roadmap, RoadmapRequest request) {
-    setRoadmapTags(roadmap, request.getTagIds());
+    if (request.getTags() != null) {
+      Set<Tag> tags = tagService.getOrCreateTags(request.getTags());
+      roadmap.setTags(tags);
+    }
     setRoadmapCourses(roadmap, request.getCourseIds());
   }
 
   private void setRoadmapRelations(Roadmap roadmap, RoadmapUpdateRequest request) {
-    if (request.getTagIds() != null) {
-      setRoadmapTags(roadmap, request.getTagIds());
+    if (request.getTags() != null) {
+      Set<Tag> tags = tagService.getOrCreateTags(request.getTags());
+      roadmap.setTags(tags);
     }
     if (request.getCourseIds() != null) {
       setRoadmapCourses(roadmap, request.getCourseIds());
     }
   }
-
-  private void setRoadmapTags(Roadmap roadmap, Set<Long> tagIds) {
-    if (tagIds != null) {
-      Set<Tag> tags = StreamSupport.stream(tagRepository.findAllById(tagIds).spliterator(), false)
-          .collect(Collectors.toSet());
-      roadmap.setTags(tags);
-    }
-  }
-
+  
   private void setRoadmapCourses(Roadmap roadmap, Set<Long> courseIds) {
     if (courseIds != null) {
       Set<Course> courses = StreamSupport.stream(

@@ -1,5 +1,6 @@
 package com.cortex.backend.education.roadmap.api;
 
+import com.cortex.backend.education.roadmap.api.dto.RoadmapDetails;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapRequest;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapResponse;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapUpdateRequest;
@@ -44,12 +45,12 @@ public class RoadmapController {
     return ResponseEntity.ok(roadmapService.getAllRoadmaps());
   }
 
-  @GetMapping("/slug/{slug}")
+  @GetMapping("/{slug}")
   @Operation(summary = "Get a roadmap by slug", description = "Retrieves a roadmap by its slug")
   @ApiResponse(responseCode = "200", description = "Successful operation",
       content = @Content(schema = @Schema(implementation = RoadmapResponse.class)))
   @ApiResponse(responseCode = "404", description = "Roadmap not found")
-  public ResponseEntity<RoadmapResponse> getRoadmapBySlug(@PathVariable String slug) {
+  public ResponseEntity<RoadmapDetails> getRoadmapBySlug(@PathVariable String slug) {
     return roadmapService.getRoadmapBySlug(slug)
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());

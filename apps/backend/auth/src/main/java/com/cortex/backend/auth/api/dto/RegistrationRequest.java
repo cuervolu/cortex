@@ -51,7 +51,7 @@ public class RegistrationRequest {
 
   @NotBlank(message = "Country code is required")
   @Size(min = 2, max = 3, message = "Country code must be 2 or 3 characters")
-  @ValidCountry()
+//  @ValidCountry()
   private String countryCode;
 
   @NotNull(message = "Gender is required")
