@@ -9,10 +9,12 @@
     "debug:desktop": "pnpm --filter desktop debug",
     "clean:frontend": "pnpm --filter frontend clean",
     "clean:desktop": "pnpm --filter desktop clean",
+    "clean:shared": "pnpm --filter shared clean",
     "build:frontend": "pnpm --filter frontend build",
     "build:desktop": "pnpm --filter desktop build",
     "shadcn": "pnpm --filter frontend exec npx shadcn-vue@latest add",
-    "build:rust": "cd apps/desktop/src-tauri && cargo build"
+    "build:rust": "cd apps/desktop/src-tauri && cargo build",
+    "clean:all": "pnpm store prune && pnpm -r exec -- rm -rf node_modules .nuxt .output dist .pnpm-store && rm pnpm-lock.yaml && pnpm install"
   },
   "packageManager": "pnpm@9.12.0"
 }
