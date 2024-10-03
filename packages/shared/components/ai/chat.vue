@@ -136,14 +136,18 @@ const sendMessage = () => {
             <p class="text-xs sm:text-sm text-purple-900 break-words">
               {{ message.content }}
             </p>
+            <!-- Agregar el avatar del usuario aquí -->
+            <Avatar class="ml-2">
+              <AvatarImage :src="avatarSrc" alt="User" />
+              <AvatarFallback>UN</AvatarFallback>
+            </Avatar>
           </div>
         </div>
-
         <div
           v-if="message.sender === 'ai'"
-          class="flex justify-start py-2 sm:py-3"
+          class="flex justify-center py-2 sm:py-3"
         >
-          <Card class="max-w-[80%] sm:max-w-[70%]">
+          <Card class="w-full  mx-auto">
             <CardContent>
               <MDCRenderer
                 v-if="message.parsedContent"
@@ -156,8 +160,8 @@ const sendMessage = () => {
         </div>
       </div>
 
-      <div v-if="isStreaming" class="flex justify-start py-2 sm:py-3">
-        <Card class="max-w-[80%] sm:max-w-[70%]">
+      <div v-if="isStreaming" class="flex justify-center py-2 sm:py-3">
+        <Card class="w-full mx-auto">
           <CardHeader>
             <span>{{ streamingMessage }}</span>
           </CardHeader>
