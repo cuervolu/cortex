@@ -31,12 +31,12 @@ const emit = defineEmits<{
 }>();
 
 const userMessage = ref("");
-const processedMessages = ref<(Message & { parsedContent?: MDCParserResult | null })[]>([]);
+const processedMessages = ref<
+  (Message & { parsedContent?: MDCParserResult | null })[]
+>([]);
 
-// Nueva referencia para almacenar el resultado procesado del currentStreamingMessage
 const processedStreamingMessage = ref<MDCParserResult | null>(null);
 
-// Función para procesar los mensajes de "ai"
 const processAIMessages = async () => {
   const aiMessages = props.messages.map(async (message) => {
     if (message.sender === "ai") {
@@ -49,16 +49,16 @@ const processAIMessages = async () => {
   processedMessages.value = await Promise.all(aiMessages);
 };
 
-// Función para procesar el currentStreamingMessage
 const processStreamingMessage = async () => {
   if (props.currentStreamingMessage) {
-    processedStreamingMessage.value = await parseMarkdown(props.currentStreamingMessage);
+    processedStreamingMessage.value = await parseMarkdown(
+      props.currentStreamingMessage
+    );
   } else {
     processedStreamingMessage.value = null;
   }
 };
 
-// Watch para procesar los mensajes cuando cambian
 watch(
   () => props.messages,
   async () => {
@@ -73,7 +73,6 @@ watch(
   { deep: true, immediate: true }
 );
 
-// Watch para procesar el currentStreamingMessage
 watch(
   () => props.currentStreamingMessage,
   async () => {
@@ -92,7 +91,7 @@ const sendMessage = () => {
 
 <template>
   <div
-    class="flex flex-col gap-4 p-3 sm:p-5 bg-gray-50 rounded-lg border-2 border-transparent shadow-md"
+    class="flex flex-col gap-4 p-3 sm:p-5 bg-muted/50 rounded-lg border-2 border-transparent shadow-md overflow-hidden"
     style="
       border-image: linear-gradient(
           to bottom,
@@ -114,74 +113,79 @@ const sendMessage = () => {
           class="absolute w-[29px] h-[33px] top-0 left-0"
           alt="Cortex logo"
           :src="cortexLogo"
-        >
+        />
       </div>
     </div>
 
-    <div class="flex-grow overflow-y-auto max-h-[60vh] sm:max-h-[50vh]">
-      <div
-        v-for="(message, index) in processedMessages"
-        :key="index"
-        class="flex items-center gap-2 py-2 sm:py-3"
-        :class="message.sender === 'user' ? 'justify-end' : 'justify-start'"
-      >
+    <div
+      class="flex-grow overflow-y-auto max-h-[60vh] sm:max-h-[50vh] rounded-lg"
+    >
+      <div v-for="(message, index) in processedMessages" :key="index">
         <div
           v-if="message.sender === 'user'"
-          class="inline-flex items-center p-2 bg-white rounded-lg max-w-[80%] sm:max-w-[70%]"
+          class="flex justify-end py-2 sm:py-3"
         >
-          <p class="text-xs sm:text-sm text-purple-900 break-words">
-            {{ message.content }}
-          </p>
-        </div>
-        <div v-if="message.sender === 'user'" class="w-5 h-5 flex-shrink-0">
-          <img
-            :src="avatarSrc"
-            alt="Avatar"
-            class="w-full h-full rounded-full"
+          <div
+            class="inline-flex items-center p-2 bg-white rounded-lg max-w-[80%] sm:max-w-[70%]"
+            style="
+              word-break: break-word;
+              overflow-wrap: anywhere;
+              overflow: hidden;
+            "
           >
+            <p class="text-xs sm:text-sm text-purple-900 break-words">
+              {{ message.content }}
+            </p>
+          </div>
         </div>
+
         <div
           v-if="message.sender === 'ai'"
-          class="inline-flex items-center p-2 bg-white rounded-lg max-w-[80%] sm:max-w-[70%]"
+          class="flex justify-start py-2 sm:py-3"
         >
-          <MDCRenderer
-            v-if="message.parsedContent"
-            :data="message.parsedContent.data"
-            :body="message.parsedContent.body"
-            class="text-xs sm:text-sm text-gray-800 break-words"
-          />
+          <Card class="max-w-[80%] sm:max-w-[70%]">
+            <CardContent>
+              <MDCRenderer
+                v-if="message.parsedContent"
+                :data="message.parsedContent.data"
+                :body="message.parsedContent.body"
+                class="text-xs sm:text-sm text-foreground break-words py-5"
+              />
+            </CardContent>
+          </Card>
         </div>
       </div>
-    </div>
 
-    <div v-if="isStreaming" class="text-xs sm:text-sm text-gray-600">
-      {{ streamingMessage }}
+      <div v-if="isStreaming" class="flex justify-start py-2 sm:py-3">
+        <Card class="max-w-[80%] sm:max-w-[70%]">
+          <CardHeader>
+            <span>{{ streamingMessage }}</span>
+          </CardHeader>
+          <CardContent>
+            <MDCRenderer
+              v-if="processedStreamingMessage"
+              :data="processedStreamingMessage.data"
+              :body="processedStreamingMessage.body"
+              class="text-xs sm:text-sm text-foreground break-words py-5"
+            />
+          </CardContent>
+        </Card>
+      </div>
     </div>
-
-    <!-- Procesar el currentStreamingMessage usando MDCRenderer -->
-    <div v-if="processedStreamingMessage" class="bg-white rounded-lg p-2">
-      <MDCRenderer
-        :data="processedStreamingMessage.data"
-        :body="processedStreamingMessage.body"
-        class="text-xs sm:text-sm text-gray-800"
-      />
-    </div>
-
-    <div v-if="explanation" class="text-xs sm:text-sm" />
 
     <div
       class="flex items-center justify-between px-3 sm:px-6 py-2 bg-gray-50 rounded-full shadow mt-4"
     >
-      <Input
+      <Textarea
         v-model="userMessage"
+        rows="1"
         type="text"
         placeholder="Escribe tu mensaje aquí..."
-        class="w-full bg-transparent border-transparent text-xs sm:text-sm text-gray-600 outline-none"
+        class="w-full bg-transparent border-transparent text-xs sm:text-sm text-muted-foreground outline-none"
         @keyup.enter="sendMessage"
       />
       <Send
-        class="w-7 h-7 sm:w-9 sm:h-9 cursor-pointer ml-2"
-        :size="4"
+        class="w-2 h-2 sm:w-5 sm:h-5 cursor-pointer ml-2"
         @click="sendMessage"
       />
     </div>
