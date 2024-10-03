@@ -5,6 +5,7 @@ import { okaidia } from "@uiw/codemirror-theme-okaidia";
 import { noctisLilac } from 'thememirror';
 import Chat from "./components/ai/chat.vue";
 import CodeEditor from "./components/CodeEditor.vue";
+import {materialLight, materialDark} from "./themes";
 
 interface Tab {
   value: string;
@@ -28,9 +29,9 @@ const editorCode = ref(initialCode.value)
 
 // Configuración del editor
 const availableExtensions = ['lineNumbersRelative', 'indentationMarkers', 'interact']
-const availableThemes = { okaidia, noctisLilac }
+const availableThemes = { okaidia, noctisLilac, materialLight, materialDark }
 const activeExtensions = ref(['lineNumbersRelative', 'indentationMarkers', 'interact'])
-const activeTheme = ref('noctisLilac')
+const activeTheme = ref('materialLight')
 
 // Estado del chat
 const messages = ref<Array<{ sender: string; content: string }>>([])

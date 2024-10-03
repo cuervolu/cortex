@@ -11,6 +11,7 @@ import { okaidia } from '@uiw/codemirror-theme-okaidia';
 import type { Extension as CodeMirrorExtension } from "@codemirror/state";
 import type {LanguageSupport} from "@codemirror/language";
 import {noctisLilac} from 'thememirror';
+import {materialLight, materialDark} from "../themes";
 
 interface Props {
   initialCode: string;
@@ -25,9 +26,9 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   placeholder: '// Type some code here',
   availableExtensions: () => ['lineNumbersRelative', 'indentationMarkers', 'interact'],
-  availableThemes: () => ({ noctisLilac, okaidia }),
+  availableThemes: () => ({ noctisLilac, okaidia, materialLight, materialDark }),
   activeExtensions: () => ['lineNumbersRelative', 'indentationMarkers', 'interact'],
-  activeTheme: 'noctisLilac'
+  activeTheme: 'materialDark'
 })
 
 const emit = defineEmits(['update:code', 'change', 'update'])
