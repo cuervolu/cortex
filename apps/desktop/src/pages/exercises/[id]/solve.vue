@@ -35,7 +35,9 @@ const activeExtensions = ref([
   'indentationMarkers',
   'interact',
 ]);
-const activeTheme = ref('materialLight');
+const colorMode = useColorMode();
+const colorModePreference = toRef(colorMode, 'preference');
+const activeTheme = ref(materialLight);
 
 // Estado del panel
 const isPanelOpen = ref(true);
@@ -98,6 +100,12 @@ const panelTabs = computed(() => [
   },
 ]);
 const defaultPanelTab = 'ia-help';
+
+
+
+watch(colorModePreference, (newMode) => {
+  activeTheme.value = newMode === 'dark' ? materialDark : materialLight;
+});
 
 onMounted(() => {
   fetchExerciseDetails();

@@ -147,7 +147,7 @@ const sendMessage = () => {
           v-if="message.sender === 'ai'"
           class="flex justify-center py-2 sm:py-3"
         >
-          <Card class="w-full  mx-auto">
+          <Card class="w-full mx-auto">
             <CardContent>
               <MDCRenderer
                 v-if="message.parsedContent"
@@ -178,20 +178,23 @@ const sendMessage = () => {
     </div>
 
     <div
-      class="flex items-center justify-between px-3 sm:px-6 py-2 bg-gray-50 rounded-full shadow mt-4"
+      class="flex items-center justify-between px-3 sm:px-6 py-2 bg-primary rounded-full shadow mt-4"
     >
       <Textarea
         v-model="userMessage"
         rows="1"
         type="text"
         placeholder="Escribe tu mensaje aquí..."
-        class="w-full bg-transparent border-transparent text-xs sm:text-sm text-muted-foreground outline-none"
+        class="w-full bg-transparent border-transparent text-xs sm:text-sm text-muted-foreground outline-none h-8"
         @keyup.enter="sendMessage"
       />
-      <Send
-        class="w-2 h-2 sm:w-5 sm:h-5 cursor-pointer ml-2"
-        @click="sendMessage"
-      />
+
+      <Button size="icon" variant="ghost">
+        <Send
+          class="w-2 h-2 sm:w-5 sm:h-5 cursor-pointer ml-2"
+          @click="sendMessage"
+        />
+      </Button>
     </div>
   </div>
 </template>
