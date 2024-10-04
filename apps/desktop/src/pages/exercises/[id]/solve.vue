@@ -9,6 +9,7 @@ import CodeEditor from '@cortex/shared/components/CodeEditor.vue';
 import ExerciseHeader from '@cortex/shared/components/exercise/ExerciseHeader.vue';
 import ExercisePanel from '@cortex/shared/components/exercise/ExercisePanel.vue';
 import { materialDark, materialLight } from '@cortex/shared/themes';
+import type { Extension } from '@codemirror/state';
 
 const route = useRoute();
 const router = useRouter();
@@ -37,7 +38,8 @@ const activeExtensions = ref([
 ]);
 const colorMode = useColorMode();
 const colorModePreference = toRef(colorMode, 'preference');
-const activeTheme = ref(materialLight);
+const activeTheme = ref<Extension[]>([]);
+
 
 // Estado del panel
 const isPanelOpen = ref(true);
@@ -101,10 +103,8 @@ const panelTabs = computed(() => [
 ]);
 const defaultPanelTab = 'ia-help';
 
-
-
 watch(colorModePreference, (newMode) => {
-  activeTheme.value = newMode === 'dark' ? materialDark : materialLight;
+  activeTheme.value = newMode === 'dark' ? [materialDark] : [materialLight];
 });
 
 onMounted(() => {
@@ -116,12 +116,12 @@ onUnmounted(() => {
   ollamaStore.removeListeners();
 });
 
-// Añadir un watcher para asegurarnos de que el código se actualiza cuando cambia initialCode
+
 watch(initialCode, (newCode) => {
   editorCode.value = newCode;
 });
 
-// Nuevo watcher para manejar el fin del streaming
+
 watch(
   () => ollamaStore.isStreaming,
   (newValue) => {
@@ -141,8 +141,12 @@ watch(
       :on-back-click="handleBackClick"
       :on-settings-click="handleSettingsClick"
     />
-    <div class="flex flex-grow overflow-hidden">
-      <div class="flex-grow p-5 bg-neutral-50">
+
+    <ResizablePanelGroup
+      direction="horizontal"
+      class="flex flex-grow overflow-hidden"
+    >
+      <ResizablePanel class="flex-grow p-5 bg-neutral-50">
         <div class="h-full rounded-md overflow-hidden">
           <CodeEditor
             v-if="initialCode"
@@ -156,15 +160,17 @@ watch(
             @change="handleCodeChange"
           />
         </div>
-      </div>
-      <ExercisePanel
-        :tabs="panelTabs"
-        :default-tab="defaultPanelTab"
-        :is-open="isPanelOpen"
-        class="w-[40rem] h-full flex-shrink-0 hidden sm:block shadow-lg shadow-gray-500/50"
-        @send-message="handleSendMessage"
-        @update:is-open="isPanelOpen = $event"
-      />
-    </div>
+      </ResizablePanel>
+      <ResizableHandle  />
+      <ResizablePanel>
+        <ExercisePanel
+          :tabs="panelTabs"
+          :default-tab="defaultPanelTab"
+          :is-open="isPanelOpen"
+          class="w-[50rem] h-full flex-shrink-0 hidden sm:block shadow-lg pl-5 shadow-gray-500/50"
+          @send-message="handleSendMessage"
+          @update:is-open="isPanelOpen = $event"
+      /></ResizablePanel>
+    </ResizablePanelGroup>
   </div>
 </template>
