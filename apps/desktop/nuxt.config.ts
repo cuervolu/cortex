@@ -48,7 +48,7 @@ export default defineNuxtConfig({
   mdc: {
     highlight: {
       theme: 'material-theme-ocean',
-      langs: ['js','jsx','json','ts','tsx','vue','css','html','bash','md','mdc','yaml', "rust"],
+      langs: ['js','jsx','json','ts','tsx','vue','css','html','bash','md','mdc','yaml', "rust", "java", "python", "go", "csharp"],
       wrapperStyle: true
     }
   },

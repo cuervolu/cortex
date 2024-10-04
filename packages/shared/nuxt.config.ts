@@ -36,6 +36,13 @@ export default defineNuxtConfig({
   build: {
     transpile: ['shadcn-vue'],
   },
+  mdc: {
+    highlight: {
+      theme: 'material-theme-ocean',
+      langs: ['js','jsx','json','ts','tsx','vue','css','html','bash','md','mdc','yaml', "rust", "python"],
+      wrapperStyle: true
+    }
+  },
   hooks: {
     'components:dirs': (dirs) => {
 

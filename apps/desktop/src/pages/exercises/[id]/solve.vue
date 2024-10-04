@@ -59,7 +59,7 @@ const panelTabs = computed(() => [
       messages: chatStore.messages,
       isStreaming: chatStore.isStreaming,
       currentStreamingMessage: chatStore.currentStreamingMessage,
-      avatarSrc: logo,
+      avatarSrc: "https://placewaifu.com/image",
       cortexLogo: logo,
     },
   },

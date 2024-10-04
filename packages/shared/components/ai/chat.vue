@@ -29,7 +29,7 @@ const { userMessage, sendMessage } = useSendMessage(emit);
 </script>
 
 <template>
-  <div
+   <div
     class="flex flex-col gap-4 p-3 sm:p-5 bg-muted/50 rounded-lg border-2 border-transparent shadow-md overflow-hidden h-full"
     style="
       border-image: linear-gradient(
@@ -56,7 +56,7 @@ const { userMessage, sendMessage } = useSendMessage(emit);
       </div>
     </div>
 
-    <div class="flex-grow overflow-y-auto rounded-lg">
+    <div class="flex-grow overflow-y-auto overflow-x-hidden rounded-lg">
       <div v-for="(message, index) in processedMessages" :key="index">
         <div
           v-if="message.sender === 'user'"
@@ -73,7 +73,7 @@ const { userMessage, sendMessage } = useSendMessage(emit);
             <p class="text-xs sm:text-sm text-purple-900 break-words">
               {{ message.content }}
             </p>
-            <Avatar class="ml-2">
+            <Avatar class="ml-2 flex-shrink-0">
               <AvatarImage :src="avatarSrc" alt="User" />
               <AvatarFallback>UN</AvatarFallback>
             </Avatar>
@@ -84,7 +84,7 @@ const { userMessage, sendMessage } = useSendMessage(emit);
           class="flex justify-center py-2 sm:py-3"
         >
           <Card class="w-full mx-auto">
-            <CardContent>
+            <CardContent class="overflow-x-auto">
               <MDCRenderer
                 v-if="message.parsedContent"
                 :data="message.parsedContent.data"
@@ -101,7 +101,7 @@ const { userMessage, sendMessage } = useSendMessage(emit);
           <CardHeader>
             <span>{{ streamingMessage }}</span>
           </CardHeader>
-          <CardContent>
+          <CardContent class="overflow-x-auto">
             <MDCRenderer
               v-if="processedStreamingMessage"
               :data="processedStreamingMessage.data"
