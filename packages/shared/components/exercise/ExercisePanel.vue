@@ -25,8 +25,12 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const emit = defineEmits(["send-message", "update:isOpen"]);
-
-const localIsOpen = ref(props.isOpen);
+const isSmallScreen = () => window.innerWidth < 640; // 640px is the default breakpoint for 'sm' in Tailwind
+const isSmall = ref(isSmallScreen());
+const localIsOpen = computed({
+  get: () => isSmall.value || props.isOpen,
+  set: (value) => emit("update:isOpen", value)
+});
 
 watch(
   () => props.isOpen,
@@ -39,6 +43,18 @@ const updateIsOpen = (value: boolean) => {
   localIsOpen.value = value;
   emit("update:isOpen", value);
 };
+
+onMounted(() => {
+  window.addEventListener('resize', () => {
+    isSmall.value = isSmallScreen();
+  });
+});
+
+onUnmounted(() => {
+  window.removeEventListener('resize', () => {
+    isSmall.value = isSmallScreen();
+  });
+});
 </script>
 <template>
   <div>
@@ -71,7 +87,7 @@ const updateIsOpen = (value: boolean) => {
             }}</span>
           </TabsTrigger>
         </TabsList>
-        <div class="flex-grow overflow-auto">
+        <div class="flex-grow overflow-auto h-full">
           <TabsContent
             v-for="tab in tabs"
             :key="tab.value"

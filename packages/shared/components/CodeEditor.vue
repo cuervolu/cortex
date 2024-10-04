@@ -1,17 +1,20 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, watch } from 'vue'
-import type { ViewUpdate } from '@codemirror/view'
+import { ref, computed, onMounted, watch } from "vue";
+import type { ViewUpdate } from "@codemirror/view";
 import type { CodeMirrorRef, Statistics } from "#build/nuxt-codemirror";
-import { javascript } from '@codemirror/lang-javascript'
-import interact from '@replit/codemirror-interact';
-import { loadLanguage } from '@uiw/codemirror-extensions-langs';
-import { indentationMarkers } from '@replit/codemirror-indentation-markers';
-import { lineNumbersRelative } from '@uiw/codemirror-extensions-line-numbers-relative'
-import { okaidia } from '@uiw/codemirror-theme-okaidia';
-import type { Extension as CodeMirrorExtension } from "@codemirror/state";
-import type {LanguageSupport} from "@codemirror/language";
-import {noctisLilac} from 'thememirror';
-import {materialLight, materialDark} from "../themes";
+import { javascript } from "@codemirror/lang-javascript";
+import interact from "@replit/codemirror-interact";
+import { loadLanguage } from "@uiw/codemirror-extensions-langs";
+import { indentationMarkers } from "@replit/codemirror-indentation-markers";
+import { lineNumbersRelative } from "@uiw/codemirror-extensions-line-numbers-relative";
+import { okaidia } from "@uiw/codemirror-theme-okaidia";
+import {
+  StateEffect,
+  type Extension as CodeMirrorExtension,
+} from "@codemirror/state";
+import type { LanguageSupport } from "@codemirror/language";
+import { noctisLilac } from "thememirror";
+import { materialLight, materialDark } from "../themes";
 
 interface Props {
   initialCode: string;
@@ -24,81 +27,113 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  placeholder: '// Type some code here',
-  availableExtensions: () => ['lineNumbersRelative', 'indentationMarkers', 'interact'],
-  availableThemes: () => ({ noctisLilac, okaidia, materialLight, materialDark }),
-  activeExtensions: () => ['lineNumbersRelative', 'indentationMarkers', 'interact'],
-  activeTheme: 'materialDark'
-})
+  placeholder: "// Type some code here",
+  availableExtensions: () => [
+    "lineNumbersRelative",
+    "indentationMarkers",
+    "interact",
+  ],
+  availableThemes: () => ({
+    noctisLilac,
+    okaidia,
+    materialLight,
+    materialDark,
+  }),
+  activeExtensions: () => [
+    "lineNumbersRelative",
+    "indentationMarkers",
+    "interact",
+  ],
+  activeTheme: "materialDark",
+});
 
-const emit = defineEmits(['update:code', 'change', 'update'])
+const emit = defineEmits(["update:code", "change", "update"]);
 
-const code = ref(props.initialCode)
-const codemirror = ref<CodeMirrorRef>()
+const code = ref(props.initialCode);
+const codemirror = ref<CodeMirrorRef>();
 
 const getLanguageExtension = (lang: string): CodeMirrorExtension => {
   let extension: LanguageSupport | CodeMirrorExtension;
   switch (lang) {
-    case 'javascript':
-    case 'typescript':
+    case "javascript":
+    case "typescript":
       extension = javascript({ jsx: true, typescript: true });
       break;
-    case 'java':
-      extension = loadLanguage('java') || javascript();
+    case "java":
+      extension = loadLanguage("java") || javascript();
       break;
-    case 'rust':
-      extension = loadLanguage('rust') || javascript();
+    case "rust":
+      extension = loadLanguage("rust") || javascript();
       break;
-    case 'python':
-      extension = loadLanguage('python') || javascript();
+    case "python":
+      extension = loadLanguage("python") || javascript();
       break;
-    case 'csharp':
-      extension = loadLanguage('csharp') || javascript();
+    case "csharp":
+      extension = loadLanguage("csharp") || javascript();
       break;
-    case 'go':
+    case "go":
       extension = loadLanguage("go") || javascript();
       break;
     default:
       extension = javascript();
   }
   return extension;
-}
+};
 
 const activeExtensions = computed((): CodeMirrorExtension[] => {
-  const extensions: CodeMirrorExtension[] = [getLanguageExtension(props.language)]
-  if (props.activeExtensions.includes('lineNumbersRelative')) extensions.push(lineNumbersRelative)
-  if (props.activeExtensions.includes('indentationMarkers')) extensions.push(indentationMarkers())
-  if (props.activeExtensions.includes('interact')) extensions.push(interact())
-  return extensions
-})
+  const extensions: CodeMirrorExtension[] = [
+    getLanguageExtension(props.language),
+  ];
+  if (props.activeExtensions.includes("lineNumbersRelative"))
+    extensions.push(lineNumbersRelative);
+  if (props.activeExtensions.includes("indentationMarkers"))
+    extensions.push(indentationMarkers());
+  if (props.activeExtensions.includes("interact")) extensions.push(interact());
+  return extensions;
+});
 
+const activeTheme = computed(
+  () => props.availableThemes[props.activeTheme] || materialLight
+);
 
-const activeTheme = computed(() => props.availableThemes[props.activeTheme] || materialLight)
+watch(
+  () => props.activeTheme,
+  () => {
+    if (codemirror.value?.view) {
+      const view = codemirror.value.view;
+      view.dispatch({
+        effects: StateEffect.reconfigure.of(activeTheme.value),
+      });
+    }
+  }
+);
 
 const handleChange = (value: string, viewUpdate: ViewUpdate) => {
-  emit('update:code', value)
-  emit('change', value, viewUpdate)
-}
+  emit("update:code", value);
+  emit("change", value, viewUpdate);
+};
 
 const handleUpdate = (viewUpdate: ViewUpdate) => {
-  emit('update', viewUpdate)
-}
+  emit("update", viewUpdate);
+};
 
 const handleStatistics = (stats: Statistics) => {
-  console.log('Statistics:', stats)
-}
+  console.log("Statistics:", stats);
+};
 
-watch(() => code.value, (newCode) => {
-  emit('update:code', newCode)
-})
+watch(
+  () => code.value,
+  (newCode) => {
+    emit("update:code", newCode);
+  }
+);
 
 onMounted(() => {
   if (codemirror.value) {
-    console.log('Editor initialized:', codemirror.value.editor)
+    console.log("Editor initialized:", codemirror.value.editor);
   }
-})
+});
 </script>
-
 
 <template>
   <ClientOnly>
@@ -121,8 +156,6 @@ onMounted(() => {
   </ClientOnly>
 </template>
 
-
-
 <style>
 .cm-editor {
   height: 100%;
@@ -130,10 +163,10 @@ onMounted(() => {
   overflow: hidden;
 }
 .cm-scroller {
-
   min-height: 350px;
 }
-.cm-content, .cm-gutter {
+.cm-content,
+.cm-gutter {
   min-height: 150px;
   font-family: "Source Code Pro", monospace;
   font-size: 1rem;

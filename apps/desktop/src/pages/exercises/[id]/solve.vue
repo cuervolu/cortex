@@ -1,67 +1,35 @@
 <script setup lang="ts">
-import { invoke } from '@tauri-apps/api/core';
+import { useRouter } from 'vue-router';
 import { useOllamaStore } from '~/stores/useOllama.store';
 import { useChatStore } from '~/stores/useChat.store';
-import type { ExerciseDetail } from '~/types';
 import AiChat from '@cortex/shared/components/ai/chat.vue';
 import CodeEditor from '@cortex/shared/components/CodeEditor.vue';
 import ExerciseHeader from '@cortex/shared/components/exercise/ExerciseHeader.vue';
 import ExercisePanel from '@cortex/shared/components/exercise/ExercisePanel.vue';
-import { materialDark, materialLight } from '@cortex/shared/themes';
-import logo from "~/assets/img/Cortex Logo.svg";
-import type { Tab } from '@cortex/shared/components/exercise/ExercisePanel.vue';
+import logo from '~/assets/img/Cortex Logo.svg';
 import BotIcon from '~/components/icons/BotIcon.vue';
+import { useExercise, useCodeEditor, usePanel } from '~/composables';
 
-const route = useRoute();
 const router = useRouter();
-const exercise = ref<ExerciseDetail | null>(null);
 const ollamaStore = useOllamaStore();
 const chatStore = useChatStore();
 
-const currentLesson = ref('');
-const currentExercise = computed(() => exercise.value?.title || '');
-const currentFileName = ref('exercise.py');
-const currentLanguage = ref('python');
-const initialCode = ref('');
-const editorCode = ref('');
+const {
+  exercise,
+  currentLesson,
+  currentExercise,
+  currentFileName,
+  currentLanguage,
+  initialCode,
+  editorCode,
+  fetchExerciseDetails,
+  handleCodeChange,
+} = useExercise();
 
-// Configuración del editor
-const availableExtensions = [
-  'lineNumbersRelative',
-  'indentationMarkers',
-  'interact',
-];
-const availableThemes = { materialLight, materialDark };
-const activeExtensions = ref([
-  'lineNumbersRelative',
-  'indentationMarkers',
-  'interact',
-]);
-const colorMode = useColorMode();
-const colorModePreference = toRef(colorMode, 'preference');
-const activeTheme = ref('');
+const { isPanelOpen, handleSettingsClick } = usePanel();
 
-
-// Estado del panel
-const isPanelOpen = ref(true);
-
-const fetchExerciseDetails = async () => {
-  const id = Number(route.params.id);
-  try {
-    const response = await invoke<ExerciseDetail>('get_exercise_details', {
-      id,
-    });
-    exercise.value = response;
-    initialCode.value = response.initial_code;
-    editorCode.value = response.initial_code;
-    currentFileName.value = response.file_name;
-    currentLanguage.value = response.language;
-    currentLesson.value = response.lesson_name;
-    console.log('Fetched exercise details:', response);
-  } catch (error) {
-    console.error('Failed to fetch exercise details:', error);
-  }
-};
+const { availableExtensions, availableThemes, activeExtensions, editorTheme } =
+  useCodeEditor();
 
 const handleSendMessage = async (message: string) => {
   if (!exercise.value) return;
@@ -77,19 +45,11 @@ const handleSendMessage = async (message: string) => {
   });
 };
 
-const handleCodeChange = (newCode: string) => {
-  editorCode.value = newCode;
-};
-
 const handleBackClick = () => {
   router.push('/exercises');
 };
 
-const handleSettingsClick = () => {
-  isPanelOpen.value = !isPanelOpen.value;
-};
-
-const panelTabs = computed<Tab[]>(() => [
+const panelTabs = computed(() => [
   {
     value: 'ia-help',
     label: 'AI Help',
@@ -100,15 +60,12 @@ const panelTabs = computed<Tab[]>(() => [
       isStreaming: chatStore.isStreaming,
       currentStreamingMessage: chatStore.currentStreamingMessage,
       avatarSrc: logo,
+      cortexLogo: logo,
     },
   },
 ]);
+
 const defaultPanelTab = 'ia-help';
-
-watch(colorModePreference, (newMode) => {
-  activeTheme.value = newMode === 'dark' ? 'materialDark' : 'materialLight'; 
-});
-
 
 onMounted(() => {
   fetchExerciseDetails();
@@ -119,11 +76,9 @@ onUnmounted(() => {
   ollamaStore.removeListeners();
 });
 
-
 watch(initialCode, (newCode) => {
   editorCode.value = newCode;
 });
-
 
 watch(
   () => ollamaStore.isStreaming,
@@ -145,12 +100,9 @@ watch(
       :on-settings-click="handleSettingsClick"
     />
 
-    <ResizablePanelGroup
-      direction="horizontal"
-      class="flex flex-grow overflow-hidden"
-    >
-      <ResizablePanel class="flex-grow p-5 bg-muted/50">
-        <div class="h-full rounded-md overflow-hidden">
+    <ResizablePanelGroup direction="horizontal" class="flex-grow">
+      <ResizablePanel :default-size="70" :min-size="30">
+        <div class="h-full p-4">
           <CodeEditor
             v-if="initialCode"
             v-model:code="editorCode"
@@ -159,22 +111,23 @@ watch(
             :available-extensions="availableExtensions"
             :available-themes="availableThemes"
             :active-extensions="activeExtensions"
-            :active-theme="activeTheme"
+            :active-theme="editorTheme"
+            class="h-full rounded-md overflow-hidden"
             @change="handleCodeChange"
           />
         </div>
       </ResizablePanel>
-      <ResizableHandle  />
-      <ResizablePanel>
+      <ResizableHandle />
+      <ResizablePanel :default-size="30" :min-size="20">
         <ExercisePanel
           :tabs="panelTabs"
           :default-tab="defaultPanelTab"
           :is-open="isPanelOpen"
-    
-          class="w-[50rem] h-full flex-shrink-0 hidden sm:block shadow-lg pl-5 shadow-gray-500/50"
+          class="h-full"
           @send-message="handleSendMessage"
           @update:is-open="isPanelOpen = $event"
-      /></ResizablePanel>
+        />
+      </ResizablePanel>
     </ResizablePanelGroup>
   </div>
 </template>
