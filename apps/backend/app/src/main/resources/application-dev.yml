@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://${SPRING_DATASOURCE_URL:localhost:5432/${POSTGRES_DB}}
+    url: ${SPRING_DATASOURCE_URL}
     username: ${POSTGRES_USER}
     password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
@@ -37,6 +37,9 @@ logging:
       springframework:
         security: DEBUG
         web: DEBUG
+      hibernate:
+        sql: DEBUG
+
 docker:
   cleanup:
     interval-ms: 3600000 # 1 hora
