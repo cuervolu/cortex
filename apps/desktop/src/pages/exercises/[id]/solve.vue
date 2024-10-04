@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 import { invoke } from '@tauri-apps/api/core';
 import { useOllamaStore } from '~/stores/useOllama.store';
 import { useChatStore } from '~/stores/useChat.store';
@@ -9,7 +8,7 @@ import CodeEditor from '@cortex/shared/components/CodeEditor.vue';
 import ExerciseHeader from '@cortex/shared/components/exercise/ExerciseHeader.vue';
 import ExercisePanel from '@cortex/shared/components/exercise/ExercisePanel.vue';
 import { materialDark, materialLight } from '@cortex/shared/themes';
-import type { Extension } from '@codemirror/state';
+import logo from "~/assets/img/Cortex Logo.svg";
 
 const route = useRoute();
 const router = useRouter();
@@ -38,7 +37,7 @@ const activeExtensions = ref([
 ]);
 const colorMode = useColorMode();
 const colorModePreference = toRef(colorMode, 'preference');
-const activeTheme = ref<Extension[]>([]);
+const activeTheme = ref('');
 
 
 // Estado del panel
@@ -97,15 +96,16 @@ const panelTabs = computed(() => [
       messages: chatStore.messages,
       isStreaming: chatStore.isStreaming,
       currentStreamingMessage: chatStore.currentStreamingMessage,
-      avatarSrc: '~/assets/img/Cortex Logo.svg',
+      avatarSrc: logo,
     },
   },
 ]);
 const defaultPanelTab = 'ia-help';
 
 watch(colorModePreference, (newMode) => {
-  activeTheme.value = newMode === 'dark' ? [materialDark] : [materialLight];
+  activeTheme.value = newMode === 'dark' ? 'materialDark' : 'materialLight'; 
 });
+
 
 onMounted(() => {
   fetchExerciseDetails();
