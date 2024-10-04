@@ -106,12 +106,7 @@ const updateIsOpen = (value: boolean) => {
               class="flex items-center gap-2 px-2 py-1"
               :class="tab.className"
             >
-              <template v-if="typeof tab.iconSrc === 'string'">
-                <img :src="tab.iconSrc" :alt="tab.label" >
-              </template>
-              <template v-else>
-                <component :is="tab.iconSrc" :alt="tab.label" />
-              </template>
+              <img v-if="tab.iconSrc" :src="tab.iconSrc" :alt="tab.label" >
               <div v-if="tab.customIcon" />
               <span class="text-sm" :class="tab.labelClassName">{{
                 tab.label
