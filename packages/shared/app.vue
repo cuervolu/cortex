@@ -10,7 +10,7 @@ import {materialLight, materialDark} from "./themes";
 interface Tab {
   value: string;
   label: string;
-  iconSrc?: string;
+iconSrc?: string | Component;
   customIcon?: string;
   className?: string;
   labelClassName?: string;

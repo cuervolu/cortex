@@ -15,7 +15,7 @@ const props = defineProps<Props>();
 <template>
   <div class="exercise-header">
     <div
-      class="flex items-start justify-between p-2 sm:p-4 bg-neutral-50 border-b-2 border-gradient-purple"
+      class="flex items-start justify-between p-2 sm:p-4 bg-muted/50 border-b-2 border-gradient-purple"
     >
       <div
         class="flex items-center gap-1 sm:gap-2 cursor-pointer"
@@ -44,7 +44,7 @@ const props = defineProps<Props>();
     </div>
     <!-- Tab -->
     <div
-      class="inline-flex items-center px-2 sm:px-4 py-1 sm:py-1.5 rounded-br-2xl sm:rounded-br-3xl border-r-2 border-b-2 overflow-hidden bg-neutral-50"
+      class="inline-flex items-center px-2 sm:px-4 py-1 sm:py-1.5 rounded-br-2xl sm:rounded-br-3xl border-r-2 border-b-2 overflow-hidden bg-muted/50"
     >
       <div class="font-medium text-xs sm:text-sm text-foreground truncate max-w-[120px] sm:max-w-none">
         {{ props.fileName }}

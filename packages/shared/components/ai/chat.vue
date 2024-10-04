@@ -20,11 +20,15 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  avatarSrc: "path_to_avatar_image",
+  avatarSrc: "https://placewaifu.com/image",
   explanation: "",
   streamingMessage: "CORTEX-IA está escribiendo...",
   cortexLogo: "https://placewaifu.com/image",
 });
+
+console.log(props);
+
+
 
 const emit = defineEmits<{
   (e: "send-message", message: string): void;

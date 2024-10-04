@@ -9,6 +9,8 @@ import ExerciseHeader from '@cortex/shared/components/exercise/ExerciseHeader.vu
 import ExercisePanel from '@cortex/shared/components/exercise/ExercisePanel.vue';
 import { materialDark, materialLight } from '@cortex/shared/themes';
 import logo from "~/assets/img/Cortex Logo.svg";
+import type { Tab } from '@cortex/shared/components/exercise/ExercisePanel.vue';
+import BotIcon from '~/components/icons/BotIcon.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -87,11 +89,12 @@ const handleSettingsClick = () => {
   isPanelOpen.value = !isPanelOpen.value;
 };
 
-const panelTabs = computed(() => [
+const panelTabs = computed<Tab[]>(() => [
   {
     value: 'ia-help',
     label: 'AI Help',
     component: AiChat,
+    iconSrc: BotIcon,
     props: {
       messages: chatStore.messages,
       isStreaming: chatStore.isStreaming,
@@ -146,7 +149,7 @@ watch(
       direction="horizontal"
       class="flex flex-grow overflow-hidden"
     >
-      <ResizablePanel class="flex-grow p-5 bg-neutral-50">
+      <ResizablePanel class="flex-grow p-5 bg-muted/50">
         <div class="h-full rounded-md overflow-hidden">
           <CodeEditor
             v-if="initialCode"
@@ -167,6 +170,7 @@ watch(
           :tabs="panelTabs"
           :default-tab="defaultPanelTab"
           :is-open="isPanelOpen"
+    
           class="w-[50rem] h-full flex-shrink-0 hidden sm:block shadow-lg pl-5 shadow-gray-500/50"
           @send-message="handleSendMessage"
           @update:is-open="isPanelOpen = $event"

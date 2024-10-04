@@ -73,7 +73,7 @@ const activeExtensions = computed((): CodeMirrorExtension[] => {
 })
 
 
-const activeTheme = computed(() => props.availableThemes[props.activeTheme] || okaidia)
+const activeTheme = computed(() => props.availableThemes[props.activeTheme] || materialLight)
 
 const handleChange = (value: string, viewUpdate: ViewUpdate) => {
   emit('update:code', value)
@@ -130,13 +130,13 @@ onMounted(() => {
   overflow: hidden;
 }
 .cm-scroller {
-  overflow: hidden;
+
   min-height: 350px;
 }
 .cm-content, .cm-gutter {
   min-height: 150px;
   font-family: "Source Code Pro", monospace;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 600;
 }
 .cm-gutters {
