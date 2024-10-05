@@ -1,5 +1,6 @@
 package com.cortex.backend.education.module.internal;
 
+import com.cortex.backend.core.common.PageResponse;
 import com.cortex.backend.core.common.SlugUtils;
 import com.cortex.backend.core.domain.Course;
 import com.cortex.backend.core.domain.EntityType;
@@ -21,6 +22,10 @@ import java.util.Optional;
 import java.util.stream.StreamSupport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -44,10 +49,20 @@ public class ModuleServiceImpl implements ModuleService {
 
   @Override
   @Transactional(readOnly = true)
-  public List<ModuleResponse> getAllModules() {
-    return StreamSupport.stream(moduleRepository.findAll().spliterator(), false)
+  public PageResponse<ModuleResponse> getAllModules(int page, int size) {
+    Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+
+    Page<ModuleEntity> modules = moduleRepository.findAllPublishedModules(pageable);
+
+    List<ModuleResponse> response = modules.stream()
         .map(moduleMapper::toModuleResponse)
         .toList();
+
+    return new PageResponse<>(
+        response, modules.getNumber(), modules.getSize(), modules.getTotalElements(),
+        modules.getTotalPages(), modules.isFirst(), modules.isLast()
+    );
+
   }
 
   @Override
@@ -94,6 +109,10 @@ public class ModuleServiceImpl implements ModuleService {
       setCourse(existingModule, request.getCourseId());
     }
 
+    if (request.getIsPublished() != null) {
+      existingModule.setPublished(request.getIsPublished());
+    }
+
     ModuleEntity updatedModule = moduleRepository.save(existingModule);
     return moduleMapper.toModuleResponse(updatedModule);
   }
@@ -123,7 +142,8 @@ public class ModuleServiceImpl implements ModuleService {
 
     long totalLessons = lessonRepository.countByModuleEntity(module);
     long completedLessons = module.getLessons().stream()
-        .filter(lesson -> userProgressService.isEntityCompleted(userId, lesson.getId(), EntityType.LESSON))
+        .filter(lesson -> userProgressService.isEntityCompleted(userId, lesson.getId(),
+            EntityType.LESSON))
         .count();
 
     return totalLessons == completedLessons;

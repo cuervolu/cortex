@@ -1,5 +1,6 @@
 package com.cortex.backend.education.module.api;
 
+import com.cortex.backend.core.common.PageResponse;
 import com.cortex.backend.education.module.api.dto.ModuleRequest;
 import com.cortex.backend.education.module.api.dto.ModuleResponse;
 import com.cortex.backend.education.module.api.dto.ModuleUpdateRequest;
@@ -40,8 +41,10 @@ public class ModuleController {
   @Operation(summary = "Get all modules", description = "Retrieves a list of all modules")
   @ApiResponse(responseCode = "200", description = "Successful operation",
       content = @Content(schema = @Schema(implementation = ModuleResponse.class)))
-  public ResponseEntity<List<ModuleResponse>> getAllModules() {
-    return ResponseEntity.ok(moduleService.getAllModules());
+  public ResponseEntity<PageResponse<ModuleResponse>> getAllModules(
+      @RequestParam(name = "page", defaultValue = "0") int page,
+      @RequestParam(name = "size", defaultValue = "10") int size) {
+    return ResponseEntity.ok(moduleService.getAllModules(page, size));
   }
 
   @GetMapping("/{id}")

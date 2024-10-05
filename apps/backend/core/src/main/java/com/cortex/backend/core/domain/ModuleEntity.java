@@ -33,6 +33,9 @@ public class ModuleEntity extends BaseEntity {
 
   @Column(nullable = false, columnDefinition = "TEXT")
   private String description;
+  
+  @Column(name = "is_published", nullable = false)
+  private boolean isPublished;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "image_id")

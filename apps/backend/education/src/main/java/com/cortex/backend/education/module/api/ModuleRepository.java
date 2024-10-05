@@ -3,6 +3,9 @@ package com.cortex.backend.education.module.api;
 import com.cortex.backend.core.domain.Course;
 import com.cortex.backend.core.domain.ModuleEntity;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -19,4 +22,11 @@ public interface ModuleRepository extends
    * @return the count of modules in the course
    */
   long countByCourse(Course course);
+
+  @Query("""
+      SELECT  module
+      FROM ModuleEntity module
+      WHERE module.isPublished = true
+      """)
+  Page<ModuleEntity> findAllPublishedModules(Pageable pageable);
 }
