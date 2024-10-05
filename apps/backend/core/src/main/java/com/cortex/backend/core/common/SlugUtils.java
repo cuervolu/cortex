@@ -51,21 +51,17 @@ public class SlugUtils {
     return uniqueSlug;
   }
 
-  public String generateExerciseSlug(String exerciseName, String language, Predicate<String> existsPredicate) {
+  public String generateExerciseSlug(String exerciseName, String language,
+      Predicate<String> existsPredicate) {
     String baseSlug = generateSlug(exerciseName);
     String languageSlug = generateSlug(language);
-    String uniqueSlug = baseSlug;
-
-    if (existsPredicate.test(uniqueSlug)) {
-      uniqueSlug = baseSlug + "-" + languageSlug;
-    }
+    String uniqueSlug = baseSlug + "-" + languageSlug;
 
     int count = 1;
     while (existsPredicate.test(uniqueSlug)) {
       uniqueSlug = baseSlug + "-" + languageSlug + "-" + count;
       count++;
     }
-
     return uniqueSlug;
   }
 }
