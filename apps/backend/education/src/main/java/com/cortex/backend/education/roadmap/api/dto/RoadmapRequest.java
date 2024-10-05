@@ -29,4 +29,7 @@ public class RoadmapRequest {
 
   @JsonProperty("course_ids")
   private Set<Long> courseIds;
+  
+  @JsonProperty("is_published")
+  private boolean isPublished;
 }

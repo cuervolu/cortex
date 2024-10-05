@@ -1,6 +1,7 @@
 package com.cortex.backend.education.course.api.dto;
 
 import com.cortex.backend.education.tags.api.dto.TagDTO;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import java.util.Set;
@@ -21,4 +22,7 @@ public class CourseRequest {
   private String description;
 
   private Set<TagDTO> tags;
+  
+  @JsonProperty("is_published")
+  private boolean isPublished;
 }

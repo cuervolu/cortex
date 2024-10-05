@@ -79,6 +79,7 @@ public class LessonServiceImpl implements LessonService {
     lesson.setName(request.getName());
     lesson.setContent(request.getContent());
     lesson.setCredits(request.getCredits());
+    lesson.setIsPublished(request.isPublished());
     lesson.setSlug(generateUniqueSlug(request.getName()));
     setLessonModule(lesson, request.getModuleId());
     Lesson savedLesson = lessonRepository.save(lesson);

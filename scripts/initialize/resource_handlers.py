@@ -1,4 +1,4 @@
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Union
 from rich.progress import Progress
 from rich.console import Console
 from api_client import api_request
@@ -68,11 +68,26 @@ def create_resources_with_progress(
     resource_type: str,
     token: str,
     resources_data: List[Dict[str, Any]],
-    existing_resources: List[Dict[str, Any]],
+    existing_resources: Union[List[Dict[str, Any]], Dict[str, Any]],
 ) -> List[Dict[str, Any]]:
     # Use 'title' for roadmaps, 'name' for other resources
     key = "title" if resource_type == "roadmap" else "name"
-    existing_names = {resource.get(key) for resource in existing_resources}
+
+    # Handle different types of existing_resources
+    if isinstance(existing_resources, dict):
+        content = existing_resources.get("content", [])
+    elif isinstance(existing_resources, list):
+        content = existing_resources
+    else:
+        content = []
+
+    existing_names = set()
+    for resource in content:
+        if isinstance(resource, dict):
+            existing_names.add(resource.get(key))
+        else:
+            log.error(f"Invalid resource in existing_resources: {resource}")
+
     created_resources = []
 
     with Progress() as progress:
@@ -80,10 +95,20 @@ def create_resources_with_progress(
             f"[cyan]Creating {resource_type}s...", total=len(resources_data)
         )
         for resource_data in resources_data:
+            if not isinstance(resource_data, dict):
+                log.error(f"Invalid resource data: {resource_data}")
+                progress.update(task, advance=1)
+                continue
+
             if resource_data.get(key) not in existing_names:
                 try:
                     resource = create_resource(resource_type, token, resource_data)
-                    created_resources.append(resource)
+                    if resource is not None:
+                        created_resources.append(resource)
+                    else:
+                        log.info(
+                            f"{resource_type.capitalize()} '{resource_data.get(key)}' already exists, skipping creation"
+                        )
                 except Exception as e:
                     log.error(f"Failed to create {resource_type}: {e}")
             else:
@@ -91,11 +116,20 @@ def create_resources_with_progress(
                     f"{resource_type.capitalize()} '{resource_data.get(key)}' already exists, skipping creation"
                 )
                 existing_resource = next(
-                    resource
-                    for resource in existing_resources
-                    if resource.get(key) == resource_data.get(key)
+                    (
+                        resource
+                        for resource in content
+                        if isinstance(resource, dict)
+                        and resource.get(key) == resource_data.get(key)
+                    ),
+                    None,
                 )
-                created_resources.append(existing_resource)
+                if existing_resource:
+                    created_resources.append(existing_resource)
+                else:
+                    log.warning(
+                        f"Couldn't find existing resource for '{resource_data.get(key)}'"
+                    )
             progress.update(task, advance=1)
 
     return created_resources
@@ -104,11 +138,15 @@ def create_resources_with_progress(
 def create_courses(
     token: str,
     courses_data: List[Dict[str, Any]],
-    existing_courses: List[Dict[str, Any]],
+    existing_courses: Union[List[Dict[str, Any]], Dict[str, Any]],
 ) -> List[Dict[str, Any]]:
     return create_resources_with_progress(
         "course", token, courses_data, existing_courses
     )
+
+
+def create_roadmaps(token: str, roadmaps_data: List[Dict[str, Any]]) -> None:
+    create_resources_with_progress("roadmap", token, roadmaps_data, [])
 
 
 def create_modules_and_lessons(
@@ -132,16 +170,16 @@ def create_modules_and_lessons(
         for module_data in modules_data:
             try:
                 module = create_resource("module", token, module_data)
-                created_modules[module_data["courseId"]] = module
+                created_modules[module_data["course_id"]] = module
                 progress.update(task_modules, advance=1)
             except Exception as e:
                 log.error(f"Failed to create module '{module_data['name']}': {e}")
 
         for lesson_data in lessons_data:
             try:
-                module_id = created_modules.get(lesson_data["moduleId"], {}).get("id")
+                module_id = created_modules.get(lesson_data["module_id"], {}).get("id")
                 if module_id:
-                    lesson_data["moduleId"] = module_id
+                    lesson_data["module_id"] = module_id
                     create_resource("lesson", token, lesson_data)
                     progress.update(task_lessons, advance=1)
                 else:
@@ -154,7 +192,3 @@ def create_modules_and_lessons(
         # Update progress for any remaining modules or lessons (in case of errors)
         progress.update(task_modules, completed=total_modules)
         progress.update(task_lessons, completed=total_lessons)
-
-
-def create_roadmaps(token: str, roadmaps_data: List[Dict[str, Any]]) -> None:
-    create_resources_with_progress("roadmap", token, roadmaps_data, [])

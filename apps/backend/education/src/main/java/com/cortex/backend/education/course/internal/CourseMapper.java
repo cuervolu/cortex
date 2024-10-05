@@ -22,7 +22,7 @@ public interface CourseMapper {
   @Mapping(target = "tagNames", source = "tags", qualifiedByName = "tagsToNames")
   @Mapping(target = "moduleIds", source = "moduleEntities", qualifiedByName = "modulesToIds")
   CourseResponse toCourseResponse(Course course);
-  
+
   @Mapping(target = "id", ignore = true)
   @Mapping(target = "image", ignore = true)
   @Mapping(target = "roadmaps", ignore = true)
@@ -30,6 +30,8 @@ public interface CourseMapper {
   @Mapping(target = "moduleEntities", ignore = true)
   @Mapping(target = "createdAt", ignore = true)
   @Mapping(target = "updatedAt", ignore = true)
+  @Mapping(target = "isPublished", source = "published")
+  @Mapping(target = "slug", ignore = true)
   Course toCourse(CourseRequest courseRequest);
 
   @Named("mediaToUrl")

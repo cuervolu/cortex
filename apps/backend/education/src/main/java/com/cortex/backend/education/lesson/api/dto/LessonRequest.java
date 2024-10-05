@@ -1,6 +1,7 @@
 package com.cortex.backend.education.lesson.api.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -14,6 +15,7 @@ import lombok.Setter;
 public class LessonRequest {
 
   @NotNull(message = "Module ID is required")
+  @JsonProperty("module_id")
   private Long moduleId;
 
   @NotBlank(message = "Name is required")
@@ -25,4 +27,7 @@ public class LessonRequest {
   @NotNull(message = "Credits are required")
   @Positive(message = "Credits must be a positive number")
   private Integer credits;
+  
+  @JsonProperty("is_published")
+  private boolean isPublished;
 }
