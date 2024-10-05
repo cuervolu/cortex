@@ -16,26 +16,26 @@ name = "cortex_lib"
 crate-type = ["staticlib", "cdylib", "lib"]
 
 [build-dependencies]
-tauri-build = { version = "2.0.0", features = [] }
+tauri-build = { version = "2.0.1", features = [] }
 
 [dependencies]
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
 log = "0.4.22"
-tauri = { version = "2.0.0", features = ["protocol-asset"] }
-tauri-plugin-devtools = "2.0.0-rc.1"
-tauri-plugin-fs = "2.0.0"
-tauri-plugin-dialog = "2.0.0"
-tauri-plugin-log = { version = "2.0.0", features = ["colored"] }
-tauri-plugin-os = "2.0.0"
-tauri-plugin-process = "2.0.0"
-tauri-plugin-shell = "2.0.0"
-tauri-plugin-store = "2.0.0"
-tauri-plugin-clipboard-manager = "2.0.0"
+tauri = { version = "2.0.1", features = ["protocol-asset"] }
+tauri-plugin-devtools = "2.0.0"
+tauri-plugin-fs = "2.0.1"
+tauri-plugin-dialog = "2.0.1"
+tauri-plugin-log = { version = "2.0.1", features = ["colored"] }
+tauri-plugin-os = "2.0.1"
+tauri-plugin-process = "2.0.1"
+tauri-plugin-shell = "2.0.1"
+tauri-plugin-store = "2.0.1"
+tauri-plugin-clipboard-manager = "2.0.1"
 tauri-plugin-oauth = { git = "https://github.com/FabianLars/tauri-plugin-oauth", branch = "v2" }
-tauri-plugin-notification = "2.0.0"
+tauri-plugin-notification = "2.0.1"
 reqwest = { version = "0.12.8", features = ["json"] }
-sysinfo = "0.31.2"
+sysinfo = "0.31.4"
 thiserror = "1.0.64"
 anyhow = "1.0.89"
 font-kit = "0.14.2"
@@ -47,5 +47,5 @@ chrono = { version = "0.4.38",features = ["serde"] }
 regex = "1.11.0"
 
 [target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
-tauri-plugin-updater = "2.0.0"
-tauri-plugin-window-state = "2.0.0"
+tauri-plugin-updater = "2.0.2"
+tauri-plugin-window-state = "2.0.1"
