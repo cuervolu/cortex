@@ -24,6 +24,9 @@ public class RoadmapDetails {
   @JsonProperty("tag_names")
   private List<String> tagNames;
   private List<CourseResponse> courses;
+  
+  @JsonProperty("is_published")
+  private boolean isPublished;
 
   @JsonProperty("created_at")
   private LocalDateTime createdAt;

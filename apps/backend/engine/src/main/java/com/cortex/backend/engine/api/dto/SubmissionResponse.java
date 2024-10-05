@@ -24,18 +24,6 @@ public class SubmissionResponse {
   @JsonProperty("expected_output")
   private String expectedOutput;
 
-  @JsonProperty("cpu_time_limit")
-  private Float cpuTimeLimit;
-
-  @JsonProperty("cpu_extra_time")
-  private Float cpuExtraTime;
-
-  @JsonProperty("command_line_arguments")
-  private String commandLineArguments;
-
-  @JsonProperty("compiler_options")
-  private String compilerOptions;
-
   @JsonProperty("solution_id")
   private Long solutionId;
 }

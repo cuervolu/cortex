@@ -22,6 +22,7 @@ public interface RoadmapMapper {
   @Mapping(target = "imageUrl", source = "image", qualifiedByName = "mediaToUrl")
   @Mapping(target = "tagNames", source = "tags", qualifiedByName = "tagsToNamesList")
   @Mapping(target = "courseSlugs", source = "courses", qualifiedByName = "coursesToSlugs")
+  @Mapping(target = "isPublished", source = "published")
   RoadmapResponse toRoadmapResponse(Roadmap roadmap);
 
   @Mapping(target = "id", ignore = true)
@@ -30,13 +31,15 @@ public interface RoadmapMapper {
   @Mapping(target = "courses", ignore = true)
   @Mapping(target = "createdAt", ignore = true)
   @Mapping(target = "updatedAt", ignore = true)
+  @Mapping(target = "isPublished", source = "published")
+  @Mapping(target = "slug", ignore = true)
   Roadmap toRoadmap(RoadmapRequest roadmapRequest);
 
   @Mapping(target = "imageUrl", source = "image", qualifiedByName = "mediaToUrl")
   @Mapping(target = "courses", source = "courses", qualifiedByName = "coursesToCourseResponses")
   @Mapping(target = "tagNames", source = "tags", qualifiedByName = "tagsToNamesList")
+  @Mapping(target = "isPublished", source = "published")
   RoadmapDetails toRoadmapDetails(Roadmap roadmap);
-
   @Named("mediaToUrl")
   default String mediaToUrl(Media media) {
     return media != null ? media.getUrl() : null;

@@ -21,6 +21,8 @@ public class RoadmapResponse {
   private String slug;
   @JsonProperty("tag_names")
   private List<String> tagNames;
+  @JsonProperty("is_published")
+  private boolean isPublished;
   @JsonProperty("course_slugs")
   private Set<String> courseSlugs;
   @JsonProperty("created_at")
