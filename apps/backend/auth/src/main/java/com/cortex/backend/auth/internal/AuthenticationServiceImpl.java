@@ -23,7 +23,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,6 +33,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthenticationServiceImpl implements AuthenticationService {
 
   private final RoleRepository roleRepository;
@@ -40,6 +43,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
   private final AuthenticationManager authenticationManager;
   private final JwtServiceImpl jwtService;
   private final EmailService emailService;
+  private final Environment env;
 
   @Value("${application.mailing.frontend.activation-url}")
   private String activationUrl;
@@ -73,7 +77,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         .build();
 
     userRepository.save(user);
-    sendValidationEmail(user);
+    if (!isDevProfile()) {
+      sendValidationEmail(user);
+    } else {
+      // In dev mode, automatically activate the account
+      log.info("Dev profile detected, activating account automatically");
+      user.setEnabled(true);
+      userRepository.save(user);
+    }
   }
 
   private String generateAndSaveActivationToken(User user) {
@@ -107,7 +118,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
     var claims = new HashMap<String, Object>();
     var user = ((User) auth.getPrincipal());
-    user.updateLoginStats(); 
+    user.updateLoginStats();
     userRepository.save(user);
     claims.put("fullname", user.getFullName());
     var jwtToken = jwtService.generateToken(claims, user);
@@ -149,5 +160,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         templateVariables,
         "Activate your Cortex account and start your coding adventure today! Click the button or use your token to get started."
     );
+  }
+
+  private boolean isDevProfile() {
+    return env.getActiveProfiles().length > 0 && env.getActiveProfiles()[0].equals("dev");
   }
 }
