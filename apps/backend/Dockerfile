@@ -5,7 +5,7 @@ WORKDIR /root
 
 COPY pom.xml ./
 COPY ./.mvn /root/.mvn
-COPY ./mvnw ./
+COPY mvnw /root/mvnw
 
 # Copy the project files
 COPY app/pom.xml ./app/pom.xml
@@ -19,8 +19,12 @@ COPY media/pom.xml ./media/pom.xml
 COPY payments/pom.xml ./payments/pom.xml
 COPY user/pom.xml ./user/pom.xml
 
+RUN apt-get update && apt-get install -y dos2unix
+RUN dos2unix /root/mvnw
+
 # Download the dependencies
-RUN ./mvnw dependency:go-offline
+RUN chmod +x /root/mvnw
+RUN bash ./mvnw dependency:go-offline
 
 # Copy the project files
 COPY app ./app
