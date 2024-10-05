@@ -22,4 +22,7 @@ public class ModuleRequest {
 
   @NotBlank(message = "Description is required")
   private String description;
+  
+  @JsonProperty("is_published")
+  private boolean isPublished;
 }

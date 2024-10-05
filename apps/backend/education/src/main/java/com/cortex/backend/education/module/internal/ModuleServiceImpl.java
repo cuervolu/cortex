@@ -86,6 +86,7 @@ public class ModuleServiceImpl implements ModuleService {
     module.setName(request.getName());
     module.setDescription(request.getDescription());
     module.setSlug(generateUniqueSlug(request.getName()));
+    module.setIsPublished(request.isPublished());
     setCourse(module, request.getCourseId());
 
     ModuleEntity savedModule = moduleRepository.save(module);

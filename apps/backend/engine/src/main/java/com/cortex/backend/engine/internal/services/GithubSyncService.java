@@ -261,7 +261,9 @@ public class GithubSyncService {
 
   private boolean updateExercise(File exerciseDir, String language) {
     String exerciseName = exerciseDir.getName();
-    String githubPath = "exercises" + File.separatorChar + language + File.separatorChar + "practice" + File.separatorChar + exerciseName;
+    String githubPath =
+        "exercises" + File.separatorChar + language + File.separatorChar + "practice"
+            + File.separatorChar + exerciseName;
     String instructions = readFileContent(exerciseDir, ".docs/instructions.md");
     String hints = readFileContent(exerciseDir, ".docs/hints.md");
     String configYaml = readFileContent(exerciseDir, ".docs/config.yml");
@@ -274,23 +276,25 @@ public class GithubSyncService {
       return false;
     }
 
-    String slug = slugUtils.generateExerciseSlug(exerciseName, language, s -> exerciseRepository.findBySlug(s).isPresent());
+    String slug = slugUtils.generateExerciseSlug(exerciseName, language,
+        s -> exerciseRepository.findBySlug(s).isPresent());
 
     ExerciseConfig config;
     try {
       ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
       config = mapper.readValue(configYaml, ExerciseConfig.class);
-      log.info("Parsed config: points={}, creator={}, lessonId={}",
+      log.info("Parsed config: title={}, points={}, creator={}, lessonId={}", config.getTitle(),
           config.getPoints(), config.getCreator(), config.getLessonId());
     } catch (Exception e) {
       log.error("Error parsing config.yml for exercise {}: {}", exerciseName, e.getMessage());
       config = new ExerciseConfig();
     }
 
-    exerciseService.updateOrCreateExercise(exerciseName, githubPath, instructions, hints, slug, language, config);
+    exerciseService.updateOrCreateExercise(exerciseName, githubPath, instructions, hints, slug,
+        language, config);
     return true;
   }
-  
+
   private String readFileContent(File exerciseDir, String relativePath) {
     try {
       Path filePath = exerciseDir.toPath().resolve(relativePath);

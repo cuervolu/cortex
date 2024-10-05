@@ -1,6 +1,7 @@
 package com.cortex.backend.engine.internal.services;
 
 import com.cortex.backend.auth.config.ApplicationAuditAware;
+import com.cortex.backend.core.common.PageResponse;
 import com.cortex.backend.core.common.exception.ExerciseCreationException;
 import com.cortex.backend.core.common.exception.ExerciseReadException;
 import com.cortex.backend.core.domain.Exercise;
@@ -27,6 +28,10 @@ import java.util.stream.StreamSupport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -83,10 +88,19 @@ public class ExerciseServiceImpl implements ExerciseService {
 
   @Override
   @Transactional(readOnly = true)
-  public List<ExerciseResponse> getAllExercises() {
-    return StreamSupport.stream(exerciseRepository.findAll().spliterator(), false)
-        .map(exerciseMapper::exerciseToExerciseResponse)
-        .toList();
+  public PageResponse<ExerciseResponse> getAllExercises(int page, int size) {
+    Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+
+    Page<Exercise> exercises = exerciseRepository.findAllExercisesWithPublishedLessons(pageable);
+
+    List<ExerciseResponse> response = exercises.stream()
+        .map(exerciseMapper::exerciseToExerciseResponse).toList();
+
+    return new PageResponse<>(response, exercises.getNumber(), exercises.getSize(),
+        exercises.getTotalElements(), exercises.getTotalPages(), exercises.isFirst(),
+        exercises.isLast());
+
+
   }
 
   @Override
@@ -131,7 +145,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     try {
       ApplicationAuditAware.setCurrentAuditor(user.get().getId());
       Exercise newExercise = Exercise.builder()
-          .title(exerciseName)
+          .title(config.getTitle())
           .githubPath(githubPath)
           .instructions(instructions)
           .hints(hints)
@@ -159,7 +173,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     try {
       ApplicationAuditAware.setCurrentAuditor(user.get().getId());
       log.info("Updating existing exercise: {}", exerciseName);
-      existingExercise.setTitle(exerciseName);
+      existingExercise.setTitle(config.getTitle());
       existingExercise.setInstructions(instructions);
       existingExercise.setHints(hints);
       existingExercise.setSlug(slug);
@@ -190,7 +204,8 @@ public class ExerciseServiceImpl implements ExerciseService {
       if ("python".equals(language)) {
         String baseFileName = exercise.getTitle().toLowerCase().replace("-", "_");
         initialCode = codeFileReader.readFileContent(exercisePath.resolve(baseFileName + ".py"));
-        testCode = codeFileReader.readFileContent(exercisePath.resolve("test_" + baseFileName + ".py"));
+        testCode = codeFileReader.readFileContent(
+            exercisePath.resolve("test_" + baseFileName + ".py"));
       } else if ("go".equals(language)) {
         String baseFileName = exercise.getTitle().toLowerCase().replace("-", "_");
         initialCode = codeFileReader.readFileContent(exercisePath.resolve(baseFileName + ".go"));
@@ -218,7 +233,7 @@ public class ExerciseServiceImpl implements ExerciseService {
       throw new ExerciseReadException("Failed to read exercise files", e);
     }
   }
-  
+
   @Override
   public boolean areLessonsAvailable() {
     return lessonRepository.count() > 0;
@@ -232,7 +247,7 @@ public class ExerciseServiceImpl implements ExerciseService {
   private String determineLanguage(String githubPath) {
     String[] parts = githubPath.split("/");
     if (parts.length > 1) {
-      return parts[1]; 
+      return parts[1];
     }
     return "unknown";
   }
@@ -246,7 +261,7 @@ public class ExerciseServiceImpl implements ExerciseService {
           .filter(name -> name.endsWith(getFileExtension(language)))
           .filter(name -> !name.contains("test") && !name.contains("Test"))
           .findFirst()
-          .orElse("main" + getFileExtension(language)); 
+          .orElse("main" + getFileExtension(language));
     }
   }
 

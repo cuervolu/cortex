@@ -13,6 +13,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 public class ExerciseConfig {
+
+  private String title;
   private int points;
   private String creator;
 

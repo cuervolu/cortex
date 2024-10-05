@@ -1,5 +1,6 @@
 package com.cortex.backend.engine.api;
 
+import com.cortex.backend.core.common.PageResponse;
 import com.cortex.backend.engine.api.dto.CreateExercise;
 import com.cortex.backend.engine.api.dto.ExerciseDetailsResponse;
 import com.cortex.backend.engine.api.dto.ExerciseResponse;
@@ -73,8 +74,11 @@ public class ExerciseController {
   @Operation(summary = "Get all exercises", description = "Retrieves a list of all exercises")
   @ApiResponse(responseCode = "200", description = "List of exercises retrieved successfully",
       content = @Content(schema = @Schema(implementation = ExerciseResponse.class)))
-  public ResponseEntity<List<ExerciseResponse>> getAllExercises() {
-    List<ExerciseResponse> exercises = exerciseService.getAllExercises();
+  public ResponseEntity<PageResponse<ExerciseResponse>> getAllExercises(
+      @RequestParam(name = "page", defaultValue = "0") int page,
+      @RequestParam(name = "size", defaultValue = "10") int size
+  ) {
+    PageResponse<ExerciseResponse> exercises = exerciseService.getAllExercises(page, size);
     return ResponseEntity.ok(exercises);
   }
 
