@@ -1,5 +1,6 @@
 package com.cortex.backend.education.lesson.api;
 
+import com.cortex.backend.core.common.PageResponse;
 import com.cortex.backend.education.lesson.api.dto.LessonRequest;
 import com.cortex.backend.education.lesson.api.dto.LessonResponse;
 import com.cortex.backend.education.lesson.api.dto.LessonUpdateRequest;
@@ -8,7 +9,7 @@ import java.util.Optional;
 
 public interface LessonService {
 
-  List<LessonResponse> getAllLessons();
+  PageResponse<LessonResponse> getAllLessons(int page, int size);
 
   Optional<LessonResponse> getLessonById(Long id);
 

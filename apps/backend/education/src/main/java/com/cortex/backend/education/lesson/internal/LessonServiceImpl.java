@@ -1,5 +1,6 @@
 package com.cortex.backend.education.lesson.internal;
 
+import com.cortex.backend.core.common.PageResponse;
 import com.cortex.backend.core.common.SlugUtils;
 import com.cortex.backend.core.domain.EntityType;
 import com.cortex.backend.education.lesson.api.LessonRepository;
@@ -15,10 +16,15 @@ import com.cortex.backend.education.progress.api.ProgressTrackingService;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,10 +43,19 @@ public class LessonServiceImpl implements LessonService {
 
   @Override
   @Transactional(readOnly = true)
-  public List<LessonResponse> getAllLessons() {
-    return StreamSupport.stream(lessonRepository.findAll().spliterator(), false)
+  public PageResponse<LessonResponse> getAllLessons(int page, int size) {
+    Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+
+    Page<Lesson> lessons = lessonRepository.findAllPublishedLessons(pageable);
+
+    List<LessonResponse> response = lessons.stream()
         .map(lessonMapper::toLessonResponse)
         .toList();
+
+    return new PageResponse<>(response, lessons.getNumber(), lessons.getSize(),
+        lessons.getTotalElements(), lessons.getTotalPages(), lessons.isFirst(), lessons.isLast());
+
+
   }
 
   @Override
@@ -105,8 +120,8 @@ public class LessonServiceImpl implements LessonService {
   @Override
   @Transactional
   public void completeLesson(Long lessonId, Long userId) {
-    Lesson lesson = lessonRepository.findById(lessonId)
-        .orElseThrow(() -> new EntityNotFoundException("Lesson not found"));
+    lessonRepository.findById(lessonId)
+        .orElseThrow(() -> new EntityNotFoundException(LESSON_NOT_FOUND_MESSAGE));
     eventPublisher.publishEvent(new LessonCompletedEvent(lessonId, userId));
   }
 

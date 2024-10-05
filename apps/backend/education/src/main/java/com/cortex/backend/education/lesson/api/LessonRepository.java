@@ -3,6 +3,9 @@ package com.cortex.backend.education.lesson.api;
 import com.cortex.backend.core.domain.Lesson;
 import com.cortex.backend.core.domain.ModuleEntity;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -24,5 +27,10 @@ public interface LessonRepository extends CrudRepository<Lesson, Long> {
    * @return the count of lessons in the module
    */
   long countByModuleEntity(ModuleEntity moduleEntity);
-
+  @Query("""
+      SELECT  lesson
+      FROM Lesson lesson
+      WHERE lesson.isPublished = true
+      """)
+  Page<Lesson> findAllPublishedLessons(Pageable pageable);
 }
