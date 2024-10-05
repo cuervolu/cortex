@@ -1,5 +1,6 @@
 package com.cortex.backend.education.roadmap.api;
 
+import com.cortex.backend.core.common.PageResponse;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapDetails;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapRequest;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapResponse;
@@ -41,8 +42,11 @@ public class RoadmapController {
   @Operation(summary = "Get all roadmaps", description = "Retrieves a list of all roadmaps")
   @ApiResponse(responseCode = "200", description = "Successful operation",
       content = @Content(schema = @Schema(implementation = RoadmapResponse.class)))
-  public ResponseEntity<List<RoadmapResponse>> getAllRoadmaps() {
-    return ResponseEntity.ok(roadmapService.getAllRoadmaps());
+  public ResponseEntity<PageResponse<RoadmapResponse>> getAllRoadmaps(
+      @RequestParam(name = "page", defaultValue = "0") int page,
+      @RequestParam(name = "size", defaultValue = "10") int size
+  ) {
+    return ResponseEntity.ok(roadmapService.getAllRoadmaps(page, size));
   }
 
   @GetMapping("/{slug}")

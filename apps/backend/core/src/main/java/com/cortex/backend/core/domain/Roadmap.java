@@ -36,6 +36,9 @@ public class Roadmap extends BaseEntity {
 
   @Column(nullable = false)
   private String slug;
+  
+  @Column(name = "is_published")
+  private boolean isPublished = false;
 
   @ManyToMany
   @JoinTable(

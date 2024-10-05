@@ -2,6 +2,7 @@ package com.cortex.backend.education.course.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,7 +24,7 @@ public class CourseResponse {
   private Set<String> roadmapSlugs;
   
   @JsonProperty("tag_names")
-  private Set<String> tagNames;
+  private List<String> tagNames;
   
   @JsonProperty("module_ids")
   private Set<Long> moduleIds;

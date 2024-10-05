@@ -7,6 +7,7 @@ import com.cortex.backend.core.domain.Tag;
 import com.cortex.backend.core.domain.ModuleEntity;
 import com.cortex.backend.core.domain.Roadmap;
 import com.cortex.backend.core.domain.Media;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.mapstruct.Mapper;
@@ -44,10 +45,10 @@ public interface CourseMapper {
   }
 
   @Named("tagsToNames")
-  default Set<String> tagsToNames(Set<Tag> tags) {
+  default List<String> tagsToNames(Set<Tag> tags) {
     return tags != null ? tags.stream()
         .map(Tag::getName)
-        .collect(Collectors.toSet()) : null;
+        .toList() : null;
   }
 
   @Named("modulesToIds")

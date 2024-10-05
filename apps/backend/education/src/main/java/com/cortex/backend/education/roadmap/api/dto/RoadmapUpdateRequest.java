@@ -23,6 +23,9 @@ public class RoadmapUpdateRequest {
   private String description;
   
   private Set<TagDTO> tags;
+  
+  @JsonProperty("is_published")
+  private Boolean isPublished;
 
   @JsonProperty("course_ids")
   private Set<Long> courseIds;

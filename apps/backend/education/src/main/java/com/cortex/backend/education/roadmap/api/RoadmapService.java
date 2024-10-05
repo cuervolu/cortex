@@ -1,6 +1,7 @@
 package com.cortex.backend.education.roadmap.api;
 
 
+import com.cortex.backend.core.common.PageResponse;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapDetails;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapRequest;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapResponse;
@@ -12,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface RoadmapService {
 
-  List<RoadmapResponse> getAllRoadmaps();
+  PageResponse<RoadmapResponse> getAllRoadmaps(int page, int size);
 
   Optional<RoadmapDetails> getRoadmapBySlug(String slug);
 

@@ -1,5 +1,6 @@
 package com.cortex.backend.education.roadmap.internal;
 
+import com.cortex.backend.core.common.PageResponse;
 import com.cortex.backend.core.common.SlugUtils;
 import com.cortex.backend.core.domain.Course;
 import com.cortex.backend.core.domain.EntityType;
@@ -25,6 +26,10 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -41,16 +46,24 @@ public class RoadmapServiceImpl implements RoadmapService {
   private final TagService tagService;
   private final CourseRepository courseRepository;
   private final UserProgressService userProgressService;
-  
+
   private static final String ROADMAP_IMAGE_UPLOAD_PATH = "roadmaps";
   private static final String ROADMAP_NOT_FOUND_MESSAGE = "Roadmap not found";
 
   @Override
   @Transactional(readOnly = true)
-  public List<RoadmapResponse> getAllRoadmaps() {
-    return StreamSupport.stream(roadmapRepository.findAll().spliterator(), false)
+  public PageResponse<RoadmapResponse> getAllRoadmaps(int page, int size) {
+    Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+    Page<Roadmap> roadmaps = roadmapRepository.findAllPublishedRoadmaps(pageable);
+
+    List<RoadmapResponse> response = roadmaps.stream()
         .map(roadmapMapper::toRoadmapResponse)
         .toList();
+
+    return new PageResponse<>(
+        response, roadmaps.getNumber(), roadmaps.getSize(), roadmaps.getTotalElements(),
+        roadmaps.getTotalPages(), roadmaps.isFirst(), roadmaps.isLast()
+    );
   }
 
   @Override
@@ -85,6 +98,11 @@ public class RoadmapServiceImpl implements RoadmapService {
     if (request.getDescription() != null) {
       existingRoadmap.setDescription(request.getDescription());
     }
+
+    if (request.getIsPublished() != null) {
+      existingRoadmap.setPublished(request.getIsPublished());
+    }
+
 
     setRoadmapRelations(existingRoadmap, request);
     Roadmap updatedRoadmap = roadmapRepository.save(existingRoadmap);
@@ -126,7 +144,7 @@ public class RoadmapServiceImpl implements RoadmapService {
       setRoadmapCourses(roadmap, request.getCourseIds());
     }
   }
-  
+
   private void setRoadmapCourses(Roadmap roadmap, Set<Long> courseIds) {
     if (courseIds != null) {
       Set<Course> courses = StreamSupport.stream(
@@ -139,14 +157,16 @@ public class RoadmapServiceImpl implements RoadmapService {
   private void handleImageUpload(Roadmap roadmap, MultipartFile image, String altText)
       throws IOException {
     if (image != null && !image.isEmpty()) {
-      Media uploadedMedia = mediaService.uploadMedia(image, altText, ROADMAP_IMAGE_UPLOAD_PATH, roadmap.getSlug());
+      Media uploadedMedia = mediaService.uploadMedia(image, altText, ROADMAP_IMAGE_UPLOAD_PATH,
+          roadmap.getSlug());
       roadmap.setImage(uploadedMedia);
     }
   }
 
   @Override
   @Transactional
-  public RoadmapResponse uploadRoadmapImage(Long id, MultipartFile image, String altText) throws IOException {
+  public RoadmapResponse uploadRoadmapImage(Long id, MultipartFile image, String altText)
+      throws IOException {
     Roadmap roadmap = roadmapRepository.findById(id)
         .orElseThrow(() -> new EntityNotFoundException(ROADMAP_NOT_FOUND_MESSAGE));
 
@@ -162,7 +182,8 @@ public class RoadmapServiceImpl implements RoadmapService {
 
     long totalCourses = courseRepository.countByRoadmapsContaining(roadmap);
     long completedCourses = roadmap.getCourses().stream()
-        .filter(course -> userProgressService.isEntityCompleted(userId, course.getId(), EntityType.COURSE))
+        .filter(course -> userProgressService.isEntityCompleted(userId, course.getId(),
+            EntityType.COURSE))
         .count();
 
     return totalCourses == completedCourses;

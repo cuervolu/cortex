@@ -1,6 +1,7 @@
 package com.cortex.backend.education.roadmap.internal;
 
 import com.cortex.backend.core.domain.Course;
+import com.cortex.backend.core.domain.ModuleEntity;
 import com.cortex.backend.core.domain.Tag;
 import com.cortex.backend.education.course.api.dto.CourseResponse;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapDetails;
@@ -19,7 +20,7 @@ import org.mapstruct.Named;
 public interface RoadmapMapper {
 
   @Mapping(target = "imageUrl", source = "image", qualifiedByName = "mediaToUrl")
-  @Mapping(target = "tagNames", source = "tags", qualifiedByName = "tagsToNames")
+  @Mapping(target = "tagNames", source = "tags", qualifiedByName = "tagsToNamesList")
   @Mapping(target = "courseSlugs", source = "courses", qualifiedByName = "coursesToSlugs")
   RoadmapResponse toRoadmapResponse(Roadmap roadmap);
 
@@ -33,6 +34,7 @@ public interface RoadmapMapper {
 
   @Mapping(target = "imageUrl", source = "image", qualifiedByName = "mediaToUrl")
   @Mapping(target = "courses", source = "courses", qualifiedByName = "coursesToCourseResponses")
+  @Mapping(target = "tagNames", source = "tags", qualifiedByName = "tagsToNamesList")
   RoadmapDetails toRoadmapDetails(Roadmap roadmap);
 
   @Named("mediaToUrl")
@@ -40,11 +42,11 @@ public interface RoadmapMapper {
     return media != null ? media.getUrl() : null;
   }
 
-  @Named("tagsToNames")
-  default Set<String> tagsToNames(Set<Tag> tags) {
+  @Named("tagsToNamesList")
+  default List<String> tagsToNamesList(Set<Tag> tags) {
     return tags != null ? tags.stream()
         .map(Tag::getName)
-        .collect(Collectors.toSet()) : null;
+        .toList() : null;
   }
 
   @Named("coursesToSlugs")
@@ -60,15 +62,19 @@ public interface RoadmapMapper {
         .map(course -> CourseResponse.builder()
             .id(course.getId())
             .name(course.getName())
-            .imageUrl(course.getImage() != null ? course.getImage().getUrl() : null) // Maneja el caso de null
-            .tagNames(course.getTags().stream()
-                .map(Tag::getName)
+            .imageUrl(course.getImage() != null ? course.getImage().getUrl() : null)
+            .tagNames(tagsToNamesList(course.getTags()))
+            .roadmapSlugs(course.getRoadmaps().stream()
+                .map(Roadmap::getSlug)
+                .collect(Collectors.toSet()))
+            .moduleIds(course.getModuleEntities().stream()
+                .map(ModuleEntity::getId)
                 .collect(Collectors.toSet()))
             .createdAt(course.getCreatedAt())
             .updatedAt(course.getUpdatedAt())
             .description(course.getDescription())
             .slug(course.getSlug())
             .build())
-        .collect(Collectors.toList()) : null;
+        .toList() : null;
   }
 }
