@@ -1,10 +1,10 @@
-mod error;
 pub(crate) mod ai;
 mod education;
+mod error;
 
-use std::sync::LazyLock;
 use log::error;
 use reqwest::Client;
+use std::sync::LazyLock;
 use tauri_plugin_log::fern::colors::ColoredLevelConfig;
 use tauri_plugin_log::RotationStrategy;
 
@@ -27,7 +27,7 @@ fn setup_logger(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> 
         .level_for("tauri", log::LevelFilter::Warn)
         .level_for("wry", log::LevelFilter::Warn)
         .level_for("tracing", log::LevelFilter::Warn)
-        .level_for("cortex_lib", log::LevelFilter::Info)
+        .level_for("cortex_lib", log::LevelFilter::Debug)
         .split(app.handle())?;
 
     // on debug builds, set up the DevTools plugin and pipe the logger from tauri-plugin-log
@@ -53,7 +53,6 @@ async fn init_ollama_models(app_handle: tauri::AppHandle) {
         error!("Failed to initialize Ollama models: {:?}", e);
     }
 }
-
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -88,14 +87,13 @@ pub fn run() {
             ai::commands::list_ollama_models,
             ai::commands::show_ollama_model,
             ai::commands::pull_ollama_model,
-            ai::commands::forced_update,  
+            ai::commands::forced_update,
             ai::commands::delete_ollama_model,
             education::roadmaps::commands::fetch_all_roadmaps,
             education::roadmaps::commands::get_roadmap,
-             education::exercises::commands::get_exercises,
-             education::exercises::commands::get_exercise_details,
-        ]
-        )
+            education::exercises::commands::get_exercises,
+            education::exercises::commands::get_exercise_details,
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

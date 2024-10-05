@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 
-pub mod ollama_models;
 pub mod ollama;
+pub mod ollama_models;
 
 pub mod commands;
 

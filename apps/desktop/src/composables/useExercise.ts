@@ -1,20 +1,22 @@
 import { invoke } from '@tauri-apps/api/core';
-import type { ExerciseDetail } from '~/types';
+import type { ExerciseDetails } from '@cortex/shared/types';
+import { ref, computed } from 'vue';
+import { useRoute } from 'vue-router';
 
 export function useExercise() {
   const route = useRoute();
-  const exercise = ref<ExerciseDetail | null>(null);
+  const exercise = ref<ExerciseDetails | null>(null);
   const currentLesson = ref('');
   const currentExercise = computed(() => exercise.value?.title || '');
-  const currentFileName = ref('exercise.py');
-  const currentLanguage = ref('python');
+  const currentFileName = ref('');
+  const currentLanguage = ref('');
   const initialCode = ref('');
   const editorCode = ref('');
 
   const fetchExerciseDetails = async () => {
     const id = Number(route.params.id);
     try {
-      const response = await invoke<ExerciseDetail>('get_exercise_details', { id });
+      const response = await invoke<ExerciseDetails>('get_exercise_details', { id });
       exercise.value = response;
       initialCode.value = response.initial_code;
       editorCode.value = response.initial_code;

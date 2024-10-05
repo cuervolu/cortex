@@ -8,11 +8,14 @@ interface UserPayloadInterface {
 }
 
 interface RegisterPayloadInterface {
-  email: string,
-  firstname: string,
-  lastname: string,
-  username: string,
-  password: string
+  username: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+  dateOfBirth: Date;
+  countryCode: string;
+  gender: "MALE" | "FEMALE" | "OTHER" | "NON_BINARY" | "PREFER_NOT_TO_SAY";
 }
 
 export const useAuthStore = defineStore('auth', () => {
@@ -69,7 +72,7 @@ export const useAuthStore = defineStore('auth', () => {
       loading.value = true
       await $fetch(API_ROUTES.ACTIVATE_ACCOUNT, {
         method: 'GET',
-        params: { token }
+        params: {token}
       })
     } catch (error) {
       console.error('Account activation error:', error)
@@ -78,8 +81,7 @@ export const useAuthStore = defineStore('auth', () => {
       loading.value = false
     }
   }
-  
-  
+
 
   const login = async ({username, password}: UserPayloadInterface) => {
     try {

@@ -49,9 +49,5 @@ onMounted(() => {
       </NuxtLink>
     </div>
     <div v-else>No exercise details available.</div>
-    <div class="mt-4">
-      <h2 class="text-lg font-semibold">Debug Info:</h2>
-      <pre class="bg-gray-100 p-2 rounded mt-2">{{ JSON.stringify(exercise, null, 2) }}</pre>
-    </div>
   </div>
 </template>

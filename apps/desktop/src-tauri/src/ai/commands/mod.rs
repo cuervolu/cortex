@@ -1,10 +1,10 @@
-use std::collections::HashMap;
-use std::sync::Mutex;
 use futures::StreamExt;
 use log::{error, info, warn};
 use ollama_rs::generation::chat::request::ChatMessageRequest;
 use ollama_rs::generation::chat::ChatMessage;
 use regex::Regex;
+use std::collections::HashMap;
+use std::sync::Mutex;
 use tauri::{AppHandle, Emitter, Manager, Window, Wry};
 use tauri_plugin_shell::process::CommandEvent;
 use tauri_plugin_shell::ShellExt;
@@ -18,9 +18,9 @@ use crate::ai::ollama::check_ollama_macos;
 #[cfg(target_os = "windows")]
 use crate::ai::ollama::check_ollama_windows;
 
+use crate::ai::ollama::CHAT_CONTEXTS;
 use crate::ai::ollama_models::{force_update_ollama_models, update_ollama_models, OllamaModel};
 use crate::ai::{OllamaModelDetails, OllamaModelInfo};
-use crate::ai::ollama::CHAT_CONTEXTS;
 use crate::error::AppError;
 
 #[tauri::command]
@@ -149,9 +149,12 @@ pub async fn list_local_models() -> anyhow::Result<Vec<String>, AppError> {
 }
 
 #[tauri::command]
-pub async fn list_ollama_models(app_handle: AppHandle) -> anyhow::Result<Vec<OllamaModelInfo>, AppError> {
+pub async fn list_ollama_models(
+    app_handle: AppHandle,
+) -> anyhow::Result<Vec<OllamaModelInfo>, AppError> {
     let shell = app_handle.shell();
-    let output = shell.command("ollama")
+    let output = shell
+        .command("ollama")
         .args(["list"])
         .output()
         .await
@@ -181,9 +184,13 @@ pub async fn list_ollama_models(app_handle: AppHandle) -> anyhow::Result<Vec<Oll
 }
 
 #[tauri::command]
-pub async fn show_ollama_model(app_handle: AppHandle, model_name: String) -> Result<OllamaModelDetails, AppError> {
+pub async fn show_ollama_model(
+    app_handle: AppHandle,
+    model_name: String,
+) -> Result<OllamaModelDetails, AppError> {
     let shell = app_handle.shell();
-    let output = shell.command("ollama")
+    let output = shell
+        .command("ollama")
         .args(["show", &model_name])
         .output()
         .await
@@ -231,7 +238,8 @@ pub async fn show_ollama_model(app_handle: AppHandle, model_name: String) -> Res
 pub async fn pull_ollama_model(app_handle: AppHandle, model_name: String) -> Result<(), AppError> {
     info!("Starting to pull Ollama model: {}", model_name);
     let shell = app_handle.shell();
-    let (mut rx, _child) = shell.command("ollama")
+    let (mut rx, _child) = shell
+        .command("ollama")
         .args(["pull", &model_name])
         .spawn()
         .map_err(|e| {
@@ -248,7 +256,8 @@ pub async fn pull_ollama_model(app_handle: AppHandle, model_name: String) -> Res
         match event {
             CommandEvent::Stdout(line) => {
                 let cleaned_line = clean_ansi_codes(&line);
-                window.emit("ollama-pull-progress", &cleaned_line)
+                window
+                    .emit("ollama-pull-progress", &cleaned_line)
                     .map_err(|e| {
                         error!("Failed to emit ollama-pull-progress event: {}", e);
                         AppError::TauriError(e)
@@ -259,14 +268,16 @@ pub async fn pull_ollama_model(app_handle: AppHandle, model_name: String) -> Res
                 // Check if the line indicates an actual error
                 if cleaned_line.to_lowercase().contains("error") {
                     error!("Ollama pull error: {}", cleaned_line);
-                    window.emit("ollama-pull-error", &cleaned_line)
+                    window
+                        .emit("ollama-pull-error", &cleaned_line)
                         .map_err(|e| {
                             error!("Failed to emit ollama-pull-error event: {}", e);
                             AppError::TauriError(e)
                         })?;
                 } else {
                     // Treat as progress information
-                    window.emit("ollama-pull-progress", &cleaned_line)
+                    window
+                        .emit("ollama-pull-progress", &cleaned_line)
                         .map_err(|e| {
                             error!("Failed to emit ollama-pull-progress event: {}", e);
                             AppError::TauriError(e)
@@ -296,11 +307,14 @@ pub async fn forced_update(app_handle: AppHandle) -> Result<(), AppError> {
     force_update_ollama_models(&app_handle).await
 }
 
-
 #[tauri::command]
-pub async fn delete_ollama_model(app_handle: AppHandle, model_name: String) -> Result<(), AppError> {
+pub async fn delete_ollama_model(
+    app_handle: AppHandle,
+    model_name: String,
+) -> Result<(), AppError> {
     let shell = app_handle.shell();
-    let output = shell.command("ollama")
+    let output = shell
+        .command("ollama")
         .args(["rm", &model_name])
         .output()
         .await
@@ -308,7 +322,10 @@ pub async fn delete_ollama_model(app_handle: AppHandle, model_name: String) -> R
 
     if !output.status.success() {
         let error_message = String::from_utf8_lossy(&output.stderr);
-        return Err(AppError::AIServiceError(format!("Failed to delete model: {}", error_message)));
+        return Err(AppError::AIServiceError(format!(
+            "Failed to delete model: {}",
+            error_message
+        )));
     }
 
     Ok(())
