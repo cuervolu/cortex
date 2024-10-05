@@ -45,98 +45,511 @@
     {
       "title": "Python Adventure Path",
       "description": "Embark on a fun journey to learn Python, the friendly snake of coding!",
-      "courseIds": [1, 2]
+      "tags": [
+        {
+          "name": "Python"
+        },
+        {
+          "name": "Beginner"
+        },
+        {
+          "name": "Programming Basics"
+        }
+      ],
+      "course_ids": [
+        1,
+        2
+      ]
     },
     {
       "title": "Java Island Expedition",
       "description": "Explore the magical island of Java and discover its programming treasures!",
-      "courseIds": [2, 3]
+      "tags": [
+        {
+          "name": "Java"
+        },
+        {
+          "name": "Object-Oriented Programming"
+        },
+        {
+          "name": "Intermediate"
+        }
+      ],
+      "course_ids": [
+        2,
+        3
+      ]
     },
     {
       "title": "Go Kart Racing",
       "description": "Zoom through the exciting world of Go programming with our Go Kart adventure!",
-      "courseIds": [3, 4]
+      "tags": [
+        {
+          "name": "Go"
+        },
+        {
+          "name": "Concurrency"
+        },
+        {
+          "name": "Performance"
+        }
+      ],
+      "course_ids": [
+        3,
+        4
+      ]
     },
     {
       "title": "TypeScript Castle Quest",
       "description": "Conquer the TypeScript castle and become a master of typed JavaScript!",
-      "courseIds": [4, 5]
+      "tags": [
+        {
+          "name": "TypeScript"
+        },
+        {
+          "name": "JavaScript"
+        },
+        {
+          "name": "Web Development"
+        }
+      ],
+      "course_ids": [
+        4,
+        5
+      ]
     },
     {
       "title": "Rust Robot Workshop",
       "description": "Build amazing robots with Rust in this fun and educational workshop!",
-      "courseIds": [5, 1]
+      "tags": [
+        {
+          "name": "Rust"
+        },
+        {
+          "name": "Systems Programming"
+        },
+        {
+          "name": "Memory Safety"
+        }
+      ],
+      "course_ids": [
+        5,
+        1
+      ]
+    },
+    {
+      "title": "La Senda del Mago del DOM: Dominio de JavaScript",
+      "description": "Embárcate en un viaje épico a través de La Senda del Mago del DOM. Descubrirás los secretos arcanos de JavaScript, desde la manipulación mística del DOM hasta la creación de poderosos hechizos asíncronos. Dominarás el arte de tejer aplicaciones web interactivas, conjurar APIs RESTful y forjar artefactos mágicos con frameworks modernos. Al final de tu travesía, te alzarás como un verdadero Archimago del desarrollo web front-end y full-stack.",
+      "tags": [
+        {
+          "name": "JavaScript"
+        },
+        {
+          "name": "Desarrollo Web"
+        },
+        {
+          "name": "Front-end"
+        },
+        {
+          "name": "Full-stack"
+        }
+      ],
+      "course_ids": [
+        6,
+        7
+      ]
+    },
+    {
+      "title": "El Viaje del Explorador de Datos: Aventuras en Python y Machine Learning",
+      "description": "Únete a una expedición fascinante a través del mundo de la ciencia de datos y el aprendizaje automático. Descubre los secretos ocultos en los datos, domina las artes de la visualización y desata el poder de los algoritmos de IA. Al final de tu viaje, te convertirás en un verdadero Explorador de Datos, capaz de revelar conocimientos asombrosos y predecir el futuro con tus habilidades de Machine Learning.",
+      "tags": [
+        {
+          "name": "Python"
+        },
+        {
+          "name": "Data Science"
+        },
+        {
+          "name": "Machine Learning"
+        },
+        {
+          "name": "Visualización de Datos"
+        }
+      ],
+      "course_ids": [
+        8,
+        9
+      ]
+    },
+    {
+      "title": "La Forja del Desarrollador Blockchain",
+      "description": "Adéntrate en el ardiente mundo de la tecnología blockchain y las criptomonedas. Aprende a forjar contratos inteligentes, crear aplicaciones descentralizadas (DApps) y dominar los protocolos de consenso. Al completar tu entrenamiento en La Forja, emergerás como un Maestro Herrero Blockchain, capaz de construir el futuro descentralizado.",
+      "tags": [
+        {
+          "name": "Blockchain"
+        },
+        {
+          "name": "Smart Contracts"
+        },
+        {
+          "name": "Ethereum"
+        },
+        {
+          "name": "DApps"
+        }
+      ],
+      "course_ids": [
+        10,
+        11
+      ]
+    },
+    {
+      "title": "La Odisea del Arquitecto en la Nube",
+      "description": "Embárcate en un viaje épico a través de los vastos reinos de la computación en la nube. Aprenderás a diseñar y construir majestuosas estructuras en el cielo digital, dominar los vientos de la escalabilidad y conjurar los rayos del procesamiento distribuido. Al final de tu odisea, te convertirás en un verdadero Arquitecto de las Nubes, capaz de crear y gestionar infraestructuras que se extienden más allá del horizonte.",
+      "tags": [
+        {
+          "name": "Cloud Computing"
+        },
+        {
+          "name": "AWS"
+        },
+        {
+          "name": "Azure"
+        },
+        {
+          "name": "DevOps"
+        }
+      ],
+      "course_ids": [
+        12,
+        13
+      ]
+    },
+    {
+      "title": "El Camino del Guardián de la Ciberseguridad",
+      "description": "Conviértete en un valiente defensor del reino digital en El Camino del Guardián de la Ciberseguridad. Aprenderás las artes del hacking ético, dominarás las técnicas de encriptación y forjarás poderosos escudos contra las fuerzas del mal en el ciberespacio. Al completar tu entrenamiento, te alzarás como un Guardián de élite, protegiendo los reinos digitales de las amenazas que acechan en las sombras.",
+      "tags": [
+        {
+          "name": "Ciberseguridad"
+        },
+        {
+          "name": "Hacking Ético"
+        },
+        {
+          "name": "Criptografía"
+        },
+        {
+          "name": "Seguridad de Redes"
+        }
+      ],
+      "course_ids": [
+        14,
+        15
+      ]
     }
   ],
   "courses": [
     {
       "name": "Python's Playful Basics",
-      "description": "Learn the basics of Python through fun games and activities!"
+      "description": "Learn the basics of Python through fun games and activities!",
+      "tags": [
+        {"name": "Python"},
+        {"name": "Beginner"},
+        {"name": "Programming Basics"}
+      ]
     },
     {
       "name": "Java Jungle Adventure",
-      "description": "Swing through the Java jungle and learn programming along the way!"
+      "description": "Swing through the Java jungle and learn programming along the way!",
+      "tags": [
+        {"name": "Java"},
+        {"name": "Object-Oriented Programming"},
+        {"name": "Intermediate"}
+      ]
     },
     {
       "name": "Go's Treasure Hunt",
-      "description": "Join the exciting treasure hunt and discover the gems of Go programming!"
+      "description": "Join the exciting treasure hunt and discover the gems of Go programming!",
+      "tags": [
+        {"name": "Go"},
+        {"name": "Concurrency"},
+        {"name": "Performance"}
+      ]
     },
     {
       "name": "TypeScript's Magical Spells",
-      "description": "Cast magical spells with TypeScript and enchant your web applications!"
+      "description": "Cast magical spells with TypeScript and enchant your web applications!",
+      "tags": [
+        {"name": "TypeScript"},
+        {"name": "JavaScript"},
+        {"name": "Web Development"}
+      ]
     },
     {
       "name": "Rust's Robot Factory",
-      "description": "Create your own robots using Rust in this exciting factory simulation!"
+      "description": "Create your own robots using Rust in this exciting factory simulation!",
+      "tags": [
+        {"name": "Rust"},
+        {"name": "Systems Programming"},
+        {"name": "Memory Safety"}
+      ]
+    },
+    {
+      "name": "JavaScript: El Grimorio del DOM",
+      "description": "Domina los hechizos fundamentales para manipular el DOM y crear páginas web interactivas.",
+      "tags": [
+        {"name": "JavaScript"},
+        {"name": "DOM"},
+        {"name": "Web Development"},
+        {"name": "Front-end"}
+      ]
+    },
+    {
+      "name": "Alquimia Asíncrona con JavaScript",
+      "description": "Aprende a crear pociones asíncronas y a dominar el flujo del tiempo en tus aplicaciones web.",
+      "tags": [
+        {"name": "JavaScript"},
+        {"name": "Asynchronous Programming"},
+        {"name": "Web Development"},
+        {"name": "Full-stack"}
+      ]
+    },
+    {
+      "name": "Expedición a las Cavernas de Datos",
+      "description": "Explora las profundidades de Python para la ciencia de datos y descubre tesoros ocultos en la información.",
+      "tags": [
+        {"name": "Python"},
+        {"name": "Data Science"},
+        {"name": "Data Analysis"},
+        {"name": "Visualization"}
+      ]
+    },
+    {
+      "name": "La Academia de Magos del Machine Learning",
+      "description": "Aprende los encantamientos del aprendizaje automático y predice el futuro con algoritmos mágicos.",
+      "tags": [
+        {"name": "Python"},
+        {"name": "Machine Learning"},
+        {"name": "AI"},
+        {"name": "Data Science"}
+      ]
+    },
+    {
+      "name": "Fundición de Bloques: Introducción a Blockchain",
+      "description": "Descubre los secretos de la tecnología blockchain y aprende a forjar tus primeros bloques.",
+      "tags": [
+        {"name": "Blockchain"},
+        {"name": "Cryptocurrency"},
+        {"name": "Decentralized Systems"},
+        {"name": "Cryptography"}
+      ]
+    },
+    {
+      "name": "La Fragua de los Contratos Inteligentes",
+      "description": "Domina el arte de crear contratos inteligentes y aplicaciones descentralizadas en Ethereum.",
+      "tags": [
+        {"name": "Blockchain"},
+        {"name": "Smart Contracts"},
+        {"name": "Ethereum"},
+        {"name": "DApps"}
+      ]
+    },
+    {
+      "name": "Navegando los Cielos Digitales: Fundamentos de la Nube",
+      "description": "Embarca en tu primer vuelo a través de los conceptos básicos de la computación en la nube.",
+      "tags": [
+        {"name": "Cloud Computing"},
+        {"name": "AWS"},
+        {"name": "Azure"},
+        {"name": "Fundamentals"}
+      ]
+    },
+    {
+      "name": "Construcción de Castillos en el Cielo: Arquitectura Cloud Avanzada",
+      "description": "Aprende a diseñar y construir infraestructuras escalables y resilientes en la nube.",
+      "tags": [
+        {"name": "Cloud Architecture"},
+        {"name": "DevOps"},
+        {"name": "Scalability"},
+        {"name": "Advanced"}
+      ]
+    },
+    {
+      "name": "La Academia de Guardianes Digitales",
+      "description": "Iníciate en las artes de la ciberseguridad y aprende a proteger los reinos digitales.",
+      "tags": [
+        {"name": "Cybersecurity"},
+        {"name": "Network Security"},
+        {"name": "Information Security"},
+        {"name": "Beginner"}
+      ]
+    },
+    {
+      "name": "El Arsenal del Hacker Ético",
+      "description": "Domina las herramientas y técnicas utilizadas por los hackers éticos para defender contra las amenazas cibernéticas.",
+      "tags": [
+        {"name": "Ethical Hacking"},
+        {"name": "Penetration Testing"},
+        {"name": "Cybersecurity"},
+        {"name": "Advanced"}
+      ]
     }
   ],
   "modules": [
     {
+      "courseId": 1,
       "name": "Python's Friendly Animals",
       "description": "Meet Python's animal friends and learn basic programming concepts!"
     },
     {
+      "courseId": 2,
       "name": "Java's Treehouse Builder",
       "description": "Build amazing treehouses while learning Java fundamentals!"
     },
     {
+      "courseId": 3,
       "name": "Go's Racing Tracks",
       "description": "Design and code racing tracks to learn Go programming!"
     },
     {
+      "courseId": 4,
       "name": "TypeScript's Wizard School",
       "description": "Attend a magical wizard school and learn TypeScript spells!"
     },
     {
+      "courseId": 5,
       "name": "Rust's Robot Parts",
       "description": "Assemble robot parts and learn Rust programming along the way!"
+    },
+    {
+      "courseId": 6,
+      "name": "El Libro de los Elementos",
+      "description": "Aprende a invocar y manipular los elementos básicos del DOM con JavaScript."
+    },
+    {
+      "courseId": 7,
+      "name": "La Danza de las Promesas",
+      "description": "Domina el arte de las promesas y los hechizos async/await en JavaScript."
+    },
+    {
+      "courseId": 8,
+      "name": "El Bestiario de los Datos",
+      "description": "Conoce y doma las diversas criaturas de datos que habitan en el mundo de Python."
+    },
+    {
+      "courseId": 9,
+      "name": "Los Pergaminos de la Predicción",
+      "description": "Descifra los antiguos pergaminos del aprendizaje supervisado y no supervisado."
+    },
+    {
+      "courseId": 10,
+      "name": "La Cadena de los Bloques Eternos",
+      "description": "Comprende la estructura y el funcionamiento de la cadena de bloques."
+    },
+    {
+      "courseId": 11,
+      "name": "La Forja de Ethereum",
+      "description": "Aprende a crear y desplegar contratos inteligentes en la red Ethereum."
+    },
+    {
+      "courseId": 12,
+      "name": "El Atlas de las Nubes",
+      "description": "Explora los diferentes servicios y regiones de los principales proveedores de nube."
+    },
+    {
+      "courseId": 13,
+      "name": "La Torre de la Orquestación",
+      "description": "Domina las herramientas de orquestación y automatización para arquitecturas cloud avanzadas."
+    },
+    {
+      "courseId": 14,
+      "name": "El Escudo del Guardián",
+      "description": "Aprende las bases de la protección de sistemas y redes contra amenazas cibernéticas."
+    },
+    {
+      "courseId": 15,
+      "name": "El Laboratorio del Hacker",
+      "description": "Configura y utiliza un entorno de pruebas éticas para identificar vulnerabilidades."
     }
   ],
   "lessons": [
     {
+      "moduleId": 1,
       "name": "Making Friends with Python",
       "content": "# Welcome to Python's Friendly Zoo!\n\nHello, young programmer! Today we're going to make friends with Python, the friendliest snake in the coding world!\n\n## What is Python?\n\nPython is like a magical language that helps us talk to computers. It's named after a snake, but don't worry - it's super friendly!\n\n## Your First Python Friend\n\nLet's say hello to our first Python friend:\n\n```python\nprint('Hello, I'm Python!')\n```\n\nWhen you run this code, Python will say hello to you!\n\n## Fun Fact\n\nDid you know? In Python, we use `print()` to make the computer talk to us. It's like giving the computer a megaphone!\n\n## Let's Play!\n\nTry making Python say your name:\n\n```python\nname = 'Your Name Here'\nprint('Hello, ' + name + '! Welcome to the Python Zoo!')\n```\n\nReplace 'Your Name Here' with your actual name and see what happens!\n\nGreat job! You've made your first Python friend. In our next lesson, we'll meet more animal friends and learn how they can help us count and do math!",
       "credits": 10
     },
     {
+      "moduleId": 2,
       "name": "Building Java Treehouses",
-      "content": "# Welcome to Java's Treehouse Adventure!\n\nHey there, future Java architect! Today we're going to build amazing treehouses using Java blocks!\n\n## What is Java?\n\nJava is like a big box of LEGO bricks for building cool stuff on computers. It's used to create all sorts of awesome things, from games to robots!\n\n## Your First Java Treehouse\n\nLet's build a simple treehouse with Java:\n\n```java\npublic class Treehouse {\n    public static void main(String[] args) {\n        System.out.println('Welcome to my Java Treehouse!');    \n    }\n}\n```\n\nWhen you run this code, Java will welcome you to your new treehouse!\n\n## Fun Fact\n\nIn Java, we use `System.out.println()` to make the computer talk to us. It's like shouting from the top of our treehouse!\n\n## Let's Play!\n\nTry adding a room to your treehouse:\n\n```java\npublic class Treehouse {\n    public static void main(String[] args) {\n        String roomName = 'Playroom';\n        System.out.println('Welcome to my Java Treehouse!');   \n        System.out.println('I have a ' + roomName + ' in my treehouse!'); \n    }\n}\n```\n\nChange 'Playroom' to any room you'd like in your treehouse!\n\nAwesome job! You've built your first Java treehouse. In our next lesson, we'll add more rooms and learn how to decorate them with Java!",
-      "credits": 15
-    },
-    {
-      "name": "Racing with Go Karts",
-      "content": "# Welcome to Go Kart Racing!\n\nVroom vroom! Are you ready to race with Go, the speediest gopher in the programming world?\n\n## What is Go?\n\nGo (or Golang) is like a super-fast race car in the world of coding. It helps us build quick and powerful programs!\n\n## Your First Go Race Track\n\nLet's create our first race track with Go:\n\n```go\npackage main\n\nimport 'fmt'\n\nfunc main() {\n    fmt.Println('Welcome to the Go Kart Racing Track!')\n}\n```\n\nWhen you run this code, Go will welcome you to the racing track!\n\n## Fun Fact\n\nIn Go, we use `fmt.Println()` to make the computer talk to us. It's like the announcer at a race track!\n\n## Let's Play!\n\nLet's add a racer to our track:\n\n```go\npackage main\n\nimport 'fmt'\n\nfunc main() {\n    racerName := 'Speed Gopher'\n    fmt.Println('Welcome to the Go Kart Racing Track!')\n    fmt.Println(racerName + ' is ready to race!')\n}\n```\n\nChange 'Speed Gopher' to your racing nickname and see what happens!\n\nFantastic job! You've created your first Go racing track. In our next lesson, we'll add more racers and learn how to make them zoom around the track!",
+      "content": "# Welcome to Java's Treehouse Adventure!\n\nHey there, future Java architect! Today we're going to build amazing treehouses using Java blocks!\n\n## What is Java?\n\nJava is like a big box of LEGO bricks for building cool stuff on computers. It's used to create all sorts of awesome things, from games to robots!\n\n## Your First Java Treehouse\n\nLet's build a simple treehouse with Java:\n\n```java\npublic class Treehouse {\n    public static void main(String[] args) {\n        System.out.println('Welcome to my Java Treehouse!');    \n    }\n}\n```\n\nWhen you run this code, Java will welcome you to your new treehouse!\n\n## Fun Fact\n\nIn Java, we use `public static void main(String[] args)` to start our programs. It's like opening the door to your treehouse!\n\n## Let's Build!\n\nTry adding a window to your treehouse:\n\n```java\nSystem.out.println('There is a window with a view!');\n```\n\nRun your code and see the window appear in your treehouse!\n\nGreat job! You've built your first Java treehouse. In our next lesson, we'll add more rooms and decorations to make it even cooler!",
       "credits": 20
     },
     {
-      "name": "Casting TypeScript Spells",
-      "content": "# Welcome to TypeScript's School of Wizardry!\n\nGreetings, young wizard! Today we're going to learn how to cast amazing spells using TypeScript magic!\n\n## What is TypeScript?\n\nTypeScript is like a magical upgrade for JavaScript. It gives us special powers to write better spells (code) and avoid magical accidents!\n\n## Your First TypeScript Spell\n\nLet's cast our first spell with TypeScript:\n\n```typescript\nlet wizardName: string = 'Merlin';\nconsole.log(`Hello, I am ${wizardName} the TypeScript Wizard!`);\n```\n\nWhen you run this code, TypeScript will introduce you to a wizard!\n\n## Fun Fact\n\nIn TypeScript, we use `: string` to tell our spell that `wizardName` should always be words. This helps prevent magical mix-ups!\n\n## Let's Play!\n\nNow, let's create a magic wand:\n\n```typescript\ntype Wand = {\n    wood: string;\n    core: string;\n    length: number;\n};\n\nlet myWand: Wand = {\n    wood: 'Oak',\n    core: 'Phoenix feather',\n    length: 11\n};\n\nconsole.log(`My wand is made of ${myWand.wood} wood with a ${myWand.core} core, and it's ${myWand.length} inches long!`);\n```\n\nTry changing the wand properties to create your own unique magic wand!\n\nMagnificent work, young wizard! You've cast your first TypeScript spell. In our next lesson, we'll learn how to use our wands to create more complex magical effects!",
+      "moduleId": 3,
+      "name": "Go Kart Racing: The Starting Line",
+      "content": "# Welcome to Go Kart Racing!\n\nHey there, speed racer! Today we're going to start our engines and learn about Go programming!\n\n## What is Go?\n\nGo (or Golang) is like a superfast race car in the programming world. It helps us build quick and efficient programs!\n\n## Your First Go Race Track\n\nLet's create our first race track with Go:\n\n```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n    fmt.Println(\"Welcome to the Go Kart Racing Track!\")\n}\n```\n\nWhen you run this code, Go will welcome you to the racing track!\n\n## Fun Fact\n\nIn Go, we use `fmt.Println()` to print messages. It's like the announcer at the race track!\n\n## Let's Race!\n\nNow, let's add a racer to our track:\n\n```go\nracerName := \"Speed Gopher\"\nfmt.Println(racerName + \" is ready to race!\")\n```\n\nReplace \"Speed Gopher\" with your racing nickname and see what happens!\n\nAwesome job! You've created your first Go race track. In our next lesson, we'll learn how to make our racers zoom around the track!",
+      "credits": 15
+    },
+    {
+      "moduleId": 4,
+      "name": "TypeScript's Magic Wand",
+      "content": "# Welcome to TypeScript's Wizard School!\n\nGreetings, young wizard! Today we're going to craft our first magic wand using TypeScript!\n\n## What is TypeScript?\n\nTypeScript is like a magical upgrade for JavaScript. It gives us special powers to write better spells (code) and avoid magical accidents!\n\n## Your First TypeScript Spell\n\nLet's cast our first spell with TypeScript:\n\n```typescript\nlet wizardName: string = \"Merlin\";\nconsole.log(`Hello, I am ${wizardName} the TypeScript Wizard!`);\n```\n\nWhen you run this code, TypeScript will introduce you to a wizard!\n\n## Fun Fact\n\nIn TypeScript, we use `: string` to tell our spell that `wizardName` should always be words. This helps prevent magical mix-ups!\n\n## Craft Your Wand\n\nNow, let's create a magic wand:\n\n```typescript\ntype Wand = {\n    wood: string;\n    core: string;\n    length: number;\n};\n\nlet myWand: Wand = {\n    wood: \"Oak\",\n    core: \"Phoenix feather\",\n    length: 11\n};\n\nconsole.log(`My wand is made of ${myWand.wood} wood with a ${myWand.core} core, and it's ${myWand.length} inches long!`);\n```\n\nTry changing the wand properties to create your own unique magic wand!\n\nMagnificent work, young wizard! You've cast your first TypeScript spell. In our next lesson, we'll learn how to use our wands to create more complex magical effects!",
       "credits": 25
     },
     {
-      "name": "Building Rust Robots",
-      "content": "# Welcome to Rust's Robot Workshop!\n\nBeep boop! Are you ready to build some awesome robots with Rust, the most reliable mechanic in the programming world?\n\n## What is Rust?\n\nRust is like a high-tech toolbox that helps us build super strong and fast robots (programs) that never break down!\n\n## Your First Rust Robot\n\nLet's create our first robot with Rust:\n\n```rust\nfn main() {\n    println!('Hello, I am a Rust Robot!');\n}\n```\n\nWhen you run this code, your Rust Robot will say hello!\n\n## Fun Fact\n\nIn Rust, we use `println!()` to make our robot talk. The `!` means it's a macro, which is like a special command for our robot!\n\n## Let's Play!\n\nNow, let's give our robot a name and a job:\n\n```rust\nfn main() {\n    let robot_name = 'Rusty';\n    let robot_job = 'Assistant';\n    println!('Hello, I am {0} the Rust Robot!', robot_name);\n    println!('My job is to be your {0}!', robot_job);\n}\n```\n\nTry changing the robot's name and job to create your own unique Rust Robot!\n\nAmazing work, young engineer! You've built your first Rust Robot. In our next lesson, we'll add more parts to our robot and teach it to do cool tasks!",
+      "moduleId": 5,
+      "name": "Rusty the Careful Crab",
+      "content": "# Meet Rusty the Careful Crab 🦀\n\nHello, little programmer! Today we're going to meet Rusty, a very careful crab who speaks a language called Rust.\n\n## What is Rust?\n\nRust is like a toolbox that helps us build super strong and fast programs that never break down!\n\n## Rusty's First Hello\n\nLet's help Rusty say hello:\n\n```rust\nfn main() {\n    println!(\"Hello, I'm Rusty the Crab!\");\n}\n```\n\nWhen you run this code, Rusty will say hello to you!\n\n## Fun Fact\n\nIn Rust, we use `println!()` to make our programs talk. The `!` means it's a macro, which is like a special command for Rusty!\n\n## Rusty's Favorite Things\n\nLet's tell everyone about Rusty's favorite things:\n\n```rust\nfn main() {\n    let age: u8 = 5;\n    let favorite_food = \"seaweed\";\n    println!(\"Rusty is {} years old and loves {}!\", age, favorite_food);\n}\n```\n\nTry changing Rusty's age and favorite food to see what happens!\n\nGreat job! You've helped Rusty introduce himself. In our next lesson, we'll learn how Rusty keeps his claws safe and clean with Rust's special rules!",
+      "credits": 20
+    },
+    {
+      "moduleId": 6,
+      "name": "El Grimorio del DOM: Capítulo 1",
+      "content": "# Bienvenido al Grimorio del DOM\n\n¡Saludos, joven mago del web! Hoy comenzaremos a descifrar los misterios del DOM (Documento de Objetos Mágicos) con JavaScript.\n\n## ¿Qué es el DOM?\n\nEl DOM es como un gran árbol mágico que representa toda tu página web. Cada rama y hoja es un elemento que puedes cambiar con tus hechizos de JavaScript.\n\n## Tu Primer Hechizo DOM\n\nVamos a cambiar el texto de un elemento en nuestra página:\n\n```javascript\nlet titulo = document.getElementById('titulo-magico');\ntitulo.textContent = '¡He lanzado mi primer hechizo DOM!';\n```\n\nCuando ejecutes este código, ¡verás cómo cambia el texto en tu página web!\n\n## Dato Curioso\n\nEn JavaScript, usamos `document.getElementById()` para encontrar elementos en nuestra página. Es como usar un hechizo localizador en el mundo mágico.\n\n## Practica tu Magia\n\nAhora, cambiemos el color de nuestro título:\n\n```javascript\ntitulo.style.color = 'purple';\n```\n\nExperimenta con diferentes colores y ve cómo cambia tu página.\n\n¡Excelente trabajo, aprendiz de mago! Has lanzado tus primeros hechizos DOM. En nuestra próxima lección, aprenderemos a crear y eliminar elementos mágicamente.",
       "credits": 30
+    },
+    {
+      "moduleId": 7,
+      "name": "Pociones Asíncronas: La Danza de las Promesas",
+      "content": "# Bienvenido al Laboratorio de Pociones Asíncronas\n\n¡Saludos, alquimista del código! Hoy aprenderemos sobre las misteriosas Promesas en JavaScript y cómo nos ayudan a crear pociones asíncronas.\n\n## ¿Qué son las Promesas?\n\nLas Promesas son como recetas mágicas que nos dicen si nuestra poción tendrá éxito o fallará en el futuro.\n\n## Tu Primera Promesa\n\nVamos a crear una promesa que simule la preparación de una poción:\n\n```javascript\nlet prepararPocion = new Promise((resolve, reject) => {\n    setTimeout(() => {\n        let exito = Math.random() > 0.5;\n        if (exito) {\n            resolve('¡La poción está lista!');\n        } else {\n            reject('Oops, la poción explotó');\n        }\n    }, 2000);\n});\n\nprepararPocion\n    .then(mensaje => console.log(mensaje))\n    .catch(error => console.log(error));\n```\n\nEste código simula la preparación de una poción que puede tener éxito o fallar después de 2 segundos.\n\n## Dato Curioso\n\nEn JavaScript, usamos `.then()` para manejar el éxito y `.catch()` para manejar los errores en nuestras promesas. Es como tener un plan B en la alquimia.\n\n## Practica tu Alquimia\n\nIntenta crear una promesa para otra poción mágica. ¿Qué tal una poción de invisibilidad?\n\n¡Fantástico trabajo, alquimista! Has comenzado a dominar el arte de las promesas. En nuestra próxima lección, aprenderemos sobre el poderoso hechizo `async/await` para controlar múltiples pociones a la vez.",
+      "credits": 35
+    },
+    {
+      "moduleId": 8,
+      "name": "Explorando la Cueva de los Datos",
+      "content": "# Bienvenido a la Cueva de los Datos\n\n¡Hola, intrépido explorador de datos! Hoy nos adentraremos en la misteriosa Cueva de los Datos usando Python y aprenderemos a descifrar sus secretos.\n\n## ¿Qué son los Datos?\n\nLos datos son como tesoros escondidos que contienen información valiosa. Python nos ayuda a encontrarlos y entenderlos.\n\n## Tu Primera Exploración de Datos\n\nVamos a usar Python para explorar una lista de números:\n\n```python\nimport statistics\n\ndatos = [5, 10, 15, 20, 25, 30]\n\nprint(f\"Tenemos {len(datos)} números en nuestra cueva.\")\nprint(f\"El tesoro más pequeño es: {min(datos)}\")\nprint(f\"El tesoro más grande es: {max(datos)}\")\nprint(f\"El promedio de nuestros tesoros es: {statistics.mean(datos)}\")\n```\n\nEste código nos ayuda a entender mejor nuestra colección de tesoros numéricos.\n\n## Dato Curioso\n\nEn Python, la biblioteca `statistics` es como una brújula mágica que nos ayuda a navegar por nuestros datos.\n\n## Aventúrate Más Profundo\n\nAhora, vamos a visualizar nuestros datos con un gráfico simple:\n\n```python\nimport matplotlib.pyplot as plt\n\nplt.bar(range(len(datos)), datos)\nplt.title('Tesoros en la Cueva de Datos')\nplt.xlabel('Índice del Tesoro')\nplt.ylabel('Valor del Tesoro')\nplt.show()\n```\n\nEste código creará un gráfico de barras de nuestros tesoros.\n\n¡Excelente trabajo, explorador de datos! Has comenzado tu viaje en el fascinante mundo del análisis de datos. En nuestra próxima aventura, aprenderemos a limpiar y preparar datos del mundo real.",
+      "credits": 40
+    },
+    {
+      "moduleId": 9,
+      "name": "El Grimorio de la Predicción",
+      "content": "# Bienvenido a la Academia de Magos del Machine Learning\n\n¡Saludos, aprendiz de mago predictivo! Hoy abriremos el Grimorio de la Predicción y aprenderemos los fundamentos del aprendizaje supervisado.\n\n## ¿Qué es el Aprendizaje Supervisado?\n\nEl aprendizaje supervisado es como enseñar a tu familiar mágico a reconocer objetos mostrándole muchos ejemplos.\n\n## Tu Primer Hechizo de Predicción\n\nVamos a usar scikit-learn, una poderosa varita mágica de Python, para predecir si un fruto es una manzana o una naranja:\n\n```python\nfrom sklearn import tree\n\n# Características: [peso, textura]\n# Textura: 0 = suave, 1 = rugosa\nX = [[150, 0], [170, 0], [140, 1], [130, 1]]\n\n# Etiquetas: 0 = manzana, 1 = naranja\ny = [0, 0, 1, 1]\n\n# Crear y entrenar el árbol de decisión\nclf = tree.DecisionTreeClassifier()\nclf = clf.fit(X, y)\n\n# Predecir\nprediccion = clf.predict([[160, 0]])\nprint('Predicción: ' + ('Manzana' if prediccion[0] == 0 else 'Naranja'))\n```\n\nEste código entrena un árbol de decisión y lo usa para predecir si un fruto es una manzana o una naranja basándose en su peso y textura.\n\n## Dato Curioso\n\nLos árboles de decisión en machine learning son como los árboles de decisión que usarías para clasificar criaturas mágicas, ¡pero mucho más rápidos!\n\n## Practica tu Magia Predictiva\n\nIntenta cambiar los datos de entrenamiento o predecir con diferentes valores. ¿Puedes hacer que tu modelo mágico aprenda a distinguir entre más tipos de frutas?\n\n¡Excelente trabajo, aprendiz de mago predictivo! Has lanzado tu primer hechizo de machine learning. En nuestra próxima lección, aprenderemos sobre la magia del aprendizaje no supervisado y cómo puede revelar patrones ocultos en tus datos.",
+      "credits": 45
+    },
+    {
+      "moduleId": 10,
+      "name": "Forjando el Primer Eslabón",
+      "content": "# Bienvenido a la Forja de Bloques\n\n¡Saludos, aprendiz de herrero blockchain! Hoy forjaremos nuestro primer eslabón en la gran cadena de bloques.\n\n## ¿Qué es Blockchain?\n\nBlockchain es como una cadena mágica donde cada eslabón contiene información valiosa que no se puede cambiar sin que todos lo sepan.\n\n## Tu Primer Bloque\n\nVamos a crear un bloque simple usando Python:\n\n```python\nimport hashlib\nimport time\n\nclass Bloque:\n    def __init__(self, datos, bloque_anterior_hash):\n        self.timestamp = time.time()\n        self.datos = datos\n        self.bloque_anterior_hash = bloque_anterior_hash\n        self.hash = self.calcular_hash()\n\n    def calcular_hash(self):\n        sha = hashlib.sha256()\n        sha.update(str(self.timestamp).encode('utf-8') +\n                   str(self.datos).encode('utf-8') +\n                   str(self.bloque_anterior_hash).encode('utf-8'))\n        return sha.hexdigest()\n\n# Crear el bloque génesis\nbloque_genesis = Bloque(\"Soy el bloque génesis\", \"0\")\nprint(f\"Hash del bloque génesis: {bloque_genesis.hash}\")\n\n# Crear un segundo bloque\nbloque_2 = Bloque(\"Soy el segundo bloque\", bloque_genesis.hash)\nprint(f\"Hash del segundo bloque: {bloque_2.hash}\")\n```\n\nEste código crea dos bloques enlazados, formando el inicio de nuestra cadena.\n\n## Dato Curioso\n\nEl 'hash' es como una huella digital única para cada bloque. Si cambias algo en el bloque, su hash cambiará completamente.\n\n## Forja tu Propia Cadena\n\nIntenta añadir más bloques a la cadena. ¿Puedes crear una cadena de 5 bloques?\n\n¡Excelente trabajo, joven herrero blockchain! Has forjado tus primeros eslabones en la cadena de bloques. En nuestra próxima lección, aprenderemos cómo verificar la integridad de nuestra cadena y por qué esto es importante en el mundo de las criptomonedas.",
+      "credits": 50
+    },
+    {
+      "moduleId": 11,
+      "name": "El Primer Vuelo en la Nube",
+      "content": "# Bienvenido a los Cielos Digitales\n\n¡Hola, intrépido explorador de la nube! Hoy emprenderemos nuestro primer vuelo en el vasto cielo de la computación en la nube.\n\n## ¿Qué es la Computación en la Nube?\n\nLa computación en la nube es como tener un súper computador mágico al que puedes acceder desde cualquier lugar del mundo.\n\n## Tu Primera Instancia en la Nube\n\nVamos a simular la creación de una instancia en la nube usando Python:\n\n```python\nclass InstanciaNube:\n    def __init__(self, nombre, tipo):\n        self.nombre = nombre\n        self.tipo = tipo\n        self.estado = \"apagado\"\n    \n    def encender(self):\n        print(f\"Iniciando {self.nombre}...\")\n        self.estado = \"encendido\"\n        print(f\"{self.nombre} está listo para usar!\")\n    \n    def apagar(self):\n        print(f\"Apagando {self.nombre}...\")\n        self.estado = \"apagado\"\n        print(f\"{self.nombre} se ha apagado.\")\n\n# Crear y usar una instancia\nmi_servidor = InstanciaNube(\"MiPrimerServidor\", \"t2.micro\")\nmi_servidor.encender()\nprint(f\"Estado actual: {mi_servidor.estado}\")\nmi_servidor.apagar()\n```\n\nEste código simula la creación y el control de una instancia en la nube.\n\n## Dato Curioso\n\nEn la nube real, puedes tener cientos o miles de estas instancias trabajando juntas para hacer cosas increíbles.\n\n## Explora Más Allá\n\nIntenta crear diferentes tipos de instancias. ¿Puedes hacer una función que muestre todas tus instancias y sus estados?\n\n¡Fantástico trabajo, explorador de la nube! Has dado tu primer paso en el vasto mundo de la computación en la nube. En nuestra próxima lección, aprenderemos cómo estas instancias pueden trabajar juntas para crear aplicaciones poderosas y escalables.",
+      "credits": 40
+    },
+    {
+      "moduleId": 12,
+      "name": "El Escudo del Guardián Digital",
+      "content": "# Bienvenido a la Academia de Guardianes Digitales\n\n¡Saludos, valiente defensor del ciberespacio! Hoy comenzaremos tu entrenamiento como Guardián Digital aprendiendo a forjar tu primer escudo de ciberseguridad.\n\n## ¿Qué es la Ciberseguridad?\n\nLa ciberseguridad es como ser un caballero en el mundo digital, protegiendo la información y los sistemas de los villanos cibernéticos.\n\n## Tu Primer Escudo: Una Contraseña Fuerte\n\nVamos a crear un generador de contraseñas seguras usando Python:\n\n```python\nimport random\nimport string\n\ndef generar_contrasena(longitud=12):\n    caracteres = string.ascii_letters + string.digits + string.punctuation\n    contrasena = ''.join(random.choice(caracteres) for i in range(longitud))\n    return contrasena\n\n# Generar y mostrar una contraseña segura\ncontrasena_segura = generar_contrasena()\nprint(f\"Tu contraseña segura es: {contrasena_segura}\")\n\n# Verificar la fuerza de la contraseña\ndef verificar_fuerza(contrasena):\n    puntaje = 0\n    if len(contrasena) >= 12:\n        puntaje += 1\n    if any(c.islower() for c in contrasena):\n        puntaje += 1\n    if any(c.isupper() for c in contrasena):\n        puntaje += 1\n    if any(c.isdigit() for c in contrasena):\n        puntaje += 1\n    if any(c in string.punctuation for c in contrasena):\n        puntaje += 1\n    return puntaje\n\nfuerza = verificar_fuerza(contrasena_segura)\nprint(f\"Fuerza de la contraseña: {fuerza}/5\")\n```\n\nEste código genera una contraseña segura y verifica su fuerza.\n\n## Dato Curioso\n\nUna contraseña que tomaría 1 hora en ser descifrada si tuviera 6 caracteres, podría tomar más de 1000 años si tiene 12 caracteres variados.\n\n## Fortalece tu Escudo\n\nIntenta modificar el generador para crear contraseñas aún más fuertes. ¿Puedes hacer que siempre obtenga una puntuación de 5/5?\n\n¡Excelente trabajo, joven Guardián Digital! Has forjado tu primer escudo en la batalla por la ciberseguridad. En nuestra próxima lección, aprenderemos sobre la encriptación y cómo puede proteger mensajes secretos de ojos curiosos.",
+      "credits": 45
+    },
+    {
+      "moduleId": 13,
+      "name": "El Arte de la Invisibilidad Digital",
+      "content": "# Bienvenido al Taller de Hackers Éticos\n\n¡Saludos, aspirante a hacker ético! Hoy nos sumergiremos en el arte de la invisibilidad digital y aprenderemos cómo protegernos en línea.\n\n## ¿Qué es el Hacking Ético?\n\nEl hacking ético es como ser un espía del lado bueno, encontrando y arreglando problemas de seguridad antes de que los malos los exploten.\n\n## Tu Primera Herramienta: Un Escáner de Puertos Simple\n\nVamos a crear un escáner de puertos básico usando Python:\n\n```python\nimport socket\nimport threading\n\ndef escanear_puerto(ip, puerto):\n    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n    sock.settimeout(1)\n    resultado = sock.connect_ex((ip, puerto))\n    if resultado == 0:\n        print(f\"Puerto {puerto}: Abierto\")\n    sock.close()\n\ndef escanear_rango(ip, inicio, fin):\n    for puerto in range(inicio, fin + 1):\n        thread = threading.Thread(target=escanear_puerto, args=(ip, puerto))\n        thread.start()\n\n# Usar el escáner\nip_objetivo = \"127.0.0.1\"  # Esta es la dirección IP de tu propia computadora\nprint(f\"Escaneando puertos en {ip_objetivo}\")\nescanear_rango(ip_objetivo, 1, 1024)\n```\n\nEste código crea un escáner de puertos simple que puede ayudarte a entender qué puertos están abiertos en un sistema.\n\n## Dato Curioso\n\nLos hackers maliciosos a menudo buscan puertos abiertos como punto de entrada a un sistema. Conocer tus puertos abiertos te ayuda a protegerte mejor.\n\n## Mejora tu Arsenal\n\nIntenta modificar el escáner para que muestre más información sobre los puertos abiertos. ¿Puedes hacer que identifique qué servicio podría estar corriendo en cada puerto?\n\n¡Excelente trabajo, futuro hacker ético! Has creado tu primera herramienta de reconocimiento. Recuerda, con gran poder viene gran responsabilidad. Usa tus nuevas habilidades solo con permiso y para hacer del mundo digital un lugar más seguro. En nuestra próxima lección, aprenderemos sobre técnicas de anonimato y cómo proteger tu propia identidad en línea.",
+      "credits": 55
     }
   ]
 }
