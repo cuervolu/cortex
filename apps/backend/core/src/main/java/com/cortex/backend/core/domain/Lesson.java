@@ -39,6 +39,9 @@ public class Lesson extends BaseEntity {
 
   @Column(nullable = false)
   private String slug;
+  
+  @Column(name="is_published", nullable = false)
+  private Boolean isPublished;
 
   @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL, orphanRemoval = true)
   private Set<Exercise> exercises;
