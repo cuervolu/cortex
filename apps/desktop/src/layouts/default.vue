@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import AppSidebar from '~/components/AppSidebar.vue';
+import TitleBar from '~/components/TitleBar.vue';
 
 const isCollapsed = ref(false);
 
@@ -10,14 +11,19 @@ function toggleSidebar() {
 </script>
 
 <template>
-  <div class="w-screen h-screen p-5 rounded-[55px] justify-start items-start gap-2.5 inline-flex screen-background">
-    <app-sidebar
-        :is-collapsed="isCollapsed"
-        @toggle-sidebar="toggleSidebar"
-    />
-    <main class="grow shrink basis-0 self-stretch p-[30px] bg-background rounded-[34px] flex-col justify-start items-start gap-2.5 inline-flex">
-      <slot />
-    </main>
+  <div class="w-screen h-screen flex flex-col p-5">
+    <div class="flex-1 flex flex-col overflow-hidden rounded-[55px] screen-background">
+      <TitleBar class="z-50" />
+      <div class="flex-1 flex gap-2.5 p-5 overflow-hidden">
+        <app-sidebar
+            :is-collapsed="isCollapsed"
+            @toggle-sidebar="toggleSidebar"
+        />
+        <main class="grow shrink basis-0 self-stretch p-[30px] bg-background rounded-[34px] flex-col justify-start items-start gap-2.5 inline-flex overflow-auto">
+          <slot />
+        </main>
+      </div>
+    </div>
   </div>
 </template>
 

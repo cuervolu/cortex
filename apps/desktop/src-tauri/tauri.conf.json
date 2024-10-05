@@ -9,7 +9,6 @@
     "beforeBuildCommand": "pnpm generate"
   },
   "app": {
-    "withGlobalTauri": true,
     "windows": [
       {
         "title": "Cortex",
@@ -19,7 +18,11 @@
         "fullscreen": false,
         "center": true,
         "minHeight": 600,
-        "minWidth": 800
+        "minWidth": 800,
+        "decorations": false,
+        "titleBarStyle": "Overlay",
+        "hiddenTitle": true,
+        "transparent": true
       }
     ],
     "security": {
@@ -67,5 +70,5 @@
     ],
      "homepage": "https://github.com/cuervolu/cortex"
   },
-  "$schema": "../node_modules/@tauri-apps/cli/schema.json"
+  "$schema": "../node_modules/@tauri-apps/cli/config.schema.json"
 }
