@@ -105,6 +105,10 @@ public class LessonServiceImpl implements LessonService {
       setLessonModule(existingLesson, request.getModuleId());
     }
 
+    if (request.getIsPublished() != null) {
+      existingLesson.setIsPublished(request.getIsPublished());
+    }
+
     Lesson updatedLesson = lessonRepository.save(existingLesson);
     return lessonMapper.toLessonResponse(updatedLesson);
   }

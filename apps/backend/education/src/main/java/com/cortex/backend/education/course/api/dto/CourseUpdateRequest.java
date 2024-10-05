@@ -1,6 +1,7 @@
 package com.cortex.backend.education.course.api.dto;
 
 import com.cortex.backend.education.tags.api.dto.TagDTO;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Size;
 import java.util.Set;
 import lombok.AllArgsConstructor;
@@ -22,4 +23,7 @@ public class CourseUpdateRequest {
   private String description;
 
   private Set<TagDTO> tags;
+  
+  @Column(name = "is_published")
+  private Boolean isPublished;
 }

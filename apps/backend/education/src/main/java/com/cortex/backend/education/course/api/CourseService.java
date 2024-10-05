@@ -1,5 +1,6 @@
 package com.cortex.backend.education.course.api;
 
+import com.cortex.backend.core.common.PageResponse;
 import com.cortex.backend.education.course.api.dto.CourseRequest;
 import com.cortex.backend.education.course.api.dto.CourseResponse;
 import com.cortex.backend.education.course.api.dto.CourseUpdateRequest;
@@ -10,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface CourseService {
   
-  List<CourseResponse> getAllCourses();
+  PageResponse<CourseResponse> getAllCourses(int page, int size);
   
   Optional<CourseResponse> getCourseById(Long id);
   

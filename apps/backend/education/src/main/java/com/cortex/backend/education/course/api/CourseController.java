@@ -1,5 +1,6 @@
 package com.cortex.backend.education.course.api;
 
+import com.cortex.backend.core.common.PageResponse;
 import com.cortex.backend.education.course.api.dto.CourseRequest;
 import com.cortex.backend.education.course.api.dto.CourseResponse;
 import com.cortex.backend.education.course.api.dto.CourseUpdateRequest;
@@ -40,8 +41,11 @@ public class CourseController {
   @Operation(summary = "Get all courses", description = "Retrieves a list of all courses")
   @ApiResponse(responseCode = "200", description = "Successful operation",
       content = @Content(schema = @Schema(implementation = CourseResponse.class)))
-  public ResponseEntity<List<CourseResponse>> getAllCourses() {
-    return ResponseEntity.ok(courseService.getAllCourses());
+  public ResponseEntity<PageResponse<CourseResponse>> getAllCourses(
+      @RequestParam(name = "page", defaultValue = "0") int page,
+      @RequestParam(name = "size", defaultValue = "10") int size
+  ) {
+    return ResponseEntity.ok(courseService.getAllCourses(page, size));
   }
 
   @GetMapping("/{id}")
@@ -100,7 +104,7 @@ public class CourseController {
   @ApiResponse(responseCode = "404", description = "Course not found")
   public ResponseEntity<CourseResponse> updateCourse(
       @PathVariable Long id,
-      @RequestBody @Valid CourseUpdateRequest request){
+      @RequestBody @Valid CourseUpdateRequest request) {
     CourseResponse updatedCourse = courseService.updateCourse(id, request);
     return ResponseEntity.ok(updatedCourse);
   }

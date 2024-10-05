@@ -1,5 +1,6 @@
 package com.cortex.backend.education.course.internal;
 
+import com.cortex.backend.core.common.PageResponse;
 import com.cortex.backend.core.common.SlugUtils;
 import com.cortex.backend.core.domain.BaseEntity;
 import com.cortex.backend.core.domain.EntityType;
@@ -24,6 +25,10 @@ import java.util.Set;
 import java.util.stream.StreamSupport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,10 +51,20 @@ public class CourseServiceImpl implements CourseService {
 
   @Override
   @Transactional(readOnly = true)
-  public List<CourseResponse> getAllCourses() {
-    return StreamSupport.stream(courseRepository.findAll().spliterator(), false)
+  public PageResponse<CourseResponse> getAllCourses(int page, int size) {
+
+    Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+
+    Page<Course> courses = courseRepository.findAllPublishedCourses(pageable);
+
+    List<CourseResponse> response = courses.stream()
         .map(courseMapper::toCourseResponse)
         .toList();
+
+    return new PageResponse<>(
+        response, courses.getNumber(), courses.getSize(), courses.getTotalElements(),
+        courses.getTotalPages(), courses.isFirst(), courses.isLast()
+    );
   }
 
   @Override
@@ -93,6 +108,11 @@ public class CourseServiceImpl implements CourseService {
     if (request.getTags() != null) {
       setCourseTags(existingCourse, request.getTags());
     }
+
+    if (request.getIsPublished() != null) {
+      existingCourse.setIsPublished(request.getIsPublished());
+    }
+
     Course updatedCourse = courseRepository.save(existingCourse);
     return courseMapper.toCourseResponse(updatedCourse);
   }

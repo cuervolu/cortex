@@ -110,7 +110,7 @@ public class ModuleServiceImpl implements ModuleService {
     }
 
     if (request.getIsPublished() != null) {
-      existingModule.setPublished(request.getIsPublished());
+      existingModule.setIsPublished(request.getIsPublished());
     }
 
     ModuleEntity updatedModule = moduleRepository.save(existingModule);

@@ -49,6 +49,9 @@ public class Course extends BaseEntity {
       inverseJoinColumns = @JoinColumn(name = "tag_id")
   )
   private Set<Tag> tags;
+  
+  @Column(nullable = false, name = "is_published")
+  private Boolean isPublished = false;
 
   @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
   private Set<ModuleEntity> moduleEntities;
