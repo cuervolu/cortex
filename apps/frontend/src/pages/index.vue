@@ -5,11 +5,11 @@ import CommonQuestions from "~/components/landing/CommonQuestions.vue";
 import PricingSection from "~/components/landing/PricingSection.vue";
 
 useHead({
-  title: 'Inicio | Cortex',
+  title: 'Inicio',
   meta: [
     {
       name: 'description',
-      content: 'Página de inicio de Cortex'
+      content: 'Aprenda a su propio ritmo con acceso ilimitado, disponible en cualquier momento tanto en el sitio web como en el escritorio. Revise el material siempre que lo necesite, sin restricciones de tiempo.'
     }
   ]
 })

@@ -1,4 +1,4 @@
-export const API_BASE_URL = process.env.NUXT_API_BASE_URL || 'http://localhost:8088/api/v1'
+export const API_BASE_URL = process.env.NUXT_PUBLIC_API_BASE_URL || 'http://localhost:8088/api/v1'
 
 export const API_ROUTES = {
   USER_INFO: `${API_BASE_URL}/user/me`,

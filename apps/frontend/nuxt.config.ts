@@ -1,20 +1,20 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  
+
   compatibilityDate: '2024-04-03',
   devtools: {enabled: true},
   runtimeConfig: {
     public: {
-      apiBaseUrl: process.env.NUXT_API_BASE_URL
-    }
+      apiBaseUrl: process.env.NUXT_PUBLIC_API_BASE_URL || 'http://localhost:8088/api/v1',
+    },
   },
   vite: {
     optimizeDeps: {
       exclude: ['vee-validate'],
     },
   },
-  extends:[
-      "@cortex/shared"
+  extends: [
+    "@cortex/shared"
   ],
   modules: [
     'nuxt-codemirror',
@@ -27,7 +27,8 @@ export default defineNuxtConfig({
     '@vee-validate/nuxt',
     '@nuxt/fonts',
     '@nuxtjs/seo',
-    'nuxt-seo-experiments'
+    'nuxt-seo-experiments',
+    '@sidebase/nuxt-auth',
   ],
   srcDir: 'src',
   pinia: {
@@ -49,5 +50,27 @@ export default defineNuxtConfig({
     url: 'https://cortex.com',
     name: 'Cortex',
     description: 'Shaping Tech Futures',
+  },
+  auth: {
+    baseURL: process.env.NUXT_PUBLIC_API_BASE_URL || 'http://localhost:8088/api/v1/',
+    globalAppMiddleware: true,
+    provider: {
+      type: "local",
+      endpoints: {
+        signIn: {path: 'auth/authenticate', method: 'post'},
+        signUp: {path: 'auth/register', method: 'post'},
+        getSession: {path: 'user/me', method: 'get'},
+      },
+      token: {
+        signInResponseTokenPointer: '/token',
+        type: 'Bearer',
+        headerName: 'Authorization',
+        maxAgeInSeconds: 1800,
+        sameSiteAttribute: 'lax',
+      },
+      pages: {
+        login: '/auth/login',
+      }
+    }
   }
 });

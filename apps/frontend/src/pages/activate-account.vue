@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import {useAuthStore} from '~/stores'
 
 const route = useRoute()
 const router = useRouter()
