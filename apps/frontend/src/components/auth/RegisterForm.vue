@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue'
 import { useForm } from 'vee-validate'
 import { Loader2 } from 'lucide-vue-next'
+import { countries } from 'countries-list'
 import GoogleIcon from "~/components/icons/GoogleIcon.vue";
 import GithubIcon from "~/components/icons/GithubIcon.vue";
 import { type RegisterSchemaType, stepSchemas } from "~/schemas/register.schema";
@@ -13,6 +14,14 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   loading: false
 })
+
+const countryOptions = computed(() =>
+    Object.entries(countries).map(([code, country]) => ({
+      value: code,
+      label: country.name,
+      flag: `https://flagcdn.com/w20/${code.toLowerCase()}.png`
+    }))
+)
 
 const emit = defineEmits<{
   (e: 'submit', formData: RegisterSchemaType): void
@@ -73,12 +82,6 @@ const genderOptions = [
   { value: 'PREFER_NOT_TO_SAY', label: 'Prefer not to say' }
 ]
 
-const countryOptions = [
-  { value: 'US', label: 'United States' },
-  { value: 'CA', label: 'Canada' },
-  { value: 'UK', label: 'United Kingdom' },
-  // Add more countries as needed
-]
 </script>
 
 <template>
@@ -149,6 +152,7 @@ const countryOptions = [
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem v-for="option in countryOptions" :key="option.value" :value="option.value">
+                          <img :src="option.flag" :alt="option.label" class="w-5 h-3 mr-2 inline-block" >
                           {{ option.label }}
                         </SelectItem>
                       </SelectContent>
