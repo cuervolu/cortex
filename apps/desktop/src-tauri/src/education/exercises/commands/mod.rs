@@ -1,9 +1,9 @@
 use super::*;
-use log::{error, info};
+use log::info;
 use tauri::State;
 
 #[tauri::command]
-pub async fn get_exercises(state: State<'_, AppState>) -> Result<Vec<PaginatedExercises>, AppError> {
+pub async fn get_exercises(state: State<'_, AppState>) -> Result<PaginatedExercises, AppError> {
     info!("Fetching exercises");
     fetch_exercises(state).await
 }

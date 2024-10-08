@@ -2,6 +2,8 @@
 import { ref, onMounted } from 'vue'
 import { invoke } from '@tauri-apps/api/core'
 import type { PaginatedExercises, Exercise } from '@cortex/shared/types'
+import {error as logError} from "@tauri-apps/plugin-log";
+
 
 const exercises = ref<Exercise[]>([])
 const isLoading = ref(true)
@@ -15,7 +17,7 @@ const fetchExercises = async () => {
   error.value = null
   try {
     const response = await invoke<PaginatedExercises>('get_exercises')
-    console.log('Fetched exercises:', response) // For debugging
+    console.log('Raw response:', response) // Para depuración
     if (response && Array.isArray(response.content)) {
       exercises.value = response.content
       totalExercises.value = response.total_elements
@@ -28,6 +30,7 @@ const fetchExercises = async () => {
       console.warn('No exercises returned from the API')
     }
   } catch (err) {
+    await logError(`Failed to fetch exercises: ${err}`)
     console.error('Failed to fetch exercises:', err)
     error.value = err instanceof Error ? err.message : 'An unknown error occurred'
   } finally {

@@ -89,8 +89,10 @@ pub struct Module {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ExerciseDetails {
-    #[serde(flatten)]
-    pub exercise: Exercise,
+    pub id: u64,
+    pub title: String,
+    pub instructions: String,
+    pub hints: String,
     pub language: String,
     pub initial_code: String,
     pub test_code: String,
@@ -114,9 +116,16 @@ pub struct Course {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct RoadmapDetails {
-    #[serde(flatten)]
-    pub roadmap: Roadmap,
+    pub id: u64,
+    pub title: String,
+    pub description: String,
+    pub slug: String,
     pub courses: Vec<Course>,
+    pub image_url: Option<String>,
+    pub tag_names: Vec<String>,
+    pub is_published: bool,
+    pub created_at: String,
+    pub updated_at: Option<String>,
 }
 
 pub type PaginatedExercises = PaginatedResponse<Exercise>;

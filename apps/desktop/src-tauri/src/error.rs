@@ -50,6 +50,9 @@ pub enum AppError {
     #[error("No authentication token found")]
     NoTokenError,
 
+    #[error("Failed to deserialize response")]
+    DeserializationError(serde_json::Error),
+
     #[error("Unknown error")]
     Unknown(#[from] anyhow::Error),
 }

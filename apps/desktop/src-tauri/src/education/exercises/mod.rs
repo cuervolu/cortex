@@ -1,12 +1,13 @@
 pub mod commands;
 
+use log::error;
 use tauri::State;
 use crate::education::models::{ExerciseDetails, PaginatedExercises};
 use crate::error::AppError;
 use crate::{API_BASE_URL, CLIENT};
 use crate::state::AppState;
 
-pub async fn fetch_exercises(state: State<'_, AppState>) -> Result<Vec<PaginatedExercises>, AppError> {
+pub async fn fetch_exercises(state: State<'_, AppState>) -> Result<PaginatedExercises, AppError> {
     let token = state.token.lock().map_err(|_| AppError::ContextLockError)?
         .clone()
         .ok_or(AppError::NoTokenError)?;
@@ -16,12 +17,19 @@ pub async fn fetch_exercises(state: State<'_, AppState>) -> Result<Vec<Paginated
         .bearer_auth(token)
         .send()
         .await
-        .map_err(AppError::RequestError)?
-        .json::<Vec<PaginatedExercises>>()
-        .await
         .map_err(AppError::RequestError)?;
 
-    Ok(response)
+    // Imprimir el cuerpo de la respuesta
+    let body = response.text().await.map_err(AppError::RequestError)?;
+
+    // Intentar deserializar el cuerpo
+    let exercises = serde_json::from_str::<PaginatedExercises>(&body)
+        .map_err(|e| {
+            error!("Deserialization error: {:?}", e);
+            AppError::DeserializationError(e)
+        })?;
+
+    Ok(exercises)
 }
 
 pub async fn fetch_exercise_details(id: u32, state: State<'_, AppState>) -> Result<ExerciseDetails, AppError> {
