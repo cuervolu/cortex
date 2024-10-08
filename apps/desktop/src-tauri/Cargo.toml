@@ -35,7 +35,7 @@ tauri-plugin-clipboard-manager = "2.0.1"
 tauri-plugin-oauth = { git = "https://github.com/FabianLars/tauri-plugin-oauth", branch = "v2" }
 tauri-plugin-notification = "2.0.1"
 reqwest = { version = "0.12.8", features = ["json"] }
-sysinfo = "0.31.4"
+sysinfo = "0.32.0"
 thiserror = "1.0.64"
 anyhow = "1.0.89"
 font-kit = "0.14.2"
