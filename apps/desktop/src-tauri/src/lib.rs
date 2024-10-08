@@ -5,6 +5,7 @@ mod error;
 use log::error;
 use reqwest::Client;
 use std::sync::LazyLock;
+use tauri::Manager;
 use tauri_plugin_log::fern::colors::ColoredLevelConfig;
 use tauri_plugin_log::RotationStrategy;
 
@@ -60,6 +61,7 @@ pub fn run() {
         .plugin(tauri_plugin_store::Builder::new().build())
         .setup(|app| {
             setup_logger(app)?;
+            app.get_webview_window("main").unwrap().set_decorations(false).expect("Failed to set decorations");
             let app_handle = app.handle().clone();
             tauri::async_runtime::spawn(async move {
                 init_ollama_models(app_handle).await;

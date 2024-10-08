@@ -22,7 +22,8 @@
         "decorations": false,
         "titleBarStyle": "Overlay",
         "hiddenTitle": true,
-        "transparent": true
+        "transparent": true,
+        "shadow": true
       }
     ],
     "security": {
