@@ -67,10 +67,13 @@ const panelTabs = computed(() => [
 
 const defaultPanelTab = 'ia-help';
 
-onMounted(() => {
-  fetchExerciseDetails();
-  ollamaStore.setupListeners();
-});
+const isLoading = ref(true)
+
+onMounted(async () => {
+  await fetchExerciseDetails()
+  await ollamaStore.setupListeners()
+  isLoading.value = false
+})
 
 onUnmounted(() => {
   ollamaStore.removeListeners();
@@ -91,7 +94,10 @@ watch(
 </script>
 
 <template>
-  <div class="flex flex-col h-full w-full bg-background">
+  <div v-if="isLoading" class="loading-overlay">
+   <h1>Loading...</h1>
+  </div>
+  <div v-else  class="flex flex-col h-full w-full bg-background">
     <ExerciseHeader
       :lesson="currentLesson"
       :exercise-name="currentExercise"

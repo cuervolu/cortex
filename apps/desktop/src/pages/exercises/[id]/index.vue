@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { invoke } from '@tauri-apps/api/core'
-import type { ExerciseDetail } from '~/types'
-import { info, error as logError } from '@tauri-apps/plugin-log';
+import {invoke} from '@tauri-apps/api/core'
+import {info, error as logError} from '@tauri-apps/plugin-log';
+import type {ExerciseDetails} from '@cortex/shared/types'
 
 const route = useRoute()
-const exercise = ref<ExerciseDetail | null>(null)
+const exercise = ref<ExerciseDetails | null>(null)
 const isLoading = ref(true)
 const error = ref<string | null>(null)
 
@@ -14,7 +14,7 @@ const fetchExerciseDetails = async () => {
   isLoading.value = true
   error.value = null
   try {
-    exercise.value = await invoke<ExerciseDetail>('get_exercise_details', { id })
+    exercise.value = await invoke<ExerciseDetails>('get_exercise_details', {id})
     await info(`Successfully fetched exercise details for ID: ${id}`)
   } catch (err) {
     await logError(`Failed to fetch exercise details: ${err}`)
@@ -44,7 +44,8 @@ onMounted(() => {
         <h2 class="text-xl font-semibold">Hints</h2>
         <p>{{ exercise.hints }}</p>
       </div>
-      <NuxtLink :to="`/exercises/${exercise.id}/solve`" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+      <NuxtLink :to="`/exercises/${exercise.id}/solve`"
+                class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
         Start Exercise
       </NuxtLink>
     </div>
