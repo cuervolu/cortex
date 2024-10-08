@@ -58,7 +58,6 @@ export default defineNuxtConfig({
       type: "local",
       endpoints: {
         signIn: {path: 'auth/authenticate', method: 'post'},
-        signUp: {path: 'auth/register', method: 'post'},
         getSession: {path: 'user/me', method: 'get'},
       },
       token: {

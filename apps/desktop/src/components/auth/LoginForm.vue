@@ -77,7 +77,7 @@ const handleLogin = (provider: 'github' | 'google') => {
             Or continue with
           </span>
         </div>
-        <form class="space-y-4 text-foreground" @submit.prevent="onSubmit">
+        <form class="space-y-4 text-gray-900" @submit.prevent="onSubmit">
           <FormField v-slot="{ componentField }" name="username">
             <FormItem>
               <FormLabel>Username</FormLabel>

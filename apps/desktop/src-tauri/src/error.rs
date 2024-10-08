@@ -38,6 +38,18 @@ pub enum AppError {
     #[error("Context not found")]
     ContextNotFound,
 
+    #[error("Failed to set user")]
+    SetUserError,
+
+    #[error("Failed to get user")]
+    GetUserError,
+
+    #[error("Failed to clear user")]
+    ClearUserError,
+
+    #[error("No authentication token found")]
+    NoTokenError,
+
     #[error("Unknown error")]
     Unknown(#[from] anyhow::Error),
 }

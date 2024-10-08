@@ -1,19 +1,25 @@
 <script setup lang="ts">
-import {getCurrentWindow} from '@tauri-apps/api/window';
-import {PanelRightOpen, ChevronDown, Minus, Maximize, X} from "lucide-vue-next";
+import { getCurrentWindow } from '@tauri-apps/api/window';
+import { PanelRightOpen, ChevronDown, Minus, Maximize, X } from "lucide-vue-next";
+
+const props = defineProps({
+  hasSidebar: {
+    type: Boolean,
+    default: true
+  }
+});
 
 const appWindow = getCurrentWindow();
-
-
 </script>
 
 <template>
   <header
       data-tauri-drag-region
-      class="flex justify-between items-center bg-white/20 h-10 px-3 rounded-t-[55px]">
+      class="flex justify-between items-center bg-white/20 h-10 px-3 rounded-t-[55px]"
+  >
     <nav class="flex items-center ml-5">
       <img data-tauri-drag-region src="~/assets/img/Cortex%20Logo.svg" alt="Cortex Logo" class="w-5 h-5 mr-2">
-      <Button size="sm" variant="ghost" class="p-1">
+      <Button v-if="props.hasSidebar" size="sm" variant="ghost" class="p-1">
         <PanelRightOpen width="20" height="20" class="text-foreground" />
       </Button>
     </nav>

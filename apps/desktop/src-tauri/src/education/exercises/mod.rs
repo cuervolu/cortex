@@ -1,16 +1,19 @@
 pub mod commands;
 
+use tauri::State;
 use crate::education::models::{ExerciseDetails, PaginatedExercises};
 use crate::error::AppError;
 use crate::{API_BASE_URL, CLIENT};
+use crate::state::AppState;
 
-// TODO: Replace this with a real token
-const AUTH_TOKEN: &str = "eyJhbGciOiJIUzM4NCJ9.eyJmdWxsbmFtZSI6IsOBbmdlbCBDdWVydm8iLCJzdWIiOiJjdWVydm9sdSIsImlhdCI6MTcyODEwMDYwOSwiZXhwIjoxNzI4MTg3MDA5LCJhdXRob3JpdGllcyI6WyJST0xFX1VTRVIiLCJST0xFX0FETUlOIl19.oSlebEYCww4G1qOdedElXW9qMWR2Eo2LNlvNq7EYFlr1EZvlekcr5_ShLf-HJWNM";
+pub async fn fetch_exercises(state: State<'_, AppState>) -> Result<Vec<PaginatedExercises>, AppError> {
+    let token = state.token.lock().map_err(|_| AppError::ContextLockError)?
+        .clone()
+        .ok_or(AppError::NoTokenError)?;
 
-pub async fn fetch_exercises() -> Result<Vec<PaginatedExercises>, AppError> {
     let response = CLIENT
         .get(format!("{}/exercises", API_BASE_URL))
-        .bearer_auth(AUTH_TOKEN)
+        .bearer_auth(token)
         .send()
         .await
         .map_err(AppError::RequestError)?
@@ -21,10 +24,14 @@ pub async fn fetch_exercises() -> Result<Vec<PaginatedExercises>, AppError> {
     Ok(response)
 }
 
-pub async fn fetch_exercise_details(id: u32) -> Result<ExerciseDetails, AppError> {
+pub async fn fetch_exercise_details(id: u32, state: State<'_, AppState>) -> Result<ExerciseDetails, AppError> {
+    let token = state.token.lock().map_err(|_| AppError::ContextLockError)?
+        .clone()
+        .ok_or(AppError::NoTokenError)?;
+
     let response = CLIENT
         .get(format!("{}/exercises/{}/details", API_BASE_URL, id))
-        .bearer_auth(AUTH_TOKEN)
+        .bearer_auth(token)
         .send()
         .await
         .map_err(AppError::RequestError)?
