@@ -2,7 +2,6 @@ package com.cortex.backend.education.lesson.internal;
 
 import com.cortex.backend.core.common.PageResponse;
 import com.cortex.backend.core.common.SlugUtils;
-import com.cortex.backend.core.domain.EntityType;
 import com.cortex.backend.education.lesson.api.LessonRepository;
 import com.cortex.backend.education.lesson.api.LessonService;
 import com.cortex.backend.education.lesson.api.dto.LessonRequest;
@@ -12,12 +11,9 @@ import com.cortex.backend.core.domain.Lesson;
 import com.cortex.backend.core.domain.ModuleEntity;
 import com.cortex.backend.education.module.api.ModuleRepository;
 import com.cortex.backend.education.progress.api.LessonCompletedEvent;
-import com.cortex.backend.education.progress.api.ProgressTrackingService;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
@@ -134,7 +130,7 @@ public class LessonServiceImpl implements LessonService {
   public Long getModuleIdForLesson(Long lessonId) {
     return lessonRepository.findById(lessonId)
         .map(lesson -> lesson.getModuleEntity().getId())
-        .orElseThrow(() -> new EntityNotFoundException("Lesson not found"));
+        .orElseThrow(() -> new EntityNotFoundException(LESSON_NOT_FOUND_MESSAGE));
   }
 
   private String generateUniqueSlug(String name) {

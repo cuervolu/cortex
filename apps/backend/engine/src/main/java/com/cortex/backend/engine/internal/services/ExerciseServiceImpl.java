@@ -193,29 +193,28 @@ public class ExerciseServiceImpl implements ExerciseService {
   public ExerciseDetailsResponse getExerciseDetails(Long id) {
     Exercise exercise = exerciseRepository.findById(id)
         .orElseThrow(() -> new EntityNotFoundException("Exercise not found with id: " + id));
-
     Path exercisePath = Paths.get(localRepoPath, exercise.getGithubPath());
-
     try {
       String language = determineLanguage(exercise.getGithubPath());
-      String initialCode = "";
-      String testCode = "";
+      String initialCode;
+      String testCode;
+      String fileName;
 
-      if ("python".equals(language)) {
-        String baseFileName = exercise.getTitle().toLowerCase().replace("-", "_");
-        initialCode = codeFileReader.readFileContent(exercisePath.resolve(baseFileName + ".py"));
-        testCode = codeFileReader.readFileContent(
-            exercisePath.resolve("test_" + baseFileName + ".py"));
-      } else if ("go".equals(language)) {
-        String baseFileName = exercise.getTitle().toLowerCase().replace("-", "_");
-        initialCode = codeFileReader.readFileContent(exercisePath.resolve(baseFileName + ".go"));
-        testCode = codeFileReader.readFileContent(exercisePath.resolve(baseFileName + "_test.go"));
+      if ("go".equals(language)) {
+        fileName = findFileByExtension(exercisePath, ".go", false);
+        initialCode = codeFileReader.readFileContent(exercisePath.resolve(fileName));
+        String testFileName = findFileByExtension(exercisePath, ".go", true);
+        testCode = codeFileReader.readFileContent(exercisePath.resolve(testFileName));
+      } else if ("python".equals(language)) {
+        fileName = findFileByExtension(exercisePath, ".py", false);
+        initialCode = codeFileReader.readFileContent(exercisePath.resolve(fileName));
+        String testFileName = findFileByExtension(exercisePath, ".py", true);
+        testCode = codeFileReader.readFileContent(exercisePath.resolve(testFileName));
       } else {
         initialCode = codeFileReader.readInitialCode(exercisePath);
         testCode = codeFileReader.readTestCode(exercisePath);
+        fileName = determineFileName(exercisePath, language);
       }
-
-      String fileName = determineFileName(exercisePath, language);
 
       return ExerciseDetailsResponse.builder()
           .id(exercise.getId())
@@ -231,6 +230,26 @@ public class ExerciseServiceImpl implements ExerciseService {
     } catch (IOException e) {
       log.error("Error reading exercise files for exercise id: {}", id, e);
       throw new ExerciseReadException("Failed to read exercise files", e);
+    }
+  }
+
+  private String findFileByExtension(Path exercisePath, String extension, boolean isTestFile) throws IOException {
+    try (Stream<Path> paths = Files.walk(exercisePath)) {
+      return paths
+          .filter(Files::isRegularFile)
+          .filter(path -> path.toString().endsWith(extension))
+          .filter(path -> {
+            String fileName = path.getFileName().toString().toLowerCase();
+            if (isTestFile) {
+              return fileName.startsWith("test_") || fileName.endsWith("_test" + extension);
+            } else {
+              return !fileName.startsWith("test_") && !fileName.endsWith("_test" + extension);
+            }
+          })
+          .findFirst()
+          .map(Path::getFileName)
+          .map(Path::toString)
+          .orElseThrow(() -> new IOException("File with extension " + extension + " not found in " + exercisePath));
     }
   }
 
@@ -277,5 +296,4 @@ public class ExerciseServiceImpl implements ExerciseService {
       default -> ".txt";
     };
   }
-
 }
