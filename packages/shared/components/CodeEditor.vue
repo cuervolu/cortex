@@ -129,8 +129,11 @@ watch(
 );
 
 onMounted(() => {
+
   if (codemirror.value) {
     console.log("Editor initialized:", codemirror.value.editor);
+  }else {
+    console.log("Editor not initialized");
   }
 });
 </script>
