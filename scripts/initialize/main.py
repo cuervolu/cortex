@@ -30,7 +30,7 @@ def main() -> None:
     console.print(Panel.fit("Starting Cortex Data Population", style="bold magenta"))
 
     try:
-        data = load_data("data.json")
+        data = load_data("scripts/initialize/data.json")
         log.info("Data loaded successfully")
 
         register_user(data["admin"])
