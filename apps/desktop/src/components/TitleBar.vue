@@ -35,6 +35,7 @@ const emit = defineEmits(['toggle-sidebar']);
       <Button size="sm" variant="ghost" class="titlebar-button flex items-center justify-center w-8 h-8 mx-1 p-0 rounded">
         <ChevronDown width="20" height="20" class="text-foreground" />
       </Button>
+      <Separator orientation="vertical" class="text-foreground" />
       <Button size="sm" variant="ghost" class="titlebar-button flex items-center justify-center w-8 h-8 mx-1 p-0 rounded" @click="appWindow.minimize()">
         <Minus class="w-4 h-4"/>
       </Button>
