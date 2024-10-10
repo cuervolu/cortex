@@ -73,6 +73,7 @@ pub fn run() {
             tauri::async_runtime::spawn(async move {
                 init_ollama_models(app_handle).await;
             });
+            let window = app.get_webview_window("main").unwrap();
 
             #[cfg(target_os = "windows")]
             apply_acrylic(&window, Some((18, 18, 18, 125)))
