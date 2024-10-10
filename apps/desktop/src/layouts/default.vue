@@ -12,7 +12,7 @@ function toggleSidebar() {
 
 <template>
   <div class="w-screen h-screen flex flex-col rounded-lg">
-    <div class="flex-1 flex flex-col overflow-hidden screen-background">
+    <div class="flex-1 flex flex-col overflow-hidden screen-background rounded-lg">
       <TitleBar
           class="z-50"
           :has-sidebar="true"
