@@ -11,15 +11,20 @@ function toggleSidebar() {
 </script>
 
 <template>
-  <div class="w-screen h-screen flex flex-col p-5">
-    <div class="flex-1 flex flex-col overflow-hidden rounded-[55px] screen-background">
-      <TitleBar class="z-50" />
+  <div class="w-screen h-screen flex flex-col rounded-lg">
+    <div class="flex-1 flex flex-col overflow-hidden screen-background">
+      <TitleBar
+          class="z-50"
+          :has-sidebar="true"
+          :is-collapsed="isCollapsed"
+          @toggle-sidebar="toggleSidebar"
+      />
       <div class="flex-1 flex gap-2.5 p-5 overflow-hidden">
-        <app-sidebar
+        <AppSidebar
             :is-collapsed="isCollapsed"
             @toggle-sidebar="toggleSidebar"
         />
-        <main class="grow shrink basis-0 self-stretch p-[30px] bg-background rounded-[34px] flex-col justify-start items-start gap-2.5 inline-flex overflow-auto">
+        <main class="grow shrink basis-0 self-stretch p-[30px] bg-background rounded-[34px] flex-col justify-start items-start gap-2.5 inline-flex overflow-auto scrollable-content">
           <slot />
         </main>
       </div>

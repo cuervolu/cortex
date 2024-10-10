@@ -1,26 +1,33 @@
 <script setup lang="ts">
 import { getCurrentWindow } from '@tauri-apps/api/window';
 import { PanelRightOpen, ChevronDown, Minus, Maximize, X } from "lucide-vue-next";
-
 const props = defineProps({
   hasSidebar: {
     type: Boolean,
     default: true
+  },
+  isCollapsed: {
+    type: Boolean,
+    required: true
   }
 });
-
 const appWindow = getCurrentWindow();
+const emit = defineEmits(['toggle-sidebar']);
 </script>
 
 <template>
   <header
       data-tauri-drag-region
-      class="flex justify-between items-center bg-white/20 h-10 px-3 rounded-t-[55px]"
+      class="flex justify-between items-center bg-white/20 h-10 px-3"
   >
     <nav class="flex items-center ml-5">
       <img data-tauri-drag-region src="~/assets/img/Cortex%20Logo.svg" alt="Cortex Logo" class="w-5 h-5 mr-2">
-      <Button v-if="props.hasSidebar" size="sm" variant="ghost" class="p-1">
-        <PanelRightOpen width="20" height="20" class="text-foreground" />
+      <Button v-if="props.hasSidebar" size="sm" variant="ghost" class="p-1" @click="emit('toggle-sidebar')">
+        <PanelRightOpen
+            width="20"
+            height="20"
+            :class="['transition-transform duration-300 text-foreground', { 'rotate-180': !isCollapsed }]"
+        />
       </Button>
     </nav>
     <h1 class="text-base font-semibold text-foreground" data-tauri-drag-region>Cortex</h1>

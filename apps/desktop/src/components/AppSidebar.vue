@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import {ref} from 'vue';
-import {PanelRightOpen} from "lucide-vue-next";
 import NavigationButton from "~/components/NavigationButton.vue";
 import UserAccount from "~/components/UserAccount.vue";
 import DashboardIcon from "~/components/icons/DashboardIcon.vue";
@@ -42,12 +41,6 @@ const navigationButtons = [
                 :class="['text-[#f4f8f7] text-logo transition-all duration-300 pl-2 uppercase', isCollapsed ? 'hidden' : '']">Cortex</span>
           </div>
         </div>
-        <Button
-            size="icon" variant="ghost"
-            @click="$emit('toggle-sidebar')">
-          <PanelRightOpen
-              :class="['transition-transform duration-300 w-6 text-[#f4f8f7]/80   dark:text-foreground', { 'rotate-180': !isCollapsed }]"/>
-        </Button>
       </div>
       <div class="self-stretch h-[355px] py-2.5 flex-col justify-start items-start gap-2.5 flex">
         <div

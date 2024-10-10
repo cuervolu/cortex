@@ -11,6 +11,8 @@ use tauri::Manager;
 use tauri_plugin_log::fern::colors::ColoredLevelConfig;
 use tauri_plugin_log::RotationStrategy;
 use crate::state::AppState;
+
+#[cfg(target_os = "windows")]
 use window_vibrancy::apply_acrylic;
 
 pub const API_BASE_URL: &str = "http://localhost:8088/api/v1";
@@ -73,13 +75,12 @@ pub fn run() {
             tauri::async_runtime::spawn(async move {
                 init_ollama_models(app_handle).await;
             });
-            let window = app.get_webview_window("main").unwrap();
 
-            #[cfg(target_os = "windows")]
-            apply_acrylic(&window, Some((18, 18, 18, 125)))
-                .expect("Unsupported platform! 'apply_acrylic' is only supported on Windows");
-            
-            
+            #[cfg(target_os = "windows")]{
+                let window = app.get_webview_window("main").unwrap();
+                apply_acrylic(&window, Some((18, 18, 18, 125)))
+                    .expect("Unsupported platform! 'apply_acrylic' is only supported on Windows");
+            }
             Ok(())
         });
 

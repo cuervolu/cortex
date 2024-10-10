@@ -1,11 +1,28 @@
-body {
-  background: transparent !important;
+html, body {
+  background-color: transparent;
+  height: 100%;
+  overflow: hidden; 
 }
 
-:root {
-  --background: transparent;
+::-webkit-scrollbar {
+  display: none;
 }
 
-.dark {
-  --background: transparent;
+* {
+  scrollbar-width: none;
+}
+
+* {
+  -ms-overflow-style: none;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+.scrollable-content {
+  overflow-y: auto;
 }
