@@ -27,30 +27,50 @@ const navigationButtons = [
 
 <template>
   <div
-      :class="['shrink basis self-stretch flex-col justify-between items-start inline-flex transition-all duration-300', isCollapsed ? 'w-[115px]' : 'w-[270px]']">
+      :class="[
+      'shrink basis self-stretch flex-col justify-between items-start inline-flex transition-all duration-300 ease-in-out',
+      isCollapsed ? 'w-[115px]' : 'w-[270px]'
+    ]"
+  >
     <div
-        class="self-stretch h-[459px] px-[7px] py-2.5 flex-col justify-start items-start gap-2.5 flex">
+        class="self-stretch h-[459px] px-[7px] py-2.5 flex-col justify-start items-start gap-2.5 flex"
+    >
       <div
-          class="self-stretch p-2.5 border-b border-[#f9cf87] items-center gap-2.5 inline-flex justify-between">
+          class="self-stretch p-2.5 border-b border-[#f9cf87] items-center gap-2.5 inline-flex justify-between"
+      >
         <div class="w-[185.92px] flex-col justify-center items-start gap-[14.64px] inline-flex">
           <div class="justify-between items-center inline-flex">
             <img
-                src="~/assets/img/Cortex Logo.svg" alt="Cortex Logo"
-                class="min-w[46.85px] min-h[54px] w-[46.85px] h-[54px] relative">
+                src="~/assets/img/Cortex Logo.svg"
+                alt="Cortex Logo"
+                class="min-w-[46.85px] min-h-[54px] w-[46.85px] h-[54px] relative"
+            >
             <span
-                :class="['text-[#f4f8f7] text-logo transition-all duration-300 pl-2 uppercase', isCollapsed ? 'hidden' : '']">Cortex</span>
+                :class="[
+                'text-[#f4f8f7] text-logo transition-all duration-300 ease-in-out pl-2 uppercase',
+                isCollapsed ? 'opacity-0 w-0 overflow-hidden' : 'opacity-100 w-auto'
+              ]"
+            >
+              Cortex
+            </span>
           </div>
         </div>
       </div>
       <div class="self-stretch h-[355px] py-2.5 flex-col justify-start items-start gap-2.5 flex">
         <div
-            class="w-[121px] h-[35px] text-[#f4f8f7]/80 text-xs font-semibold tracking-tight uppercase">
+            class="w-[121px] h-[35px] text-[#f4f8f7]/80 text-xs font-semibold tracking-tight uppercase"
+        >
           Navigation
         </div>
         <div
-            :class="['h-[290px] flex-col justify-start items-start gap-2.5 flex', !isCollapsed ? 'self-stretch transition-all duration-300' : 'transition-all duration-300']">
+            :class="[
+            'h-[290px] flex-col justify-start items-start gap-2.5 flex transition-all duration-300 ease-in-out',
+            isCollapsed ? 'w-[101px]' : 'w-full'
+          ]"
+        >
           <NavigationButton
-              v-for="button in navigationButtons" :key="button.name"
+              v-for="button in navigationButtons"
+              :key="button.name"
               :name="button.name"
               :icon="button.icon"
               :route="button.route"
@@ -61,6 +81,13 @@ const navigationButtons = [
         </div>
       </div>
     </div>
-    <UserAccount :is-collapsed="isCollapsed"/>
+    <UserAccount :is-collapsed="isCollapsed" />
   </div>
 </template>
+
+<style scoped>
+.text-logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+</style>
