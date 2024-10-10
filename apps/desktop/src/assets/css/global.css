@@ -1,0 +1,11 @@
+body {
+  background: transparent !important;
+}
+
+:root {
+  --background: transparent;
+}
+
+.dark {
+  --background: transparent;
+}
