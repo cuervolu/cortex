@@ -63,7 +63,7 @@ pub(crate) async fn check_ollama_macos(app_handle: &tauri::AppHandle) -> Result<
             Ok(output) => Ok(output.status.success() && !output.stdout.is_empty()),
             Err(e) => {
                 error!("Failed to execute 'which' command: {}", e);
-                Err(AppError::CommandExecutionError)
+                Err(AppError::CommandExecutionError(e.to_string()))
             }
         }
     }
