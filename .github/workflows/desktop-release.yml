@@ -47,6 +47,8 @@ jobs:
           workspaces: './apps/desktop/src-tauri -> target'
       - name: Install dependencies
         run: pnpm install
+      - name: Build shared package
+        run: pnpm --filter @cortex/shared build
       - name: Build Tauri app
         uses: tauri-apps/tauri-action@v0.5.12
         env:
