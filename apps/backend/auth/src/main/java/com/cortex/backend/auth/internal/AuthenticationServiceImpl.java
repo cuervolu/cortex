@@ -3,6 +3,7 @@ package com.cortex.backend.auth.internal;
 import com.cortex.backend.auth.api.AuthenticationService;
 import com.cortex.backend.auth.api.dto.AuthenticationRequest;
 import com.cortex.backend.auth.api.dto.AuthenticationResponse;
+import com.cortex.backend.auth.api.dto.RefreshTokenRequest;
 import com.cortex.backend.auth.api.dto.RegistrationRequest;
 import com.cortex.backend.core.common.email.EmailService;
 import com.cortex.backend.core.common.email.EmailTemplateName;
@@ -16,7 +17,6 @@ import com.cortex.backend.user.repository.TokenRepository;
 import com.cortex.backend.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import java.security.SecureRandom;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +28,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -113,16 +114,20 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
   @Override
   public AuthenticationResponse authenticate(AuthenticationRequest request) {
-    var auth =
-        authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+    var auth = authenticationManager.authenticate(
+        new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+    );
     var claims = new HashMap<String, Object>();
     var user = ((User) auth.getPrincipal());
     user.updateLoginStats();
     userRepository.save(user);
     claims.put("fullname", user.getFullName());
     var jwtToken = jwtService.generateToken(claims, user);
-    return AuthenticationResponse.builder().token(jwtToken).build();
+    var refreshToken = jwtService.generateRefreshToken(user);
+    return AuthenticationResponse.builder()
+        .token(jwtToken)
+        .refreshToken(refreshToken)
+        .build();
   }
 
   @Override
@@ -144,6 +149,26 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     userRepository.save(user);
     savedToken.setValidatedAt(LocalDateTime.now());
     tokenRepository.save(savedToken);
+  }
+
+  @Override
+  public AuthenticationResponse refreshToken(RefreshTokenRequest request) {
+    String refreshToken = request.getRefreshToken();
+    String username = jwtService.extractUsername(refreshToken);
+    if (username != null) {
+      User user = this.userRepository.findByUsername(username)
+          .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+      if (jwtService.isTokenValid(refreshToken, user)) {
+        var claims = new HashMap<String, Object>();
+        claims.put("fullname", user.getFullName());
+        String accessToken = jwtService.generateToken(claims, user);
+        return AuthenticationResponse.builder()
+            .token(accessToken)
+            .refreshToken(refreshToken)
+            .build();
+      }
+    }
+    throw new InvalidTokenException("Invalid refresh token");
   }
 
   private void sendValidationEmail(User user) {

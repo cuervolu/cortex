@@ -65,4 +65,6 @@ public interface JwtService {
    * username in the token matches the username in the user details), and false otherwise.
    */
   boolean isTokenValid(String token, UserDetails userDetails);
+
+  String generateRefreshToken(UserDetails userDetails);
 }

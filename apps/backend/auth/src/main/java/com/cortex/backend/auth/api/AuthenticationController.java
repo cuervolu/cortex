@@ -3,6 +3,7 @@ package com.cortex.backend.auth.api;
 import com.cortex.backend.auth.api.dto.AuthenticationRequest;
 import com.cortex.backend.auth.api.dto.AuthenticationResponse;
 import com.cortex.backend.auth.api.dto.PasswordResetResponse;
+import com.cortex.backend.auth.api.dto.RefreshTokenRequest;
 import com.cortex.backend.auth.api.dto.RegistrationRequest;
 import com.cortex.backend.user.api.UserService;
 import com.cortex.backend.user.api.dto.ForgotPasswordRequest;
@@ -81,5 +82,16 @@ public class AuthenticationController {
       @RequestBody @Valid ResetPasswordRequest request) {
     userService.resetPassword(request.token(), request.newPassword());
     return ResponseEntity.ok(new PasswordResetResponse("Password reset successfully"));
+  }
+
+
+  @PostMapping("/refresh-token")
+  @Operation(summary = "Refresh access token", description = "Refreshes the access token using a valid refresh token")
+  @ApiResponse(responseCode = "200", description = "Token refreshed successfully",
+      content = @Content(schema = @Schema(implementation = AuthenticationResponse.class)))
+  @ApiResponse(responseCode = "400", description = "Invalid refresh token")
+  public ResponseEntity<AuthenticationResponse> refreshToken(
+      @RequestBody @Valid RefreshTokenRequest request) {
+    return ResponseEntity.ok(service.refreshToken(request));
   }
 }
