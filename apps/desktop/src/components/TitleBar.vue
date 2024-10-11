@@ -30,7 +30,7 @@ const emit = defineEmits(['toggle-sidebar']);
         />
       </Button>
     </nav>
-    <h1 class="text-base font-semibold text-foreground" data-tauri-drag-region>Cortex</h1>
+    <h1 class="text-base font-semibold text-foreground tracking-widest" data-tauri-drag-region>Cortex</h1>
     <div class="flex h-full mr-5">
       <Button size="sm" variant="ghost" class="titlebar-button flex items-center justify-center w-8 h-8 mx-1 p-0 rounded">
         <ChevronDown width="20" height="20" class="text-foreground" />
