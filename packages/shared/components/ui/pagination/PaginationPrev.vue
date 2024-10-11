@@ -4,7 +4,7 @@ import { PaginationPrev, type PaginationPrevProps } from 'radix-vue'
 import { ChevronLeft } from 'lucide-vue-next'
 import {
   Button,
-} from '../ui/button'
+} from '../button'
 import { cn } from '../../../lib/utils'
 
 const props = withDefaults(defineProps<PaginationPrevProps & { class?: HTMLAttributes['class'] }>(), {

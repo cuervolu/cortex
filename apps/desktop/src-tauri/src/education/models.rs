@@ -132,3 +132,4 @@ pub type PaginatedExercises = PaginatedResponse<Exercise>;
 pub type PaginatedLessons = PaginatedResponse<Lesson>;
 pub type PaginatedRoadmaps = PaginatedResponse<Roadmap>;
 pub type PaginatedModules = PaginatedResponse<Module>;
+pub type PaginatedCourses = PaginatedResponse<Course>;

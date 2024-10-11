@@ -4,6 +4,7 @@ import com.cortex.backend.core.common.PageResponse;
 import com.cortex.backend.education.course.api.dto.CourseRequest;
 import com.cortex.backend.education.course.api.dto.CourseResponse;
 import com.cortex.backend.education.course.api.dto.CourseUpdateRequest;
+import com.cortex.backend.education.module.api.dto.ModuleResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +21,9 @@ public interface CourseService {
   CourseResponse createCourse(CourseRequest request);
 
   CourseResponse updateCourse(Long id, CourseUpdateRequest request);
+
+  Optional<PageResponse<ModuleResponse>> getModulesForCourse(String courseSlug, int page, int size) ;
+  Optional<ModuleResponse> getModuleForCourse(String courseSlug, String moduleSlug);
   
   void deleteCourse(Long id);
   

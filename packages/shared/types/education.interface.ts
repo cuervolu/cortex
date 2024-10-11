@@ -108,3 +108,4 @@ export type PaginatedExercises = PaginatedResponse<Exercise>;
 export type PaginatedLessons = PaginatedResponse<Lesson>;
 export type PaginatedRoadmaps = PaginatedResponse<Roadmap>;
 export type PaginatedModules = PaginatedResponse<Module>;
+export type PaginatedCourses = PaginatedResponse<Course>;

@@ -4,6 +4,7 @@ import com.cortex.backend.core.common.PageResponse;
 import com.cortex.backend.core.common.SlugUtils;
 import com.cortex.backend.core.domain.BaseEntity;
 import com.cortex.backend.core.domain.EntityType;
+import com.cortex.backend.core.domain.ModuleEntity;
 import com.cortex.backend.education.course.api.CourseRepository;
 import com.cortex.backend.education.course.api.CourseService;
 import com.cortex.backend.education.course.api.dto.CourseRequest;
@@ -12,6 +13,8 @@ import com.cortex.backend.education.course.api.dto.CourseUpdateRequest;
 import com.cortex.backend.core.domain.Course;
 import com.cortex.backend.core.domain.Tag;
 import com.cortex.backend.education.module.api.ModuleRepository;
+import com.cortex.backend.education.module.api.dto.ModuleResponse;
+import com.cortex.backend.education.module.internal.ModuleMapper;
 import com.cortex.backend.education.progress.api.UserProgressService;
 import com.cortex.backend.education.tags.api.dto.TagDTO;
 import com.cortex.backend.education.tags.internal.TagService;
@@ -22,6 +25,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,6 +49,7 @@ public class CourseServiceImpl implements CourseService {
   private final MediaService mediaService;
   private final SlugUtils slugUtils;
   private final TagService tagService;
+  private final ModuleMapper moduleMapper;
 
   private static final String COURSE_IMAGE_UPLOAD_PATH = "courses";
   private static final String COURSE_NOT_FOUND_MESSAGE = "Course not found";
@@ -115,6 +120,39 @@ public class CourseServiceImpl implements CourseService {
 
     Course updatedCourse = courseRepository.save(existingCourse);
     return courseMapper.toCourseResponse(updatedCourse);
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public Optional<PageResponse<ModuleResponse>> getModulesForCourse(String courseSlug, int page,
+      int size) {
+    return courseRepository.findBySlug(courseSlug)
+        .map(course -> {
+          Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").ascending());
+          Page<ModuleEntity> modules = moduleRepository.findByCourse(course, pageable);
+
+          List<ModuleResponse> moduleResponses = modules.getContent().stream()
+              .map(moduleMapper::toModuleResponse)
+              .toList();
+
+          return new PageResponse<>(
+              moduleResponses,
+              modules.getNumber(),
+              modules.getSize(),
+              modules.getTotalElements(),
+              modules.getTotalPages(),
+              modules.isFirst(),
+              modules.isLast()
+          );
+        });
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public Optional<ModuleResponse> getModuleForCourse(String courseSlug, String moduleSlug) {
+    return courseRepository.findBySlug(courseSlug)
+        .flatMap(course -> moduleRepository.findBySlugAndCourse(moduleSlug, course)
+            .map(moduleMapper::toModuleResponse));
   }
 
   @Override

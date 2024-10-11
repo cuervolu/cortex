@@ -2,6 +2,7 @@ package com.cortex.backend.education.roadmap.api;
 
 
 import com.cortex.backend.core.common.PageResponse;
+import com.cortex.backend.education.course.api.dto.CourseResponse;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapDetails;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapRequest;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapResponse;
@@ -20,6 +21,8 @@ public interface RoadmapService {
   RoadmapResponse createRoadmap(RoadmapRequest request);
 
   RoadmapResponse updateRoadmap(Long id, RoadmapUpdateRequest request);
+
+  Optional<CourseResponse> getCourseFromRoadmap(String roadmapSlug, String courseSlug);
 
   void deleteRoadmap(Long id);
 

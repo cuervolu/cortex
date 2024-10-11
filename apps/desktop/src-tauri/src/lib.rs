@@ -111,9 +111,12 @@ pub fn run() {
             ai::commands::forced_update,
             ai::commands::delete_ollama_model,
             education::roadmaps::commands::fetch_all_roadmaps,
+            education::roadmaps::commands::fetch_roadmap_course,
             education::roadmaps::commands::get_roadmap,
             education::exercises::commands::get_exercises,
             education::exercises::commands::get_exercise_details,
+            education::courses::commands::get_courses,
+            education::courses::commands::get_course_details,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

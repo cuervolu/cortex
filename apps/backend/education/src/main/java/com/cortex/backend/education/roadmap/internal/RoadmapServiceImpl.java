@@ -6,6 +6,8 @@ import com.cortex.backend.core.domain.Course;
 import com.cortex.backend.core.domain.EntityType;
 import com.cortex.backend.education.course.api.CourseRepository;
 import com.cortex.backend.core.domain.Tag;
+import com.cortex.backend.education.course.api.dto.CourseResponse;
+import com.cortex.backend.education.course.internal.CourseMapper;
 import com.cortex.backend.education.progress.api.UserProgressService;
 import com.cortex.backend.education.roadmap.api.RoadmapRepository;
 import com.cortex.backend.education.roadmap.api.RoadmapService;
@@ -46,6 +48,7 @@ public class RoadmapServiceImpl implements RoadmapService {
   private final TagService tagService;
   private final CourseRepository courseRepository;
   private final UserProgressService userProgressService;
+  private final CourseMapper courseMapper;
 
   private static final String ROADMAP_IMAGE_UPLOAD_PATH = "roadmaps";
   private static final String ROADMAP_NOT_FOUND_MESSAGE = "Roadmap not found";
@@ -109,6 +112,14 @@ public class RoadmapServiceImpl implements RoadmapService {
     return roadmapMapper.toRoadmapResponse(updatedRoadmap);
   }
 
+  @Override
+  @Transactional(readOnly = true)
+  public Optional<CourseResponse> getCourseFromRoadmap(String roadmapSlug, String courseSlug) {
+    return roadmapRepository.findBySlug(roadmapSlug)
+        .flatMap(roadmap -> courseRepository.findBySlug(courseSlug)
+            .filter(course -> roadmap.getCourses().contains(course))
+            .map(courseMapper::toCourseResponse));
+  }
   @Override
   @Transactional
   public void deleteRoadmap(Long id) {

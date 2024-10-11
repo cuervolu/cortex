@@ -4,7 +4,7 @@ import { PaginationFirst, type PaginationFirstProps } from 'radix-vue'
 import { ChevronsLeft } from 'lucide-vue-next'
 import {
   Button,
-} from '../ui/button'
+} from '../button'
 import { cn } from '../../../lib/utils'
 
 const props = withDefaults(defineProps<PaginationFirstProps & { class?: HTMLAttributes['class'] }>(), {

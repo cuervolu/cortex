@@ -4,6 +4,7 @@ import com.cortex.backend.core.common.PageResponse;
 import com.cortex.backend.education.course.api.dto.CourseRequest;
 import com.cortex.backend.education.course.api.dto.CourseResponse;
 import com.cortex.backend.education.course.api.dto.CourseUpdateRequest;
+import com.cortex.backend.education.module.api.dto.ModuleResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -66,6 +67,33 @@ public class CourseController {
   @ApiResponse(responseCode = "404", description = "Course not found")
   public ResponseEntity<CourseResponse> getCourseBySlug(@PathVariable String slug) {
     return courseService.getCourseBySlug(slug)
+        .map(ResponseEntity::ok)
+        .orElse(ResponseEntity.notFound().build());
+  }
+
+  @GetMapping("/{courseSlug}/modules")
+  @Operation(summary = "Get modules for a course", description = "Retrieves all modules for a specific course")
+  @ApiResponse(responseCode = "200", description = "Successful operation",
+      content = @Content(schema = @Schema(implementation = PageResponse.class)))
+  @ApiResponse(responseCode = "404", description = "Course not found")
+  public ResponseEntity<PageResponse<ModuleResponse>> getModulesForCourse(
+      @PathVariable String courseSlug,
+      @RequestParam(name = "page", defaultValue = "0") int page,
+      @RequestParam(name = "size", defaultValue = "10") int size) {
+    return courseService.getModulesForCourse(courseSlug, page, size)
+        .map(ResponseEntity::ok)
+        .orElse(ResponseEntity.notFound().build());
+  }
+
+  @GetMapping("/{courseSlug}/modules/{moduleSlug}")
+  @Operation(summary = "Get a specific module for a course", description = "Retrieves a specific module for a course")
+  @ApiResponse(responseCode = "200", description = "Successful operation",
+      content = @Content(schema = @Schema(implementation = ModuleResponse.class)))
+  @ApiResponse(responseCode = "404", description = "Course or module not found")
+  public ResponseEntity<ModuleResponse> getModuleForCourse(
+      @PathVariable String courseSlug,
+      @PathVariable String moduleSlug) {
+    return courseService.getModuleForCourse(courseSlug, moduleSlug)
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }

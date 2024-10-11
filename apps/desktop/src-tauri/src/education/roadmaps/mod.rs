@@ -1,7 +1,7 @@
 pub(crate) mod commands;
 
 use tauri::State;
-use crate::education::models::{PaginatedRoadmaps, RoadmapDetails};
+use crate::education::models::{Course, PaginatedRoadmaps, RoadmapDetails};
 use crate::error::AppError;
 use crate::{API_BASE_URL, CLIENT};
 use crate::state::AppState;
@@ -36,6 +36,33 @@ pub async fn fetch_roadmaps_details(slug: &str, state: State<'_, AppState>) -> R
         .await
         .map_err(AppError::RequestError)?
         .json::<RoadmapDetails>()
+        .await
+        .map_err(AppError::RequestError)?;
+
+    Ok(response)
+}
+
+pub async fn fetch_course_from_roadmap(
+    roadmap_slug: &str,
+    course_slug: &str,
+    state: State<'_, AppState>,
+) -> Result<Course, AppError> {
+    let token = state.token.lock().map_err(|_| AppError::ContextLockError)?
+        .clone()
+        .ok_or(AppError::NoTokenError)?;
+
+    let response = CLIENT
+        .get(format!(
+            "{}/api/v1/education/roadmap/{}/course/{}",
+            API_BASE_URL,
+            roadmap_slug,
+            course_slug
+        ))
+        .bearer_auth(token)
+        .send()
+        .await
+        .map_err(AppError::RequestError)?
+        .json::<Course>()
         .await
         .map_err(AppError::RequestError)?;
 

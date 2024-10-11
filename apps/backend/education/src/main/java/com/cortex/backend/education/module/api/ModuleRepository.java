@@ -29,4 +29,7 @@ public interface ModuleRepository extends
       WHERE module.isPublished = true
       """)
   Page<ModuleEntity> findAllPublishedModules(Pageable pageable);
+
+  Page<ModuleEntity> findByCourse(Course course, Pageable pageable);
+  Optional<ModuleEntity> findBySlugAndCourse(String slug, Course course);
 }

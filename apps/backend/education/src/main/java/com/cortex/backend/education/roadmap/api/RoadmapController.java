@@ -1,6 +1,7 @@
 package com.cortex.backend.education.roadmap.api;
 
 import com.cortex.backend.core.common.PageResponse;
+import com.cortex.backend.education.course.api.dto.CourseResponse;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapDetails;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapRequest;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapResponse;
@@ -56,6 +57,20 @@ public class RoadmapController {
   @ApiResponse(responseCode = "404", description = "Roadmap not found")
   public ResponseEntity<RoadmapDetails> getRoadmapBySlug(@PathVariable String slug) {
     return roadmapService.getRoadmapBySlug(slug)
+        .map(ResponseEntity::ok)
+        .orElse(ResponseEntity.notFound().build());
+  }
+
+  @GetMapping("/{roadmapSlug}/course/{courseSlug}")
+  @Operation(summary = "Get a course from a roadmap",
+      description = "Retrieves a specific course from a roadmap using their slugs")
+  @ApiResponse(responseCode = "200", description = "Successful operation",
+      content = @Content(schema = @Schema(implementation = CourseResponse.class)))
+  @ApiResponse(responseCode = "404", description = "Course not found in the roadmap")
+  public ResponseEntity<CourseResponse> getCourseFromRoadmap(
+      @PathVariable String roadmapSlug,
+      @PathVariable String courseSlug) {
+    return roadmapService.getCourseFromRoadmap(roadmapSlug, courseSlug)
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }

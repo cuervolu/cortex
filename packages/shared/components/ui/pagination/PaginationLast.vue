@@ -4,7 +4,7 @@ import { PaginationLast, type PaginationLastProps } from 'radix-vue'
 import { ChevronsRight } from 'lucide-vue-next'
 import {
   Button,
-} from '../ui/button'
+} from '../button'
 import { cn } from '../../../lib/utils'
 
 const props = withDefaults(defineProps<PaginationLastProps & { class?: HTMLAttributes['class'] }>(), {
