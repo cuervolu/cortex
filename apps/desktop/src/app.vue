@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
 import { useUserStore } from '~/stores'
 import '~/assets/css/global.css'
 
+useColorMode()
 const userStore = useUserStore()
 
 onMounted(async () => {

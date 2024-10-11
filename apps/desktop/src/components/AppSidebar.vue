@@ -17,9 +17,9 @@ defineEmits(['toggle-sidebar']);
 const selectedButton = ref('Dashboard');
 
 const navigationButtons = [
-  {name: 'Dashboard', icon: DashboardIcon, route: '/dashboard'},
+  {name: 'Dashboard', icon: DashboardIcon, route: '/'},
   {name: 'Analytics', icon: CubeIcon, route: '/analytics'},
-  {name: 'Roadmaps', icon: RoadmapIcon, route: '/roadmaps'},
+  {name: 'Roadmaps', icon: RoadmapIcon, route: '/roadmap'},
   {name: 'Courses', icon: CourseIcon, route: '/courses'},
   {name: 'Support', icon: SupportIcon, route: '/settings'},
 ];
