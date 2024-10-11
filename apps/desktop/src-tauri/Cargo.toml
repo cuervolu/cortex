@@ -2,7 +2,7 @@
 name = "cortex"
 version = "0.1.0"
 description = "Cortex Desktop Application for Premium Users"
-authors = ["you"]
+authors = ["Bytech SpA"]
 license = ""
 repository = "https://github.com/cuervolu/cortex"
 edition = "2021"

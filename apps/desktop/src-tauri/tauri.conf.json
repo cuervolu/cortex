@@ -60,6 +60,10 @@
   },
     "bundle": {
       "publisher": "Bytech SpA",
+      "copyright": "Copyright © 2024",
+      "category": "Education",
+      "shortDescription": "Start learning today. Knowledge has no limits, and neither does your potential.",
+      "longDescription": "Premium version of the Cortex web app. Start learning today. Knowledge has no limits, and neither does your potential.",
       "createUpdaterArtifacts": true,
       "active": true,
       "targets": "all",
