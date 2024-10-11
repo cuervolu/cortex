@@ -18,7 +18,7 @@ async function initStore() {
   });
 }
 
-initStore();
+await initStore();
 
 export const useUserStore = defineStore('user', () => {
   const user = ref<User | null>(null)

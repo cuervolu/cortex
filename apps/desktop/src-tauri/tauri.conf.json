@@ -11,6 +11,21 @@
   "app": {
     "windows": [
       {
+        "label": "splashscreen",
+        "url": "/splashscreen",
+        "width": 350,
+        "height": 400,
+        "resizable": false,
+        "maximizable": false,
+        "minimizable": false,
+        "center": true,
+        "decorations": false,
+        "shadow": true,
+        "transparent": true,
+        "alwaysOnTop": true,
+        "focus": true
+      },
+      {
         "label": "main",
         "title": "Cortex",
         "width": 1100,
@@ -24,7 +39,8 @@
         "titleBarStyle": "Overlay",
         "hiddenTitle": true,
         "transparent": true,
-        "shadow": true                
+        "shadow": true,
+        "visible": false
       }
     ],
     "security": {

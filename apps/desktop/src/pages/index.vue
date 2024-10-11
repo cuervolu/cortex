@@ -1,29 +1,14 @@
 <script setup lang="ts">
-import {BookOpen, Rocket, User} from 'lucide-vue-next'
-
-
-import {useOllamaStore} from '~/stores/useOllama.store';
-import OllamaLoader from "~/components/ai/OllamaLoader.vue";
-import {useUserStore} from "~/stores";
-import {computed} from "vue";
+import { BookOpen, Rocket, User } from 'lucide-vue-next'
+import { useUserStore } from "~/stores";
+import { computed } from "vue";
 
 const userStore = useUserStore();
-const ollamaStore = useOllamaStore();
-const {isOllamaInstalled, isChecking} = storeToRefs(ollamaStore);
 const userUsername = computed(() => userStore.user?.username ? `${userStore.user.username}` : 'No username')
-onMounted(async () => {
-  if (isOllamaInstalled.value === null) {
-    await ollamaStore.checkOllamaInstallation();
-  }
-});
-
 </script>
 
 <template>
-  <OllamaLoader v-if="isChecking || isOllamaInstalled === null"/>
-  <div
-      v-else
-      class="flex flex-col md:flex-row min-h-screen">
+  <div class="flex flex-col md:flex-row min-h-screen">
     <div class="flex-1 flex flex-col justify-center p-10 md:p-20">
       <h1 class="text-4xl md:text-6xl font-bold text-foreground mb-6">Bienvenido, {{ userUsername }}</h1>
       <p class="text-xl md:text-2xl text-foreground mb-8">

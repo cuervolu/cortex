@@ -55,10 +55,21 @@ fn setup_logger(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> 
     Ok(())
 }
 
+#[tauri::command]
 async fn init_ollama_models(app_handle: tauri::AppHandle) {
     if let Err(e) = ai::ollama_models::init(&app_handle).await {
         error!("Failed to initialize Ollama models: {:?}", e);
     }
+}
+
+#[tauri::command]
+async fn close_splashscreen_show_main(app_handle: tauri::AppHandle) -> Result<(), String> {
+    let splash_window = app_handle.get_webview_window("splashscreen").unwrap();
+    let main_window = app_handle.get_webview_window("main").unwrap();
+    splash_window.close().unwrap();
+    main_window.show().unwrap();
+
+    Ok(())
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
@@ -70,10 +81,6 @@ pub fn run() {
             app.manage(AppState {
                 user: Mutex::new(None),
                 token: Mutex::new(None),
-            });
-            let app_handle = app.handle().clone();
-            tauri::async_runtime::spawn(async move {
-                init_ollama_models(app_handle).await;
             });
 
             #[cfg(target_os = "windows")]{
@@ -96,6 +103,8 @@ pub fn run() {
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_fs::init())
         .invoke_handler(tauri::generate_handler![
+            close_splashscreen_show_main,
+            init_ollama_models,
             auth::set_user,
             auth::get_user,
             auth::clear_user,
