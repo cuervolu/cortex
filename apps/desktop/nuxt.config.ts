@@ -53,6 +53,7 @@ export default defineNuxtConfig({
     'nuxt-codemirror',
     '@nuxtjs/mdc',
     '@sidebase/nuxt-auth',
+    '@nuxt/image'
   ],
   mdc: {
     highlight: {
@@ -89,7 +90,8 @@ export default defineNuxtConfig({
       endpoints: {
         signIn: {path: 'auth/authenticate', method: 'post'},
         getSession: {path: 'user/me', method: 'get'},
-        signUp: false
+        signUp: false,
+        refresh: {path: 'auth/refresh-token', method: 'post'},
       },
       token: {
         signInResponseTokenPointer: '/token',

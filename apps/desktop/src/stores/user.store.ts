@@ -1,4 +1,5 @@
 import {invoke} from '@tauri-apps/api/core'
+import type {Store} from '@tauri-apps/plugin-store';
 import {createStore} from '@tauri-apps/plugin-store'
 import {defineStore} from 'pinia'
 import {ref} from 'vue'
@@ -8,9 +9,16 @@ interface AuthResponse {
   token: string;
 }
 
-const store = await createStore('store.bin', {
-  autoSave: 1, //HACK: This is a workaround for the issue with the store plugin failing even starting the app
-});
+let store: Store;
+
+async function initStore() {
+  store = await createStore('store.bin', {
+    autoSave: 1, //HACK: This is a workaround for the issue #1902 in Tauri, waiting for a fix in #1860.
+                 // See https://github.com/tauri-apps/plugins-workspace/issues/1902
+  });
+}
+
+initStore();
 
 export const useUserStore = defineStore('user', () => {
   const user = ref<User | null>(null)

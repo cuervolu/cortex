@@ -31,7 +31,7 @@
       "csp": {
         "default-src": "'self' blob: data: filesystem: ws: wss: http: https: tauri: 'unsafe-inline' asset: https://asset.localhost",
         "script-src": "'self' 'unsafe-eval'",
-        "connect-src": "'self' ipc: http://ipc.localhost tauri: asset: https://asset.localhost",
+        "connect-src": "'self' ipc: http://ipc.localhost tauri: asset: https://asset.localhost http://localhost:8088",
         "img-src": "'self' asset: http://asset.localhost blob: data:",
         "style-src": "'unsafe-inline' 'self'"
       },
