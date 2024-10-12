@@ -12,7 +12,7 @@ from resource_handlers import (
     register_user,
 )
 
-BASE_URL: str = "http://localhost:8088/api/v1"
+IMAGE_FOLDER: str = "scripts/initialize/images"  # Ajusta esta ruta según tu estructura de directorios
 
 console = Console()
 
@@ -25,7 +25,6 @@ logging.basicConfig(
 
 log = logging.getLogger("rich")
 
-
 def main() -> None:
     console.print(Panel.fit("Starting Cortex Data Population", style="bold magenta"))
 
@@ -34,7 +33,7 @@ def main() -> None:
         log.info("Data loaded successfully")
 
         register_user(data["admin"])
-        
+
         log.info("Admin user registered successfully")
 
         admin_token = authenticate_user(
@@ -46,13 +45,13 @@ def main() -> None:
         register_users(data["users"], existing_users)
 
         existing_courses = api_request("GET", "education/course", admin_token)
-        courses = create_courses(admin_token, data["courses"], existing_courses)
+        courses = create_courses(admin_token, data["courses"], existing_courses, IMAGE_FOLDER)
 
         create_modules_and_lessons(
-            admin_token, courses, data["modules"], data["lessons"]
+            admin_token, data["modules"], data["lessons"], IMAGE_FOLDER
         )
 
-        create_roadmaps(admin_token, data["roadmaps"])
+        create_roadmaps(admin_token, data["roadmaps"], IMAGE_FOLDER)
 
         console.print(
             Panel.fit(
@@ -63,7 +62,6 @@ def main() -> None:
         console.print("[bold red]An error occurred during data population:[/bold red]")
         console.print_exception()
         log.error(f"Error details: {str(e)}")
-
 
 if __name__ == "__main__":
     main()

@@ -43,68 +43,65 @@
   ],
   "roadmaps": [
     {
-      "title": "Python Adventure Path",
-      "description": "Embark on a fun journey to learn Python, the friendly snake of coding!",
+      "title": "Introducción al Mundo de la Programación",
+      "description": "Embárcate en un viaje fascinante por el vasto universo de la programación. Descubre los fundamentos que dan vida a la tecnología que usamos cada día, desde los conceptos básicos de la computación hasta los primeros pasos en la creación de código. Este roadmap te guiará a través de los principios esenciales, preparándote para explorar cualquier lenguaje de programación con confianza.",
       "tags": [
         {
-          "name": "Python"
+          "name": "Programación"
         },
         {
-          "name": "Beginner"
+          "name": "Principiante"
         },
         {
-          "name": "Programming Basics"
+          "name": "Fundamentos"
         }
       ],
       "course_ids": [
-        1,
-        2
+        1
       ],
       "is_published": true
     },
     {
-      "title": "Java Island Expedition",
-      "description": "Explore the magical island of Java and discover its programming treasures!",
+      "title": "Café Compilado: Tu Primer Sorbo de Java",
+      "description": "Sumérgete en el rico y aromático mundo de Java, uno de los lenguajes de programación más populares y versátiles. Este roadmap te llevará desde los conceptos básicos de la programación orientada a objetos hasta la creación de tus primeras aplicaciones Java. Prepárate para saborear la potencia y flexibilidad de Java mientras construyes una base sólida para tu carrera en desarrollo de software.",
       "tags": [
         {
           "name": "Java"
         },
         {
-          "name": "Object-Oriented Programming"
+          "name": "Programación Orientada a Objetos"
         },
         {
-          "name": "Intermediate"
+          "name": "Desarrollo de Software"
         }
       ],
       "course_ids": [
-        2,
-        3
+        2
       ],
       "is_published": true
     },
     {
-      "title": "Go Kart Racing",
-      "description": "Zoom through the exciting world of Go programming with our Go Kart adventure!",
+      "title": "Carrera de Karts Go",
+      "description": "¡Acelera a través del emocionante mundo de la programación Go con nuestra aventura de Karts!",
       "tags": [
         {
           "name": "Go"
         },
         {
-          "name": "Concurrency"
+          "name": "Concurrencia"
         },
         {
-          "name": "Performance"
+          "name": "Rendimiento"
         }
       ],
       "course_ids": [
-        3,
-        4
+        3
       ],
       "is_published": true
     },
     {
-      "title": "TypeScript Castle Quest",
-      "description": "Conquer the TypeScript castle and become a master of typed JavaScript!",
+      "title": "La Búsqueda del Castillo TypeScript",
+      "description": "¡Conquista el castillo TypeScript y conviértete en un maestro del JavaScript tipado!",
       "tags": [
         {
           "name": "TypeScript"
@@ -113,32 +110,30 @@
           "name": "JavaScript"
         },
         {
-          "name": "Web Development"
+          "name": "Desarrollo Web"
         }
       ],
       "course_ids": [
-        4,
-        5
+        4
       ],
       "is_published": true
     },
     {
-      "title": "Rust Robot Workshop",
-      "description": "Build amazing robots with Rust in this fun and educational workshop!",
+      "title": "Taller de Robots Rust",
+      "description": "¡Construye robots asombrosos con Rust en este divertido y educativo taller!",
       "tags": [
         {
           "name": "Rust"
         },
         {
-          "name": "Systems Programming"
+          "name": "Programación de Sistemas"
         },
         {
-          "name": "Memory Safety"
+          "name": "Seguridad de Memoria"
         }
       ],
       "course_ids": [
-        5,
-        1
+        5
       ],
       "is_published": true
     },
@@ -160,8 +155,7 @@
         }
       ],
       "course_ids": [
-        6,
-        7
+        6
       ],
       "is_published": false
     },
@@ -183,8 +177,7 @@
         }
       ],
       "course_ids": [
-        8,
-        9
+       7
       ],
       "is_published": false
     },
@@ -206,8 +199,7 @@
         }
       ],
       "course_ids": [
-        10,
-        11
+       8
       ],
       "is_published": false
     },
@@ -229,8 +221,7 @@
         }
       ],
       "course_ids": [
-        12,
-        13
+       9
       ],
       "is_published": false
     },
@@ -252,60 +243,89 @@
         }
       ],
       "course_ids": [
-        14,
-        15
+       10
       ],
       "is_published": false
     }
   ],
   "courses": [
     {
-      "name": "Python's Playful Basics",
-      "description": "Learn the basics of Python through fun games and activities!",
+      "name": "Conceptos Básicos de Computación",
+      "description": "Descubre los fundamentos que hacen funcionar a las computadoras modernas. Este curso te introduce a los conceptos esenciales de la computación, desde la representación de datos hasta la lógica binaria, sentando las bases para tu viaje en el mundo de la programación.",
       "tags": [
-        {"name": "Python"},
-        {"name": "Beginner"},
-        {"name": "Programming Basics"}
+        {
+          "name": "Fundamentos"
+        },
+        {
+          "name": "Computación"
+        },
+        {
+          "name": "Principiante"
+        }
       ],
       "is_published": true
     },
     {
-      "name": "Java Jungle Adventure",
-      "description": "Swing through the Java jungle and learn programming along the way!",
+      "name": "Comenzando con Java",
+      "description": "Inicia tu aventura en el mundo de Java con este curso introductorio. Aprenderás la sintaxis básica, los conceptos de programación orientada a objetos y cómo crear tus primeros programas en Java. ¡Prepárate para dar tus primeros pasos en uno de los lenguajes más demandados de la industria!",
       "tags": [
-        {"name": "Java"},
-        {"name": "Object-Oriented Programming"},
-        {"name": "Intermediate"}
+        {
+          "name": "Java"
+        },
+        {
+          "name": "Programación"
+        },
+        {
+          "name": "Principiante"
+        }
       ],
       "is_published": true
     },
     {
-      "name": "Go's Treasure Hunt",
-      "description": "Join the exciting treasure hunt and discover the gems of Go programming!",
+      "name": "La Búsqueda del Tesoro Go",
+      "description": "¡Únete a la emocionante búsqueda del tesoro y descubre las joyas de la programación Go!",
       "tags": [
-        {"name": "Go"},
-        {"name": "Concurrency"},
-        {"name": "Performance"}
+        {
+          "name": "Go"
+        },
+        {
+          "name": "Concurrencia"
+        },
+        {
+          "name": "Rendimiento"
+        }
       ],
       "is_published": true
     },
     {
-      "name": "TypeScript's Magical Spells",
-      "description": "Cast magical spells with TypeScript and enchant your web applications!",
+      "name": "Los Hechizos Mágicos de TypeScript",
+      "description": "¡Lanza hechizos mágicos con TypeScript y encanta tus aplicaciones web!",
       "tags": [
-        {"name": "TypeScript"},
-        {"name": "JavaScript"},
-        {"name": "Web Development"}
+        {
+          "name": "TypeScript"
+        },
+        {
+          "name": "JavaScript"
+        },
+        {
+          "name": "Desarrollo Web"
+        }
       ],
       "is_published": true
     },
     {
-      "name": "Rust's Robot Factory",
-      "description": "Create your own robots using Rust in this exciting factory simulation!",
+      "name": "La Fábrica de Robots Rust",
+      "description": "¡Crea tus propios robots usando Rust en esta emocionante simulación de fábrica!",
       "tags": [
-        {"name": "Rust"},
-        {"name": "Systems Programming"},
-        {"name": "Memory Safety"}
+        {
+          "name": "Rust"
+        },
+        {
+          "name": "Programación de Sistemas"
+        },
+        {
+          "name": "Seguridad de Memoria"
+        }
       ],
       "is_published": true
     },
@@ -313,10 +333,18 @@
       "name": "JavaScript: El Grimorio del DOM",
       "description": "Domina los hechizos fundamentales para manipular el DOM y crear páginas web interactivas.",
       "tags": [
-        {"name": "JavaScript"},
-        {"name": "DOM"},
-        {"name": "Web Development"},
-        {"name": "Front-end"}
+        {
+          "name": "JavaScript"
+        },
+        {
+          "name": "DOM"
+        },
+        {
+          "name": "Web Development"
+        },
+        {
+          "name": "Front-end"
+        }
       ],
       "is_published": false
     },
@@ -324,10 +352,18 @@
       "name": "Alquimia Asíncrona con JavaScript",
       "description": "Aprende a crear pociones asíncronas y a dominar el flujo del tiempo en tus aplicaciones web.",
       "tags": [
-        {"name": "JavaScript"},
-        {"name": "Asynchronous Programming"},
-        {"name": "Web Development"},
-        {"name": "Full-stack"}
+        {
+          "name": "JavaScript"
+        },
+        {
+          "name": "Asynchronous Programming"
+        },
+        {
+          "name": "Web Development"
+        },
+        {
+          "name": "Full-stack"
+        }
       ],
       "is_published": false
     },
@@ -335,10 +371,18 @@
       "name": "Expedición a las Cavernas de Datos",
       "description": "Explora las profundidades de Python para la ciencia de datos y descubre tesoros ocultos en la información.",
       "tags": [
-        {"name": "Python"},
-        {"name": "Data Science"},
-        {"name": "Data Analysis"},
-        {"name": "Visualization"}
+        {
+          "name": "Python"
+        },
+        {
+          "name": "Data Science"
+        },
+        {
+          "name": "Data Analysis"
+        },
+        {
+          "name": "Visualization"
+        }
       ],
       "is_published": false
     },
@@ -346,10 +390,18 @@
       "name": "La Academia de Magos del Machine Learning",
       "description": "Aprende los encantamientos del aprendizaje automático y predice el futuro con algoritmos mágicos.",
       "tags": [
-        {"name": "Python"},
-        {"name": "Machine Learning"},
-        {"name": "AI"},
-        {"name": "Data Science"}
+        {
+          "name": "Python"
+        },
+        {
+          "name": "Machine Learning"
+        },
+        {
+          "name": "AI"
+        },
+        {
+          "name": "Data Science"
+        }
       ],
       "is_published": false
     },
@@ -357,10 +409,18 @@
       "name": "Fundición de Bloques: Introducción a Blockchain",
       "description": "Descubre los secretos de la tecnología blockchain y aprende a forjar tus primeros bloques.",
       "tags": [
-        {"name": "Blockchain"},
-        {"name": "Cryptocurrency"},
-        {"name": "Decentralized Systems"},
-        {"name": "Cryptography"}
+        {
+          "name": "Blockchain"
+        },
+        {
+          "name": "Cryptocurrency"
+        },
+        {
+          "name": "Decentralized Systems"
+        },
+        {
+          "name": "Cryptography"
+        }
       ],
       "is_published": false
     },
@@ -368,10 +428,18 @@
       "name": "La Fragua de los Contratos Inteligentes",
       "description": "Domina el arte de crear contratos inteligentes y aplicaciones descentralizadas en Ethereum.",
       "tags": [
-        {"name": "Blockchain"},
-        {"name": "Smart Contracts"},
-        {"name": "Ethereum"},
-        {"name": "DApps"}
+        {
+          "name": "Blockchain"
+        },
+        {
+          "name": "Smart Contracts"
+        },
+        {
+          "name": "Ethereum"
+        },
+        {
+          "name": "DApps"
+        }
       ],
       "is_published": false
     },
@@ -379,10 +447,18 @@
       "name": "Navegando los Cielos Digitales: Fundamentos de la Nube",
       "description": "Embarca en tu primer vuelo a través de los conceptos básicos de la computación en la nube.",
       "tags": [
-        {"name": "Cloud Computing"},
-        {"name": "AWS"},
-        {"name": "Azure"},
-        {"name": "Fundamentals"}
+        {
+          "name": "Cloud Computing"
+        },
+        {
+          "name": "AWS"
+        },
+        {
+          "name": "Azure"
+        },
+        {
+          "name": "Fundamentals"
+        }
       ],
       "is_published": false
     },
@@ -390,10 +466,18 @@
       "name": "Construcción de Castillos en el Cielo: Arquitectura Cloud Avanzada",
       "description": "Aprende a diseñar y construir infraestructuras escalables y resilientes en la nube.",
       "tags": [
-        {"name": "Cloud Architecture"},
-        {"name": "DevOps"},
-        {"name": "Scalability"},
-        {"name": "Advanced"}
+        {
+          "name": "Cloud Architecture"
+        },
+        {
+          "name": "DevOps"
+        },
+        {
+          "name": "Scalability"
+        },
+        {
+          "name": "Advanced"
+        }
       ],
       "is_published": false
     },
@@ -401,10 +485,18 @@
       "name": "La Academia de Guardianes Digitales",
       "description": "Iníciate en las artes de la ciberseguridad y aprende a proteger los reinos digitales.",
       "tags": [
-        {"name": "Cybersecurity"},
-        {"name": "Network Security"},
-        {"name": "Information Security"},
-        {"name": "Beginner"}
+        {
+          "name": "Cybersecurity"
+        },
+        {
+          "name": "Network Security"
+        },
+        {
+          "name": "Information Security"
+        },
+        {
+          "name": "Beginner"
+        }
       ],
       "is_published": false
     },
@@ -412,10 +504,18 @@
       "name": "El Arsenal del Hacker Ético",
       "description": "Domina las herramientas y técnicas utilizadas por los hackers éticos para defender contra las amenazas cibernéticas.",
       "tags": [
-        {"name": "Ethical Hacking"},
-        {"name": "Penetration Testing"},
-        {"name": "Cybersecurity"},
-        {"name": "Advanced"}
+        {
+          "name": "Ethical Hacking"
+        },
+        {
+          "name": "Penetration Testing"
+        },
+        {
+          "name": "Cybersecurity"
+        },
+        {
+          "name": "Advanced"
+        }
       ],
       "is_published": false
     }
@@ -423,32 +523,32 @@
   "modules": [
     {
       "course_id": 1,
-      "name": "Python's Friendly Animals",
-      "description": "Meet Python's animal friends and learn basic programming concepts!",
+      "name": "¡Bienvenidos al mundo de la programación!",
+      "description": "¡Vamos a explorar el fascinante mundo de los programas de computadora.",
       "is_published": true
     },
     {
       "course_id": 2,
-      "name": "Java's Treehouse Builder",
-      "description": "Build amazing treehouses while learning Java fundamentals!",
+      "name": "Preparando la Cafetera",
+      "description": "Vamos a explorar Java, un lenguaje de programación tan rico y fuerte como el mejor café espresso. Prepara tu taza favorita y acompáñanos en este viaje por el mundo de Java.",
       "is_published": true
     },
     {
       "course_id": 3,
-      "name": "Go's Racing Tracks",
-      "description": "Design and code racing tracks to learn Go programming!",
+      "name": "Pistas de Carreras de Go",
+      "description": "¡Diseña y codifica pistas de carreras para aprender programación en Go!",
       "is_published": true
     },
     {
       "course_id": 4,
-      "name": "TypeScript's Wizard School",
-      "description": "Attend a magical wizard school and learn TypeScript spells!",
+      "name": "La Escuela de Magos de TypeScript",
+      "description": "¡Asiste a una mágica escuela de magos y aprende hechizos de TypeScript!",
       "is_published": true
     },
     {
       "course_id": 5,
-      "name": "Rust's Robot Parts",
-      "description": "Assemble robot parts and learn Rust programming along the way!",
+      "name": "Piezas de Robot de Rust",
+      "description": "¡Ensambla piezas de robot y aprende programación en Rust en el proceso!",
       "is_published": true
     },
     {
@@ -515,45 +615,66 @@
   "lessons": [
     {
       "module_id": 1,
-      "name": "Making Friends with Python",
-      "content": "# Welcome to Python's Friendly Zoo!\n\nHello, young programmer! Today we're going to make friends with Python, the friendliest snake in the coding world!\n\n## What is Python?\n\nPython is like a magical language that helps us talk to computers. It's named after a snake, but don't worry - it's super friendly!\n\n## Your First Python Friend\n\nLet's say hello to our first Python friend:\n\n```python\nprint('Hello, I'm Python!')\n```\n\nWhen you run this code, Python will say hello to you!\n\n## Fun Fact\n\nDid you know? In Python, we use `print()` to make the computer talk to us. It's like giving the computer a megaphone!\n\n## Let's Play!\n\nTry making Python say your name:\n\n```python\nname = 'Your Name Here'\nprint('Hello, ' + name + '! Welcome to the Python Zoo!')\n```\n\nReplace 'Your Name Here' with your actual name and see what happens!\n\nGreat job! You've made your first Python friend. In our next lesson, we'll meet more animal friends and learn how they can help us count and do math!",
+      "name": "¿Qué es un programa?",
+      "content_file": "leccion_1_que_es_un_programa.md",
       "credits": 10,
       "is_published": true
     },
     {
-      "module_id": 2,
-      "name": "Building Java Treehouses",
-      "content": "# Welcome to Java's Treehouse Adventure!\n\nHey there, future Java architect! Today we're going to build amazing treehouses using Java blocks!\n\n## What is Java?\n\nJava is like a big box of LEGO bricks for building cool stuff on computers. It's used to create all sorts of awesome things, from games to robots!\n\n## Your First Java Treehouse\n\nLet's build a simple treehouse with Java:\n\n```java\npublic class Treehouse {\n    public static void main(String[] args) {\n        System.out.println('Welcome to my Java Treehouse!');    \n    }\n}\n```\n\nWhen you run this code, Java will welcome you to your new treehouse!\n\n## Fun Fact\n\nIn Java, we use `public static void main(String[] args)` to start our programs. It's like opening the door to your treehouse!\n\n## Let's Build!\n\nTry adding a window to your treehouse:\n\n```java\nSystem.out.println('There is a window with a view!');\n```\n\nRun your code and see the window appear in your treehouse!\n\nGreat job! You've built your first Java treehouse. In our next lesson, we'll add more rooms and decorations to make it even cooler!",
-      "credits": 20,
-      "is_published": true
-    },
-    {
-      "module_id": 3,
-      "name": "Go Kart Racing: The Starting Line",
-      "content": "# Welcome to Go Kart Racing!\n\nHey there, speed racer! Today we're going to start our engines and learn about Go programming!\n\n## What is Go?\n\nGo (or Golang) is like a superfast race car in the programming world. It helps us build quick and efficient programs!\n\n## Your First Go Race Track\n\nLet's create our first race track with Go:\n\n```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n    fmt.Println(\"Welcome to the Go Kart Racing Track!\")\n}\n```\n\nWhen you run this code, Go will welcome you to the racing track!\n\n## Fun Fact\n\nIn Go, we use `fmt.Println()` to print messages. It's like the announcer at the race track!\n\n## Let's Race!\n\nNow, let's add a racer to our track:\n\n```go\nracerName := \"Speed Gopher\"\nfmt.Println(racerName + \" is ready to race!\")\n```\n\nReplace \"Speed Gopher\" with your racing nickname and see what happens!\n\nAwesome job! You've created your first Go race track. In our next lesson, we'll learn how to make our racers zoom around the track!",
+      "module_id": 1,
+      "name": "Pensando como un Programador",
+      "content_file": "leccion_2_pensando_como_programador.md",
       "credits": 15,
       "is_published": true
     },
     {
-      "module_id": 4,
-      "name": "TypeScript's Magic Wand",
-      "content": "# Welcome to TypeScript's Wizard School!\n\nGreetings, young wizard! Today we're going to craft our first magic wand using TypeScript!\n\n## What is TypeScript?\n\nTypeScript is like a magical upgrade for JavaScript. It gives us special powers to write better spells (code) and avoid magical accidents!\n\n## Your First TypeScript Spell\n\nLet's cast our first spell with TypeScript:\n\n```typescript\nlet wizardName: string = \"Merlin\";\nconsole.log(`Hello, I am ${wizardName} the TypeScript Wizard!`);\n```\n\nWhen you run this code, TypeScript will introduce you to a wizard!\n\n## Fun Fact\n\nIn TypeScript, we use `: string` to tell our spell that `wizardName` should always be words. This helps prevent magical mix-ups!\n\n## Craft Your Wand\n\nNow, let's create a magic wand:\n\n```typescript\ntype Wand = {\n    wood: string;\n    core: string;\n    length: number;\n};\n\nlet myWand: Wand = {\n    wood: \"Oak\",\n    core: \"Phoenix feather\",\n    length: 11\n};\n\nconsole.log(`My wand is made of ${myWand.wood} wood with a ${myWand.core} core, and it's ${myWand.length} inches long!`);\n```\n\nTry changing the wand properties to create your own unique magic wand!\n\nMagnificent work, young wizard! You've cast your first TypeScript spell. In our next lesson, we'll learn how to use our wands to create more complex magical effects!",
-      "credits": 25,
-      "is_published": true
-    },
-    {
-      "module_id": 5,
-      "name": "Rusty the Careful Crab",
-      "content": "# Meet Rusty the Careful Crab 🦀\n\nHello, little programmer! Today we're going to meet Rusty, a very careful crab who speaks a language called Rust.\n\n## What is Rust?\n\nRust is like a toolbox that helps us build super strong and fast programs that never break down!\n\n## Rusty's First Hello\n\nLet's help Rusty say hello:\n\n```rust\nfn main() {\n    println!(\"Hello, I'm Rusty the Crab!\");\n}\n```\n\nWhen you run this code, Rusty will say hello to you!\n\n## Fun Fact\n\nIn Rust, we use `println!()` to make our programs talk. The `!` means it's a macro, which is like a special command for Rusty!\n\n## Rusty's Favorite Things\n\nLet's tell everyone about Rusty's favorite things:\n\n```rust\nfn main() {\n    let age: u8 = 5;\n    let favorite_food = \"seaweed\";\n    println!(\"Rusty is {} years old and loves {}!\", age, favorite_food);\n}\n```\n\nTry changing Rusty's age and favorite food to see what happens!\n\nGreat job! You've helped Rusty introduce himself. In our next lesson, we'll learn how Rusty keeps his claws safe and clean with Rust's special rules!",
+      "module_id": 1,
+      "name": "El Gran Desfile de los Lenguajes de Programación",
+      "content_file": "leccion_3_lenguajes_programacion.md",
       "credits": 20,
       "is_published": true
     },
     {
-      "module_id": 6,
-      "name": "El Grimorio del DOM: Capítulo 1",
-      "content": "# Bienvenido al Grimorio del DOM\n\n¡Saludos, joven mago del web! Hoy comenzaremos a descifrar los misterios del DOM (Documento de Objetos Mágicos) con JavaScript.\n\n## ¿Qué es el DOM?\n\nEl DOM es como un gran árbol mágico que representa toda tu página web. Cada rama y hoja es un elemento que puedes cambiar con tus hechizos de JavaScript.\n\n## Tu Primer Hechizo DOM\n\nVamos a cambiar el texto de un elemento en nuestra página:\n\n```javascript\nlet titulo = document.getElementById('titulo-magico');\ntitulo.textContent = '¡He lanzado mi primer hechizo DOM!';\n```\n\nCuando ejecutes este código, ¡verás cómo cambia el texto en tu página web!\n\n## Dato Curioso\n\nEn JavaScript, usamos `document.getElementById()` para encontrar elementos en nuestra página. Es como usar un hechizo localizador en el mundo mágico.\n\n## Practica tu Magia\n\nAhora, cambiemos el color de nuestro título:\n\n```javascript\ntitulo.style.color = 'purple';\n```\n\nExperimenta con diferentes colores y ve cómo cambia tu página.\n\n¡Excelente trabajo, aprendiz de mago! Has lanzado tus primeros hechizos DOM. En nuestra próxima lección, aprenderemos a crear y eliminar elementos mágicamente.",
+      "module_id": 1,
+      "name": "Python: La Serpiente Amistosa del Código",
+      "content_file": "leccion_4_python_la_serpiente_amistosa_del_codigo.md",
+      "credits": 25,
+      "is_published": true
+    },
+    {
+      "module_id": 1,
+      "name": "El Zoo de los Datos y la Ciudad de la Memoria",
+      "content_file": "leccion_5_el_zoo_de_los_datos_y_la_ciudad_de_la_memoria.md",
       "credits": 30,
-      "is_published": false
+      "is_published": true
+    },
+    {
+      "module_id": 1,
+      "name": "¡Conviértete en un Mago del Código con tu Propio Juego de Preguntas y Respuestas!",
+      "content_file": "leccion_6_¡conviertete_en_un_mago_del_codigo_con_tu_propio_juego_de_preguntas_y_respuestas.md",
+      "credits": 35,
+      "is_published": true
+    },
+    {
+      "module_id": 2,
+      "name": "¿Qué es Java y por qué es tan popular?",
+      "content_file": "leccion_1_¿que_es_java_y_por_que_es_tan_popular.md",
+      "credits": 25,
+      "is_published": true
+    },
+    {
+      "module_id": 2,
+      "name": "Tu Primera Taza de Java",
+      "content_file": "leccion_2_tu_primera_taza_de_java.md",
+      "credits": 20,
+      "is_published": true
+    },
+    {
+      "module_id":2,
+      "name": " Los Granos del Lenguaje",
+      "content_file": "leccion_3_los_granos_del_lenguaje.md",
+      "credits": 30,
+      "is_published": true
     },
     {
       "module_id": 7,

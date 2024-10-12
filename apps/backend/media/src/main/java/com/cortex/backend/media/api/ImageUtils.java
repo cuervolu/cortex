@@ -31,7 +31,7 @@ public class ImageUtils {
   private long maxFileUploadSize;
 
   private static final Set<String> ALLOWED_CONTENT_TYPES = Set.of(
-      "image/jpeg", "image/png", "image/webp"
+      "image/jpeg", "image/png", "image/webp", "image/jpg"
   );
 
   public Map<String, Object> uploadImage(MultipartFile file, String folder) throws IOException {
@@ -53,6 +53,7 @@ public class ImageUtils {
   public boolean isValidImageFile(MultipartFile file) {
     try {
       String contentType = file.getContentType();
+      log.info("Content type: {}", contentType);
       return contentType != null && ALLOWED_CONTENT_TYPES.contains(contentType);
     } catch (Exception e) {
       log.error("Error while checking if file is an image", e);
