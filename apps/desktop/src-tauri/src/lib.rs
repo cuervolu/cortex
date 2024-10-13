@@ -12,9 +12,6 @@ use tauri_plugin_log::fern::colors::ColoredLevelConfig;
 use tauri_plugin_log::RotationStrategy;
 use crate::state::AppState;
 
-#[cfg(target_os = "windows")]
-use window_vibrancy::apply_acrylic;
-
 pub const API_BASE_URL: &str = "http://localhost:8088/api/v1";
 
 pub static CLIENT: LazyLock<Client> = LazyLock::new(|| {
