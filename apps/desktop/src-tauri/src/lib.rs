@@ -82,12 +82,6 @@ pub fn run() {
                 user: Mutex::new(None),
                 token: Mutex::new(None),
             });
-
-            #[cfg(target_os = "windows")]{
-                let window = app.get_webview_window("main").unwrap();
-                apply_acrylic(&window, Some((18, 18, 18, 125)))
-                    .expect("Unsupported platform! 'apply_acrylic' is only supported on Windows");
-            }
             Ok(())
         });
 

@@ -36,11 +36,14 @@
         "minHeight": 600,
         "minWidth": 800,
         "decorations": false,
-        "titleBarStyle": "Overlay",
-        "hiddenTitle": true,
         "transparent": true,
         "shadow": true,
-        "visible": false
+        "visible": false,
+        "windowEffects": {
+          "effects": [
+            "acrylic"
+          ]
+        }
       }
     ],
     "security": {
