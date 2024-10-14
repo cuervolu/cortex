@@ -20,12 +20,6 @@ pub enum AppError {
     #[error("Window not found")]
     WindowNotFound,
 
-    #[error("Ollama not found")]
-    OllamaNotFound,
-
-    #[error("Unsupported operating system")]
-    UnsupportedOS,
-
     #[error("Failed to initialize Ollama")]
     OllamaInitializationError,
 
@@ -37,15 +31,6 @@ pub enum AppError {
 
     #[error("Context not found")]
     ContextNotFound,
-
-    #[error("Failed to set user")]
-    SetUserError,
-
-    #[error("Failed to get user")]
-    GetUserError,
-
-    #[error("Failed to clear user")]
-    ClearUserError,
 
     #[error("No authentication token found")]
     NoTokenError,

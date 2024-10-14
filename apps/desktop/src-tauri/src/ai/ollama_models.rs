@@ -10,13 +10,9 @@ use reqwest::Client;
 use scraper::{Html, Selector};
 use serde::{Deserialize, Serialize};
 use serde_json::json;
-use std::collections::HashMap;
 use std::path::PathBuf;
-use std::sync::{Arc, OnceLock};
-use std::time::Instant;
 use tauri::{AppHandle, Wry};
 use tauri_plugin_store::StoreExt;
-use tokio::sync::RwLock;
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct OllamaModel {
@@ -25,9 +21,6 @@ pub struct OllamaModel {
     pub description: String,
     pub last_scraped: DateTime<Utc>,
 }
-
-pub static OLLAMA_MODELS: OnceLock<Arc<RwLock<HashMap<String, OllamaModel>>>> = OnceLock::new();
-pub static LAST_FETCH: OnceLock<RwLock<Instant>> = OnceLock::new();
 
 pub const STORE_PATH: &str = ".ollama_models.dat";
 
