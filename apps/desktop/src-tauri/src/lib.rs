@@ -117,6 +117,10 @@ pub fn run() {
             education::exercises::commands::get_exercise_details,
             education::courses::commands::get_courses,
             education::courses::commands::get_course_details,
+            education::lessons::commands::fetch_all_lessons,
+            education::lessons::commands::get_lesson,
+            education::modules::commands::fetch_all_modules,
+            education::modules::commands::get_module,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

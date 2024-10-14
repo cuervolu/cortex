@@ -20,7 +20,7 @@ const emit = defineEmits<{
 }>()
 
 const formSchema = toTypedSchema(z.object({
-  username: z.string().min(5, "Username must be at least 5 characters"),
+  username: z.string().min(3, "Username must be at least 5 characters"),
   password: z.string().min(8, 'Password must be at least 8 characters'),
 }))
 
@@ -77,7 +77,7 @@ const handleLogin = (provider: 'github' | 'google') => {
             Or continue with
           </span>
         </div>
-        <form class="space-y-4 text-foreground" @submit.prevent="onSubmit">
+        <form class="space-y-4 text-foreground" @submit="onSubmit">
           <FormField v-slot="{ componentField }" name="username">
             <FormItem>
               <FormLabel>Username</FormLabel>
@@ -121,12 +121,6 @@ const handleLogin = (provider: 'github' | 'google') => {
           <a href="#" class="text-purple-900 hover:underline text-sm">
             Forgot password?
           </a>
-          <p class="text-sm text-gray-600">
-            Don't have an account?
-            <NuxtLink to="/auth/register" class="text-purple-700 hover:underline">
-              Sign up
-            </NuxtLink>
-          </p>
         </div>
       </CardFooter>
     </Card>

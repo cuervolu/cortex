@@ -20,7 +20,7 @@
     "@codemirror/view": "^6.34.1",
     "@cortex/shared": "workspace:^",
     "@fabianlars/tauri-plugin-oauth": "github:FabianLars/tauri-plugin-oauth#v2",
-    "@nuxt/eslint": "^0.5.7",
+    "@nuxt/eslint": "^0.6.0",
     "@nuxt/fonts": "^0.10.0",
     "@nuxt/image": "^1.8.1",
     "@nuxtjs/color-mode": "^3.5.1",

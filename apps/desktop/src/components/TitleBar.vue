@@ -8,7 +8,7 @@ const props = defineProps({
   },
   isCollapsed: {
     type: Boolean,
-    required: true
+    required: false
   }
 });
 const appWindow = getCurrentWindow();
