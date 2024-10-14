@@ -6,6 +6,10 @@ spring:
     servlet:
         multipart:
             max-file-size: 50MB
+    threads:
+        virtual:
+            enabled: true
+    
 springdoc:
     default-produces-media-type: application/json
 server:
