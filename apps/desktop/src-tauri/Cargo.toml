@@ -38,7 +38,6 @@ reqwest = { version = "0.12.8", features = ["json"] }
 sysinfo = "0.32.0"
 thiserror = "1.0.64"
 anyhow = "1.0.89"
-font-kit = "0.14.2"
 ollama-rs = { version = "0.2.1", features = ["stream"] }
 futures = "0.3.31"
 scraper = "0.20.0"
