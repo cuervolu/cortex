@@ -1,6 +1,7 @@
 package com.cortex.backend.engine.api.dto;
 
 import com.cortex.backend.engine.internal.validations.Base64Encoded;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -17,6 +18,7 @@ public record CodeExecutionRequest(
     String language,
 
     @Positive(message = "Exercise ID must be positive")
+    @JsonProperty("exercise_id")
     Long exerciseId
 ) {
 
