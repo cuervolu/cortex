@@ -51,7 +51,7 @@ public class SubmissionServiceImpl implements SubmissionService {
               .user(user)
               .exercise(exercise)
               .status(0L)  // Pending status
-              .pointsEarned(0)
+              .pointsEarned(0) // No points earned yet
               .submissions(new HashSet<>())
               .build();
           return solutionRepository.save(newSolution);
