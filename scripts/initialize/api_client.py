@@ -2,7 +2,7 @@ from typing import Dict, Any, Union
 import requests
 import logging
 
-BASE_URL: str = "http://localhost:8080/api/v1"
+BASE_URL: str = "http://localhost:8088/api/v1"
 
 log = logging.getLogger("rich")
 
