@@ -7,7 +7,10 @@ import static com.cortex.backend.engine.internal.utils.Constants.RESULT_KEY_PREF
 import com.cortex.backend.core.common.exception.ContentChangedException;
 import com.cortex.backend.core.common.exception.ResultNotAvailableException;
 import com.cortex.backend.core.common.exception.UnsupportedLanguageException;
+import com.cortex.backend.core.domain.EntityType;
 import com.cortex.backend.core.domain.Exercise;
+import com.cortex.backend.education.progress.api.LessonCompletedEvent;
+import com.cortex.backend.education.progress.api.ProgressTrackingService;
 import com.cortex.backend.engine.api.ExerciseRepository;
 import com.cortex.backend.engine.api.LanguageRepository;
 import com.cortex.backend.engine.api.SubmissionService;
@@ -30,6 +33,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +48,8 @@ public class CodeExecutionService {
   private final RedisTemplate<String, CodeExecutionResult> redisTemplate;
   private final DockerExecutionService dockerExecutionService;
   private final SubmissionService submissionService;
+  private final ProgressTrackingService progressTrackingService;
+  private final ApplicationEventPublisher eventPublisher;
 
   @Value("${github.exercises.local-path}")
   private String localExercisesPath;
@@ -58,7 +64,7 @@ public class CodeExecutionService {
     String taskId = UUID.randomUUID().toString();
     SubmissionResponse submission = submissionService.createSubmission(request, userId);
     CodeExecutionTask task = new CodeExecutionTask(taskId, request,
-        exercise.getGithubPath(), submission.getId());
+        exercise.getGithubPath(), submission.getId(), userId);
     rabbitTemplate.convertAndSend(CODE_EXECUTION_QUEUE, task);
 
     return taskId;
@@ -79,6 +85,18 @@ public class CodeExecutionService {
     try {
       CodeExecutionResult result = executeCode(task.request(), task.githubPath());
       submissionService.updateSubmissionWithResult(task.submissionId(), result);
+
+      if (result.isSuccess()) {
+        Exercise exercise = exerciseRepository.findById(task.request().exerciseId()).orElseThrow();
+        progressTrackingService.trackProgress(task.userId(), exercise.getId(), EntityType.EXERCISE);
+
+        if (exerciseRepository.areAllExercisesCompletedForLesson(task.userId(),
+            exercise.getLesson().getId())) {
+          eventPublisher.publishEvent(
+              new LessonCompletedEvent(exercise.getLesson().getId(), task.userId()));
+        }
+      }
+
       redisTemplate.opsForValue().set(
           RESULT_KEY_PREFIX + task.taskId(),
           result,
@@ -87,13 +105,11 @@ public class CodeExecutionService {
       );
     } catch (Exception e) {
       log.error("Error processing code execution task", e);
-
       CodeExecutionResult errorResult = CodeExecutionResult.builder()
           .success(false)
           .language(task.request().language())
           .stderr("Internal error: " + e.getMessage())
           .build();
-
       redisTemplate.opsForValue().set(
           RESULT_KEY_PREFIX + task.taskId(),
           errorResult,
