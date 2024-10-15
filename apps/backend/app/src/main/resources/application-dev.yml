@@ -22,7 +22,7 @@ spring:
       host: ${SPRING_DATA_REDIS_HOST:localhost}
       port: ${SPRING_DATA_REDIS_PORT:6379}
       password: ${SPRING_DATA_REDIS_PASSWORD:}
-      username: ${SPRING_DATA_REDIS_USERNAME:default}
+      username: ${SPRING_DATA_REDIS_USERNAME:}
   security:
     oauth2:
       client:
