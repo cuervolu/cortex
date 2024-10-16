@@ -177,7 +177,7 @@
         }
       ],
       "course_ids": [
-       7
+        7
       ],
       "is_published": false
     },
@@ -199,7 +199,7 @@
         }
       ],
       "course_ids": [
-       8
+        8
       ],
       "is_published": false
     },
@@ -221,7 +221,7 @@
         }
       ],
       "course_ids": [
-       9
+        9  
       ],
       "is_published": false
     },
@@ -243,7 +243,7 @@
         }
       ],
       "course_ids": [
-       10
+        10
       ],
       "is_published": false
     }
