@@ -57,6 +57,7 @@ public class SecurityConfig {
                         "/configuration/security",
                         "/swagger-ui/**",
                         "/webjars/**",
+                        "/chat/ai/**",
                         "/swagger-ui.html")
                     .permitAll()
                     .anyRequest()
