@@ -23,7 +23,17 @@
       <artifactId>core</artifactId>
       <version>${project.version}</version>
     </dependency>
-
+    <dependency>
+      <groupId>com.cortex.backend</groupId>
+      <artifactId>engine</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-websocket</artifactId>
+    </dependency>
+    
     <!--  Ollama  -->
     <dependency>
       <groupId>org.springframework.ai</groupId>
