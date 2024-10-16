@@ -59,5 +59,10 @@
       <artifactId>engine</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>com.cortex.backend</groupId>
+      <artifactId>chat</artifactId>
+      <version>${project.version}</version>
+    </dependency>
   </dependencies>
 </project>
