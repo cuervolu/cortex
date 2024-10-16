@@ -5,7 +5,7 @@ import AISettings from "~/components/settings/AISettings.vue";
 </script>
 
 <template>
-  <div class="h-full overflow-auto text-foreground">
+  <div class="h-full overflow-auto text-foreground m-[30px]">
     <h1 class="text-3xl font-bold mb-6">Settings</h1>
     <Tabs default-value="general" class="w-full">
       <TabsList class="mb-4">

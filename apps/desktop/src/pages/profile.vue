@@ -12,7 +12,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-background p-8 mb-5">
+  <div class="min-h-screen bg-background m-[30px]">
     <div class="max-w-6xl mx-auto space-y-8">
       <UserWelcome :user="userStore.user" />
 

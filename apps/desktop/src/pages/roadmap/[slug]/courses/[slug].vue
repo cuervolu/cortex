@@ -65,7 +65,7 @@ const toggleModule = (moduleId: number) => {
 };
 </script>
 <template>
-  <div class="min-h-screen w-full bg-background">
+  <div class="self-stretch bg-background m-[30px]">
     <div class="bg-purple-900 text-white py-16 px-4">
       <div class="container mx-auto">
         <h1 class="text-4xl font-bold mb-2">{{ course.title }}</h1>
