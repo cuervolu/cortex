@@ -75,7 +75,8 @@ public class ProgressTrackingServiceImpl implements ProgressTrackingService {
       trackProgress(userId, roadmapId, EntityType.ROADMAP);
     }
   }
-
+  
+  
   @EventListener
   @Transactional
   public void handleLessonCompletedEvent(LessonCompletedEvent event) {
@@ -83,7 +84,6 @@ public class ProgressTrackingServiceImpl implements ProgressTrackingService {
   }
 
   private void checkAndAwardAchievements(Long userId, EntityType entityType) {
-    // Aquí implementarías la lógica para verificar y otorgar logros
-    // basados en el tipo de entidad completada y posiblemente otras métricas
+    //TODO: Implement achievement logic
   }
 }
