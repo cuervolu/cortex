@@ -1,24 +1,10 @@
-pub(crate) mod ai;
-mod education;
-mod error;
-mod state;
-mod auth;
-
 use log::error;
-use reqwest::Client;
-use std::sync::{LazyLock, Mutex};
+use std::sync::Mutex;
 use tauri::Manager;
 use tauri_plugin_log::fern::colors::ColoredLevelConfig;
 use tauri_plugin_log::RotationStrategy;
-use crate::state::AppState;
+use common::state::AppState;
 
-pub const API_BASE_URL: &str = "http://localhost:8088/api/v1";
-
-pub static CLIENT: LazyLock<Client> = LazyLock::new(|| {
-    Client::builder()
-        .build()
-        .expect("Failed to build reqwest client")
-});
 
 fn setup_logger(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> {
     // create the log plugin as usual, but call split() instead of build()
@@ -54,7 +40,7 @@ fn setup_logger(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> 
 
 #[tauri::command]
 async fn init_ollama_models(app_handle: tauri::AppHandle) {
-    if let Err(e) = ai::ollama_models::init(&app_handle).await {
+    if let Err(e) = ai_chat::ollama_models::init(&app_handle).await {
         error!("Failed to initialize Ollama models: {:?}", e);
     }
 }
@@ -96,20 +82,20 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             close_splashscreen_show_main,
             init_ollama_models,
-            auth::set_user,
-            auth::get_user,
-            auth::clear_user,
-            auth::get_token, 
-            ai::commands::is_ollama_installed,
-            ai::commands::send_prompt_to_ollama,
-            ai::commands::list_local_models,
-            ai::commands::get_ollama_models,
-            ai::commands::refresh_ollama_models,
-            ai::commands::list_ollama_models,
-            ai::commands::show_ollama_model,
-            ai::commands::pull_ollama_model,
-            ai::commands::forced_update,
-            ai::commands::delete_ollama_model,
+            auth::commands::set_user,
+            auth::commands::get_user,
+            auth::commands::clear_user,
+            auth::commands::get_token, 
+            ai_chat::commands::is_ollama_installed,
+            ai_chat::commands::send_prompt_to_ollama,
+            ai_chat::commands::list_local_models,
+            ai_chat::commands::get_ollama_models,
+            ai_chat::commands::refresh_ollama_models,
+            ai_chat::commands::list_ollama_models,
+            ai_chat::commands::show_ollama_model,
+            ai_chat::commands::pull_ollama_model,
+            ai_chat::commands::forced_update,
+            ai_chat::commands::delete_ollama_model,
             education::roadmaps::commands::fetch_all_roadmaps,
             education::roadmaps::commands::fetch_roadmap_course,
             education::roadmaps::commands::get_roadmap,
