@@ -24,7 +24,7 @@ function toggleSidebar() {
             :is-collapsed="isCollapsed"
             @toggle-sidebar="toggleSidebar"
         />
-        <main class="grow shrink basis-0 self-stretch p-[30px] bg-background rounded-[34px] flex-col justify-start items-start gap-2.5 inline-flex overflow-auto scrollable-content">
+        <main class="grow shrink basis-0 self-stretch bg-background rounded-[34px] flex-col justify-start items-start gap-2.5 inline-flex overflow-auto scrollable-content">
           <slot />
         </main>
       </div>

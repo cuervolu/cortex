@@ -32,7 +32,7 @@ onMounted(() => fetchRoadmaps());
 </script>
 
 <template>
-  <div class="container mx-auto px-4 py-8">
+  <div class="self-stretch m-[30px]">
     <div v-if="loading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <div v-for="i in 6" :key="i" class="space-y-3">
         <Skeleton class="h-48 w-full" />

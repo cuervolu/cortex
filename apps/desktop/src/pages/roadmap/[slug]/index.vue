@@ -38,7 +38,7 @@ onMounted(async () => {
 <template>
   <ScrollArea v-if="!loading" class="flex h-full w-full text-foreground">
     <div v-if="error" class="text-red-500">{{ error }}</div>
-    <div v-else-if="roadmap" class="container mx-auto px-4 py-8">
+    <div v-else-if="roadmap" class="self-stretch m-[30px]">
       <Card class="mb-8 bg-muted/40 rounded-lg shadow-lg overflow-hidden">
         <CardHeader class="relative">
           <img
@@ -126,7 +126,7 @@ onMounted(async () => {
             <p v-if="course.updated_at" class="text-sm mb-2">
               Updated: {{ new Date(course.updated_at).toLocaleDateString() }}
             </p>
-            <NuxtLink  :to="{ name: 'roadmap-slug-courses-slug', params: { slug: course.slug } }"> class="w-full">
+            <NuxtLink class="w-full" :to="{ name: 'roadmap-slug-courses-slug', params: { slug: course.slug } }">
               <Button class="w-full">
                 <Book class="w-4 h-4 mr-2"/>
                 Ver Curso
