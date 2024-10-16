@@ -1,0 +1,23 @@
+meta {
+  name: Gigasecond
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{BASEURL}}/api/v1/engine/execute
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "code": "ZnJvbSBkYXRldGltZSBpbXBvcnQgZGF0ZXRpbWUsIHRpbWVkZWx0YQoKZGVmIGFkZF9naWdhc2Vjb25kKG1vbWVudDogZGF0ZXRpbWUpIC0+IGRhdGV0aW1lOgogICAgcmV0dXJuIG1vbWVudCArIHRpbWVkZWx0YShzZWNvbmRzPTEwKio5KQo=",
+    "language": "python",
+    "exercise_id": 2
+  }
+}
