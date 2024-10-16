@@ -177,6 +177,12 @@
       <artifactId>slugify</artifactId>
       <version>3.0.7</version>
     </dependency>
+
+    <dependency>
+      <groupId>org.commonmark</groupId>
+      <artifactId>commonmark</artifactId>
+      <version>0.23.0</version>
+    </dependency>
   </dependencies>
   <dependencyManagement>
     <dependencies>
