@@ -36,6 +36,7 @@ spring:
   ai:
     ollama:
       chat:
+        
         model: llama3:8b
         options:
           temperature: 0.7f
@@ -43,6 +44,7 @@ spring:
           presence-penalty: 0.6f
           frequency-penalty: 0.6f
           top-p: 0.9f
+      base-url: ${OLLAMA_BASE_URL:http://localhost:11434}
 logging:
   level:
     org:
