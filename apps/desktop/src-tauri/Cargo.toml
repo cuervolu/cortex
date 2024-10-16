@@ -16,34 +16,34 @@ name = "cortex_lib"
 crate-type = ["staticlib", "cdylib", "lib"]
 
 [build-dependencies]
-    tauri-build = { version = "2.0.1", features = [] }
+tauri-build = { version = "2.0.1", features = [] }
 
 [dependencies]
-serde_json = "1.0"
-serde = { version = "1.0", features = ["derive"] }
-log = "0.4.22"
-tauri = { version = "2.0.3", features = ["protocol-asset"] }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tokio = { workspace = true }
+tauri = { workspace = true }
+reqwest = { workspace = true }
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+log = { workspace = true }
+tauri-plugin-shell =  {workspace = true}
+tauri-plugin-store = {workspace = true}
 tauri-plugin-devtools = "2.0.0"
 tauri-plugin-fs = "2.0.1"
 tauri-plugin-dialog = "2.0.1"
 tauri-plugin-log = { version = "2.0.1", features = ["colored"] }
 tauri-plugin-os = "2.0.1"
 tauri-plugin-process = "2.0.1"
-tauri-plugin-shell = "2.0.1"
-tauri-plugin-store = "2.0.1"
 tauri-plugin-clipboard-manager = "2.0.1"
 tauri-plugin-oauth = { git = "https://github.com/FabianLars/tauri-plugin-oauth", branch = "v2" }
 tauri-plugin-notification = "2.0.1"
-reqwest = { version = "0.12.8", features = ["json"] }
 sysinfo = "0.32.0"
-thiserror = "1.0.64"
-anyhow = "1.0.89"
-ollama-rs = { version = "0.2.1", features = ["stream"] }
-futures = "0.3.31"
-scraper = "0.20.0"
-tokio = { version = "1.40.0", features = ["full"] }
-chrono = { version = "0.4.38",features = ["serde"] }
-regex = "1.11.0"
+common = { path = "./crates/common" }
+error = { path = "./crates/error" }
+ai_chat = { path = "./crates/ai_chat" }
+auth = { path = "./crates/auth" }
+education = { path = "./crates/education" }
 
 [target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
 tauri-plugin-updater = "2.0.2"
