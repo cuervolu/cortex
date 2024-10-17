@@ -25,6 +25,11 @@
       <artifactId>core</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>com.cortex.backend</groupId>
+      <artifactId>user</artifactId>
+      <version>${project.version}</version>
+    </dependency>
     <!-- Mercado pago -->
     <dependency>
       <groupId>com.mercadopago</groupId>
