@@ -1,10 +1,9 @@
-# LECCIÓN 2: AVENTURAS EN LAS PROFUNDIDADES DEL PAÍS DE LAS MARAVILLAS DIGITALES
 
-## INTRODUCCIÓN
+# Introducción
 
 ¡Bienvenidos de vuelta, valientes exploradores del código! Hoy nos sumergiremos más profundo en el fascinante mundo de Python. Prepárense para descubrir nuevos poderes mágicos y desafiar sus mentes con ejercicios más avanzados. ¡Allá vamos!
 
-## NUEVOS CONCEPTOS MÁGICOS
+## Nuevos conceptos mágicos
 
 ### 1. Las Listas Mágicas 📜
 
@@ -36,13 +35,13 @@ def saludo_magico(nombre):
 print(saludo_magico("Harry"))
 ```
 
-## DATOS SÚPER CURIOSOS
+## Datos súper curiosos
 
 * Python tiene una función llamada `len()` que puede contar la cantidad de objetos en una lista. ¡Es como tener un contador mágico!
 * Existe algo llamado "comprensión de listas" en Python, que es como hacer magia para crear listas nuevas en una sola línea de código.
 * Python usa sangría (espacios al principio de la línea) para organizar el código. Es como si cada hechizo tuviera su propio espacio mágico.
 
-## EJERCICIOS AVANZADOS
+## Ejercicios avanzados
 
 ### Ejercicio 1: El Ordenador de Casas de Hogwarts
 
@@ -114,7 +113,7 @@ def generar_contrasena_magica(longitud):
 print(f"Tu nueva contraseña mágica es: {generar_contrasena_magica(12)}")
 ```
 
-## CONCLUSIÓN
+## Conclusión
 
 ¡Excelente trabajo, jóvenes magos de Python! Han demostrado gran valentía y astucia al enfrentarse a estos desafíos más avanzados. Recuerden, la práctica hace al maestro, así que sigan experimentando con estos nuevos conceptos. En nuestra próxima lección, nos adentraremos aún más en el bosque encantado de Python, donde descubriremos criaturas mágicas como las clases y los módulos.
 

@@ -1,12 +1,9 @@
-# Conceptos Básicos de Computación
 
-## Lección 1: ¿Qué es un programa?
-
-## ¡Bienvenidos al mundo de la programación
+# ¡Bienvenidos al mundo de la programación
 
 ¡Hola, futuros programadores! 👋 ¿Están listos para una aventura emocionante? Hoy vamos a explorar el fascinante mundo de los programas de computadora.
 
-### ¿Qué haremos en esta lección?
+## ¿Qué haremos en esta lección?
 
 - Descubriremos qué son los programas y dónde los encontramos.
 

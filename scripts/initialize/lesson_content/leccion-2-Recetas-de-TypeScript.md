@@ -1,10 +1,9 @@
-# LECCIÓN 2: RECETAS AVANZADAS EN LA COCINA DE TYPESCRIPT
 
-## INTRODUCCIÓN
+# Introducción
 
 ¡Bienvenidos de vuelta, jóvenes chefs del código! Hoy vamos a sumergirnos más profundo en la cocina gourmet de TypeScript. Prepárense para aprender algunas técnicas avanzadas y crear platos de código realmente sofisticados.
 
-## NUEVOS UTENSILIOS DE COCINA TYPESCRIPT
+## Nuevos utensilios de cocina TypeScript
 
 ### 1. Los Arrays Tipados: Nuestras Bandejas de Ingredientes 🍱
 
@@ -40,13 +39,13 @@ function prepararPastel(sabor: string, capas: number): string {
 console.log(prepararPastel("chocolate", 3));
 ```
 
-## DATOS SÚPER CURIOSOS
+## Datos súper curiosos
 
 * TypeScript tiene un modo estricto (`strict: true` en tsconfig.json) que es como activar todos los detectores de seguridad en tu cocina.
 * Puedes usar "type assertions" en TypeScript, que es como decirle al compilador "Confía en mí, sé qué tipo de ingrediente es este".
 * TypeScript tiene un operador de coalescencia nula (`??`) que es como tener un ingrediente de respaldo si tu ingrediente principal no está disponible.
 
-## RECETAS AVANZADAS
+## Recetas avanzadas
 
 ### Receta 1: El Menú del Día Dinámico
 
@@ -181,7 +180,7 @@ const pasosPasta: PasoDeReceta[] = [
 prepararPlato(pasosPasta).then(() => console.log("¡Buen provecho!"));
 ```
 
-## CONCLUSIÓN
+## Conclusión
 
 ¡Excelente trabajo, jóvenes chefs de TypeScript! Han demostrado gran habilidad al manejar estas recetas más avanzadas. Recuerden, la práctica hace al maestro, así que sigan experimentando con estos nuevos conceptos en su cocina de código. En nuestra próxima lección, exploraremos técnicas aún más avanzadas como decoradores y módulos en TypeScript.
 
