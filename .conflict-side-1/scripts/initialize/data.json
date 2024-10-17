@@ -679,77 +679,77 @@
     {
       "module_id": 2,
       "name": "El Café de la Programación",
-      "content": "leccion-1-Preparando-la-Cafetera.md",
+      "content_file": "leccion-1-Preparando-la-Cafetera.md",
       "credits": 35,
       "is_published": true
     },
     {
       "module_id": 2,
       "name": "Tu primer proyecto java",
-      "content": "leccion-2-Java-para-Ninos.md",
+      "content_file": "leccion-2-Java-para-Ninos.md",
       "credits": 40,
       "is_published": true
     },
     {
       "module_id": 3,
       "name": "Jugando con python",
-      "content": "leccion-1-Curso-Python-para-niños.md",
+      "content_file": "leccion-1-Curso-Python-para-niños.md",
       "credits": 40,
       "is_published": true
     },
     {
       "module_id": 3,
       "name": "Explorando el mundo de python",
-      "content": "leccion-2-Aventuras-y-Maravillas-de-python-.md",
+      "content_file": "leccion-2-Aventuras-y-Maravillas-de-python-.md",
       "credits": 40,
       "is_published": true
     },
     {
       "module_id": 4,
       "name": "La cocina de TypeScript",
-      "content": "leccion-1-Cocinando-con-TypeScript.md",
+      "content_file": "leccion-1-Cocinando-con-TypeScript.md",
       "credits": 40,
       "is_published": true
     },
     {
       "module_id": 4,
       "name": "Masterizando la cocina de TypeScript",
-      "content": "leccion-2-Recetas-de-TypeScript.md",
+      "content_file": "leccion-2-Recetas-de-TypeScript.md",
       "credits": 40,
       "is_published": true
     },
     {
       "module_id": 5,
       "name": "Aventuras galacticas en Rust",
-      "content": "leccion-1-Los-super-heroes-rust.md",
+      "content_file": "leccion-1-Los-super-heroes-rust.md",
       "credits": 40,
       "is_published": true
     },
     {
       "module_id": 5,
       "name": "Super heroes de rust",
-      "content": "leccion-2-Aventuras-con-rust.md",
+      "content_file": "leccion-2-Aventuras-con-rust.md",
       "credits": 40,
       "is_published": true
     },
     {
       "module_id": 6,
       "name": "Explorando el cosmos con go",
-      "content": "leccion-1-go-la-ardilla-amigable.md",
+      "content_file": "leccion-1-go-la-ardilla-amigable.md",
       "credits": 40,
       "is_published": true
     },
     {
       "module_id": 6,
       "name": "Aprendiendo del espacio junto a go",
-      "content": "leccion-2-Aventuras-espaciales-en-go.md",
+      "content_file": "leccion-2-Aventuras-espaciales-en-go.md",
       "credits": 40,
       "is_published": true
     },
     {
       "module_id": 7,
       "name": "La fundación de la tecnologia",
-      "content": "leccion-1-Conceptos-Básicos-de-Computación.md",
+      "content_file": "leccion-1-Conceptos-Básicos-de-Computación.md",
       "credits": 40,
       "is_published": true
     }

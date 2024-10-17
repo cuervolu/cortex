@@ -1,5 +1,6 @@
-
 # Introducción
+
+![rust](../images/la_fábrica_de_robots_rust.png)
 
 ¡Bienvenidos de vuelta, valientes Rust Rangers! Hoy nos adentraremos más en las fascinantes cavernas de la Tierra del Cangrejo Oxidado. Prepárense para descubrir nuevos superpoderes Rust y enfrentarse a desafíos más emocionantes. ¡Allá vamos!
 
@@ -151,3 +152,5 @@ fn main() {
 ¡Excelente trabajo, jóvenes Rust Rangers! Han demostrado gran valentía y astucia al enfrentarse a estas misiones más avanzadas. Recuerden, la práctica hace al maestro, así que sigan entrenando con estos nuevos superpoderes. En nuestra próxima lección, exploraremos los misterios de los traits y los lifetimes en Rust, herramientas poderosas para crear superhéroes aún más impresionantes.
 
  ¡Hasta entonces, que el Borrow Checker los acompañe!
+
+![gato](../images/Gatocelebrar.jpeg)
