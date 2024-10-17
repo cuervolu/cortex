@@ -1,10 +1,9 @@
-# LECCIÓN 2: AVENTURAS AVANZADAS EN LA TIERRA DEL CANGREJO OXIDADO
 
-## INTRODUCCIÓN
+# Introducción
 
 ¡Bienvenidos de vuelta, valientes Rust Rangers! Hoy nos adentraremos más en las fascinantes cavernas de la Tierra del Cangrejo Oxidado. Prepárense para descubrir nuevos superpoderes Rust y enfrentarse a desafíos más emocionantes. ¡Allá vamos!
 
-## NUEVOS SUPERPODERES RUST
+## Nuevos superpoderes Rust
 
 ### 1. Los Vectores Vectoriales 🏹
 
@@ -38,13 +37,13 @@ fn saludo_heroico(nombre: &str) -> String {
 println!("{}", saludo_heroico("Iron Crab"));
 ```
 
-## DATOS SÚPER CURIOSOS
+## Datos súper curiosos
 
 * Rust tiene una característica llamada "pattern matching" que es como tener visión de rayos X para tus datos.
 * En Rust, puedes crear tus propios tipos de datos llamados "enums", que son como tener un cinturón de herramientas multiusos.
 * Rust usa un sistema llamado "borrowing" para manejar la memoria, que es como prestar tus juguetes a tus amigos pero asegurándote de que siempre te los devuelvan.
 
-## MISIONES HEROICAS
+## Misiones heroicas
 
 ### Misión 1: El Generador de Nombres de Superhéroes
 
@@ -147,7 +146,7 @@ fn main() {
 }
 ```
 
-## CONCLUSIÓN
+## Conclusión
 
 ¡Excelente trabajo, jóvenes Rust Rangers! Han demostrado gran valentía y astucia al enfrentarse a estas misiones más avanzadas. Recuerden, la práctica hace al maestro, así que sigan entrenando con estos nuevos superpoderes. En nuestra próxima lección, exploraremos los misterios de los traits y los lifetimes en Rust, herramientas poderosas para crear superhéroes aún más impresionantes.
 

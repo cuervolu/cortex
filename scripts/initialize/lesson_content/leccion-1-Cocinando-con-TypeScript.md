@@ -1,21 +1,19 @@
-# LECCIÓN 1: ¿QUÉ ES TYPESCRIPT Y POR QUÉ ES LA ESTRELLA DE LA COCINA DEL CÓDIGO?
-
-## INTRODUCCIÓN
+# Introducción
 
 ¡Bienvenidos, futuros chefs del código! Hoy vamos a explorar TypeScript, un lenguaje que es como la cocina de fusión en el mundo de la programación. Prepara tu delantal y afila tus cuchillos de desarrollador, porque estamos a punto de cocinar algo realmente especial.
 
-## HISTORIA DE TYPESCRIPT: DE LA COCINA CASERA A LA ALTA COCINA
+## Historia de TypeScript: De la cocina  casera a la alta  cocina
 
 Imagina que estás en una cocina en 2012. Un grupo de desarrolladores de Microsoft, liderados por Anders Hejlsberg (el chef estrella Michelin del mundo de la programación), está tratando de crear un lenguaje que haga que cocinar con JavaScript sea más seguro y eficiente.
 
 Pensaron: "¿Y si pudiéramos añadir un sistema de tipos a JavaScript? Sería como tener etiquetas claras en todos nuestros ingredientes". Y así, TypeScript nació como un superconjunto de JavaScript, añadiendo nuevos sabores y técnicas a la receta original.
 
-## DATOS CURIOSOS
+## Datos curiosos
 
 * El logo de TypeScript es un cubo azul, que representa la solidez y estructura que aporta al desarrollo web.
 * El lema de TypeScript podría ser "JavaScript que escala" - es como tener una receta que funciona igual de bien para una cena familiar que para un banquete de 500 personas.
 
-## ¿POR QUÉ NECESITAMOS TYPESCRIPT?
+## ¿Por qué necesitamos typeScript?
 
 JavaScript es como cocinar sin receta: flexible y rápido, pero a veces las cosas pueden salir mal sin que te des cuenta hasta que es demasiado tarde. TypeScript añade una receta detallada a tu cocina de JavaScript:
 
@@ -29,7 +27,7 @@ JavaScript es como cocinar sin receta: flexible y rápido, pero a veces las cosa
 
 5. **Ecosistema robusto**: Imagina tener acceso a un mercado gourmet lleno de ingredientes de alta calidad. That's el ecosistema de TypeScript con sus definiciones de tipo.
 
-## CARACTERÍSTICAS PRINCIPALES DE TYPESCRIPT: LOS INGREDIENTES ESPECIALES
+## Característicasa principales de TypeScript : Los ingredientes especiales
 
 TypeScript no es solo JavaScript con algunos condimentos extra. Es una experiencia culinaria completa con características únicas:
 
@@ -43,7 +41,7 @@ TypeScript no es solo JavaScript con algunos condimentos extra. Es una experienc
 
 * **Módulos**: Organiza tu cocina. TypeScript te ayuda a estructurar tu código en módulos limpios y reutilizables.
 
-## TSC, EL COMPILADOR: TU HORNO DE ALTA TECNOLOGÍA
+## Tsc, el compilador : Tu horno de alta tecnología
 
 Para cocinar con TypeScript, necesitas un horno especial: el compilador de TypeScript (tsc). Este horno mágico hace varias cosas:
 
@@ -51,7 +49,7 @@ Para cocinar con TypeScript, necesitas un horno especial: el compilador de TypeS
 2. **Transpila el código**: Convierte tu receta de TypeScript en JavaScript que cualquier navegador puede "degustar".
 3. **Genera archivos de declaración**: Crea "menús" detallados (archivos .d.ts) que describen la estructura de tu código.
 
-## ¿QUIÉNES USAN TYPESCRIPT?
+## ¿Quienes usan TypeScript?
 
 TypeScript es como el nuevo favorito en el mundo de la alta cocina del código. Aquí algunos chefs y restaurantes famosos que lo usan:
 
@@ -61,25 +59,25 @@ TypeScript es como el nuevo favorito en el mundo de la alta cocina del código. 
 4. **Airbnb**: Han adoptado TypeScript para muchos de sus proyectos frontend.
 5. **Asana**: La herramienta de gestión de proyectos confía en TypeScript para su desarrollo.
 
-## CUÁNDO USAR TYPESCRIPT Y CUÁNDO NO
+## Cuándo usar TypeScript y cuándo no
 
 Como con las técnicas culinarias, TypeScript es genial para muchas cosas, pero no para todo. Veamos cuándo es buena idea usarlo y cuándo quizás deberías considerar otra "receta":
 
-### USA TYPESCRIPT CUANDO
+### Usa TypeScript cuando
 
 1. **Trabajas en proyectos grandes**: TypeScript brilla en cocinas grandes y ocupadas (proyectos complejos).
 2. **Necesitas mantener el código a largo plazo**: Es como tener una receta bien documentada para el futuro.
 3. **Trabajas en equipo**: Facilita que múltiples chefs trabajen en la misma cocina sin pisarse los pies.
 4. **Quieres una mejor experiencia de desarrollo**: El autocompletado y la detección de errores son como tener los mejores utensilios de cocina.
 
-### MEJOR NO USAR TYPESCRIPT CUANDO
+### Mejor no usar TypeScript cuando
 
 1. **Tienes un proyecto muy pequeño**: Para hacer un sándwich rápido, tal vez no necesites sacar todos los utensilios.
 2. **Estás aprendiendo JavaScript**: Primero aprende a cocinar los básicos antes de aventurarte en la cocina de fusión.
 3. **Tienes plazos muy ajustados**: Configurar TypeScript lleva tiempo, como preparar una cocina profesional.
 4. **Tu equipo no está familiarizado con tipos estáticos**: Si tus chefs no conocen la técnica, podría ralentizar la cocina al principio.
 
-## CONCLUSIÓN
+## Conclusión
 
 Ahora que conoces los conceptos básicos de TypeScript, estás listo para empezar a cocinar tu propio código tipado. En las próximas lecciones, aprenderemos cómo configurar nuestra "cocina de TypeScript" y haremos nuestra primera "receta".
 

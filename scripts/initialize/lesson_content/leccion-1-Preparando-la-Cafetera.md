@@ -1,6 +1,5 @@
-# Módulo 1: Preparando la Cafetera
 
-## Lección 1: ¿Qué es Java y por qué es tan popular?
+# Lección 1: ¿Qué es Java y por qué es tan popular?
 
 ## ![7189203735c2eca8](<./attachments/7189203735c2eca8-7189203735c2eca8>)
 

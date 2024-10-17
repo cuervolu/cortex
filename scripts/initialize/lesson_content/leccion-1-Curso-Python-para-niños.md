@@ -1,22 +1,21 @@
-# LECCIÓN 1: BIENVENIDOS AL PAÍS DE LAS MARAVILLAS DIGITALES
 
-## INTRODUCCIÓN
+# Introducción
 
 ¡Hola, jóvenes aventureros del código! ¿Están listos para caer por la madriguera del conejo y entrar en un mundo mágico lleno de posibilidades? Pues agarren sus sombreros de copa, porque nos vamos de viaje al País de las Maravillas Digitales, hogar de la serpiente más amigable y poderosa del mundo de la programación: ¡Python! 🐍🎩
 
-## LA LEYENDA DE LA SERPIENTE MÁGICA
+## La leyenda de la serpiente Mágica
 
 Hace mucho tiempo, en el año 1991, en un laboratorio mágico de Holanda...
 
 Un brillante mago del código llamado Guido van Rossum estaba aburrido durante las vacaciones de Navidad. Así que decidió crear un nuevo lenguaje de programación que fuera tan divertido de usar como jugar con LEGO, pero tan poderoso como la varita de Harry Potter. Lo llamó Python, ¡en honor a los divertidos magos del Monty Python's Flying Circus!
 
-## DATOS SÚPER CURIOSOS
+## Datos súper curiosos
 
 * La mascota no oficial de Python es una serpiente. Pero no te asustes, ¡esta serpiente es súper amigable!
 * Python fue nombrado por el show de comedia Monty Python, no por la serpiente. ¡Así que espera muchos chistes en el camino!
 * El Zen de Python es como las reglas mágicas del País de las Maravillas. Una de ellas dice: "Simple es mejor que complejo". Es como si te dijeran que es mejor usar una cuchara que un tenedor para comer sopa.
 
-## ¿QUIÉNES SON LOS AMIGOS DE PYTHON?
+## ¿Quiénes son los amigos de Python?
 
 Python tiene muchos amigos mágicos que lo usan para crear cosas increíbles:
 
@@ -26,7 +25,7 @@ Python tiene muchos amigos mágicos que lo usan para crear cosas increíbles:
 4. **Spotify**: Recomiendan música usando la magia de Python.
 5. **Instagram**: Hacen que tus fotos se vean geniales con un poco de encantamiento Python.
 
-## ¿CUÁNDO LLAMAMOS A PYTHON PARA QUE NOS AYUDE?
+## ¿Cuándo llamamos a python para que nos ayude?
 
 Imagina que Python es como una varita mágica multifunción. Es genial para:
 
@@ -36,7 +35,7 @@ Imagina que Python es como una varita mágica multifunción. Es genial para:
 4. Si estás creando un juego de computadora y quieres que sea fácil de modificar.
 5. Cuando necesitas hacer tareas repetitivas y aburridas. ¡Python las hace por ti en un santiamén!
 
-## ¿CUÁNDO QUIZÁS NO NECESITAMOS A PYTHON?
+## ¿Cuándo quizás no necesitamos a python?
 
 A veces, incluso la magia necesita un descanso:
 
@@ -45,7 +44,7 @@ A veces, incluso la magia necesita un descanso:
 3. Si necesitas que tu programa sea un archivo único que se pueda ejecutar en cualquier computadora sin instalar nada.
 4. Cuando estás haciendo juegos con gráficos 3D súper complicados (aunque Python puede ayudar en algunas partes).
 
-## HORA DE JUGAR Y APRENDER
+## Hora de jugar y aprender
 
 ### Ejercicio 1: Descifra el Hechizo Python
 
@@ -82,7 +81,7 @@ Ingrediente            Efecto
 5. For                 E. Un mini-hechizo que puedes reutilizar
 ```
 
-## CONCLUSIÓN
+## Conclusión
 
 ¡Felicidades, jóvenes Pythonistas! Han completado su primera lección en el País de las Maravillas Digitales. Ahora tienen el poder de comenzar a crear su propia magia con Python. En nuestras próximas aventuras, aprenderemos cómo usar los hechizos de Python para crear programas increíbles que puedan transformar el mundo digital.
 

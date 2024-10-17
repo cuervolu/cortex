@@ -1,22 +1,21 @@
-# LECCIÓN 1: BIENVENIDOS AL PLANETA GO
 
-## INTRODUCCIÓN
+# Introducción
 
 ¡Hola, jóvenes exploradores del código! ¿Están listos para una aventura intergaláctica? Abróchense los cinturones de sus naves espaciales, porque nos dirigimos al fascinante Planeta Go, hogar de las criaturas más rápidas y eficientes del universo: ¡los Gophers! 🚀🐹
 
-## LA LEYENDA DEL GOPHER VELOZ
+## La leyenda del gopher veloz
 
 Hace no mucho tiempo, en el año 2007, en un planeta lejano llamado Google...
 
 Tres valientes astronautas del código, Robert Griesemer, Rob Pike y Ken Thompson, estaban cansados de lo complicado que era viajar por el espacio con las naves antiguas. Así que decidieron crear una nueva nave, tan rápida como un cometa pero tan fácil de pilotar como una bicicleta. La llamaron Go, ¡y eligieron al Gopher como su mascota porque estos animalitos son rápidos, amigables y expertos en crear túneles eficientes!
 
-## DATOS SÚPER CURIOSOS
+## Datos súper curiosos
 
 * La mascota de Go es un Gopher (una especie de ardilla excavadora). ¡Es tan popular que incluso tiene su propio nombre: Gordon!
 * Go se diseñó para ser tan rápido de compilar que puedes dar la vuelta al planeta antes de que termine.
 * El lema no oficial de Go es "Haz más con menos". Es como tener una mochila mágica que puede guardar todo lo que necesitas para tu viaje espacial, ¡pero que nunca se hace pesada!
 
-## ¿QUIÉNES SON LOS AMIGOS DE LOS GOPHERS?
+## ¿Quiénes son los amigos de los gophers?
 
 Los Gophers tienen muchos amigos poderosos que los usan para crear cosas increíbles en el espacio:
 
@@ -26,7 +25,7 @@ Los Gophers tienen muchos amigos poderosos que los usan para crear cosas increí
 4. **Docker**: Construyen contenedores espaciales súper eficientes con Go.
 5. **Cloudflare**: Protegen las comunicaciones entre galaxias con la ayuda de Go.
 
-## ¿CUÁNDO LLAMAMOS A LOS GOPHERS PARA QUE NOS AYUDEN?
+## ¿Cuándo llamamos a los gophers para que nos ayuden?
 
 Imagina que los Gophers son como los robots ayudantes más cool del espacio. Hay momentos en los que son la mejor opción para una misión:
 
@@ -36,7 +35,7 @@ Imagina que los Gophers son como los robots ayudantes más cool del espacio. Hay
 4. Si estás trabajando en sistemas distribuidos que conectan diferentes partes del universo.
 5. Cuando necesitas que tu programa sea súper rápido y use poca energía de tu nave.
 
-## ¿CUÁNDO QUIZÁS NO NECESITAMOS A LOS GOPHERS?
+## ¿Cuándo quizás no necesitamos a los gophers?
 
 A veces, incluso los Gophers necesitan un descanso:
 
@@ -45,7 +44,7 @@ A veces, incluso los Gophers necesitan un descanso:
 3. Si tu proyecto necesita mucha programación funcional avanzada.
 4. Cuando estás aprendiendo a programar por primera vez (¡pero no te preocupes, pronto estarás listo para conocerlos!).
 
-## HORA DE JUGAR Y APRENDER
+## Hora de jugar y aprender
 
 ### Ejercicio 1: Decodifica el Mensaje Gopher
 

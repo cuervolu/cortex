@@ -1,10 +1,9 @@
-# LECCIÓN 2: AVENTURAS EN LAS PROFUNDIDADES DEL PLANETA GO
 
-## INTRODUCCIÓN
+# Introducción
 
 ¡Bienvenidos de vuelta, valientes astronautas del código! Hoy nos adentraremos más en las fascinantes cavernas del Planeta Go. Prepárense para descubrir nuevos superpoderes Gopher y desafiar sus mentes con misiones más avanzadas. ¡Allá vamos!
 
-## NUEVOS CONCEPTOS ESTELARES
+## Nuevos conceptos estelares
 
 ### 1. Los Slices Estelares 🌠
 
@@ -38,13 +37,13 @@ func saludoEspacial(nombre string) string {
 fmt.Println(saludoEspacial("Buzz"))
 ```
 
-## DATOS SÚPER CURIOSOS
+## Datos súper curiosos
 
 * Go tiene una función incorporada llamada `len()` que puede medir la longitud de un slice. ¡Es como tener un medidor de asteroides!
 * En Go, puedes crear slices de slices, lo que es como tener galaxias dentro de galaxias.
 * Go usa la palabra clave `defer` para asegurarse de que ciertas tareas se realicen al final de una función, como cerrar la compuerta de tu nave espacial antes de despegar.
 
-## MISIONES AVANZADAS
+## Misiones avanzadas
 
 ### Misión 1: El Generador de Nombres de Planetas
 
@@ -169,7 +168,7 @@ func main() {
 }
 ```
 
-## CONCLUSIÓN
+## Conclusión
 
 ¡Excelente trabajo, jóvenes Gophers Galácticos! Han demostrado gran valentía y astucia al enfrentarse a estas misiones más avanzadas. Recuerden, la práctica hace al maestro, así que sigan experimentando con estos nuevos conceptos. En nuestra próxima lección, exploraremos los misterios de las estructuras y las interfaces en Go, herramientas poderosas para construir naves espaciales aún más impresionantes.
 

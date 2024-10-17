@@ -1,17 +1,13 @@
 
-# Módulo 2: Java para pequeños programadores
-
-## Lección 1: Estructura básica de un programa en Java
-
-### Introducción
+# Introducción
 
 ¡Hola, pequeños programadores de Java! 🧑‍💻 Hoy vamos a aprender cómo se ve un programa en Java. ¡Es como una receta de cocina! Si sigues los pasos en orden, tu computadora hará exactamente lo que le pidas.
 
-### ¿Qué es un programa en Java?
+## ¿Qué es un programa en Java?
 
 Un programa en Java es como una carta que le escribes a la computadora. Debes seguir ciertas reglas para que entienda lo que le estás diciendo.
 
-### Ejemplo
+## Ejemplo
 
 ```java
 public class MiPrograma {

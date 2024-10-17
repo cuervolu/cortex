@@ -1,22 +1,21 @@
-# LECCIÓN 1: BIENVENIDOS A LA TIERRA DEL CANGREJO OXIDADO
 
-## INTRODUCCIÓN
+# Introducción
 
 ¡Hola, jóvenes aventureros del código! ¿Están listos para una emocionante expedición a la Tierra del Cangrejo Oxidado? ¡Pues abróchense los cinturones, porque vamos a explorar el fascinante mundo de Rust! 🦀🚀
 
-## LA LEYENDA DEL CANGREJO OXIDADO
+## La leyenda del cangrejo oxidado
 
 Hace mucho tiempo, en el año 2006, en una tierra lejana llamada Mozilla...
 
 Un valiente programador llamado Graydon Hoare estaba cansado de luchar contra dragones como los errores de memoria y las temibles carreras de datos. Así que decidió crear un nuevo lenguaje de programación, tan fuerte como el hierro pero tan flexible como el agua. Lo llamó Rust, ¡en honor al poderoso Cangrejo Oxidado que protegería a los programadores de los peligros!
 
-## DATOS SUPER CURIOSOS
+## Datos super curiosos
 
 * El símbolo de Rust es un cangrejo. ¿Por qué? ¡Porque los cangrejos son rápidos, fuertes y tienen pinzas para atrapar errores!
 * El lema de Rust es "Seguro, Concurrente, Práctico" - es como ser un superhéroe que puede hacer muchas cosas a la vez sin lastimarse.
 * Rust ha sido votado como el lenguaje de programación más amado por los desarrolladores durante 7 años seguidos. ¡Es como ganar el concurso de popularidad en la escuela de los lenguajes de programación!
 
-## ¿QUIÉNES SON LOS AMIGOS DE RUST?
+## ¿Quiénes son los amigos de Rust?
 
 Rust tiene muchos amigos poderosos que lo usan para crear cosas increíbles:
 
@@ -26,7 +25,7 @@ Rust tiene muchos amigos poderosos que lo usan para crear cosas increíbles:
 4. **Amazon**: Lo usan en algunos de sus servicios web para que sean rapidísimos.
 5. **Microsoft**: Están explorando usar Rust para hacer partes de Windows aún más seguras.
 
-## ¿CUÁNDO LLAMAMOS A RUST PARA QUE NOS AYUDE?
+## ¿Cuándo llamamos a rust para que nos ayude?
 
 Imagina que Rust es como un superhéroe. Hay momentos en los que es la mejor opción para salvar el día:
 
@@ -36,7 +35,7 @@ Imagina que Rust es como un superhéroe. Hay momentos en los que es la mejor opc
 4. Si estás trabajando en juegos y necesitas que corran a toda velocidad.
 5. Cuando estás programando dispositivos pequeñitos como robots o sensores.
 
-## ¿CUÁNDO QUIZÁS NO NECESITAMOS A RUST?
+## ¿Cuándo quizás no necesitamos a rust?
 
 A veces, incluso los superhéroes necesitan descansar:
 
@@ -45,7 +44,7 @@ A veces, incluso los superhéroes necesitan descansar:
 3. Si tu proyecto es muy pequeño y no necesita tanta potencia.
 4. Cuando trabajas con un equipo que no conoce Rust (¡todavía!).
 
-## HORA DE JUGAR Y APRENDER
+## Hora de jugar y aprender
 
 ### Ejercicio 1: Encuentra al Cangrejo Oxidado
 
