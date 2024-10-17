@@ -1,0 +1,729 @@
+{
+  "admin": {
+    "firstname": "Ángel",
+    "lastname": "Cuervo",
+    "username": "cuervolu",
+    "email": "angel.cuervo187@gmail.com",
+    "password": "adminPassword123!",
+    "dateOfBirth": "2002-07-29",
+    "countryCode": "CL",
+    "gender": "MALE"
+  },
+  "users": [
+    {
+      "firstname": "Ignacio",
+      "lastname": "Carrasco",
+      "username": "igna.carrasco",
+      "email": "igna.carrasco@duocuc.cl",
+      "password": "password123!",
+      "dateOfBirth": "1660-01-01",
+      "countryCode": "CL",
+      "gender": "PREFER_NOT_TO_SAY"
+    },
+    {
+      "firstname": "Hamir",
+      "lastname": "Llanos",
+      "username": "kiwi",
+      "email": "ha.llanos@duocuc.cl",
+      "password": "password123!",
+      "dateOfBirth": "2002-12-03",
+      "countryCode": "CL",
+      "gender": "MALE"
+    },
+    {
+      "firstname": "Cristopher",
+      "lastname": "Hurtado",
+      "username": "crihurtado",
+      "email": "cri.hurtado@duocuc.cl",
+      "password": "password123!",
+      "dateOfBirth": "1990-01-03",
+      "countryCode": "CL",
+      "gender": "MALE"
+    }
+  ],
+  "roadmaps": [
+    {
+      "title": "Introducción al Mundo de la Programación",
+      "description": "Embárcate en un viaje fascinante por el vasto universo de la programación. Descubre los fundamentos que dan vida a la tecnología que usamos cada día, desde los conceptos básicos de la computación hasta los primeros pasos en la creación de código. Este roadmap te guiará a través de los principios esenciales, preparándote para explorar cualquier lenguaje de programación con confianza.",
+      "tags": [
+        {
+          "name": "Programación"
+        },
+        {
+          "name": "Principiante"
+        },
+        {
+          "name": "Fundamentos"
+        }
+      ],
+      "course_ids": [
+        1
+      ],
+      "is_published": true
+    },
+    {
+      "title": "Café Compilado: Tu Primer Sorbo de Java",
+      "description": "Sumérgete en el rico y aromático mundo de Java, uno de los lenguajes de programación más populares y versátiles. Este roadmap te llevará desde los conceptos básicos de la programación orientada a objetos hasta la creación de tus primeras aplicaciones Java. Prepárate para saborear la potencia y flexibilidad de Java mientras construyes una base sólida para tu carrera en desarrollo de software.",
+      "tags": [
+        {
+          "name": "Java"
+        },
+        {
+          "name": "Programación Orientada a Objetos"
+        },
+        {
+          "name": "Desarrollo de Software"
+        }
+      ],
+      "course_ids": [
+        2
+      ],
+      "is_published": true
+    },
+    {
+      "title": "Carrera de Karts Go",
+      "description": "¡Acelera a través del emocionante mundo de la programación Go con nuestra aventura de Karts!",
+      "tags": [
+        {
+          "name": "Go"
+        },
+        {
+          "name": "Concurrencia"
+        },
+        {
+          "name": "Rendimiento"
+        }
+      ],
+      "course_ids": [
+        3
+      ],
+      "is_published": true
+    },
+    {
+      "title": "La Búsqueda del Castillo TypeScript",
+      "description": "¡Conquista el castillo TypeScript y conviértete en un maestro del JavaScript tipado!",
+      "tags": [
+        {
+          "name": "TypeScript"
+        },
+        {
+          "name": "JavaScript"
+        },
+        {
+          "name": "Desarrollo Web"
+        }
+      ],
+      "course_ids": [
+        4
+      ],
+      "is_published": true
+    },
+    {
+      "title": "Taller de Robots Rust",
+      "description": "¡Construye robots asombrosos con Rust en este divertido y educativo taller!",
+      "tags": [
+        {
+          "name": "Rust"
+        },
+        {
+          "name": "Programación de Sistemas"
+        },
+        {
+          "name": "Seguridad de Memoria"
+        }
+      ],
+      "course_ids": [
+        5
+      ],
+      "is_published": true
+    },
+    {
+      "title": "La Senda del Mago del DOM: Dominio de JavaScript",
+      "description": "Embárcate en un viaje épico a través de La Senda del Mago del DOM. Descubrirás los secretos arcanos de JavaScript, desde la manipulación mística del DOM hasta la creación de poderosos hechizos asíncronos. Dominarás el arte de tejer aplicaciones web interactivas, conjurar APIs RESTful y forjar artefactos mágicos con frameworks modernos. Al final de tu travesía, te alzarás como un verdadero Archimago del desarrollo web front-end y full-stack.",
+      "tags": [
+        {
+          "name": "JavaScript"
+        },
+        {
+          "name": "Desarrollo Web"
+        },
+        {
+          "name": "Front-end"
+        },
+        {
+          "name": "Full-stack"
+        }
+      ],
+      "course_ids": [
+        6
+      ],
+      "is_published": false
+    },
+    {
+      "title": "El Viaje del Explorador de Datos: Aventuras en Python y Machine Learning",
+      "description": "Únete a una expedición fascinante a través del mundo de la ciencia de datos y el aprendizaje automático. Descubre los secretos ocultos en los datos, domina las artes de la visualización y desata el poder de los algoritmos de IA. Al final de tu viaje, te convertirás en un verdadero Explorador de Datos, capaz de revelar conocimientos asombrosos y predecir el futuro con tus habilidades de Machine Learning.",
+      "tags": [
+        {
+          "name": "Python"
+        },
+        {
+          "name": "Data Science"
+        },
+        {
+          "name": "Machine Learning"
+        },
+        {
+          "name": "Visualización de Datos"
+        }
+      ],
+      "course_ids": [
+        7
+      ],
+      "is_published": false
+    },
+    {
+      "title": "La Forja del Desarrollador Blockchain",
+      "description": "Adéntrate en el ardiente mundo de la tecnología blockchain y las criptomonedas. Aprende a forjar contratos inteligentes, crear aplicaciones descentralizadas (DApps) y dominar los protocolos de consenso. Al completar tu entrenamiento en La Forja, emergerás como un Maestro Herrero Blockchain, capaz de construir el futuro descentralizado.",
+      "tags": [
+        {
+          "name": "Blockchain"
+        },
+        {
+          "name": "Smart Contracts"
+        },
+        {
+          "name": "Ethereum"
+        },
+        {
+          "name": "DApps"
+        }
+      ],
+      "course_ids": [
+        8
+      ],
+      "is_published": false
+    },
+    {
+      "title": "La Odisea del Arquitecto en la Nube",
+      "description": "Embárcate en un viaje épico a través de los vastos reinos de la computación en la nube. Aprenderás a diseñar y construir majestuosas estructuras en el cielo digital, dominar los vientos de la escalabilidad y conjurar los rayos del procesamiento distribuido. Al final de tu odisea, te convertirás en un verdadero Arquitecto de las Nubes, capaz de crear y gestionar infraestructuras que se extienden más allá del horizonte.",
+      "tags": [
+        {
+          "name": "Cloud Computing"
+        },
+        {
+          "name": "AWS"
+        },
+        {
+          "name": "Azure"
+        },
+        {
+          "name": "DevOps"
+        }
+      ],
+      "course_ids": [
+        9  
+      ],
+      "is_published": false
+    },
+    {
+      "title": "El Camino del Guardián de la Ciberseguridad",
+      "description": "Conviértete en un valiente defensor del reino digital en El Camino del Guardián de la Ciberseguridad. Aprenderás las artes del hacking ético, dominarás las técnicas de encriptación y forjarás poderosos escudos contra las fuerzas del mal en el ciberespacio. Al completar tu entrenamiento, te alzarás como un Guardián de élite, protegiendo los reinos digitales de las amenazas que acechan en las sombras.",
+      "tags": [
+        {
+          "name": "Ciberseguridad"
+        },
+        {
+          "name": "Hacking Ético"
+        },
+        {
+          "name": "Criptografía"
+        },
+        {
+          "name": "Seguridad de Redes"
+        }
+      ],
+      "course_ids": [
+        10
+      ],
+      "is_published": false
+    }
+  ],
+  "courses": [
+    {
+      "name": "Conceptos Básicos de Computación",
+      "description": "Descubre los fundamentos que hacen funcionar a las computadoras modernas. Este curso te introduce a los conceptos esenciales de la computación, desde la representación de datos hasta la lógica binaria, sentando las bases para tu viaje en el mundo de la programación.",
+      "tags": [
+        {
+          "name": "Fundamentos"
+        },
+        {
+          "name": "Computación"
+        },
+        {
+          "name": "Principiante"
+        }
+      ],
+      "is_published": true
+    },
+    {
+      "name": "Comenzando con Java",
+      "description": "Inicia tu aventura en el mundo de Java con este curso introductorio. Aprenderás la sintaxis básica, los conceptos de programación orientada a objetos y cómo crear tus primeros programas en Java. ¡Prepárate para dar tus primeros pasos en uno de los lenguajes más demandados de la industria!",
+      "tags": [
+        {
+          "name": "Java"
+        },
+        {
+          "name": "Programación"
+        },
+        {
+          "name": "Principiante"
+        }
+      ],
+      "is_published": true
+    },
+    {
+      "name": "La Búsqueda del Tesoro Go",
+      "description": "¡Únete a la emocionante búsqueda del tesoro y descubre las joyas de la programación Go!",
+      "tags": [
+        {
+          "name": "Go"
+        },
+        {
+          "name": "Concurrencia"
+        },
+        {
+          "name": "Rendimiento"
+        }
+      ],
+      "is_published": true
+    },
+    {
+      "name": "Los Hechizos Mágicos de TypeScript",
+      "description": "¡Lanza hechizos mágicos con TypeScript y encanta tus aplicaciones web!",
+      "tags": [
+        {
+          "name": "TypeScript"
+        },
+        {
+          "name": "JavaScript"
+        },
+        {
+          "name": "Desarrollo Web"
+        }
+      ],
+      "is_published": true
+    },
+    {
+      "name": "La Fábrica de Robots Rust",
+      "description": "¡Crea tus propios robots usando Rust en esta emocionante simulación de fábrica!",
+      "tags": [
+        {
+          "name": "Rust"
+        },
+        {
+          "name": "Programación de Sistemas"
+        },
+        {
+          "name": "Seguridad de Memoria"
+        }
+      ],
+      "is_published": true
+    },
+    {
+      "name": "JavaScript: El Grimorio del DOM",
+      "description": "Domina los hechizos fundamentales para manipular el DOM y crear páginas web interactivas.",
+      "tags": [
+        {
+          "name": "JavaScript"
+        },
+        {
+          "name": "DOM"
+        },
+        {
+          "name": "Web Development"
+        },
+        {
+          "name": "Front-end"
+        }
+      ],
+      "is_published": false
+    },
+    {
+      "name": "Alquimia Asíncrona con JavaScript",
+      "description": "Aprende a crear pociones asíncronas y a dominar el flujo del tiempo en tus aplicaciones web.",
+      "tags": [
+        {
+          "name": "JavaScript"
+        },
+        {
+          "name": "Asynchronous Programming"
+        },
+        {
+          "name": "Web Development"
+        },
+        {
+          "name": "Full-stack"
+        }
+      ],
+      "is_published": false
+    },
+    {
+      "name": "Expedición a las Cavernas de Datos",
+      "description": "Explora las profundidades de Python para la ciencia de datos y descubre tesoros ocultos en la información.",
+      "tags": [
+        {
+          "name": "Python"
+        },
+        {
+          "name": "Data Science"
+        },
+        {
+          "name": "Data Analysis"
+        },
+        {
+          "name": "Visualization"
+        }
+      ],
+      "is_published": false
+    },
+    {
+      "name": "La Academia de Magos del Machine Learning",
+      "description": "Aprende los encantamientos del aprendizaje automático y predice el futuro con algoritmos mágicos.",
+      "tags": [
+        {
+          "name": "Python"
+        },
+        {
+          "name": "Machine Learning"
+        },
+        {
+          "name": "AI"
+        },
+        {
+          "name": "Data Science"
+        }
+      ],
+      "is_published": false
+    },
+    {
+      "name": "Fundición de Bloques: Introducción a Blockchain",
+      "description": "Descubre los secretos de la tecnología blockchain y aprende a forjar tus primeros bloques.",
+      "tags": [
+        {
+          "name": "Blockchain"
+        },
+        {
+          "name": "Cryptocurrency"
+        },
+        {
+          "name": "Decentralized Systems"
+        },
+        {
+          "name": "Cryptography"
+        }
+      ],
+      "is_published": false
+    },
+    {
+      "name": "La Fragua de los Contratos Inteligentes",
+      "description": "Domina el arte de crear contratos inteligentes y aplicaciones descentralizadas en Ethereum.",
+      "tags": [
+        {
+          "name": "Blockchain"
+        },
+        {
+          "name": "Smart Contracts"
+        },
+        {
+          "name": "Ethereum"
+        },
+        {
+          "name": "DApps"
+        }
+      ],
+      "is_published": false
+    },
+    {
+      "name": "Navegando los Cielos Digitales: Fundamentos de la Nube",
+      "description": "Embarca en tu primer vuelo a través de los conceptos básicos de la computación en la nube.",
+      "tags": [
+        {
+          "name": "Cloud Computing"
+        },
+        {
+          "name": "AWS"
+        },
+        {
+          "name": "Azure"
+        },
+        {
+          "name": "Fundamentals"
+        }
+      ],
+      "is_published": false
+    },
+    {
+      "name": "Construcción de Castillos en el Cielo: Arquitectura Cloud Avanzada",
+      "description": "Aprende a diseñar y construir infraestructuras escalables y resilientes en la nube.",
+      "tags": [
+        {
+          "name": "Cloud Architecture"
+        },
+        {
+          "name": "DevOps"
+        },
+        {
+          "name": "Scalability"
+        },
+        {
+          "name": "Advanced"
+        }
+      ],
+      "is_published": false
+    },
+    {
+      "name": "La Academia de Guardianes Digitales",
+      "description": "Iníciate en las artes de la ciberseguridad y aprende a proteger los reinos digitales.",
+      "tags": [
+        {
+          "name": "Cybersecurity"
+        },
+        {
+          "name": "Network Security"
+        },
+        {
+          "name": "Information Security"
+        },
+        {
+          "name": "Beginner"
+        }
+      ],
+      "is_published": false
+    },
+    {
+      "name": "El Arsenal del Hacker Ético",
+      "description": "Domina las herramientas y técnicas utilizadas por los hackers éticos para defender contra las amenazas cibernéticas.",
+      "tags": [
+        {
+          "name": "Ethical Hacking"
+        },
+        {
+          "name": "Penetration Testing"
+        },
+        {
+          "name": "Cybersecurity"
+        },
+        {
+          "name": "Advanced"
+        }
+      ],
+      "is_published": false
+    }
+  ],
+  "modules": [
+    {
+      "course_id": 1,
+      "name": "¡Bienvenidos al mundo de la programación!",
+      "description": "¡Vamos a explorar el fascinante mundo de los programas de computadora.",
+      "is_published": true
+    },
+    {
+      "course_id": 2,
+      "name": "Preparando la Cafetera",
+      "description": "Vamos a explorar Java, un lenguaje de programación tan rico y fuerte como el mejor café espresso. Prepara tu taza favorita y acompáñanos en este viaje por el mundo de Java.",
+      "is_published": true
+    },
+    {
+      "course_id": 3,
+      "name": "Pistas de Carreras de Go",
+      "description": "¡Diseña y codifica pistas de carreras para aprender programación en Go!",
+      "is_published": true
+    },
+    {
+      "course_id": 4,
+      "name": "La Escuela de Magos de TypeScript",
+      "description": "¡Asiste a una mágica escuela de magos y aprende hechizos de TypeScript!",
+      "is_published": true
+    },
+    {
+      "course_id": 5,
+      "name": "Piezas de Robot de Rust",
+      "description": "¡Ensambla piezas de robot y aprende programación en Rust en el proceso!",
+      "is_published": true
+    },
+    {
+      "course_id": 6,
+      "name": "El Libro de los Elementos",
+      "description": "Aprende a invocar y manipular los elementos básicos del DOM con JavaScript.",
+      "is_published": false
+    },
+    {
+      "course_id": 7,
+      "name": "La Danza de las Promesas",
+      "description": "Domina el arte de las promesas y los hechizos async/await en JavaScript.",
+      "is_published": false
+    },
+    {
+      "course_id": 8,
+      "name": "El Bestiario de los Datos",
+      "description": "Conoce y doma las diversas criaturas de datos que habitan en el mundo de Python.",
+      "is_published": false
+    },
+    {
+      "course_id": 9,
+      "name": "Los Pergaminos de la Predicción",
+      "description": "Descifra los antiguos pergaminos del aprendizaje supervisado y no supervisado.",
+      "is_published": false
+    },
+    {
+      "course_id": 10,
+      "name": "La Cadena de los Bloques Eternos",
+      "description": "Comprende la estructura y el funcionamiento de la cadena de bloques.",
+      "is_published": false
+    },
+    {
+      "course_id": 11,
+      "name": "La Forja de Ethereum",
+      "description": "Aprende a crear y desplegar contratos inteligentes en la red Ethereum.",
+      "is_published": false
+    },
+    {
+      "course_id": 12,
+      "name": "El Atlas de las Nubes",
+      "description": "Explora los diferentes servicios y regiones de los principales proveedores de nube.",
+      "is_published": false
+    },
+    {
+      "course_id": 13,
+      "name": "La Torre de la Orquestación",
+      "description": "Domina las herramientas de orquestación y automatización para arquitecturas cloud avanzadas.",
+      "is_published": false
+    },
+    {
+      "course_id": 14,
+      "name": "El Escudo del Guardián",
+      "description": "Aprende las bases de la protección de sistemas y redes contra amenazas cibernéticas.",
+      "is_published": false
+    },
+    {
+      "course_id": 15,
+      "name": "El Laboratorio del Hacker",
+      "description": "Configura y utiliza un entorno de pruebas éticas para identificar vulnerabilidades.",
+      "is_published": false
+    }
+  ],
+  "lessons": [
+    {
+      "module_id": 1,
+      "name": "¿Qué es un programa?",
+      "content_file": "leccion_1_que_es_un_programa.md",
+      "credits": 10,
+      "is_published": true
+    },
+    {
+      "module_id": 1,
+      "name": "Pensando como un Programador",
+      "content_file": "leccion_2_pensando_como_programador.md",
+      "credits": 15,
+      "is_published": true
+    },
+    {
+      "module_id": 1,
+      "name": "El Gran Desfile de los Lenguajes de Programación",
+      "content_file": "leccion_3_lenguajes_programacion.md",
+      "credits": 20,
+      "is_published": true
+    },
+    {
+      "module_id": 1,
+      "name": "Python: La Serpiente Amistosa del Código",
+      "content_file": "leccion_4_python_la_serpiente_amistosa_del_codigo.md",
+      "credits": 25,
+      "is_published": true
+    },
+    {
+      "module_id": 1,
+      "name": "El Zoo de los Datos y la Ciudad de la Memoria",
+      "content_file": "leccion_5_el_zoo_de_los_datos_y_la_ciudad_de_la_memoria.md",
+      "credits": 30,
+      "is_published": true
+    },
+    {
+      "module_id": 1,
+      "name": "¡Conviértete en un Mago del Código con tu Propio Juego de Preguntas y Respuestas!",
+      "content_file": "leccion_6_¡conviertete_en_un_mago_del_codigo_con_tu_propio_juego_de_preguntas_y_respuestas.md",
+      "credits": 35,
+      "is_published": true
+    },
+    {
+      "module_id": 2,
+      "name": "¿Qué es Java y por qué es tan popular?",
+      "content_file": "leccion_1_¿que_es_java_y_por_que_es_tan_popular.md",
+      "credits": 25,
+      "is_published": true
+    },
+    {
+      "module_id": 2,
+      "name": "Tu Primera Taza de Java",
+      "content_file": "leccion_2_tu_primera_taza_de_java.md",
+      "credits": 20,
+      "is_published": true
+    },
+    {
+      "module_id":2,
+      "name": " Los Granos del Lenguaje",
+      "content_file": "leccion_3_los_granos_del_lenguaje.md",
+      "credits": 30,
+      "is_published": true
+    },
+    {
+      "module_id": 7,
+      "name": "Pociones Asíncronas: La Danza de las Promesas",
+      "content": "# Bienvenido al Laboratorio de Pociones Asíncronas\n\n¡Saludos, alquimista del código! Hoy aprenderemos sobre las misteriosas Promesas en JavaScript y cómo nos ayudan a crear pociones asíncronas.\n\n## ¿Qué son las Promesas?\n\nLas Promesas son como recetas mágicas que nos dicen si nuestra poción tendrá éxito o fallará en el futuro.\n\n## Tu Primera Promesa\n\nVamos a crear una promesa que simule la preparación de una poción:\n\n```javascript\nlet prepararPocion = new Promise((resolve, reject) => {\n    setTimeout(() => {\n        let exito = Math.random() > 0.5;\n        if (exito) {\n            resolve('¡La poción está lista!');\n        } else {\n            reject('Oops, la poción explotó');\n        }\n    }, 2000);\n});\n\nprepararPocion\n    .then(mensaje => console.log(mensaje))\n    .catch(error => console.log(error));\n```\n\nEste código simula la preparación de una poción que puede tener éxito o fallar después de 2 segundos.\n\n## Dato Curioso\n\nEn JavaScript, usamos `.then()` para manejar el éxito y `.catch()` para manejar los errores en nuestras promesas. Es como tener un plan B en la alquimia.\n\n## Practica tu Alquimia\n\nIntenta crear una promesa para otra poción mágica. ¿Qué tal una poción de invisibilidad?\n\n¡Fantástico trabajo, alquimista! Has comenzado a dominar el arte de las promesas. En nuestra próxima lección, aprenderemos sobre el poderoso hechizo `async/await` para controlar múltiples pociones a la vez.",
+      "credits": 35,
+      "is_published": false
+    },
+    {
+      "module_id": 8,
+      "name": "Explorando la Cueva de los Datos",
+      "content": "# Bienvenido a la Cueva de los Datos\n\n¡Hola, intrépido explorador de datos! Hoy nos adentraremos en la misteriosa Cueva de los Datos usando Python y aprenderemos a descifrar sus secretos.\n\n## ¿Qué son los Datos?\n\nLos datos son como tesoros escondidos que contienen información valiosa. Python nos ayuda a encontrarlos y entenderlos.\n\n## Tu Primera Exploración de Datos\n\nVamos a usar Python para explorar una lista de números:\n\n```python\nimport statistics\n\ndatos = [5, 10, 15, 20, 25, 30]\n\nprint(f\"Tenemos {len(datos)} números en nuestra cueva.\")\nprint(f\"El tesoro más pequeño es: {min(datos)}\")\nprint(f\"El tesoro más grande es: {max(datos)}\")\nprint(f\"El promedio de nuestros tesoros es: {statistics.mean(datos)}\")\n```\n\nEste código nos ayuda a entender mejor nuestra colección de tesoros numéricos.\n\n## Dato Curioso\n\nEn Python, la biblioteca `statistics` es como una brújula mágica que nos ayuda a navegar por nuestros datos.\n\n## Aventúrate Más Profundo\n\nAhora, vamos a visualizar nuestros datos con un gráfico simple:\n\n```python\nimport matplotlib.pyplot as plt\n\nplt.bar(range(len(datos)), datos)\nplt.title('Tesoros en la Cueva de Datos')\nplt.xlabel('Índice del Tesoro')\nplt.ylabel('Valor del Tesoro')\nplt.show()\n```\n\nEste código creará un gráfico de barras de nuestros tesoros.\n\n¡Excelente trabajo, explorador de datos! Has comenzado tu viaje en el fascinante mundo del análisis de datos. En nuestra próxima aventura, aprenderemos a limpiar y preparar datos del mundo real.",
+      "credits": 40,
+      "is_published": false
+    },
+    {
+      "module_id": 9,
+      "name": "El Grimorio de la Predicción",
+      "content": "# Bienvenido a la Academia de Magos del Machine Learning\n\n¡Saludos, aprendiz de mago predictivo! Hoy abriremos el Grimorio de la Predicción y aprenderemos los fundamentos del aprendizaje supervisado.\n\n## ¿Qué es el Aprendizaje Supervisado?\n\nEl aprendizaje supervisado es como enseñar a tu familiar mágico a reconocer objetos mostrándole muchos ejemplos.\n\n## Tu Primer Hechizo de Predicción\n\nVamos a usar scikit-learn, una poderosa varita mágica de Python, para predecir si un fruto es una manzana o una naranja:\n\n```python\nfrom sklearn import tree\n\n# Características: [peso, textura]\n# Textura: 0 = suave, 1 = rugosa\nX = [[150, 0], [170, 0], [140, 1], [130, 1]]\n\n# Etiquetas: 0 = manzana, 1 = naranja\ny = [0, 0, 1, 1]\n\n# Crear y entrenar el árbol de decisión\nclf = tree.DecisionTreeClassifier()\nclf = clf.fit(X, y)\n\n# Predecir\nprediccion = clf.predict([[160, 0]])\nprint('Predicción: ' + ('Manzana' if prediccion[0] == 0 else 'Naranja'))\n```\n\nEste código entrena un árbol de decisión y lo usa para predecir si un fruto es una manzana o una naranja basándose en su peso y textura.\n\n## Dato Curioso\n\nLos árboles de decisión en machine learning son como los árboles de decisión que usarías para clasificar criaturas mágicas, ¡pero mucho más rápidos!\n\n## Practica tu Magia Predictiva\n\nIntenta cambiar los datos de entrenamiento o predecir con diferentes valores. ¿Puedes hacer que tu modelo mágico aprenda a distinguir entre más tipos de frutas?\n\n¡Excelente trabajo, aprendiz de mago predictivo! Has lanzado tu primer hechizo de machine learning. En nuestra próxima lección, aprenderemos sobre la magia del aprendizaje no supervisado y cómo puede revelar patrones ocultos en tus datos.",
+      "credits": 45,
+      "is_published": false
+    },
+    {
+      "module_id": 10,
+      "name": "Forjando el Primer Eslabón",
+      "content": "# Bienvenido a la Forja de Bloques\n\n¡Saludos, aprendiz de herrero blockchain! Hoy forjaremos nuestro primer eslabón en la gran cadena de bloques.\n\n## ¿Qué es Blockchain?\n\nBlockchain es como una cadena mágica donde cada eslabón contiene información valiosa que no se puede cambiar sin que todos lo sepan.\n\n## Tu Primer Bloque\n\nVamos a crear un bloque simple usando Python:\n\n```python\nimport hashlib\nimport time\n\nclass Bloque:\n    def __init__(self, datos, bloque_anterior_hash):\n        self.timestamp = time.time()\n        self.datos = datos\n        self.bloque_anterior_hash = bloque_anterior_hash\n        self.hash = self.calcular_hash()\n\n    def calcular_hash(self):\n        sha = hashlib.sha256()\n        sha.update(str(self.timestamp).encode('utf-8') +\n                   str(self.datos).encode('utf-8') +\n                   str(self.bloque_anterior_hash).encode('utf-8'))\n        return sha.hexdigest()\n\n# Crear el bloque génesis\nbloque_genesis = Bloque(\"Soy el bloque génesis\", \"0\")\nprint(f\"Hash del bloque génesis: {bloque_genesis.hash}\")\n\n# Crear un segundo bloque\nbloque_2 = Bloque(\"Soy el segundo bloque\", bloque_genesis.hash)\nprint(f\"Hash del segundo bloque: {bloque_2.hash}\")\n```\n\nEste código crea dos bloques enlazados, formando el inicio de nuestra cadena.\n\n## Dato Curioso\n\nEl 'hash' es como una huella digital única para cada bloque. Si cambias algo en el bloque, su hash cambiará completamente.\n\n## Forja tu Propia Cadena\n\nIntenta añadir más bloques a la cadena. ¿Puedes crear una cadena de 5 bloques?\n\n¡Excelente trabajo, joven herrero blockchain! Has forjado tus primeros eslabones en la cadena de bloques. En nuestra próxima lección, aprenderemos cómo verificar la integridad de nuestra cadena y por qué esto es importante en el mundo de las criptomonedas.",
+      "credits": 50,
+      "is_published": false
+    },
+    {
+      "module_id": 11,
+      "name": "El Primer Vuelo en la Nube",
+      "content": "# Bienvenido a los Cielos Digitales\n\n¡Hola, intrépido explorador de la nube! Hoy emprenderemos nuestro primer vuelo en el vasto cielo de la computación en la nube.\n\n## ¿Qué es la Computación en la Nube?\n\nLa computación en la nube es como tener un súper computador mágico al que puedes acceder desde cualquier lugar del mundo.\n\n## Tu Primera Instancia en la Nube\n\nVamos a simular la creación de una instancia en la nube usando Python:\n\n```python\nclass InstanciaNube:\n    def __init__(self, nombre, tipo):\n        self.nombre = nombre\n        self.tipo = tipo\n        self.estado = \"apagado\"\n    \n    def encender(self):\n        print(f\"Iniciando {self.nombre}...\")\n        self.estado = \"encendido\"\n        print(f\"{self.nombre} está listo para usar!\")\n    \n    def apagar(self):\n        print(f\"Apagando {self.nombre}...\")\n        self.estado = \"apagado\"\n        print(f\"{self.nombre} se ha apagado.\")\n\n# Crear y usar una instancia\nmi_servidor = InstanciaNube(\"MiPrimerServidor\", \"t2.micro\")\nmi_servidor.encender()\nprint(f\"Estado actual: {mi_servidor.estado}\")\nmi_servidor.apagar()\n```\n\nEste código simula la creación y el control de una instancia en la nube.\n\n## Dato Curioso\n\nEn la nube real, puedes tener cientos o miles de estas instancias trabajando juntas para hacer cosas increíbles.\n\n## Explora Más Allá\n\nIntenta crear diferentes tipos de instancias. ¿Puedes hacer una función que muestre todas tus instancias y sus estados?\n\n¡Fantástico trabajo, explorador de la nube! Has dado tu primer paso en el vasto mundo de la computación en la nube. En nuestra próxima lección, aprenderemos cómo estas instancias pueden trabajar juntas para crear aplicaciones poderosas y escalables.",
+      "credits": 40,
+      "is_published": false
+    },
+    {
+      "module_id": 12,
+      "name": "El Escudo del Guardián Digital",
+      "content": "# Bienvenido a la Academia de Guardianes Digitales\n\n¡Saludos, valiente defensor del ciberespacio! Hoy comenzaremos tu entrenamiento como Guardián Digital aprendiendo a forjar tu primer escudo de ciberseguridad.\n\n## ¿Qué es la Ciberseguridad?\n\nLa ciberseguridad es como ser un caballero en el mundo digital, protegiendo la información y los sistemas de los villanos cibernéticos.\n\n## Tu Primer Escudo: Una Contraseña Fuerte\n\nVamos a crear un generador de contraseñas seguras usando Python:\n\n```python\nimport random\nimport string\n\ndef generar_contrasena(longitud=12):\n    caracteres = string.ascii_letters + string.digits + string.punctuation\n    contrasena = ''.join(random.choice(caracteres) for i in range(longitud))\n    return contrasena\n\n# Generar y mostrar una contraseña segura\ncontrasena_segura = generar_contrasena()\nprint(f\"Tu contraseña segura es: {contrasena_segura}\")\n\n# Verificar la fuerza de la contraseña\ndef verificar_fuerza(contrasena):\n    puntaje = 0\n    if len(contrasena) >= 12:\n        puntaje += 1\n    if any(c.islower() for c in contrasena):\n        puntaje += 1\n    if any(c.isupper() for c in contrasena):\n        puntaje += 1\n    if any(c.isdigit() for c in contrasena):\n        puntaje += 1\n    if any(c in string.punctuation for c in contrasena):\n        puntaje += 1\n    return puntaje\n\nfuerza = verificar_fuerza(contrasena_segura)\nprint(f\"Fuerza de la contraseña: {fuerza}/5\")\n```\n\nEste código genera una contraseña segura y verifica su fuerza.\n\n## Dato Curioso\n\nUna contraseña que tomaría 1 hora en ser descifrada si tuviera 6 caracteres, podría tomar más de 1000 años si tiene 12 caracteres variados.\n\n## Fortalece tu Escudo\n\nIntenta modificar el generador para crear contraseñas aún más fuertes. ¿Puedes hacer que siempre obtenga una puntuación de 5/5?\n\n¡Excelente trabajo, joven Guardián Digital! Has forjado tu primer escudo en la batalla por la ciberseguridad. En nuestra próxima lección, aprenderemos sobre la encriptación y cómo puede proteger mensajes secretos de ojos curiosos.",
+      "credits": 45,
+      "is_published": false
+    },
+    {
+      "module_id": 13,
+      "name": "El Arte de la Invisibilidad Digital",
+      "content": "# Bienvenido al Taller de Hackers Éticos\n\n¡Saludos, aspirante a hacker ético! Hoy nos sumergiremos en el arte de la invisibilidad digital y aprenderemos cómo protegernos en línea.\n\n## ¿Qué es el Hacking Ético?\n\nEl hacking ético es como ser un espía del lado bueno, encontrando y arreglando problemas de seguridad antes de que los malos los exploten.\n\n## Tu Primera Herramienta: Un Escáner de Puertos Simple\n\nVamos a crear un escáner de puertos básico usando Python:\n\n```python\nimport socket\nimport threading\n\ndef escanear_puerto(ip, puerto):\n    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n    sock.settimeout(1)\n    resultado = sock.connect_ex((ip, puerto))\n    if resultado == 0:\n        print(f\"Puerto {puerto}: Abierto\")\n    sock.close()\n\ndef escanear_rango(ip, inicio, fin):\n    for puerto in range(inicio, fin + 1):\n        thread = threading.Thread(target=escanear_puerto, args=(ip, puerto))\n        thread.start()\n\n# Usar el escáner\nip_objetivo = \"127.0.0.1\"  # Esta es la dirección IP de tu propia computadora\nprint(f\"Escaneando puertos en {ip_objetivo}\")\nescanear_rango(ip_objetivo, 1, 1024)\n```\n\nEste código crea un escáner de puertos simple que puede ayudarte a entender qué puertos están abiertos en un sistema.\n\n## Dato Curioso\n\nLos hackers maliciosos a menudo buscan puertos abiertos como punto de entrada a un sistema. Conocer tus puertos abiertos te ayuda a protegerte mejor.\n\n## Mejora tu Arsenal\n\nIntenta modificar el escáner para que muestre más información sobre los puertos abiertos. ¿Puedes hacer que identifique qué servicio podría estar corriendo en cada puerto?\n\n¡Excelente trabajo, futuro hacker ético! Has creado tu primera herramienta de reconocimiento. Recuerda, con gran poder viene gran responsabilidad. Usa tus nuevas habilidades solo con permiso y para hacer del mundo digital un lugar más seguro. En nuestra próxima lección, aprenderemos sobre técnicas de anonimato y cómo proteger tu propia identidad en línea.",
+      "credits": 55,
+      "is_published": false
+    }
+  ]
+}

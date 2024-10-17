@@ -1,0 +1,19 @@
+{
+  "name": "@cortex/frontend",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "clean": "nuxi cleanup"
+  },
+  "dependencies": {
+    "@cortex/shared": "workspace:^",
+    "@nuxtjs/seo": "2.0.0-rc.23",
+    "countries-list": "^3.1.1",
+    "nuxt-seo-experiments": "^4.0.1"
+  }
+}

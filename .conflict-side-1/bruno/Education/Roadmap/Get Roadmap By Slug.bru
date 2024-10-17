@@ -1,0 +1,15 @@
+meta {
+  name: Get Roadmap By Slug
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{BASEURL}}/api/v1/education/roadmap/slug/hamir-e-ignacio-en-locas-aventuras
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

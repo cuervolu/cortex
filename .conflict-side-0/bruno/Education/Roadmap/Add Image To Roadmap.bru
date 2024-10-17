@@ -1,0 +1,20 @@
+meta {
+  name: Add Image To Roadmap
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{BASEURL}}/api/v1/education/roadmap/152/image
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:multipart-form {
+  altText: Nacho loco
+  image: @file(/home/cuervolu/wallpaper/wallhaven-oddexm.png)
+}

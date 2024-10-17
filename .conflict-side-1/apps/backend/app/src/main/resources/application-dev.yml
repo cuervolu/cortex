@@ -1,0 +1,80 @@
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+  rabbitmq:
+    host: ${SPRING_RABBITMQ_HOST:localhost}
+    port: 5672
+    username: ${SPRING_RABBITMQ_USERNAME:guest}
+    password: ${SPRING_RABBITMQ_PASSWORD:guest}
+  data:
+    redis:
+      host: ${SPRING_DATA_REDIS_HOST:localhost}
+      port: ${SPRING_DATA_REDIS_PORT:6379}
+      password: ${SPRING_DATA_REDIS_PASSWORD:}
+      username: ${SPRING_DATA_REDIS_USERNAME:default}
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+          github:
+            client-id: ${GITHUB_CLIENT_ID}
+            client-secret: ${GITHUB_CLIENT_SECRET}
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+        web: DEBUG
+      hibernate:
+        sql: DEBUG
+
+docker:
+  cleanup:
+    interval-ms: 3600000 # 1 hora
+    container:
+      max-age-hours: 24 # 24 horas
+application:
+  security:
+    jwt:
+      secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+      expiration: 86400000 # a day
+      refresh-token:
+        expiration: 604800000 # 7 days
+  mailing:
+    frontend:
+      activation-url: http://localhost:3000/activate-account
+  mercadopago:
+    access-token: ${MERCADOPAGO_ACCESS_TOKEN}
+  cloudinary:
+    cloud-name: ${CLOUDINARY_CLOUD_NAME}
+    api-key: ${CLOUDINARY_API_KEY}
+    api-secret: ${CLOUDINARY_API_SECRET}
+  frontend:
+    callback-url: http://localhost:3000/auth/callback
+    password-reset-url: http://localhost:3000/reset-password
+server:
+  port: ${SPRING_PORT:8088}
+github:
+  exercises:
+    repo-url: https://github.com/cuervolu/cortex-exercises
+    local-path: ${GITHUB_EXERCISES_LOCAL_PATH}
+    branch: main
+    sync-interval-ms: 3600000
+lemon-squeezy:
+  api:
+    base-url: https://api.lemonsqueezy.com/v1/
+    api-key: ${LEMON_SQUEEZY_API_KEY}

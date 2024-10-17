@@ -1,0 +1,20 @@
+meta {
+  name: Add Image To Course
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{BASEURL}}/api/v1/education/course/2/image
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:multipart-form {
+  altText: Hamir e Ignacio en el Mundo de Las Waifus
+  image: @file(/home/cuervolu/wallpaper/wallhaven-zy5k5y.jpg)
+}

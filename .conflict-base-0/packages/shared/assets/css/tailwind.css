@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+
+
+  :root  {
+    --background: 273 100% 95%;
+    --foreground: 273 5% 10%;
+    --card: 273 50% 90%;
+    --card-foreground: 273 5% 15%;
+    --popover: 273 100% 95%;
+    --popover-foreground: 273 100% 10%;
+    --primary: 273 58.1% 20.6%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 273 30% 70%;
+    --secondary-foreground: 0 0% 0%;
+    --muted: 235 30% 85%;
+    --muted-foreground: 273 5% 40%;
+    --accent: 235 30% 80%;
+    --accent-foreground: 273 5% 15%;
+    --destructive: 0 100% 42%;
+    --destructive-foreground: 273 5% 90%;
+    --border: 273 30% 50%;
+    --input: 273 30% 42%;
+    --ring: 273 58.1% 20.6%;
+    --radius: 0.75rem;
+
+    --vis-tooltip-background-color: none !important;
+    --vis-tooltip-border-color: none !important;
+    --vis-tooltip-text-color: none !important;
+    --vis-tooltip-shadow-color: none !important;
+    --vis-tooltip-backdrop-filter: none !important;
+    --vis-tooltip-padding: none !important;
+
+    --vis-primary-color: var(--primary);
+    /* change to any hsl value you want */
+    --vis-secondary-color: 160 81% 40%;
+    --vis-text-color: var(--muted-foreground);
+  }
+  .dark  {
+    --background: 273 50% 10%;
+    --foreground: 273 5% 90%;
+    --card: 273 50% 10%;
+    --card-foreground: 273 5% 90%;
+    --popover: 273 50% 5%;
+    --popover-foreground: 273 5% 90%;
+    --primary: 273 58.1% 20.6%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 273 30% 20%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 235 30% 25%;
+    --muted-foreground: 273 5% 60%;
+    --accent: 235 30% 25%;
+    --accent-foreground: 273 5% 90%;
+    --destructive: 0 100% 42%;
+    --destructive-foreground: 273 5% 90%;
+    --border: 273 30% 42%;
+    --input: 273 30% 42%;
+    --ring: 273 58.1% 20.6%;
+    --radius: 0.75rem;
+  }
+
+
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  pre,
+  code {
+    font-family: "Source Code Pro", monospace;
+  }
+}
+
+.mdc-content pre {
+  font-family: "Source Code Pro", monospace !important;
+}
+
+.mdc-content code {
+  font-family: "Source Code Pro", monospace !important;
+}

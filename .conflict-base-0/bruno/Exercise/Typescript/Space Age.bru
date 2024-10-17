@@ -1,0 +1,27 @@
+meta {
+  name: Space Age
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{BASEURL}}/api/v1/engine/execute
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "code": "ZXhwb3J0IGNsYXNzIFNwYWNlQWdlIHsKICBwcml2YXRlIGVhcnRoU2Vjb25kczogbnVtYmVyID0gMzE1NTc2MDA7CgogIGNvbnN0cnVjdG9yKHByaXZhdGUgc2Vjb25kczogbnVtYmVyKSB7fQoKICBwcml2YXRlIGNhbGN1bGF0ZUFnZShvcmJpdGFsUGVyaW9kOiBudW1iZXIpOiBudW1iZXIgewogICAgcmV0dXJuIHBhcnNlRmxvYXQoKHRoaXMuc2Vjb25kcyAvICh0aGlzLmVhcnRoU2Vjb25kcyAqIG9yYml0YWxQZXJpb2QpKS50b0ZpeGVkKDIpKTsKICB9CgogIG9uRWFydGgoKTogbnVtYmVyIHsKICAgIHJldHVybiB0aGlzLmNhbGN1bGF0ZUFnZSgxLjApOwogIH0KCiAgb25NZXJjdXJ5KCk6IG51bWJlciB7CiAgICByZXR1cm4gdGhpcy5jYWxjdWxhdGVBZ2UoMC4yNDA4NDY3KTsKICB9CgogIG9uVmVudXMoKTogbnVtYmVyIHsKICAgIHJldHVybiB0aGlzLmNhbGN1bGF0ZUFnZSgwLjYxNTE5NzI2KTsKICB9CgogIG9uTWFycygpOiBudW1iZXIgewogICAgcmV0dXJuIHRoaXMuY2FsY3VsYXRlQWdlKDEuODgwODE1OCk7CiAgfQoKICBvbkp1cGl0ZXIoKTogbnVtYmVyIHsKICAgIHJldHVybiB0aGlzLmNhbGN1bGF0ZUFnZSgxMS44NjI2MTUpOwogIH0KCiAgb25TYXR1cm4oKTogbnVtYmVyIHsKICAgIHJldHVybiB0aGlzLmNhbGN1bGF0ZUFnZSgyOS40NDc0OTgpOwogIH0KCiAgb25VcmFudXMoKTogbnVtYmVyIHsKICAgIHJldHVybiB0aGlzLmNhbGN1bGF0ZUFnZSg4NC4wMTY4NDYpOwogIH0KCiAgb25OZXB0dW5lKCk6IG51bWJlciB7CiAgICByZXR1cm4gdGhpcy5jYWxjdWxhdGVBZ2UoMTY0Ljc5MTMyKTsKICB9Cn0K",
+    "language": "typescript",
+    "exerciseId": 276
+  }
+}

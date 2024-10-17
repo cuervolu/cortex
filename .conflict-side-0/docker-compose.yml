@@ -1,0 +1,125 @@
+services:
+  backend:
+    image: cortex-backend
+    container_name: cortex_backend
+    build:
+      context: apps/backend
+      dockerfile: Dockerfile
+    ports:
+      - '8088:8088'
+    networks:
+      - cortex
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_started
+      redis:
+        condition: service_started
+      ollama:
+        condition: service_started
+      ollama-model-puller:
+        condition: service_completed_successfully
+    env_file:
+      - .env
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - SPRING_RABBITMQ_HOST=rabbitmq
+      - SPRING_RABBITMQ_USERNAME=${RABBITMQ_USER}
+      - SPRING_RABBITMQ_PASSWORD=${RABBITMQ_PASS}
+      - SPRING_DATA_REDIS_HOST=${SPRING_DATA_REDIS_HOST}
+      - SPRING_DATA_REDIS_PASSWORD=${SPRING_DATA_REDIS_PASSWORD}
+      - SPRING_DATA_REDIS_USERNAME=${SPRING_DATA_REDIS_USERNAME}
+      - SPRING_DATA_REDIS_PORT=${SPRING_DATA_REDIS_PORT}
+      - OLLAMA_BASE_URL=http://ollama:11434
+    volumes:
+      - cortex_exercises:/app/cortex-exercises
+
+  postgres:
+    image: postgres:alpine3.19
+    container_name: cortex_db
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    networks:
+      - cortex
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: cortex_rabbitmq
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    env_file:
+      - .env
+    networks:
+      - cortex
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER:-guest}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASS:-guest}
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+  redis:
+    image: redis:alpine
+    container_name: cortex_redis
+    networks:
+      - cortex
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis_data:/data
+  ollama:
+    image: ollama/ollama:0.3.12
+    ports:
+      - 7869:11434
+    volumes:
+      - ollama_models:/root/.ollama
+    container_name: ollama
+    pull_policy: always
+    tty: true
+    restart: always
+    networks:
+      - cortex
+    environment:
+      - OLLAMA_KEEP_ALIVE=24h
+      - OLLAMA_HOST=0.0.0.0
+
+  ollama-model-puller:
+    image: curlimages/curl:8.00.1
+    depends_on:
+      ollama:
+        condition: service_started
+    networks:
+      - cortex
+    command: >
+      sh -c "
+        echo 'Waiting for Ollama server to be ready...' &&
+        until curl -s -o /dev/null -w '%{http_code}' http://ollama:11434/api/tags | grep -q '200'; do
+          echo 'Ollama server is not ready yet. Retrying in 5 seconds...'
+          sleep 5
+        done &&
+        echo 'Ollama server is ready. Pulling llama3:8b...' &&
+        curl -X POST http://ollama:11434/api/pull -d '{\"name\":\"llama3:8b\"}' &&
+        echo 'Model preparation complete.'"
+networks:
+  cortex:
+
+volumes:
+  postgres_data:
+  rabbitmq_data:
+  redis_data:
+  ollama_models:
+  cortex_exercises:
