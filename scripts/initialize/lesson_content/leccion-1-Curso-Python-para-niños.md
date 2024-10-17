@@ -1,5 +1,6 @@
-
 # Introducción
+
+![python](../images/python_la_serpiente_amigable.jpg)
 
 ¡Hola, jóvenes aventureros del código! ¿Están listos para caer por la madriguera del conejo y entrar en un mundo mágico lleno de posibilidades? Pues agarren sus sombreros de copa, porque nos vamos de viaje al País de las Maravillas Digitales, hogar de la serpiente más amigable y poderosa del mundo de la programación: ¡Python! 🐍🎩
 
@@ -86,3 +87,5 @@ Ingrediente            Efecto
 ¡Felicidades, jóvenes Pythonistas! Han completado su primera lección en el País de las Maravillas Digitales. Ahora tienen el poder de comenzar a crear su propia magia con Python. En nuestras próximas aventuras, aprenderemos cómo usar los hechizos de Python para crear programas increíbles que puedan transformar el mundo digital.
 
 ¡Hasta la próxima, intrépidos magos del código!
+
+![Gato](../images/Gatocelebrar.jpeg)
