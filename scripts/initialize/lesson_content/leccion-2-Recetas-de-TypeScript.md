@@ -1,5 +1,6 @@
-
 # Introducción
+
+![type](../images/los_hechizos_mágicos_de_typescript.png)
 
 ¡Bienvenidos de vuelta, jóvenes chefs del código! Hoy vamos a sumergirnos más profundo en la cocina gourmet de TypeScript. Prepárense para aprender algunas técnicas avanzadas y crear platos de código realmente sofisticados.
 
@@ -185,3 +186,5 @@ prepararPlato(pasosPasta).then(() => console.log("¡Buen provecho!"));
 ¡Excelente trabajo, jóvenes chefs de TypeScript! Han demostrado gran habilidad al manejar estas recetas más avanzadas. Recuerden, la práctica hace al maestro, así que sigan experimentando con estos nuevos conceptos en su cocina de código. En nuestra próxima lección, exploraremos técnicas aún más avanzadas como decoradores y módulos en TypeScript.
 
  ¡Hasta entonces, que sus compilaciones sean exitosas y sus errores de tipo sean pocos!
+
+![gato](../images/Gatocelebrar.jpeg)

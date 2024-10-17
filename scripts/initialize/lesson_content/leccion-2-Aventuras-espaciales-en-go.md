@@ -1,5 +1,6 @@
-
 # Introducción
+
+![go](../images/la_búsqueda_del_tesoro_go.png)
 
 ¡Bienvenidos de vuelta, valientes astronautas del código! Hoy nos adentraremos más en las fascinantes cavernas del Planeta Go. Prepárense para descubrir nuevos superpoderes Gopher y desafiar sus mentes con misiones más avanzadas. ¡Allá vamos!
 
@@ -173,3 +174,5 @@ func main() {
 ¡Excelente trabajo, jóvenes Gophers Galácticos! Han demostrado gran valentía y astucia al enfrentarse a estas misiones más avanzadas. Recuerden, la práctica hace al maestro, así que sigan experimentando con estos nuevos conceptos. En nuestra próxima lección, exploraremos los misterios de las estructuras y las interfaces en Go, herramientas poderosas para construir naves espaciales aún más impresionantes.
 
  ¡Hasta entonces, que las goroutines los acompañen!
+
+![gato](../images/Gatocelebrar.jpeg)

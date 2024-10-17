@@ -1,5 +1,6 @@
-
 # Introducción
+
+![java](../images/comenzando_con_java.png)
 
 ¡Hola, pequeños programadores de Java! 🧑‍💻 Hoy vamos a aprender cómo se ve un programa en Java. ¡Es como una receta de cocina! Si sigues los pasos en orden, tu computadora hará exactamente lo que le pidas.
 
@@ -187,3 +188,5 @@ Crea un programa que pida a un jugador que piense en un número del 1 al 10, y l
 
 1. Usa una variable para el número secreto.
 2. Usa un ciclo `while` para que la computadora siga adivinando hasta que acierte.
+
+![gato](../images/Gatocelebrar.jpeg)

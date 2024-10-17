@@ -1,5 +1,6 @@
-
 # ¡Bienvenidos al mundo de la programación
+
+![computador](../images/conceptos_básicos_de_computación.png)
 
 ¡Hola, futuros programadores! 👋 ¿Están listos para una aventura emocionante? Hoy vamos a explorar el fascinante mundo de los programas de computadora.
 
@@ -946,3 +947,5 @@ Explicación de las mejoras:
 ¡Felicidades, joven mago del código! Has creado tu primer juego en Python. Recuerda, cada línea de código que escribes es como aprender un nuevo hechizo. Sigue practicando y pronto serás capaz de crear mundos enteros con tu magia de programación.
 
 ¿Qué otras aventuras mágicas puedes imaginar crear con código? ¡El límite es tu imaginación!
+
+![gato celebrar](../images/Gatocelebrar.jpeg)

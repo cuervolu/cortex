@@ -1,5 +1,6 @@
-
 # Introducción
+
+![python](../images/python_la_serpiente_amigable.jpg)
 
 ¡Bienvenidos de vuelta, valientes exploradores del código! Hoy nos sumergiremos más profundo en el fascinante mundo de Python. Prepárense para descubrir nuevos poderes mágicos y desafiar sus mentes con ejercicios más avanzados. ¡Allá vamos!
 
@@ -118,3 +119,5 @@ print(f"Tu nueva contraseña mágica es: {generar_contrasena_magica(12)}")
 ¡Excelente trabajo, jóvenes magos de Python! Han demostrado gran valentía y astucia al enfrentarse a estos desafíos más avanzados. Recuerden, la práctica hace al maestro, así que sigan experimentando con estos nuevos conceptos. En nuestra próxima lección, nos adentraremos aún más en el bosque encantado de Python, donde descubriremos criaturas mágicas como las clases y los módulos.
 
  ¡Hasta entonces, que la magia del código los acompañe!
+
+![gato](../images/Gatocelebrar.jpeg)

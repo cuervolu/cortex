@@ -1,5 +1,6 @@
-
 # Introducción
+
+![go](../images/la_búsqueda_del_tesoro_go.png)
 
 ¡Hola, jóvenes exploradores del código! ¿Están listos para una aventura intergaláctica? Abróchense los cinturones de sus naves espaciales, porque nos dirigimos al fascinante Planeta Go, hogar de las criaturas más rápidas y eficientes del universo: ¡los Gophers! 🚀🐹
 
@@ -86,3 +87,5 @@ Término                 Definición
 ¡Felicidades, jóvenes Gophers Galácticos! Han completado su entrenamiento básico y están listos para empezar a explorar el Universo Go. En nuestras próximas misiones, aprenderemos cómo usar los superpoderes de Go para crear programas
 
 increíbles que puedan viajar por todo el cosmos digital. ¡Hasta la próxima, intrépidos programadores espaciales!
+
+![gato](../images/Gatocelebrar.jpeg)

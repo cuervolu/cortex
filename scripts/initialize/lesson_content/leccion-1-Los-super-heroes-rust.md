@@ -1,5 +1,6 @@
-
 # Introducción
+
+![rust](../images/la_fábrica_de_robots_rust.png)
 
 ¡Hola, jóvenes aventureros del código! ¿Están listos para una emocionante expedición a la Tierra del Cangrejo Oxidado? ¡Pues abróchense los cinturones, porque vamos a explorar el fascinante mundo de Rust! 🦀🚀
 
@@ -96,3 +97,5 @@ Término                 Definición
 ¡Felicidades, jóvenes Rust Rangers! Han dado sus primeros pasos en la emocionante Tierra del Cangrejo Oxidado. En nuestras próximas aventuras, aprenderemos cómo usar los superpoderes de Rust para crear programas increíbles.
 
  ¡Hasta la próxima, intrépidos programadores!
+
+![gato](../images/Gatocelebrar.jpeg)

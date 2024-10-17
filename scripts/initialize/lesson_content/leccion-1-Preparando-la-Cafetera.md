@@ -1,4 +1,3 @@
-
 # Lección 1: ¿Qué es Java y por qué es tan popular?
 
 ## ![7189203735c2eca8](<./attachments/7189203735c2eca8-7189203735c2eca8>)
@@ -526,3 +525,5 @@ Es como escribir tu receta secreta en piedra. Una vez declarada, no puede cambia
 ¡Felicidades! Ahora conoces los ingredientes básicos para crear tus propias mezclas de código Java. Recuerda, elegir el tipo de dato correcto es como elegir el grano de café perfecto para cada receta. En nuestras próximas lecciones, aprenderemos a combinar estos ingredientes para crear programas más complejos y sabrosos.
 
 ¡Hasta la próxima, futuros baristas del código!
+
+![gato](../images/Gatocelebrar.jpeg)
