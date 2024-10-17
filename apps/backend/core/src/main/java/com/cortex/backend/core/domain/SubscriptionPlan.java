@@ -1,20 +1,10 @@
 package com.cortex.backend.core.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.*;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Table(name = "subscription_plans")
@@ -44,6 +34,12 @@ public class SubscriptionPlan {
 
   @Column(name = "interval_count", nullable = false)
   private Integer intervalCount;
+
+  @Column(name = "mercado_pago_plan_id")
+  private String mercadoPagoPlanId;
+
+  @Column(name = "currency_id", nullable = false)
+  private String currencyId;
 
   @Column(name = "created_at", nullable = false)
   private LocalDate createdAt;

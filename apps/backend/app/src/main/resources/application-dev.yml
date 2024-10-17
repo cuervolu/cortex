@@ -79,7 +79,7 @@ application:
       failure: http://localhost:3000/payment/failure
     subscription:
       urls:
-        success: http://localhost:3000/subscription/success
+        success: https://www.duoc.cl/
         pending: http://localhost:3000/subscription/pending
         failure: http://localhost:3000/subscription/failure
   cloudinary:
@@ -87,6 +87,7 @@ application:
     api-key: ${CLOUDINARY_API_KEY}
     api-secret: ${CLOUDINARY_API_SECRET}
   frontend:
+    base-url: http://localhost:3000
     callback-url: http://localhost:3000/auth/callback
     password-reset-url: http://localhost:3000/reset-password
 server:

@@ -28,6 +28,5 @@ public class PaymentConfig {
   public PreferenceClient preferenceClient() {
     return new PreferenceClient();
   }
-
-
+  
 }

@@ -34,7 +34,7 @@ public class Transaction {
   private Long id;
 
   @Column(name = "mercadopago_transaction_id", nullable = false)
-  private String mercadopagoTransactionId;
+  private Long mercadopagoTransactionId;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id", nullable = false)
