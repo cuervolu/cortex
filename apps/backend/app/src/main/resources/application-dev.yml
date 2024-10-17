@@ -71,6 +71,8 @@ application:
       activation-url: http://localhost:3000/activate-account
   mercadopago:
     access-token: ${MERCADOPAGO_ACCESS_TOKEN}
+    api:
+      base-url: https://api.mercadopago.com
     urls:
       success: http://localhost:3000/payment/success
       pending: http://localhost:3000/payment/pending
