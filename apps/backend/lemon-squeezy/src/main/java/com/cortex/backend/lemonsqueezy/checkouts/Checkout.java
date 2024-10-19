@@ -40,7 +40,7 @@ public class Checkout {
   /**
    * Custom price for the checkout in cents
    */
-  @JsonProperty("customer_price")
+  @JsonProperty("custom_price")
   private Integer customPrice;
 
   /**
