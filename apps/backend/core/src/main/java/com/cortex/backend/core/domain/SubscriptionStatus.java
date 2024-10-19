@@ -2,9 +2,11 @@ package com.cortex.backend.core.domain;
 
 
 public enum SubscriptionStatus {
-  PENDING,
+  TRIAL,
   ACTIVE,
   CANCELLED,
-  EXPIRED,
-  FAILED
+  PAUSED,
+  PAST_DUE,
+  UNPAID
+
 }

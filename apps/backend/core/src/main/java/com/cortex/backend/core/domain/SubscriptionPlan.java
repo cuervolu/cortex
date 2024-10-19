@@ -35,8 +35,8 @@ public class SubscriptionPlan {
   @Column(name = "interval_count", nullable = false)
   private Integer intervalCount;
 
-  @Column(name = "mercado_pago_plan_id")
-  private String mercadoPagoPlanId;
+  @Column(name = "lemon_squeezy_plan_id")
+  private String lemonSqueezyPlanId;
 
   @Column(name = "currency_id", nullable = false)
   private String currencyId;
