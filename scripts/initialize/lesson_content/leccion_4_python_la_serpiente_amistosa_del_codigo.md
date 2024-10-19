@@ -1,10 +1,12 @@
-## ¿Qué es Python y por qué todos hablan de él?
+# ¿Qué es Python y por qué todos hablan de él?
+
+![python](https://res.cloudinary.com/dukgkrpft/image/upload/v1729372773/lessons/python-la-serpiente-amistosa-del-codigo/jm5gt0dx0uanp4tv2ois.png)
 
 ¡Bienvenidos a la madriguera de la serpiente! No, no hablo de una película de Indiana Jones, sino de
 Python, el lenguaje de programación que está conquistando el mundo más rápido que los memes de
 gatos.
 
-### ¿Cómo funciona Python?
+## ¿Cómo funciona Python?
 
 Python es un lenguaje interpretado. ¿Qué significa esto? Imagina que Python es como un traductor
 simultáneo super rápido. Tú escribes el código, y Python lo lee y ejecuta línea por línea, sin
@@ -24,6 +26,8 @@ También es multiparadigma, lo que significa que puedes programar de diferentes 
 - Imperativo (como si estuvieras dando órdenes a un robot muy obediente)
 
 ### ¿En qué se diferencia de los demás?
+
+![emoji](https://res.cloudinary.com/dukgkrpft/image/upload/v1729373093/lessons/python-la-serpiente-amistosa-del-codigo/rsha08i36whpdsikmcoq.webp)
 
 1. **Sintaxis limpia**: Python usa indentación para definir bloques de código. Es como si el código
    tuviera OCD y le gustara que todo esté perfectamente alineado.
@@ -54,6 +58,8 @@ Prepárate para sorprenderte. Python está en todas partes:
 - **Spotify**: Para que puedas escuchar tu playlist de "canciones para programar" en bucle.
 
 ## Configurando tu Guarida de Python
+
+![guarida](https://res.cloudinary.com/dukgkrpft/image/upload/v1729373126/lessons/python-la-serpiente-amistosa-del-codigo/zwch3udbpdnmzdsarjp8.webp)
 
 Ahora que ya sabes qué es Python y por qué es tan genial, es hora de preparar tu "guarida de
 serpientes" (no te preocupes, son serpientes amigables). Aunque escribirás todo tu código
@@ -127,6 +133,8 @@ de serpientes. ¡Vamos a programar!
 
 ### Ejercicio 1: El clásico "Hola, Mundo!"
 
+![holamundo](https://res.cloudinary.com/dukgkrpft/image/upload/v1729373162/lessons/python-la-serpiente-amistosa-del-codigo/i1bff0mraksb0mpl7gft.jpg)
+
 Vamos a escribir tu primer programa en Python. Es tradición que el primer programa que escribas en
 un nuevo lenguaje sea un "Hola, Mundo!".
 
@@ -140,6 +148,8 @@ Ahora, prepárate para el gran final: Python es la superestrella del mundo de la
 Artificial.
 
 ### ¿Por qué Python es clave en IA?
+
+![ia](https://res.cloudinary.com/dukgkrpft/image/upload/v1729373196/lessons/python-la-serpiente-amistosa-del-codigo/ni0zewsgewypetudpp52.jpg)
 
 1. **Bibliotecas poderosas**: TensorFlow, PyTorch, scikit-learn... son como los Vengadores de la IA,
    y todos hablan Python.

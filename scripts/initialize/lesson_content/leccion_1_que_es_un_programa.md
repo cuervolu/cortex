@@ -1,9 +1,9 @@
-## ¡Bienvenidos al mundo de la programación!
+# Bienvenidos al mundo de la programación
 
 ¡Hola, futuros programadores! 👋 ¿Están listos para una aventura emocionante? Hoy vamos a explorar el
 fascinante mundo de los programas de computadora.
 
-### ¿Qué haremos en esta lección?
+## ¿Qué haremos en esta lección?
 
 - Descubriremos qué son los programas y dónde los encontramos.
 
@@ -23,7 +23,7 @@ inventar cosas nuevas que cambien el mundo. Prácticamente serias un Dios creand
 Los programas están en todas partes, ¡aunque a veces no los vemos! Son como pequeños ayudantes
 invisibles que hacen que muchas cosas funcionen.
 
-### Ejemplos de programas que usamos todos los días:
+### Ejemplos de programas que usamos todos los días
 
 1. **Juegos en tu teléfono o tablet**: Cada vez que juegas Minecraft o Roblox, estás usando un
    programa.
@@ -42,9 +42,7 @@ invisibles que hacen que muchas cosas funcionen.
 Vamos a jugar a los detectives de programas. Mira esta imagen y trata de encontrar todos los lugares
 donde crees que hay un programa trabajando. ¡Puede que te sorprendas de cuántos descubras!
 
-*
-*[Insertar aquí una imagen de una escena cotidiana con varios dispositivos y situaciones donde se usan programas]
-**
+![Cotidiano](https://res.cloudinary.com/dukgkrpft/image/upload/v1729369975/lessons/%C2%BFque-es-un-programa/yxpoqinlgx3andbdmlva.jpg)
 
 ¿Cuántos programas pudiste encontrar? ¡Comparte tus descubrimientos y veamos quién encuentra más!
 
@@ -103,7 +101,7 @@ En los años 1990, Tim Berners-Lee inventó la World Wide Web. Imagina que creó
 telaraña digital que conecta a todas las computadoras del mundo. Gracias a esto, ahora podemos
 enviar mensajes, ver videos y aprender cosas nuevas de personas en todo el planeta.
 
-### El Presente y el Futuro: ¡Tú eres parte de la historia!
+### El Presente y el Futuro: Tú eres parte de la historia
 
 Hoy en día, tenemos computadoras en nuestros bolsillos (¡son los teléfonos inteligentes!), robots
 que exploran otros planetas, y programas que pueden aprender por sí mismos (se llama inteligencia
@@ -117,7 +115,8 @@ próxima gran cosa en el mundo de la computación.
 
 ## ¿Qué es realmente un programa?
 
-<div data-block-id="OSs9-29G" data-callout-type="hint" class="callout"><h4 data-block-id="VgD8DwIW">HINT</h4><p data-block-id="hD3a9Kis" data-spacing="double">Definición simple: "Un conjunto de instrucciones para la computadora"</p></div>
+> **HINT**  
+> Definición simple: "Un conjunto de instrucciones para la computadora"
 
 Imagina que tienes un robot mascota muy obediente. Un programa es como una lista de órdenes que le
 das a tu robot para que haga algo. Por ejemplo:
@@ -165,7 +164,6 @@ en la pantalla hasta el puntaje de tu juego favorito.
 Vamos a crear un programa simple usando bloques visuales. Imagina que quieres enseñarle a un robot a
 hacer un sándwich.
 
-*
 *[Insertar aquí una interfaz simple de arrastrar y soltar con bloques que representen acciones como "Tomar pan", "Poner queso", "Cortar por la mitad", etc.]
 **
 
@@ -227,7 +225,7 @@ es:
 
 ---
 
-## ¡Tú puedes ser un programador!
+## Tú puedes ser un programador
 
 ### Introducción a la idea de crear tus propios programas
 

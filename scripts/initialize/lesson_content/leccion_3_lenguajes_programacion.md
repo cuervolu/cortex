@@ -1,7 +1,9 @@
-## ¡Sorpresa! No van a escribir código (todavía)
+# ¡Sorpresa! No van a escribir código (todavía)
 
 ¡Ajá! ¿Creían que iban a convertirse en hackers hoy? ¡Los engañamos! 😜 Pero antes de que empiecen a
 lanzarnos tomates virtuales, déjennos explicarles por qué esto es importante.
+
+![perrolibro](https://res.cloudinary.com/dukgkrpft/image/upload/v1729370948/lessons/Lenguajes-programaci%C3%B3n/zwkd6plvuk2dg5xrqjys.jpg)
 
 ## Un Viaje en el Tiempo: Los Abuelos de la Programación
 
@@ -26,6 +28,8 @@ Es como hablarle a un robot muy quisquilloso. "Pon esto aquí, suma esto, no te 
 
 ### C: El Padre de los Lenguajes Modernos
 
+![dennis](https://res.cloudinary.com/dukgkrpft/image/upload/v1729371074/lessons/Lenguajes-programaci%C3%B3n/d6ljp53nwwt7uc49w6bw.jpg)
+
 En 1972, Dennis Ritchie dijo: "Programar no debería ser como resolver un cubo de Rubik con los ojos
 vendados". Y así nació C.
 
@@ -48,10 +52,13 @@ Ahora, saltemos al presente y conozcamos a las estrellas de rock de la programac
 
 ### Python: La Serpiente Amistosa
 
+![guido](https://res.cloudinary.com/dukgkrpft/image/upload/v1729371185/lessons/Lenguajes-programaci%C3%B3n/dvhapdfmvznk4sjzlea3.jpg)
+
 - Creador: Guido van Rossum (aka el "Dictador Benevolente Vitalicio", en serio, ese era su título)
 - Año: 1991
 - Famoso por: Ser tan fácil de leer que casi parece inglés.
 - Ejemplo:
+
     ```python
     print("Hola, soy Python, la serpiente que no muerde")
     ```
@@ -59,6 +66,8 @@ Ahora, saltemos al presente y conozcamos a las estrellas de rock de la programac
 Python es como ese amigo que siempre explica los chistes. Molesto a veces, pero lo amas por eso.
 
 ### Java: El Adicto al Café
+
+![james](https://res.cloudinary.com/dukgkrpft/image/upload/v1729371386/lessons/Lenguajes-programaci%C3%B3n/s9h1oae8suto9olndxxc.jpg)
 
 - Creador: James Gosling y su equipo en Sun Microsystems
 - Año: 1995
@@ -78,6 +87,8 @@ Java es ese compañero de trabajo que siempre está ocupado pero de alguna maner
 
 ### C#: El Primo "Cool" de Java
 
+![arders](https://res.cloudinary.com/dukgkrpft/image/upload/v1729371468/lessons/Lenguajes-programaci%C3%B3n/r9x08efxhibtbtn7ehro.jpg)
+
 - Creador: Microsoft (liderado por Anders Hejlsberg)
 - Año: 2000
 - Famoso por: Ser la respuesta de Microsoft a Java, pero con más "swag".
@@ -90,6 +101,8 @@ Console.WriteLine("Soy como Java, pero con acento de Microsoft");
 C# es como el hermano de Java que decidió ser DJ en lugar de contador.
 
 ### JavaScript: El Bromista de la Web
+
+![brendan](https://res.cloudinary.com/dukgkrpft/image/upload/v1729371542/lessons/Lenguajes-programaci%C3%B3n/risgqf37ba8qkg9japqi.jpg)
 
 - Creador: Brendan Eich (en solo 10 días, ¡lo que explica muchas cosas!)
 - Año: 1995

@@ -1,4 +1,4 @@
-## Introducción: El Misterioso Baúl de las Preguntas
+# Introducción: El Misterioso Baúl de las Preguntas
 
 Imagina que has encontrado un baúl mágico lleno de preguntas misteriosas. Cada vez que lo abres, te
 hace una pregunta diferente. ¿No sería genial crear tu propio baúl mágico de preguntas? ¡Pues hoy
@@ -6,13 +6,15 @@ vamos a hacerlo realidad con Python!
 
 ## La Receta Secreta del Éxito: La Planificación
 
+![plan](https://res.cloudinary.com/dukgkrpft/image/upload/v1729375236/lessons/conviertete_en_un_mago_del_codigo_con_tu_propio_juego_de_preguntas_y_respuestas/hizieaxsg4ygk6frb9vz.webp)
+
 Antes de lanzarnos a escribir código como locos, vamos a hacer algo que todos los grandes magos del
 código hacen: ¡planificar!
 
 Imagina que vas a preparar el pastel más delicioso del mundo. No empezarías a mezclar ingredientes
 al azar, ¿verdad? Primero necesitas una receta. En programación, nuestra receta se llama "plan".
 
-### Nuestro Plan Mágico para Hoy:
+### Nuestro Plan Mágico para Hoy
 
 1. Crear un cofre de tesoros (lista) con nuestras preguntas y respuestas
 
@@ -26,10 +28,14 @@ al azar, ¿verdad? Primero necesitas una receta. En programación, nuestra recet
 
 ## Los Ingredientes Mágicos de Nuestro Juego
 
+![ingrediente](https://res.cloudinary.com/dukgkrpft/image/upload/v1729375306/lessons/conviertete_en_un_mago_del_codigo_con_tu_propio_juego_de_preguntas_y_respuestas/b3wgm4og58aqhh7tiscs.avif)
+
 Antes de empezar a cocinar... ¡perdón, programar!, vamos a conocer los ingredientes mágicos que
 usaremos:
 
 ### 1\. Listas: El Cofre del Tesoro
+
+![cofre](https://res.cloudinary.com/dukgkrpft/image/upload/v1729375358/lessons/conviertete_en_un_mago_del_codigo_con_tu_propio_juego_de_preguntas_y_respuestas/qi93u3gzwn5ei5xqnf5x.jpg)
 
 Imagina una lista como un cofre del tesoro donde guardamos todas nuestras preguntas y respuestas.
 
@@ -38,6 +44,8 @@ preguntas = ["¿Cuál es el animal que ladra?", "¿Cuántas patas tiene un gato?
 ```
 
 ### 2\. Ciclos: La Varita Mágica que Repite Hechizos
+
+![varita](https://res.cloudinary.com/dukgkrpft/image/upload/v1729375411/lessons/conviertete_en_un_mago_del_codigo_con_tu_propio_juego_de_preguntas_y_respuestas/eufdr8bi5bialz5ywujb.jpg)
 
 Los ciclos son como una varita mágica que repite un hechizo (en este caso, hacer preguntas) hasta
 que se acaben.
@@ -49,6 +57,8 @@ for pregunta in preguntas:
 
 ### 3\. Condicionales: El Libro de Hechizos que Toma Decisiones
 
+![librohechizo](https://res.cloudinary.com/dukgkrpft/image/upload/v1729375565/lessons/conviertete_en_un_mago_del_codigo_con_tu_propio_juego_de_preguntas_y_respuestas/m4ev1yhefshkvj0h2zoy.jpg)
+
 Los condicionales son como un libro de hechizos que nos dice qué hacer en diferentes situaciones.
 
 ```python
@@ -59,6 +69,8 @@ else:
 ```
 
 ### 4\. Funciones: Pociones Mágicas Reutilizables
+
+![pocion](https://res.cloudinary.com/dukgkrpft/image/upload/v1729375608/lessons/conviertete_en_un_mago_del_codigo_con_tu_propio_juego_de_preguntas_y_respuestas/qdpv8kyroalknbzi5vol.png)
 
 Las funciones son como pociones mágicas que podemos usar una y otra vez para hacer cosas asombrosas.
 
@@ -132,6 +144,8 @@ hace la función.
 
 #### ¿Por Qué Usar Tipado?
 
+![pregunta](https://res.cloudinary.com/dukgkrpft/image/upload/v1729375645/lessons/conviertete_en_un_mago_del_codigo_con_tu_propio_juego_de_preguntas_y_respuestas/nscklgrygu94cgwe5v7d.png)
+
 1. **Claridad**: Hace que el código sea más fácil de entender.
 
 2. **Prevención de Errores**: Nos ayuda a atrapar errores antes de que el código se ejecute.
@@ -146,6 +160,8 @@ funcionando si no coincide con los tipos especificados, pero es una buena práct
 con el tipado.
 
 ## ¡Manos a la Obra! Creando Nuestro Juego Paso a Paso
+
+![preparate](https://res.cloudinary.com/dukgkrpft/image/upload/v1729375800/lessons/conviertete_en_un_mago_del_codigo_con_tu_propio_juego_de_preguntas_y_respuestas/hqsltnxv6lbfm3fs2s0g.jpg)
 
 ### Paso 1: Preparando Nuestro Cofre de Tesoros (Preguntas y Respuestas)
 
@@ -283,5 +299,4 @@ crear mundos enteros con tu magia de programación.
 
 ¿Qué otras aventuras mágicas puedes imaginar crear con código? ¡El límite es tu imaginación!
 
-
-
+![felicidades](https://res.cloudinary.com/dukgkrpft/image/upload/v1729376083/lessons/conviertete_en_un_mago_del_codigo_con_tu_propio_juego_de_preguntas_y_respuestas/iumkgutzqokumymtomuq.webp)

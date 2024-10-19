@@ -1,9 +1,11 @@
-## Introducción
+# Introducción
 
 ¡Bienvenidos, futuros maestros del código Java! Hoy vamos a explorar los ingredientes básicos de
 nuestro lenguaje: los tipos de datos y las variables. Imagina que estás en una cafetería gourmet de
 programación, donde cada tipo de dato es un grano de café diferente, y cada variable es una taza
 esperando ser llenada con un delicioso código. ¡Vamos a sumergirnos en este aromático mundo!
+
+![cafe](https://res.cloudinary.com/dukgkrpft/image/upload/v1729371908/lessons/Los-granos-del-lenguaje/cjjmyq0hzqhehaeix6sx.gif)
 
 ## Tipos de datos primitivos: Nuestro menú de granos selectos
 
@@ -43,6 +45,8 @@ char calificacionCafe = 'A';
 ```
 
 ## Declaración y uso de variables: Preparando nuestras tazas
+
+![taza](https://res.cloudinary.com/dukgkrpft/image/upload/v1729371972/lessons/Los-granos-del-lenguaje/lurmn4cqeika1lz5p3hm.webp)
 
 Declarar una variable es como preparar una taza para tu café. Necesitas especificar qué tipo de
 café (dato) contendrá y darle un nombre:
@@ -119,7 +123,7 @@ int temperatura = 92; // La temperatura ideal para el espresso
    múltiples líneas */
 ```
 
-**Comentarios de documentación (JavaDoc)**
+**Comentarios de documentación (JavaDoc)**:
 
 ```java
 /**
@@ -134,7 +138,7 @@ JavaDoc es una herramienta que viene con el JDK y se usa para generar documentac
 a partir de los comentarios en tu código Java. Es como crear un manual de usuario para tu máquina de
 café personalizada.
 
-### Cómo hacer JavaDocs:
+### Cómo hacer JavaDocs
 
 1. Se colocan justo antes de clases, métodos o campos que quieres documentar.
 
@@ -167,7 +171,7 @@ public class TazaDeCafe {
 }
 ```
 
-### Importancia de JavaDoc:
+### Importancia de JavaDoc
 
 1. **Documentación clara**: Ayuda a otros programadores (y a ti en el futuro) a entender cómo usar
    tu código.
@@ -227,5 +231,4 @@ complejos y sabrosos.
 
 ¡Hasta la próxima, futuros baristas del código!
 
-
-
+![feliz](https://res.cloudinary.com/dukgkrpft/image/upload/v1729371835/lessons/Los-granos-del-lenguaje/ppkm6u8wltorffqablu8.jpg)

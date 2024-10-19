@@ -1,9 +1,11 @@
-## Introducción al pensamiento computacional
+# Introducción al pensamiento computacional
+
+![Gato mago](https://res.cloudinary.com/dukgkrpft/image/upload/v1729369050/lessons/pensando-como-programador/lhzxyow3ysmczb8hu4yc.jpg)
 
 ¡Hola de nuevo, futuros magos de la computación! 🧙‍♂️🖥️ ¿Listos para convertir sus cerebros en
 supercomputadoras? No se preocupen, ¡no duele y no necesitan enchufe!
 
-### ¿Qué significa pensar como un programador?
+## ¿Qué significa pensar como un programador?
 
 Pensar como un programador es como ser un superhéroe, pero en lugar de capa, usas un teclado. Es
 como tener el poder de hacer que las máquinas hagan tu tarea... ¡ups!, quiero decir, resolver
@@ -27,14 +29,14 @@ Imagina que tienes que programar una máquina para saludar a la gente. Aquí hay
 
 1\. La Solución Formal:
 
-```
+```plaintext
 Si es una persona:
     Decir "Buenos días, estimado ser humano"
 ```
 
 2\. La Solución Amistosa:
 
-```
+```plaintext
 Si es una persona:
     Decir "¡Qué onda, amigo!"
     Dar high-five
@@ -42,7 +44,7 @@ Si es una persona:
 
 3\. La Solución Robótica:
 
-```
+```plaintext
 Si es una persona:
     Emitir sonido: "Bip-bop, humano detectado"
     Girar antena tres veces
@@ -82,29 +84,27 @@ tarea en pasos más pequeños. Por ejemplo:
 
 Tu turno: ¿Qué otros pasos añadirías a este plan de supervivencia?
 
-*
-*[Continuar con el resto de las secciones, manteniendo el tono cómico y añadiendo ejemplos divertidos]
-**
+![zombis](https://res.cloudinary.com/dukgkrpft/image/upload/v1729370351/lessons/pensando-como-programador/ri8fpaq5opqy5ewk9jn7.jpg)
 
 ## Resumen y anticipación
 
 ¡Felicidades, pequeños genios de la programación! Han sobrevivido a su primera inmersión en el
 pensamiento computacional. Repasemos lo que aprendimos:
 
-- Descomponer problemas (ningún elefante es demasiado grande)
+* Descomponer problemas (ningún elefante es demasiado grande)
 
-- Encontrar patrones (como descubrir que tu profesor siempre pone el mismo tipo de preguntas en los
+* Encontrar patrones (como descubrir que tu profesor siempre pone el mismo tipo de preguntas en los
   exámenes)
 
-- Usar la abstracción (ignorar que tu habitación es un desastre y enfocarte en encontrar tus
+* Usar la abstracción (ignorar que tu habitación es un desastre y enfocarte en encontrar tus
   zapatos)
 
-- Crear algoritmos (como tu plan infalible para conseguir dulces extra en Halloween)
+* Crear algoritmos (como tu plan infalible para conseguir dulces extra en Halloween)
 
-- Usar lógica "si-entonces" (Si hago mi tarea, entonces puedo jugar videojuegos... ¿verdad, mamá?)
+* Usar lógica "si-entonces" (Si hago mi tarea, entonces puedo jugar videojuegos... ¿verdad, mamá?)
 
-- Hacer bucles (como cuando repites "¿Ya llegamos?" en un viaje largo)
-- Depurar errores (encontrar por qué tu hermanito está llorando... otra vez)
+* Hacer bucles (como cuando repites "¿Ya llegamos?" en un viaje largo)
+* Depurar errores (encontrar por qué tu hermanito está llorando... otra vez)
 
 Y lo más importante: ¡Aprendimos que hay muchas formas de resolver un problema! Tu creatividad es tu
 superpoder secreto en la programación.
@@ -114,3 +114,5 @@ secreto, pero en lugar de hablar con espías, hablarás con computadoras. ¿No e
 
 Prepara tus dedos para teclear, tu cerebro para pensar, y tu sentido del humor para los chistes
 malos sobre programación. ¡Nos vemos en la próxima aventura, futuros amos del universo digital!
+
+![Gatocelebrar](https://res.cloudinary.com/dukgkrpft/image/upload/v1729369878/lessons/pensando-como-programador/ib7nbqywbis3uclookke.webp)

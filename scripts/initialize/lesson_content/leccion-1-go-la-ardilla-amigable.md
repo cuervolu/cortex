@@ -88,4 +88,4 @@ Término                 Definición
 
 increíbles que puedan viajar por todo el cosmos digital. ¡Hasta la próxima, intrépidos programadores espaciales!
 
-![gato](../images/Gatocelebrar.jpeg)
+![Yipi](https://res.cloudinary.com/dukgkrpft/image/upload/v1729378761/lessons/felicidades-yipi/jczrx7hhw88cvrfnmiae.jpg)

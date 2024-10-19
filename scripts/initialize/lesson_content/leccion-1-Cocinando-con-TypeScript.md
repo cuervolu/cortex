@@ -1,10 +1,12 @@
 # Introducción
 
-![Los Hechizos Mágicos de TypeScript](../images/los_hechizos_mágicos_de_typescript.png)
+![Los Hechizos Mágicos de TypeScript](https://res.cloudinary.com/dukgkrpft/image/upload/v1729377002/lessons/cocinando-con-typescript/dhfxtr6kp18wtrwcg0zt.webp)
 
 ¡Bienvenidos, futuros chefs del código! Hoy vamos a explorar TypeScript, un lenguaje que es como la cocina de fusión en el mundo de la programación. Prepara tu delantal y afila tus cuchillos de desarrollador, porque estamos a punto de cocinar algo realmente especial.
 
 ## Historia de TypeScript: De la cocina  casera a la alta  cocina
+
+![cocina](https://res.cloudinary.com/dukgkrpft/image/upload/v1729378602/lessons/cocinando-con-typescript/tohf9gjzxhbdskzhu4gi.webp)
 
 Imagina que estás en una cocina en 2012. Un grupo de desarrolladores de Microsoft, liderados por Anders Hejlsberg (el chef estrella Michelin del mundo de la programación), está tratando de crear un lenguaje que haga que cocinar con JavaScript sea más seguro y eficiente.
 
@@ -85,4 +87,4 @@ Ahora que conoces los conceptos básicos de TypeScript, estás listo para empeza
 
 ¡Prepárate para servir tu primer plato de código TypeScript gourmet!
 
-![Gato celebrando](../images/Gatocelebrar.jpeg)
+![Yipi](https://res.cloudinary.com/dukgkrpft/image/upload/v1729378761/lessons/felicidades-yipi/jczrx7hhw88cvrfnmiae.jpg)

@@ -189,4 +189,4 @@ Crea un programa que pida a un jugador que piense en un número del 1 al 10, y l
 1. Usa una variable para el número secreto.
 2. Usa un ciclo `while` para que la computadora siga adivinando hasta que acierte.
 
-![gato](../images/Gatocelebrar.jpeg)
+![Yipi](https://res.cloudinary.com/dukgkrpft/image/upload/v1729378761/lessons/felicidades-yipi/jczrx7hhw88cvrfnmiae.jpg)

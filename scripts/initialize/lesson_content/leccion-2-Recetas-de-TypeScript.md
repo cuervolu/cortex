@@ -187,4 +187,4 @@ prepararPlato(pasosPasta).then(() => console.log("¡Buen provecho!"));
 
  ¡Hasta entonces, que sus compilaciones sean exitosas y sus errores de tipo sean pocos!
 
-![gato](../images/Gatocelebrar.jpeg)
+![Yipi](https://res.cloudinary.com/dukgkrpft/image/upload/v1729378761/lessons/felicidades-yipi/jczrx7hhw88cvrfnmiae.jpg)

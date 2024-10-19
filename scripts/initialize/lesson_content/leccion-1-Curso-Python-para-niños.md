@@ -1,6 +1,6 @@
 # Introducción
 
-![python](../images/python_la_serpiente_amigable.jpg)
+![python](https://res.cloudinary.com/dukgkrpft/image/upload/v1729380330/lessons/curso-python-para-ni%C3%B1os/ozm2uutckmh5vntpnpqh.jpg)
 
 ¡Hola, jóvenes aventureros del código! ¿Están listos para caer por la madriguera del conejo y entrar en un mundo mágico lleno de posibilidades? Pues agarren sus sombreros de copa, porque nos vamos de viaje al País de las Maravillas Digitales, hogar de la serpiente más amigable y poderosa del mundo de la programación: ¡Python! 🐍🎩
 
@@ -17,6 +17,8 @@ Un brillante mago del código llamado Guido van Rossum estaba aburrido durante l
 * El Zen de Python es como las reglas mágicas del País de las Maravillas. Una de ellas dice: "Simple es mejor que complejo". Es como si te dijeran que es mejor usar una cuchara que un tenedor para comer sopa.
 
 ## ¿Quiénes son los amigos de Python?
+
+![panas](https://res.cloudinary.com/dukgkrpft/image/upload/v1729380405/lessons/curso-python-para-ni%C3%B1os/k9jfwlf11xnhi7ee26uv.jpg)
 
 Python tiene muchos amigos mágicos que lo usan para crear cosas increíbles:
 
@@ -37,6 +39,8 @@ Imagina que Python es como una varita mágica multifunción. Es genial para:
 5. Cuando necesitas hacer tareas repetitivas y aburridas. ¡Python las hace por ti en un santiamén!
 
 ## ¿Cuándo quizás no necesitamos a python?
+
+![pipipi](https://res.cloudinary.com/dukgkrpft/image/upload/v1729380534/lessons/curso-python-para-ni%C3%B1os/dgljpy3ozzh77puqersm.jpg)
 
 A veces, incluso la magia necesita un descanso:
 
@@ -88,4 +92,4 @@ Ingrediente            Efecto
 
 ¡Hasta la próxima, intrépidos magos del código!
 
-![Gato](../images/Gatocelebrar.jpeg)
+![Yipi](https://res.cloudinary.com/dukgkrpft/image/upload/v1729378761/lessons/felicidades-yipi/jczrx7hhw88cvrfnmiae.jpg)

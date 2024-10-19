@@ -526,4 +526,4 @@ Es como escribir tu receta secreta en piedra. Una vez declarada, no puede cambia
 
 ¡Hasta la próxima, futuros baristas del código!
 
-![gato](../images/Gatocelebrar.jpeg)
+![Yipi](https://res.cloudinary.com/dukgkrpft/image/upload/v1729378761/lessons/felicidades-yipi/jczrx7hhw88cvrfnmiae.jpg)

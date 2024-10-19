@@ -153,4 +153,4 @@ fn main() {
 
  ¡Hasta entonces, que el Borrow Checker los acompañe!
 
-![gato](../images/Gatocelebrar.jpeg)
+![Yipi](https://res.cloudinary.com/dukgkrpft/image/upload/v1729378761/lessons/felicidades-yipi/jczrx7hhw88cvrfnmiae.jpg)

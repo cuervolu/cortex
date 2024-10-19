@@ -120,4 +120,4 @@ print(f"Tu nueva contraseña mágica es: {generar_contrasena_magica(12)}")
 
  ¡Hasta entonces, que la magia del código los acompañe!
 
-![gato](../images/Gatocelebrar.jpeg)
+![Yipi](https://res.cloudinary.com/dukgkrpft/image/upload/v1729378761/lessons/felicidades-yipi/jczrx7hhw88cvrfnmiae.jpg)

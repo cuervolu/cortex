@@ -1,4 +1,6 @@
-## Introducción
+# Introducción
+
+![java](https://res.cloudinary.com/dukgkrpft/image/upload/v1729370701/lessons/Tu-primera-taza-de-java/ezk3tmgablr0xhixr07x.png)
 
 ¡Bienvenidos, futuros maestros del código! Hoy vamos a preparar nuestra primera taza de Java. Aunque
 en Cortex todo está listo para que empieces a programar directamente en la web, es importante que
@@ -6,7 +8,11 @@ conozcas cómo se configura un entorno de desarrollo Java en tu propia computado
 
 ## Configuración del entorno de desarrollo
 
-<div data-block-id="vKQ5xbA_" data-callout-type="info" class="callout"><h4 data-block-id="4WUZQjBj">INFO</h4><h3 data-block-id="KXlfk1qN">Nota importante sobre Cortex</h3><p data-block-id="PUuwHMiQ" data-spacing="double">Antes de sumergirnos en la configuración, es crucial mencionar que en Cortex, todo el entorno de desarrollo está preparado para ti en nuestra aplicación web. No necesitas instalar nada en tu computadora para empezar a programar. Sin embargo, conocer el proceso de configuración te será útil si decides programar en Java fuera de Cortex.</p></div>
+> **INFO**
+>
+> ### Nota importante sobre Cortex
+>
+> Antes de sumergirnos en la configuración, es crucial mencionar que en Cortex, todo el entorno de desarrollo está preparado para ti en nuestra aplicación web. No necesitas instalar nada en tu computadora para empezar a programar. Sin embargo, conocer el proceso de configuración te será útil si decides programar en Java fuera de Cortex.
 
 ### Versiones de Java
 
@@ -20,6 +26,8 @@ Java evoluciona constantemente, como un buen café que se perfecciona con el tie
   cafetera de los años 90!).
 
 - En Cortex, trabajamos con Java 21, una versión moderna y estable.
+
+![cafe](https://res.cloudinary.com/dukgkrpft/image/upload/v1729370566/lessons/Tu-primera-taza-de-java/jkvciqtcgbblcp7kixi7.jpg)
 
 ### Pasos para configurar Java en tu computadora
 
