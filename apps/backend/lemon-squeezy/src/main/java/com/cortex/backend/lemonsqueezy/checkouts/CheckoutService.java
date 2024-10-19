@@ -1,17 +1,17 @@
 package com.cortex.backend.lemonsqueezy.checkouts;
 
 import com.cortex.backend.lemonsqueezy.LemonSqueezyClient;
+import com.cortex.backend.lemonsqueezy.common.PaginatedResponse;
+import com.cortex.backend.lemonsqueezy.common.PaginatedService;
+import com.cortex.backend.lemonsqueezy.common.PaginationRequest;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CheckoutService {
+public class CheckoutService extends PaginatedService<Checkout> {
 
   private static final String TYPE = "type";
   private static final String DATA = "data";
@@ -25,13 +25,8 @@ public class CheckoutService {
   private static final String FILTER_STORE_ID = "filter[store_id]";
   private static final String FILTER_VARIANT_ID = "filter[variant_id]";
 
-  private final LemonSqueezyClient client;
-  private final ObjectMapper objectMapper;
-
   public CheckoutService(LemonSqueezyClient client) {
-    this.client = client;
-    this.objectMapper = new ObjectMapper();
-    this.objectMapper.registerModule(new JavaTimeModule());
+    super(client, client.getObjectMapper());
   }
 
   public Checkout createCheckout(CheckoutRequest request) throws IOException {
@@ -41,8 +36,7 @@ public class CheckoutService {
 
     Map<String, Object> relationships = new HashMap<>();
     relationships.put(STORE, createRelationship(STORES, String.valueOf(request.getStoreId())));
-    relationships.put(VARIANT,
-        createRelationship(VARIANTS, String.valueOf(request.getVariantId())));
+    relationships.put(VARIANT, createRelationship(VARIANTS, String.valueOf(request.getVariantId())));
     data.put(RELATIONSHIPS, relationships);
 
     Map<String, Object> requestBody = new HashMap<>();
@@ -57,22 +51,22 @@ public class CheckoutService {
     return parseCheckoutResponse(response);
   }
 
-  public List<Checkout> listCheckouts(Long storeId, Long variantId) throws IOException {
+  public PaginatedResponse<Checkout> listCheckouts(Long storeId, Long variantId, PaginationRequest paginationRequest) throws IOException {
     StringBuilder endpoint = new StringBuilder(CHECKOUTS);
-    if (storeId != null || variantId != null) {
-      endpoint.append("?");
-      if (storeId != null) {
-        endpoint.append(FILTER_STORE_ID).append("=").append(storeId);
-      }
-      if (variantId != null) {
-        if (storeId != null) {
-          endpoint.append("&");
-        }
-        endpoint.append(FILTER_VARIANT_ID).append("=").append(variantId);
-      }
+    List<String> params = new ArrayList<>();
+
+    if (storeId != null) {
+      params.add(FILTER_STORE_ID + "=" + storeId);
     }
-    String response = client.get(endpoint.toString());
-    return parseCheckoutListResponse(response);
+    if (variantId != null) {
+      params.add(FILTER_VARIANT_ID + "=" + variantId);
+    }
+
+    if (!params.isEmpty()) {
+      endpoint.append("?").append(String.join("&", params));
+    }
+
+    return getPaginatedResponse(endpoint.toString(), paginationRequest);
   }
 
   private Checkout parseCheckoutResponse(String response) throws IOException {
@@ -82,30 +76,19 @@ public class CheckoutService {
       throw new IOException("Invalid response format: missing or invalid 'data' field");
     }
 
-    JsonNode attributesNode = dataNode.get(ATTRIBUTES);
+    return parseItem(dataNode);
+  }
+
+  @Override
+  protected Checkout parseItem(JsonNode itemNode) throws IOException {
+    JsonNode attributesNode = itemNode.get(ATTRIBUTES);
     if (attributesNode == null || !attributesNode.isObject()) {
       throw new IOException("Invalid response format: missing or invalid 'attributes' field");
     }
 
-    return objectMapper.treeToValue(attributesNode, Checkout.class);
-  }
-
-  private List<Checkout> parseCheckoutListResponse(String response) throws IOException {
-    JsonNode rootNode = objectMapper.readTree(response);
-    JsonNode dataNode = rootNode.get(DATA);
-    if (dataNode == null || !dataNode.isArray()) {
-      throw new IOException("Invalid response format: missing or invalid 'data' field");
-    }
-
-    List<Checkout> checkouts = new ArrayList<>();
-    for (JsonNode item : dataNode) {
-      JsonNode attributesNode = item.get(ATTRIBUTES);
-      if (attributesNode != null && attributesNode.isObject()) {
-        checkouts.add(objectMapper.treeToValue(attributesNode, Checkout.class));
-      }
-    }
-
-    return checkouts;
+    Checkout checkout = objectMapper.treeToValue(attributesNode, Checkout.class);
+    checkout.setId(itemNode.get("id").asText());
+    return checkout;
   }
 
   private Map<String, Object> createRelationship(String type, String id) {
