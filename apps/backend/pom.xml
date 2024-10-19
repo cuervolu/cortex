@@ -41,6 +41,7 @@
     <module>payments</module>
     <module>engine</module>
     <module>chat</module>
+    <module>lemon-squeezy</module>
   </modules>
   <scm>
     <connection/>
