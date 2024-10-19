@@ -51,8 +51,8 @@ public class Subscription {
   @Column(name = "next_billing_date")
   private LocalDate nextBillingDate;
 
-  @Column(name = "mercadopago_subscription_id")
-  private String mercadopagoSubscriptionId;
+  @Column(name = "lemon_squeezy_subscription_id")
+  private String lemonSqueezySubscriptionId;
 
   @Column(name = "created_at", nullable = false)
   private LocalDate createdAt;
