@@ -1,9 +1,0 @@
-[package]
-name = "auth"
-version = "0.1.0"
-edition = "2021"
-
-[dependencies]
-error = {path = "../error"}
-common = {path = "../common"}
-tauri = {workspace = true}
