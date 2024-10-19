@@ -7,7 +7,6 @@ import okhttp3.*;
 import java.io.IOException;
 
 public class LemonSqueezyClient {
-
   private final OkHttpClient httpClient;
   private final String baseUrl;
   private final String apiKey;
@@ -21,7 +20,7 @@ public class LemonSqueezyClient {
     this.httpClient = new OkHttpClient.Builder()
         .addInterceptor(this::addHeaders)
         .build();
-    this.objectMapper = new ObjectMapper();
+    this.objectMapper = config.getObjectMapper();
   }
 
   private Response addHeaders(Interceptor.Chain chain) throws IOException {
@@ -38,34 +37,56 @@ public class LemonSqueezyClient {
     Request request = new Request.Builder()
         .url(baseUrl + endpoint)
         .build();
-
     return executeRequest(request);
   }
 
   public String post(String endpoint, Object body) throws IOException {
+    return sendRequestWithBody(endpoint, body, "POST");
+  }
+
+  public String put(String endpoint, Object body) throws IOException {
+    return sendRequestWithBody(endpoint, body, "PUT");
+  }
+
+  public String patch(String endpoint, Object body) throws IOException {
+    return sendRequestWithBody(endpoint, body, "PATCH");
+  }
+
+  public String delete(String endpoint) throws IOException {
+    Request request = new Request.Builder()
+        .url(baseUrl + endpoint)
+        .delete()
+        .build();
+    return executeRequest(request);
+  }
+
+  private String sendRequestWithBody(String endpoint, Object body, String method) throws IOException {
     RequestBody requestBody = RequestBody.create(
         objectMapper.writeValueAsString(body),
         MediaType.parse(LEMON_HEADER)
     );
-
     Request request = new Request.Builder()
         .url(baseUrl + endpoint)
-        .post(requestBody)
+        .method(method, requestBody)
         .build();
-
     return executeRequest(request);
   }
 
   private String executeRequest(Request request) throws IOException {
     try (Response response = httpClient.newCall(request).execute()) {
-      if (!response.isSuccessful()) {
-        throw new IOException("Unexpected code " + response);
-      }
       ResponseBody responseBody = response.body();
       if (responseBody == null) {
         throw new IOException("Response body is null");
       }
-      return responseBody.string();
+      String responseString = responseBody.string();
+      if (!response.isSuccessful()) {
+        throw new IOException("Unexpected code " + response + ". Response body: " + responseString);
+      }
+      return responseString;
     }
+  }
+
+  public ObjectMapper getObjectMapper() {
+    return objectMapper;
   }
 }
