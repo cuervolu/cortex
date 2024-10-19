@@ -2,6 +2,7 @@ package com.cortex.backend.lemonsqueezy;
 
 import com.cortex.backend.lemonsqueezy.config.LemonSqueezyConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Getter;
 import okhttp3.*;
 
 import java.io.IOException;
@@ -10,6 +11,7 @@ public class LemonSqueezyClient {
   private final OkHttpClient httpClient;
   private final String baseUrl;
   private final String apiKey;
+  @Getter
   private final ObjectMapper objectMapper;
 
   private static final String LEMON_HEADER = "application/vnd.api+json";
@@ -86,7 +88,4 @@ public class LemonSqueezyClient {
     }
   }
 
-  public ObjectMapper getObjectMapper() {
-    return objectMapper;
-  }
 }
