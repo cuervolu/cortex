@@ -1,9 +1,13 @@
 package com.cortex.backend.payments.config;
 
-import com.mercadopago.MercadoPagoConfig;
-import com.mercadopago.client.payment.PaymentClient;
-import com.mercadopago.client.preference.PreferenceClient;
-import javax.annotation.PostConstruct;
+import com.cortex.backend.lemonsqueezy.LemonSqueezyClient;
+import com.cortex.backend.lemonsqueezy.config.LemonSqueezyConfig;
+import com.cortex.backend.lemonsqueezy.checkouts.CheckoutService;
+import com.cortex.backend.lemonsqueezy.subscriptions.SubscriptionsService;
+import com.cortex.backend.lemonsqueezy.subscriptions.invoices.SubscriptionInvoiceService;
+import com.cortex.backend.lemonsqueezy.licensekeys.LicenseKeyService;
+import com.cortex.backend.lemonsqueezy.licensekeys.instances.LicenseKeyInstanceService;
+import com.cortex.backend.lemonsqueezy.webhook.WebhookService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
