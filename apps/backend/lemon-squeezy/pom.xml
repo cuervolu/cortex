@@ -12,6 +12,10 @@
   <artifactId>lemon-squeezy</artifactId>
   <packaging>jar</packaging>
 
+  <name>
+    lemon-squeezy
+  </name>
+  
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
@@ -33,4 +37,15 @@
       <version>2.17.2</version>
     </dependency>
   </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
