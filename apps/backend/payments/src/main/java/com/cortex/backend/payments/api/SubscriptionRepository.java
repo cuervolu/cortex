@@ -11,10 +11,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SubscriptionRepository extends CrudRepository<Subscription, Long> {
-
-  Optional<Subscription> findByMercadopagoSubscriptionId(String mercadopagoSubscriptionId);
-
-  List<Subscription> findByUserAndStatus(User user, SubscriptionStatus status);
+    List<Subscription> findByUserAndStatus(User user, SubscriptionStatus status);
 
   Optional<Subscription> findByUserAndStatusAndPlanId(User user, SubscriptionStatus status,
       Long planId);
