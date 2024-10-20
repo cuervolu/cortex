@@ -1,11 +1,6 @@
 package com.cortex.backend.core.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,9 +31,16 @@ public class Mentorship extends BaseEntity {
   @Column(name = "end_date")
   private LocalDate endDate;
 
+  @Enumerated(EnumType.STRING)
   @Column(nullable = false)
-  private String status;
+  private MentorshipStatus status;
 
   @Column(columnDefinition = "TEXT")
   private String notes;
+
+  @Column(name = "feedback_rating")
+  private Integer feedbackRating;
+
+  @Column(name = "feedback_comments", columnDefinition = "TEXT")
+  private String feedbackComments;
 }
