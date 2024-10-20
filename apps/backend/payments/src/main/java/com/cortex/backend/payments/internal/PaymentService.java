@@ -1,35 +1,26 @@
 package com.cortex.backend.payments.internal;
 
-import com.cortex.backend.core.domain.Refund;
-import com.cortex.backend.core.domain.Subscription;
-import com.cortex.backend.core.domain.SubscriptionPlan;
-import com.cortex.backend.core.domain.SubscriptionStatus;
-import com.cortex.backend.core.domain.Transaction;
-import com.cortex.backend.core.domain.User;
-import com.cortex.backend.payments.api.RefundRepository;
-import com.cortex.backend.payments.api.SubscriptionPlanRepository;
-import com.cortex.backend.payments.api.SubscriptionRepository;
-import com.cortex.backend.payments.api.TransactionRepository;
+import static java.time.OffsetDateTime.*;
+
+import com.cortex.backend.core.domain.*;
+import com.cortex.backend.lemonsqueezy.checkouts.*;
+import com.cortex.backend.lemonsqueezy.subscriptions.*;
+import com.cortex.backend.lemonsqueezy.licensekeys.*;
+import com.cortex.backend.lemonsqueezy.webhook.Webhook;
+import com.cortex.backend.lemonsqueezy.webhook.WebhookCreateRequest;
+import com.cortex.backend.lemonsqueezy.webhook.WebhookFilter;
+import com.cortex.backend.lemonsqueezy.webhook.WebhookService;
+import com.cortex.backend.lemonsqueezy.webhook.WebhookUpdateRequest;
+import com.cortex.backend.payments.api.*;
 import com.cortex.backend.user.repository.UserRepository;
-import com.mercadopago.client.payment.PaymentClient;
-import com.mercadopago.client.preference.PreferenceBackUrlsRequest;
-import com.mercadopago.client.preference.PreferenceClient;
-import com.mercadopago.client.preference.PreferenceItemRequest;
-import com.mercadopago.client.preference.PreferencePayerRequest;
-import com.mercadopago.client.preference.PreferenceRequest;
-import com.mercadopago.exceptions.MPApiException;
-import com.mercadopago.exceptions.MPException;
-import com.mercadopago.resources.payment.Payment;
-import com.mercadopago.resources.payment.PaymentRefund;
-import com.mercadopago.resources.preference.Preference;
-import jakarta.persistence.EntityNotFoundException;
+import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,139 +29,227 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class PaymentService {
 
-  private final PaymentClient paymentClient;
-  private final PreferenceClient preferenceClient;
+  private final CheckoutService checkoutService;
+  private final SubscriptionsService subscriptionsService;
+  private final LicenseKeyService licenseKeyService;
   private final UserRepository userRepository;
   private final TransactionRepository transactionRepository;
   private final SubscriptionPlanRepository subscriptionPlanRepository;
   private final SubscriptionRepository subscriptionRepository;
   private final RefundRepository refundRepository;
-
-  @Value("${application.mercadopago.urls.success}")
-  private String successUrl;
-
-  @Value("${application.mercadopago.urls.pending}")
-  private String pendingUrl;
-
-  @Value("${application.mercadopago.urls.failure}")
-  private String failureUrl;
+  private final WebhookService webhookService;
 
   @Transactional
-  public Preference createPaymentPreference(Long userId, Long planId) throws MPException, MPApiException {
+  public Transaction createCheckout(Long userId, Long planId) throws Exception {
     User user = userRepository.findById(userId)
-        .orElseThrow(() -> new EntityNotFoundException("User not found"));
+        .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     SubscriptionPlan plan = subscriptionPlanRepository.findById(planId)
-        .orElseThrow(() -> new EntityNotFoundException("Subscription plan not found"));
+        .orElseThrow(() -> new RuntimeException("Subscription plan not found"));
 
-    PreferenceRequest preferenceRequest = PreferenceRequest.builder()
-        .items(Collections.singletonList(
-            PreferenceItemRequest.builder()
-                .title(plan.getName())
-                .quantity(1)
-                .unitPrice(plan.getPrice())
-                .build()
-        ))
-        .payer(PreferencePayerRequest.builder()
-            .email(user.getEmail())
-            .build())
-        .backUrls(PreferenceBackUrlsRequest.builder()
-            .success(successUrl)
-            .pending(pendingUrl)
-            .failure(failureUrl)
-            .build())
-        .externalReference(plan.getId().toString()) // Store plan ID for later use
+    CheckoutRequest checkoutRequest = buildCheckoutRequest(user, plan);
+    Checkout checkout = checkoutService.createCheckout(checkoutRequest);
+
+    Transaction transaction = Transaction.builder()
+        .user(user)
+        .amount(plan.getPrice())
+        .currency(plan.getCurrencyId())
+        .status("pending")
+        .paymentMethod("lemon_squeezy")
+        .transactionDate(now())
+        .description("Checkout for " + plan.getName())
+        .createdAt(LocalDate.now())
+        .lemonSqueezyTransactionId(checkout.getId())
         .build();
 
-    return preferenceClient.create(preferenceRequest);
+    return transactionRepository.save(transaction);
+  }
+
+  private CheckoutRequest buildCheckoutRequest(User user, SubscriptionPlan plan) {
+    Map<String, Object> checkoutData = new HashMap<>();
+    checkoutData.put("email", user.getEmail());
+    checkoutData.put("name", user.getFullName());
+
+    return CheckoutRequest.builder()
+        .storeId(1L) // Replace with your actual store ID
+        .variantId(Long.parseLong(plan.getLemonSqueezyPlanId()))
+        .customPrice(plan.getPrice().multiply(new BigDecimal(100)).intValue())
+        .checkoutData(checkoutData)
+        .build();
   }
 
   @Transactional
-  public void processPayment(Long paymentId) throws MPException, MPApiException {
-    Payment payment = paymentClient.get(paymentId);
-    User user = userRepository.findByEmail(payment.getPayer().getEmail())
-        .orElseThrow(() -> new EntityNotFoundException("User not found"));
+  public com.cortex.backend.core.domain.Subscription createSubscription(Long userId, Long planId)
+      throws Exception {
+    User user = userRepository.findById(userId)
+        .orElseThrow(() -> new RuntimeException("User not found"));
+    SubscriptionPlan plan = subscriptionPlanRepository.findById(planId)
+        .orElseThrow(() -> new RuntimeException("Subscription plan not found"));
 
-    Transaction transaction = Transaction.builder()
-        .mercadopagoTransactionId(payment.getId()) 
+    // Create a checkout first
+    Checkout checkout = checkoutService.createCheckout(buildCheckoutRequest(user, plan));
+
+    // In a real-world scenario, you'd wait for a webhook to confirm the payment before creating the subscription
+    // For this example, we'll assume the payment is successful immediately
+
+    SubscriptionFilter filter = SubscriptionFilter.builder()
+        .userEmail(user.getEmail())
+        .build();
+
+    // Fetch the subscription from Lemon Squeezy
+    com.cortex.backend.lemonsqueezy.subscriptions.Subscription lemonSqueezySubscription =
+        subscriptionsService.listSubscriptions(filter, null).getData().get(0);
+
+    com.cortex.backend.core.domain.Subscription subscription = com.cortex.backend.core.domain.Subscription.builder()
         .user(user)
-        .amount(payment.getTransactionAmount())
-        .currency(payment.getCurrencyId())
-        .status(payment.getStatus())
-        .paymentMethod(payment.getPaymentMethodId())
-        .transactionDate(payment.getDateApproved())
-        .description(payment.getDescription())
+        .plan(plan)
+        .status(mapSubscriptionStatus(lemonSqueezySubscription.getStatus()))
+        .startDate(LocalDate.now())
+        .nextBillingDate(lemonSqueezySubscription.getRenewsAt().toLocalDate())
+        .lemonSqueezySubscriptionId(lemonSqueezySubscription.getId())
         .createdAt(LocalDate.now())
         .build();
 
-    transactionRepository.save(transaction);
-
-    if ("approved".equals(payment.getStatus())) {
-      activateOrRenewSubscription(user, payment);
-    }
+    return subscriptionRepository.save(subscription);
   }
 
-  private void activateOrRenewSubscription(User user, Payment payment) {
-    Long planId = Long.parseLong(payment.getExternalReference());
-    SubscriptionPlan plan = subscriptionPlanRepository.findById(planId)
-        .orElseThrow(() -> new EntityNotFoundException("Subscription plan not found"));
-
-    Subscription subscription = subscriptionRepository
-        .findByUserAndStatusAndPlanId(user, SubscriptionStatus.ACTIVE, planId)
-        .orElse(Subscription.builder()
-            .user(user)
-            .plan(plan)
-            .status(SubscriptionStatus.ACTIVE)
-            .startDate(LocalDate.now())
-            .createdAt(LocalDate.now())
-            .build());
-
-    subscription.setNextBillingDate(LocalDate.now().plusDays(plan.getIntervalCount()));
-    subscription.setUpdatedAt(LocalDate.now());
-
-    subscriptionRepository.save(subscription);
-  }
-
-  public Payment getPaymentInfo(Long paymentId) throws MPException, MPApiException {
-    return paymentClient.get(paymentId);
+  private SubscriptionStatus mapSubscriptionStatus(String lemonSqueezyStatus) {
+    return switch (lemonSqueezyStatus) {
+      case "on_trial" -> SubscriptionStatus.TRIAL;
+      case "active" -> SubscriptionStatus.ACTIVE;
+      case "paused" -> SubscriptionStatus.PAUSED;
+      case "past_due" -> SubscriptionStatus.PAST_DUE;
+      case "unpaid" -> SubscriptionStatus.UNPAID;
+      case "cancelled", "expired" -> SubscriptionStatus.CANCELLED;
+      default ->
+          throw new IllegalArgumentException("Unknown subscription status: " + lemonSqueezyStatus);
+    };
   }
 
   @Transactional
-  public void refundPayment(Long paymentId, String reason) throws MPException, MPApiException {
-    PaymentRefund mpRefund = paymentClient.refund(paymentId);
-    Transaction transaction = transactionRepository.findByMercadopagoTransactionId(paymentId)
-        .orElseThrow(() -> new EntityNotFoundException("Transaction not found"));
+  public Refund createRefund(Long transactionId, BigDecimal amount, String reason)
+      throws Exception {
+    Transaction transaction = transactionRepository.findById(transactionId)
+        .orElseThrow(() -> new RuntimeException("Transaction not found"));
 
-    // Update transaction status
-    transaction.setStatus("refunded");
-    transaction.setUpdatedAt(LocalDate.now());
-    transactionRepository.save(transaction);
+    // In a real-world scenario, you'd call Lemon Squeezy's API to process the refund
+    // For this example, we'll assume the refund is successful immediately
 
-    // Create and save Refund entity
     Refund refund = Refund.builder()
         .transaction(transaction)
-        .amount(mpRefund.getAmount())
-        .refundDate(OffsetDateTime.now())
+        .amount(amount)
+        .refundDate(now())
         .reason(reason)
         .status("completed")
         .createdAt(LocalDate.now())
         .build();
-    refundRepository.save(refund);
 
-    // Update all active subscriptions for this user
-    List<Subscription> activeSubscriptions = subscriptionRepository
-        .findByUserAndStatus(transaction.getUser(), SubscriptionStatus.ACTIVE);
-
-    for (Subscription subscription : activeSubscriptions) {
-      subscription.setStatus(SubscriptionStatus.CANCELLED);
-      subscription.setUpdatedAt(LocalDate.now());
-      subscriptionRepository.save(subscription);
-    }
-
-    if (activeSubscriptions.isEmpty()) {
-      log.warn("No active subscriptions found for user {} during refund process", transaction.getUser().getId());
-    }
-
-    log.info("Refund processed successfully for payment ID: {}", paymentId);
+    return refundRepository.save(refund);
   }
 
+  @Transactional
+  public com.cortex.backend.core.domain.Subscription cancelSubscription(Long subscriptionId)
+      throws Exception {
+    com.cortex.backend.core.domain.Subscription subscription = subscriptionRepository.findById(
+            subscriptionId)
+        .orElseThrow(() -> new RuntimeException("Subscription not found"));
+
+    var cancelledSubscription =
+        subscriptionsService.cancelSubscription(subscription.getLemonSqueezySubscriptionId());
+
+    subscription.setStatus(SubscriptionStatus.CANCELLED);
+    subscription.setUpdatedAt(LocalDate.now());
+
+    return subscriptionRepository.save(subscription);
+  }
+
+  @Transactional
+  public LicenseKey getLicenseKey(String licenseKeyId) throws Exception {
+    return licenseKeyService.getLicenseKey(licenseKeyId);
+  }
+
+  @Transactional
+  public Webhook createWebhook(Long storeId, String url, List<String> events, String secret)
+      throws Exception {
+    WebhookCreateRequest createRequest = WebhookCreateRequest.builder()
+        .storeId(storeId)
+        .url(url)
+        .events(events)
+        .secret(secret)
+        .build();
+
+    return webhookService.createWebhook(createRequest);
+  }
+
+  @Transactional
+  public Webhook updateWebhook(String webhookId, String url, List<String> events, String secret)
+      throws Exception {
+    WebhookUpdateRequest updateRequest = WebhookUpdateRequest.builder()
+        .url(url)
+        .events(events)
+        .secret(secret)
+        .build();
+
+    return webhookService.updateWebhook(webhookId, updateRequest);
+  }
+
+  @Transactional
+  public void deleteWebhook(String webhookId) throws Exception {
+    webhookService.deleteWebhook(webhookId);
+  }
+
+  @Transactional(readOnly = true)
+  public Webhook getWebhook(String webhookId) throws Exception {
+    return webhookService.getWebhook(webhookId);
+  }
+
+  @Transactional(readOnly = true)
+  public List<Webhook> listWebhooks(Long storeId) throws Exception {
+    WebhookFilter filter = WebhookFilter.builder()
+        .storeId(storeId)
+        .build();
+
+    return webhookService.listWebhooks(filter, null).getData();
+  }
+
+  @Transactional
+  public void handleWebhookEvent(String eventType, Map<String, Object> eventData) {
+    // Implement logic to handle different webhook events
+    switch (eventType) {
+      case "order_created":
+        handleOrderCreated(eventData);
+        break;
+      case "subscription_created":
+        handleSubscriptionCreated(eventData);
+        break;
+      case "subscription_updated":
+        handleSubscriptionUpdated(eventData);
+        break;
+      case "subscription_cancelled":
+        handleSubscriptionCancelled(eventData);
+        break;
+      // Add more cases for other event types as needed
+      default:
+        log.warn("Unhandled webhook event type: {}", eventType);
+    }
+  }
+
+  private void handleOrderCreated(Map<String, Object> eventData) {
+    // Implement logic to handle order creation
+    // Update local database, send notifications, etc.
+  }
+
+  private void handleSubscriptionCreated(Map<String, Object> eventData) {
+    // Implement logic to handle subscription creation
+    // Update local database, provision resources, etc.
+  }
+
+  private void handleSubscriptionUpdated(Map<String, Object> eventData) {
+    // Implement logic to handle subscription updates
+    // Update local database, adjust resources, etc.
+  }
+
+  private void handleSubscriptionCancelled(Map<String, Object> eventData) {
+    // Implement logic to handle subscription cancellation
+    // Update local database, revoke access, etc.
+  }
 }
