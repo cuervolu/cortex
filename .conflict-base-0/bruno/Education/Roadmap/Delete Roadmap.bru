@@ -1,0 +1,15 @@
+meta {
+  name: Delete Roadmap
+  type: http
+  seq: 6
+}
+
+delete {
+  url: {{BASEURL}}/api/v1/education/roadmap/152
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

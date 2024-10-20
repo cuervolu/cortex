@@ -1,0 +1,26 @@
+meta {
+  name: Update User
+  type: http
+  seq: 2
+}
+
+patch {
+  url: {{BASEURL}}/api/v1/user/me
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:multipart-form {
+  countryCode: CL
+  username: cuervolu
+  ~gender: MALE
+  ~avatar: @file(/home/cuervolu/Imágenes/Frieren_Holding_The_Rust_Programming_Language.png)
+  ~firstName: Ángel
+  ~lastName: Cuervo
+  ~dateOfBirth: 2002-07-29
+  ~email: igna.carrasco@duocuc.cl
+}

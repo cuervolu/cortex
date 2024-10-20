@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="WEB_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/apps/desktop/src-tauri/crates/ai_chat/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/apps/desktop/src-tauri/crates/auth/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/apps/desktop/src-tauri/crates/common/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/apps/desktop/src-tauri/crates/education/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/apps/desktop/src-tauri/crates/error/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/apps/desktop/src-tauri/src" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/.tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/temp" />
+      <excludeFolder url="file://$MODULE_DIR$/tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/apps/desktop/src-tauri/target" />
+      <excludeFolder url="file://$MODULE_DIR$/.vscode" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

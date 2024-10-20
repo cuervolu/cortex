@@ -1,0 +1,27 @@
+meta {
+  name: Anagram
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{BASEURL}}/api/v1/engine/execute
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+    {
+      "code": "aW1wb3J0IGphdmEudXRpbC4qOwppbXBvcnQgamF2YS51dGlsLnN0cmVhbS5Db2xsZWN0b3JzOwoKY2xhc3MgQW5hZ3JhbSB7CiAgICBwcml2YXRlIGZpbmFsIFN0cmluZyB3b3JkOwogICAgcHJpdmF0ZSBmaW5hbCBTdHJpbmcgc29ydGVkV29yZDsKCiAgICBBbmFncmFtKFN0cmluZyB3b3JkKSB7CiAgICAgICAgdGhpcy53b3JkID0gd29yZC50b0xvd2VyQ2FzZSgpOwogICAgICAgIHRoaXMuc29ydGVkV29yZCA9IHNvcnRTdHJpbmcodGhpcy53b3JkKTsKICAgIH0KCiAgICBwdWJsaWMgTGlzdDxTdHJpbmc+IG1hdGNoKExpc3Q8U3RyaW5nPiBjYW5kaWRhdGVzKSB7CiAgICAgICAgcmV0dXJuIGNhbmRpZGF0ZXMuc3RyZWFtKCkKICAgICAgICAgICAgICAgIC5maWx0ZXIodGhpczo6aXNBbmFncmFtKQogICAgICAgICAgICAgICAgLmNvbGxlY3QoQ29sbGVjdG9ycy50b0xpc3QoKSk7CiAgICB9CgogICAgcHJpdmF0ZSBib29sZWFuIGlzQW5hZ3JhbShTdHJpbmcgY2FuZGlkYXRlKSB7CiAgICAgICAgU3RyaW5nIGxvd2VyQ2FuZGlkYXRlID0gY2FuZGlkYXRlLnRvTG93ZXJDYXNlKCk7CiAgICAgICAgcmV0dXJuICFsb3dlckNhbmRpZGF0ZS5lcXVhbHMod29yZCkgJiYKICAgICAgICAgICAgICAgc29ydGVkV29yZC5lcXVhbHMoc29ydFN0cmluZyhsb3dlckNhbmRpZGF0ZSkpOwogICAgfQoKICAgIHByaXZhdGUgU3RyaW5nIHNvcnRTdHJpbmcoU3RyaW5nIHMpIHsKICAgICAgICBjaGFyW10gY2hhcnMgPSBzLnRvQ2hhckFycmF5KCk7CiAgICAgICAgQXJyYXlzLnNvcnQoY2hhcnMpOwogICAgICAgIHJldHVybiBuZXcgU3RyaW5nKGNoYXJzKTsKICAgIH0KfQ==",
+      "language": "java",
+      "exercise_id": 6
+    }
+}

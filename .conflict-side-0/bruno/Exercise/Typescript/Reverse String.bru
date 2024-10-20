@@ -1,0 +1,27 @@
+meta {
+  name: Reverse String
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:8088/api/v1/engine/execute
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "code": "ZXhwb3J0IGZ1bmN0aW9uIHJldmVyc2UoaW5wdXQ6IHN0cmluZyk6IHN0cmluZyB7CiAgY29uc3QgY2hhcnMgPSBpbnB1dC5zcGxpdCgnJyk7CiAgbGV0IGxlZnQgPSAwOwogIGxldCByaWdodCA9IGNoYXJzLmxlbmd0aCAtIDE7CgogIHdoaWxlIChsZWZ0IDwgcmlnaHQpIHsKICAgIC8vIEludGVyY2FtYmlhbW9zIGxvcyBjYXJhY3RlcmVzIGVuIGxhcyBwb3NpY2lvbmVzIGl6cXVpZXJkYSB5IGRlcmVjaGEKICAgIGNvbnN0IHRlbXAgPSBjaGFyc1tsZWZ0XTsKICAgIGNoYXJzW2xlZnRdID0gY2hhcnNbcmlnaHRdOwogICAgY2hhcnNbcmlnaHRdID0gdGVtcDsKCiAgICBsZWZ0Kys7CiAgICByaWdodC0tOwogIH0KCiAgcmV0dXJuIGNoYXJzLmpvaW4oJycpOwp9Cg==",
+    "language": "typescript",
+    "exerciseId": 275
+  }
+}

@@ -1,0 +1,15 @@
+meta {
+  name: Activate Account
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{BASEURL}}/api/v1/auth/activate-account?token=486502
+  body: none
+  auth: none
+}
+
+params:query {
+  token: 486502
+}

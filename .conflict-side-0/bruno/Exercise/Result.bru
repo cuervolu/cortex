@@ -1,0 +1,15 @@
+meta {
+  name: Result
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{BASEURL}}/api/v1/engine/result/4814b038-4ba5-40d2-b6e2-4faea4efefa8
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
