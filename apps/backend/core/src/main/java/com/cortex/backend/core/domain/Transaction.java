@@ -32,9 +32,9 @@ public class Transaction {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-
-  @Column(name = "mercadopago_transaction_id", nullable = false)
-  private String mercadopagoTransactionId;
+  
+  @Column(name = "lemon_squeezy_transaction_id", nullable = false)
+  private String lemonSqueezyTransactionId;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id", nullable = false)

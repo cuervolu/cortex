@@ -71,11 +71,23 @@ application:
       activation-url: http://localhost:3000/activate-account
   mercadopago:
     access-token: ${MERCADOPAGO_ACCESS_TOKEN}
+    api:
+      base-url: https://api.mercadopago.com
+    urls:
+      success: http://localhost:3000/payment/success
+      pending: http://localhost:3000/payment/pending
+      failure: http://localhost:3000/payment/failure
+    subscription:
+      urls:
+        success: https://www.duoc.cl/
+        pending: http://localhost:3000/subscription/pending
+        failure: http://localhost:3000/subscription/failure
   cloudinary:
     cloud-name: ${CLOUDINARY_CLOUD_NAME}
     api-key: ${CLOUDINARY_API_KEY}
     api-secret: ${CLOUDINARY_API_SECRET}
   frontend:
+    base-url: http://localhost:3000
     callback-url: http://localhost:3000/auth/callback
     password-reset-url: http://localhost:3000/reset-password
 server:
