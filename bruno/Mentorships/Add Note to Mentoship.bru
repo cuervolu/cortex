@@ -1,0 +1,21 @@
+meta {
+  name: Add Note to Mentoship
+  type: http
+  seq: 9
+}
+
+post {
+  url: {{BASEURL}}/api/v1/mentorship/52/note
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "content": "# Notas post-mentoría\n\n- Ojo, que una estrellita no refleja todo el laburo que hicimos 🙄\n\n## Lo que pasó:\n- Di lo mejor que pude con el tiempo que teníamos\n- Las cosas importantes de Python las vimos todas\n- Si algo no se entendió, era cuestión de preguntar\n\n## Pa' la próxima:\n- Hay que ser más claros con lo que se quiere aprender\n- Si algo no gusta, decirlo en el momento, no al final\n- La programación no es fácil, lleva su tiempo pillarla\n\n## Recursos pa' seguir:\n- Metele a [Codecademy](https://www.codecademy.com/learn/learn-python) si quieres algo más básico\n- [PyCharm Edu](https://www.jetbrains.com/pycharm-edu/) tiene ejercicios guays\n\n**Dato:** Programar es difícil al principio, no te rayes si no sale a la primera 🐍💻\n\nSuerte con Python, pero recuerda: el profe no hace milagros si el alumno no le mete ganas"
+  }
+}

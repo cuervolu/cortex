@@ -43,6 +43,8 @@ public enum BusinessErrorCodes {
   CONTENT_CHANGED(321, BAD_REQUEST, "Content has changed since submission"),
   CODE_EXECUTION_FAILED(322, INTERNAL_SERVER_ERROR, "Code execution failed"),
   CONTAINER_EXECUTION_FAILED(323, INTERNAL_SERVER_ERROR, "Container execution failed"),
+  USER_NOT_PART_OF_MENTORSHIP(324, FORBIDDEN, "User is not part of this mentorship"),
+  NO_APPROVED_MENTORSHIP_REQUEST(325, NOT_FOUND, "No approved mentorship request found for this mentee"),
   ;
   private final int code;
   private final String description;
