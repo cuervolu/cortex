@@ -20,15 +20,18 @@ import static com.cortex.backend.core.common.BusinessErrorCodes.INVALID_FILE_TYP
 import static com.cortex.backend.core.common.BusinessErrorCodes.INVALID_TOKEN;
 import static com.cortex.backend.core.common.BusinessErrorCodes.INVALID_URI;
 import static com.cortex.backend.core.common.BusinessErrorCodes.NEW_PASSWORD_DOES_NOT_MATCH;
+import static com.cortex.backend.core.common.BusinessErrorCodes.NO_APPROVED_MENTORSHIP_REQUEST;
 import static com.cortex.backend.core.common.BusinessErrorCodes.RESULT_NOT_AVAILABLE;
 import static com.cortex.backend.core.common.BusinessErrorCodes.UNSUPPORTED_LANGUAGE;
 import static com.cortex.backend.core.common.BusinessErrorCodes.USER_ALREADY_EXISTS;
+import static com.cortex.backend.core.common.BusinessErrorCodes.USER_NOT_PART_OF_MENTORSHIP;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
+import com.cortex.backend.core.common.BusinessErrorCodes;
 import com.cortex.backend.core.common.exception.CodeExecutionException;
 import com.cortex.backend.core.common.exception.ContainerExecutionException;
 import com.cortex.backend.core.common.exception.ContentChangedException;
@@ -44,9 +47,11 @@ import com.cortex.backend.core.common.exception.InvalidFileTypeException;
 import com.cortex.backend.core.common.exception.InvalidTokenException;
 import com.cortex.backend.core.common.exception.InvalidURIException;
 import com.cortex.backend.core.common.exception.NewPasswordDoesNotMatchException;
+import com.cortex.backend.core.common.exception.NoApprovedMentorshipRequestException;
 import com.cortex.backend.core.common.exception.OperationNotPermittedException;
 import com.cortex.backend.core.common.exception.ResultNotAvailableException;
 import com.cortex.backend.core.common.exception.UnsupportedLanguageException;
+import com.cortex.backend.core.common.exception.UserNotPartOfMentorshipException;
 import com.resend.core.exception.ResendException;
 import java.util.HashSet;
 import java.util.Set;
@@ -350,7 +355,7 @@ public class GlobalExceptionHandler {
                 .error(exp.getMessage())
                 .build());
   }
-  
+
   @ExceptionHandler(ContainerExecutionException.class)
   public ResponseEntity<ExceptionResponse> handleContainerExecutionException(
       ContainerExecutionException exp) {
@@ -362,6 +367,31 @@ public class GlobalExceptionHandler {
                 .error(exp.getMessage())
                 .build());
   }
+
+  @ExceptionHandler(UserNotPartOfMentorshipException.class)
+  public ResponseEntity<ExceptionResponse> handleUserNotPartOfMentorshipException(
+      UserNotPartOfMentorshipException exp) {
+    return ResponseEntity.status(USER_NOT_PART_OF_MENTORSHIP.getHttpStatus())
+        .body(
+            ExceptionResponse.builder()
+                .code(USER_NOT_PART_OF_MENTORSHIP.getCode())
+                .description(USER_NOT_PART_OF_MENTORSHIP.getDescription())
+                .error(exp.getReason())
+                .build());
+  }
+
+  @ExceptionHandler(NoApprovedMentorshipRequestException.class)
+  public ResponseEntity<ExceptionResponse> handleUserNotPartOfMentorshipException(
+      NoApprovedMentorshipRequestException exp) {
+    return ResponseEntity.status(NO_APPROVED_MENTORSHIP_REQUEST.getHttpStatus())
+        .body(
+            ExceptionResponse.builder()
+                .code(NO_APPROVED_MENTORSHIP_REQUEST.getCode())
+                .description(NO_APPROVED_MENTORSHIP_REQUEST.getDescription())
+                .error(exp.getReason())
+                .build());
+  }
+
 
   @ExceptionHandler(Exception.class)
   public ResponseEntity<ExceptionResponse> handleException(Exception exp) {
