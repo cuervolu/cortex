@@ -11,9 +11,16 @@ import org.mapstruct.Named;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-
   @Mapping(target = "avatarUrl", source = "avatar", qualifiedByName = "mediaToUrl")
   @Mapping(target = "roles", source = "roles", qualifiedByName = "rolesToStringList")
+  @Mapping(target = "firstName", source = "firstName")
+  @Mapping(target = "lastName", source = "lastName")
+  @Mapping(target = "fullName", expression = "java(user.getFullName())")
+  @Mapping(target = "dateOfBirth", source = "dateOfBirth")
+  @Mapping(target = "countryCode", source = "countryCode")
+  @Mapping(target = "accountLocked", source = "accountLocked")
+  @Mapping(target = "createdAt", source = "createdAt")
+  @Mapping(target = "updatedAt", source = "updatedAt")
   UserResponse toUserResponse(User user);
 
   @Named("mediaToUrl")
