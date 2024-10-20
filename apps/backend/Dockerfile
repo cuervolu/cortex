@@ -18,9 +18,10 @@ COPY engine/pom.xml ./engine/pom.xml
 COPY media/pom.xml ./media/pom.xml
 COPY payments/pom.xml ./payments/pom.xml
 COPY user/pom.xml ./user/pom.xml
+COPY chat/pom.xml ./chat/pom.xml
+COPY lemon-squeezy/pom.xml ./lemon-squeezy/pom.xml
 
-RUN apt-get update && apt-get install -y dos2unix
-RUN dos2unix /root/mvnw
+RUN apt-get update && apt-get install -y dos2unix && dos2unix /root/mvnw
 
 # Download the dependencies
 RUN chmod +x /root/mvnw
@@ -37,6 +38,8 @@ COPY engine ./engine
 COPY media ./media
 COPY payments ./payments
 COPY user ./user
+COPY chat ./chat
+COPY lemon-squeezy ./lemon-squeezy
 
 # Build the project
 RUN ./mvnw clean install -DskipTests

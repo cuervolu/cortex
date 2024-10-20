@@ -40,6 +40,8 @@
     <module>app</module>
     <module>payments</module>
     <module>engine</module>
+    <module>chat</module>
+    <module>lemon-squeezy</module>
   </modules>
   <scm>
     <connection/>
@@ -175,6 +177,12 @@
       <groupId>com.github.slugify</groupId>
       <artifactId>slugify</artifactId>
       <version>3.0.7</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.commonmark</groupId>
+      <artifactId>commonmark</artifactId>
+      <version>0.23.0</version>
     </dependency>
   </dependencies>
   <dependencyManagement>
