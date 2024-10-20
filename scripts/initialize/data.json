@@ -745,13 +745,6 @@
       "content_file": "leccion-2-Aventuras-espaciales-en-go.md",
       "credits": 40,
       "is_published": true
-    },
-    {
-      "module_id": 7,
-      "name": "La fundación de la tecnologia",
-      "content_file": "leccion-1-Conceptos-Básicos-de-Computación.md",
-      "credits": 40,
-      "is_published": true
     }
   ]
 }
