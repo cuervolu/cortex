@@ -32,7 +32,7 @@ const handleLogin = (provider: 'github' | 'google') => {
 </script>
 
 <template>
-  <div>
+  <div class="flex w-full min-w-[364px] max-w-[470px] self-start justify-center items-center">
     <LoginForm
         :loading="loading"
         @submit="handleSubmit"
