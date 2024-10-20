@@ -1,10 +1,12 @@
 # Introducción
 
-![rust](../images/la_fábrica_de_robots_rust.png)
+![rust](https://res.cloudinary.com/dukgkrpft/image/upload/v1729454906/lessons/aventuras-con-rust/xwsxfwkyphg91oud38sw.png)
 
 ¡Bienvenidos de vuelta, valientes Rust Rangers! Hoy nos adentraremos más en las fascinantes cavernas de la Tierra del Cangrejo Oxidado. Prepárense para descubrir nuevos superpoderes Rust y enfrentarse a desafíos más emocionantes. ¡Allá vamos!
 
 ## Nuevos superpoderes Rust
+
+![poderes](https://res.cloudinary.com/dukgkrpft/image/upload/v1729455003/lessons/aventuras-con-rust/rdcbqcqfupbo1hejo80a.webp)
 
 ### 1. Los Vectores Vectoriales 🏹
 
@@ -45,6 +47,8 @@ println!("{}", saludo_heroico("Iron Crab"));
 * Rust usa un sistema llamado "borrowing" para manejar la memoria, que es como prestar tus juguetes a tus amigos pero asegurándote de que siempre te los devuelvan.
 
 ## Misiones heroicas
+
+![mision](https://res.cloudinary.com/dukgkrpft/image/upload/v1729455101/lessons/aventuras-con-rust/uguvi94fvju89yoroijs.webp)
 
 ### Misión 1: El Generador de Nombres de Superhéroes
 

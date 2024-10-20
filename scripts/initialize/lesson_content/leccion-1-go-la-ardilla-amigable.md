@@ -1,6 +1,6 @@
 # Introducción
 
-![go](../images/la_búsqueda_del_tesoro_go.png)
+![go](https://res.cloudinary.com/dukgkrpft/image/upload/v1729452943/lessons/go-la-ardilla-amigable/c01vr6abthbdcoihqize.png)
 
 ¡Hola, jóvenes exploradores del código! ¿Están listos para una aventura intergaláctica? Abróchense los cinturones de sus naves espaciales, porque nos dirigimos al fascinante Planeta Go, hogar de las criaturas más rápidas y eficientes del universo: ¡los Gophers! 🚀🐹
 
@@ -9,6 +9,8 @@
 Hace no mucho tiempo, en el año 2007, en un planeta lejano llamado Google...
 
 Tres valientes astronautas del código, Robert Griesemer, Rob Pike y Ken Thompson, estaban cansados de lo complicado que era viajar por el espacio con las naves antiguas. Así que decidieron crear una nueva nave, tan rápida como un cometa pero tan fácil de pilotar como una bicicleta. La llamaron Go, ¡y eligieron al Gopher como su mascota porque estos animalitos son rápidos, amigables y expertos en crear túneles eficientes!
+
+![hampter](https://res.cloudinary.com/dukgkrpft/image/upload/v1729453126/lessons/go-la-ardilla-amigable/wiadnbjwcy9bev4judqc.jpg)
 
 ## Datos súper curiosos
 
@@ -37,6 +39,8 @@ Imagina que los Gophers son como los robots ayudantes más cool del espacio. Hay
 5. Cuando necesitas que tu programa sea súper rápido y use poca energía de tu nave.
 
 ## ¿Cuándo quizás no necesitamos a los gophers?
+
+![non](https://res.cloudinary.com/dukgkrpft/image/upload/v1729453198/lessons/go-la-ardilla-amigable/mpfgmb68zwkgpzfaybju.png)
 
 A veces, incluso los Gophers necesitan un descanso:
 

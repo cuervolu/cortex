@@ -1,10 +1,12 @@
 # Introducción
 
-![go](../images/la_búsqueda_del_tesoro_go.png)
+![go](https://res.cloudinary.com/dukgkrpft/image/upload/v1729455197/lessons/aventuras-espaciales-en-go/bfi1ydwke2edvrqsyuoh.png)
 
 ¡Bienvenidos de vuelta, valientes astronautas del código! Hoy nos adentraremos más en las fascinantes cavernas del Planeta Go. Prepárense para descubrir nuevos superpoderes Gopher y desafiar sus mentes con misiones más avanzadas. ¡Allá vamos!
 
 ## Nuevos conceptos estelares
+
+![galaxia](https://res.cloudinary.com/dukgkrpft/image/upload/v1729455335/lessons/aventuras-espaciales-en-go/o2tvozzhzvd8amuktoic.png)
 
 ### 1. Los Slices Estelares 🌠
 
@@ -45,6 +47,8 @@ fmt.Println(saludoEspacial("Buzz"))
 * Go usa la palabra clave `defer` para asegurarse de que ciertas tareas se realicen al final de una función, como cerrar la compuerta de tu nave espacial antes de despegar.
 
 ## Misiones avanzadas
+
+![serio](https://res.cloudinary.com/dukgkrpft/image/upload/v1729455555/lessons/aventuras-espaciales-en-go/ebxb8f6v0pxvy8f6mtvt.gif)
 
 ### Misión 1: El Generador de Nombres de Planetas
 

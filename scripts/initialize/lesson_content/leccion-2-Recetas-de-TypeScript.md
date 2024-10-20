@@ -1,10 +1,12 @@
 # Introducción
 
-![type](../images/los_hechizos_mágicos_de_typescript.png)
+![type](https://res.cloudinary.com/dukgkrpft/image/upload/v1729456577/lessons/recetas-de-typescript/tc3eucaymzga7kgqcs5y.webp)
 
 ¡Bienvenidos de vuelta, jóvenes chefs del código! Hoy vamos a sumergirnos más profundo en la cocina gourmet de TypeScript. Prepárense para aprender algunas técnicas avanzadas y crear platos de código realmente sofisticados.
 
 ## Nuevos utensilios de cocina TypeScript
+
+![utensilios](https://res.cloudinary.com/dukgkrpft/image/upload/v1729456719/lessons/recetas-de-typescript/vkyt7alr72odrbc6n8xc.webp)
 
 ### 1. Los Arrays Tipados: Nuestras Bandejas de Ingredientes 🍱
 
@@ -47,6 +49,8 @@ console.log(prepararPastel("chocolate", 3));
 * TypeScript tiene un operador de coalescencia nula (`??`) que es como tener un ingrediente de respaldo si tu ingrediente principal no está disponible.
 
 ## Recetas avanzadas
+
+![cook](https://res.cloudinary.com/dukgkrpft/image/upload/v1729456671/lessons/recetas-de-typescript/ueprnbdlso0mfwriyhrq.jpg)
 
 ### Receta 1: El Menú del Día Dinámico
 
