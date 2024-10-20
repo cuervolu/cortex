@@ -6,20 +6,24 @@ import InstagramIcon from "~/components/icons/InstagramIcon.vue";
 </script>
 
 <template>
-  <div class="flex gap-3 justify-center items-center">
-    <a href="#" aria-label="Github">
-      <github-icon class="object-contain shrink-0 self-stretch my-auto aspect-square w-[41px]" />
+  <div class="justify-center items-center gap-[11px] inline-flex">
+    <a href="#" aria-label="Github"
+      class="w-[41px] h-[41px] rounded-full border border-[#9cacaf] flex justify-center items-center transition-all hover:border-[#97c8d1] hover:bg-[#b3e1e9]">
+      <github-icon class="w-[22px] transition-transform hover:scale-110 hover:text-white" />
     </a>
-    <a href="#" aria-label="Twitter">
-      <twitter-icon class="object-contain shrink-0 self-stretch my-auto aspect-square w-[41px]" />
+    <!-- Twitter Icon -->
+    <a href="#" aria-label="Twitter"
+      class="w-[41px] h-[41px] rounded-full border border-[#9cacaf] flex justify-center items-center transition-all hover:border-[#97c8d1] hover:bg-[#b3e1e9]">
+      <twitter-icon class="w-[22px] transition-transform hover:scale-110 hover:text-white" />
     </a>
-    <a href="#" aria-label="Instagram">
-      <instagram-icon class="object-contain shrink-0 self-stretch my-auto aspect-square w-[41px]"  />
+
+    <!-- Instagram Icon -->
+    <a href="#" aria-label="Instagram"
+      class="w-[41px] h-[41px] rounded-full border border-[#9cacaf] flex justify-center items-center transition-all hover:border-[#97c8d1] hover:bg-[#b3e1e9]">
+      <instagram-icon class="w-[22px] transition-transform hover:scale-110 hover:text-white" />
     </a>
   </div>
 </template>
 
 
-<style scoped>
-
-</style>
+<style scoped></style>
