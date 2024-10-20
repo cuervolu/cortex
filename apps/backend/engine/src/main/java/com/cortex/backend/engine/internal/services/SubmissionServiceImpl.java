@@ -1,5 +1,6 @@
 package com.cortex.backend.engine.internal.services;
 
+import com.cortex.backend.auth.config.ApplicationAuditAware;
 import com.cortex.backend.core.domain.Exercise;
 import com.cortex.backend.core.domain.Language;
 import com.cortex.backend.core.domain.Solution;
@@ -51,7 +52,7 @@ public class SubmissionServiceImpl implements SubmissionService {
               .user(user)
               .exercise(exercise)
               .status(0L)  // Pending status
-              .pointsEarned(0)
+              .pointsEarned(0) // No points earned yet
               .submissions(new HashSet<>())
               .build();
           return solutionRepository.save(newSolution);
@@ -68,6 +69,7 @@ public class SubmissionServiceImpl implements SubmissionService {
 
     return submissionMapper.submissionToSubmissionResponse(submission);
   }
+
   @Override
   @Transactional
   public void updateSubmissionWithResult(Long submissionId, CodeExecutionResult result) {
@@ -78,6 +80,7 @@ public class SubmissionServiceImpl implements SubmissionService {
     submission.setExpectedOutput(result.getStderr());
 
     Solution solution = submission.getSolution();
+    ApplicationAuditAware.setCurrentAuditor(solution.getUser().getId());
     if (result.isSuccess()) {
       solution.setStatus(1L);  // Completed status
       solution.setPointsEarned(solution.getExercise().getPoints());
@@ -87,6 +90,7 @@ public class SubmissionServiceImpl implements SubmissionService {
 
     submissionRepository.save(submission);
     solutionRepository.save(solution);
+    ApplicationAuditAware.clearCurrentAuditor();
   }
 
   @Override

@@ -8,7 +8,9 @@ public record CodeExecutionTask(
     CodeExecutionRequest request,
     @JsonProperty("github_path") String githubPath,
     @JsonProperty("submission_id")
-    Long submissionId
+    Long submissionId,
+    @JsonProperty("user_id")
+    Long userId
 ) {
 
 }
