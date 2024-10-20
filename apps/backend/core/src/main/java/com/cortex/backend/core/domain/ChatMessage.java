@@ -12,6 +12,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import java.time.OffsetDateTime;
+import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,19 +36,20 @@ public class ChatMessage {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "mentorship_id", nullable = false)
   private Mentorship mentorship;
+  
+  @Column(nullable = false, name = "chat_id")
+  private String chatId;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "sender_id", nullable = false)
   private User sender;
 
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "recipient_id", nullable = false)
+  private User recipient;
+
   @Column(nullable = false, columnDefinition = "TEXT")
   private String content;
 
-  @Column(name = "created_at", nullable = false)
-  private OffsetDateTime createdAt;
-
-  @PrePersist
-  protected void onCreate() {
-    createdAt = OffsetDateTime.now();
-  }
+  private Date timestamp;
 }
