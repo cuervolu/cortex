@@ -7,5 +7,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TransactionRepository extends CrudRepository<Transaction, Long> {
-  Optional<Transaction> findByMercadopagoTransactionId(Long mercadopagoTransactionId);
 }

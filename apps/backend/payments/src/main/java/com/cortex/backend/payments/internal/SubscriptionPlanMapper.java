@@ -14,13 +14,13 @@ public interface SubscriptionPlanMapper {
 
   @Mapping(target = "createdAt", ignore = true)
   @Mapping(target = "updatedAt", ignore = true)
-  @Mapping(target = "mercadoPagoPlanId", ignore = true)
+  @Mapping(target = "lemonSqueezyPlanId", ignore = true)
   SubscriptionPlan toEntity(SubscriptionPlanDTO subscriptionPlanDTO);
 
   @Mapping(target = "id", ignore = true)
   @Mapping(target = "createdAt", ignore = true)
   @Mapping(target = "updatedAt", ignore = true)
-  @Mapping(target = "mercadoPagoPlanId", ignore = true)
+  @Mapping(target = "lemonSqueezyPlanId", ignore = true)
   SubscriptionPlan toEntity(CreateSubscriptionPlanDTO createSubscriptionPlanDTO);
 
   List<SubscriptionPlanDTO> toDTOList(List<SubscriptionPlan> subscriptionPlans);
