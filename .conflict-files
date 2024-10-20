@@ -1,3 +1,0 @@
-ancestorEntries = ["docker/Dockerfile.typescript", "scripts/pull_docker_images.py"]
-ourEntries = ["docker/typescript.Dockerfile", "scripts/pull_docker_images.py"]
-theirEntries = ["docker/Dockerfile", "scripts/pull_docker_images.py"]
