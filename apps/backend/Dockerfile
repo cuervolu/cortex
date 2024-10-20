@@ -39,6 +39,7 @@ COPY media ./media
 COPY payments ./payments
 COPY user ./user
 COPY chat ./chat
+COPY lemon-squeezy ./lemon-squeezy
 
 # Build the project
 RUN ./mvnw clean install -DskipTests
