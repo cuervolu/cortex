@@ -1,6 +1,8 @@
+# ¿Qué es Java y por qué es tan popular?
+
 ## ![7189203735c2eca8](https://res.cloudinary.com/dukgkrpft/image/upload/v1728694782/lessons/%C2%BFque-es-java-y-por-que-es-tan-popular/jpnyb4mtaqmls0q2l9cg.jpg)
 
-# Introducción
+## Introducción
 
 ¡Bienvenidos, futuros baristos del código! ☕️ Hoy vamos a explorar Java, un lenguaje de programación tan rico y fuerte como el mejor café espresso. Prepara tu taza favorita y acompáñanos en este viaje por el mundo de Java.
 
@@ -12,7 +14,7 @@ Imagina que estás en una cafetería en 1991. Un grupo de programadores de Sun M
 
 Un día, mientras disfrutaban de una taza de café java (¡sí, java es un tipo de café!), tuvieron una idea brillante. ¿Por qué no llamar a su creación "Java"? Y así, en 1995, Java fue oficialmente presentado al mundo.
 
-### Datos Curiosos:
+### Datos Curiosos
 
 - El logo de Java es una taza de café. ¡Ahora sabes por qué!
 
@@ -64,7 +66,7 @@ Para preparar y servir Java, necesitas algunas herramientas especiales. Aquí es
 
 - Contiene un compilador (`javac`), un depurador, y otras herramientas útiles.
 
-### Analogía con Café:
+### Analogía con Café
 
 - JVM es tu cafetera especial que puede hacer cualquier tipo de café Java.
 
@@ -136,7 +138,7 @@ Estos son solo algunos ejemplos de cómo Java está presente en muchas de las ap
 
 Como con los tipos de café, Java es genial para muchas cosas, pero no para todo. Veamos cuándo es buena idea usarlo y cuándo quizás deberías considerar otra "bebida":
 
-### Usa Java cuando:
+### Usa Java cuando
 
 1. **Necesitas que tu programa funcione en diferentes sistemas**: Java es genial para crear aplicaciones multiplataforma.
 
@@ -148,7 +150,7 @@ Como con los tipos de café, Java es genial para muchas cosas, pero no para todo
 
 5. **Estás trabajando con big data**: Herramientas como Hadoop están escritas en Java.
 
-### Mejor no usar Java cuando:
+### Mejor no usar Java cuando
 
 1. **Necesitas un rendimiento extremadamente rápido**: Para cosas como sistemas operativos o drivers, lenguajes como C o C++ son mejores.
 
@@ -165,4 +167,3 @@ Recuerda, elegir un lenguaje de programación es como elegir el tipo de café: d
 ## Conclusión
 
 Ahora que conoces los conceptos básicos de Java, estás listo para empezar a preparar tu propio código. En las próximas lecciones, aprenderemos cómo configurar nuestra "cafetera de Java" y haremos nuestro primer programa. ¡Prepárate para servir tu primera taza de código Java!
-

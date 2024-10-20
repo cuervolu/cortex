@@ -177,7 +177,7 @@
         }
       ],
       "course_ids": [
-       7
+        7
       ],
       "is_published": false
     },
@@ -199,7 +199,7 @@
         }
       ],
       "course_ids": [
-       8
+        8
       ],
       "is_published": false
     },
@@ -221,7 +221,7 @@
         }
       ],
       "course_ids": [
-       9
+        9  
       ],
       "is_published": false
     },
@@ -243,7 +243,7 @@
         }
       ],
       "course_ids": [
-       10
+        10
       ],
       "is_published": false
     }
@@ -677,53 +677,81 @@
       "is_published": true
     },
     {
-      "module_id": 7,
-      "name": "Pociones Asíncronas: La Danza de las Promesas",
-      "content": "# Bienvenido al Laboratorio de Pociones Asíncronas\n\n¡Saludos, alquimista del código! Hoy aprenderemos sobre las misteriosas Promesas en JavaScript y cómo nos ayudan a crear pociones asíncronas.\n\n## ¿Qué son las Promesas?\n\nLas Promesas son como recetas mágicas que nos dicen si nuestra poción tendrá éxito o fallará en el futuro.\n\n## Tu Primera Promesa\n\nVamos a crear una promesa que simule la preparación de una poción:\n\n```javascript\nlet prepararPocion = new Promise((resolve, reject) => {\n    setTimeout(() => {\n        let exito = Math.random() > 0.5;\n        if (exito) {\n            resolve('¡La poción está lista!');\n        } else {\n            reject('Oops, la poción explotó');\n        }\n    }, 2000);\n});\n\nprepararPocion\n    .then(mensaje => console.log(mensaje))\n    .catch(error => console.log(error));\n```\n\nEste código simula la preparación de una poción que puede tener éxito o fallar después de 2 segundos.\n\n## Dato Curioso\n\nEn JavaScript, usamos `.then()` para manejar el éxito y `.catch()` para manejar los errores en nuestras promesas. Es como tener un plan B en la alquimia.\n\n## Practica tu Alquimia\n\nIntenta crear una promesa para otra poción mágica. ¿Qué tal una poción de invisibilidad?\n\n¡Fantástico trabajo, alquimista! Has comenzado a dominar el arte de las promesas. En nuestra próxima lección, aprenderemos sobre el poderoso hechizo `async/await` para controlar múltiples pociones a la vez.",
+      "module_id": 2,
+      "name": "El Café de la Programación",
+      "content_file": "leccion-1-Preparando-la-Cafetera.md",
       "credits": 35,
-      "is_published": false
+      "is_published": true
     },
     {
-      "module_id": 8,
-      "name": "Explorando la Cueva de los Datos",
-      "content": "# Bienvenido a la Cueva de los Datos\n\n¡Hola, intrépido explorador de datos! Hoy nos adentraremos en la misteriosa Cueva de los Datos usando Python y aprenderemos a descifrar sus secretos.\n\n## ¿Qué son los Datos?\n\nLos datos son como tesoros escondidos que contienen información valiosa. Python nos ayuda a encontrarlos y entenderlos.\n\n## Tu Primera Exploración de Datos\n\nVamos a usar Python para explorar una lista de números:\n\n```python\nimport statistics\n\ndatos = [5, 10, 15, 20, 25, 30]\n\nprint(f\"Tenemos {len(datos)} números en nuestra cueva.\")\nprint(f\"El tesoro más pequeño es: {min(datos)}\")\nprint(f\"El tesoro más grande es: {max(datos)}\")\nprint(f\"El promedio de nuestros tesoros es: {statistics.mean(datos)}\")\n```\n\nEste código nos ayuda a entender mejor nuestra colección de tesoros numéricos.\n\n## Dato Curioso\n\nEn Python, la biblioteca `statistics` es como una brújula mágica que nos ayuda a navegar por nuestros datos.\n\n## Aventúrate Más Profundo\n\nAhora, vamos a visualizar nuestros datos con un gráfico simple:\n\n```python\nimport matplotlib.pyplot as plt\n\nplt.bar(range(len(datos)), datos)\nplt.title('Tesoros en la Cueva de Datos')\nplt.xlabel('Índice del Tesoro')\nplt.ylabel('Valor del Tesoro')\nplt.show()\n```\n\nEste código creará un gráfico de barras de nuestros tesoros.\n\n¡Excelente trabajo, explorador de datos! Has comenzado tu viaje en el fascinante mundo del análisis de datos. En nuestra próxima aventura, aprenderemos a limpiar y preparar datos del mundo real.",
+      "module_id": 2,
+      "name": "Tu primer proyecto java",
+      "content_file": "leccion-2-Java-para-Ninos.md",
       "credits": 40,
-      "is_published": false
+      "is_published": true
     },
     {
-      "module_id": 9,
-      "name": "El Grimorio de la Predicción",
-      "content": "# Bienvenido a la Academia de Magos del Machine Learning\n\n¡Saludos, aprendiz de mago predictivo! Hoy abriremos el Grimorio de la Predicción y aprenderemos los fundamentos del aprendizaje supervisado.\n\n## ¿Qué es el Aprendizaje Supervisado?\n\nEl aprendizaje supervisado es como enseñar a tu familiar mágico a reconocer objetos mostrándole muchos ejemplos.\n\n## Tu Primer Hechizo de Predicción\n\nVamos a usar scikit-learn, una poderosa varita mágica de Python, para predecir si un fruto es una manzana o una naranja:\n\n```python\nfrom sklearn import tree\n\n# Características: [peso, textura]\n# Textura: 0 = suave, 1 = rugosa\nX = [[150, 0], [170, 0], [140, 1], [130, 1]]\n\n# Etiquetas: 0 = manzana, 1 = naranja\ny = [0, 0, 1, 1]\n\n# Crear y entrenar el árbol de decisión\nclf = tree.DecisionTreeClassifier()\nclf = clf.fit(X, y)\n\n# Predecir\nprediccion = clf.predict([[160, 0]])\nprint('Predicción: ' + ('Manzana' if prediccion[0] == 0 else 'Naranja'))\n```\n\nEste código entrena un árbol de decisión y lo usa para predecir si un fruto es una manzana o una naranja basándose en su peso y textura.\n\n## Dato Curioso\n\nLos árboles de decisión en machine learning son como los árboles de decisión que usarías para clasificar criaturas mágicas, ¡pero mucho más rápidos!\n\n## Practica tu Magia Predictiva\n\nIntenta cambiar los datos de entrenamiento o predecir con diferentes valores. ¿Puedes hacer que tu modelo mágico aprenda a distinguir entre más tipos de frutas?\n\n¡Excelente trabajo, aprendiz de mago predictivo! Has lanzado tu primer hechizo de machine learning. En nuestra próxima lección, aprenderemos sobre la magia del aprendizaje no supervisado y cómo puede revelar patrones ocultos en tus datos.",
-      "credits": 45,
-      "is_published": false
-    },
-    {
-      "module_id": 10,
-      "name": "Forjando el Primer Eslabón",
-      "content": "# Bienvenido a la Forja de Bloques\n\n¡Saludos, aprendiz de herrero blockchain! Hoy forjaremos nuestro primer eslabón en la gran cadena de bloques.\n\n## ¿Qué es Blockchain?\n\nBlockchain es como una cadena mágica donde cada eslabón contiene información valiosa que no se puede cambiar sin que todos lo sepan.\n\n## Tu Primer Bloque\n\nVamos a crear un bloque simple usando Python:\n\n```python\nimport hashlib\nimport time\n\nclass Bloque:\n    def __init__(self, datos, bloque_anterior_hash):\n        self.timestamp = time.time()\n        self.datos = datos\n        self.bloque_anterior_hash = bloque_anterior_hash\n        self.hash = self.calcular_hash()\n\n    def calcular_hash(self):\n        sha = hashlib.sha256()\n        sha.update(str(self.timestamp).encode('utf-8') +\n                   str(self.datos).encode('utf-8') +\n                   str(self.bloque_anterior_hash).encode('utf-8'))\n        return sha.hexdigest()\n\n# Crear el bloque génesis\nbloque_genesis = Bloque(\"Soy el bloque génesis\", \"0\")\nprint(f\"Hash del bloque génesis: {bloque_genesis.hash}\")\n\n# Crear un segundo bloque\nbloque_2 = Bloque(\"Soy el segundo bloque\", bloque_genesis.hash)\nprint(f\"Hash del segundo bloque: {bloque_2.hash}\")\n```\n\nEste código crea dos bloques enlazados, formando el inicio de nuestra cadena.\n\n## Dato Curioso\n\nEl 'hash' es como una huella digital única para cada bloque. Si cambias algo en el bloque, su hash cambiará completamente.\n\n## Forja tu Propia Cadena\n\nIntenta añadir más bloques a la cadena. ¿Puedes crear una cadena de 5 bloques?\n\n¡Excelente trabajo, joven herrero blockchain! Has forjado tus primeros eslabones en la cadena de bloques. En nuestra próxima lección, aprenderemos cómo verificar la integridad de nuestra cadena y por qué esto es importante en el mundo de las criptomonedas.",
-      "credits": 50,
-      "is_published": false
-    },
-    {
-      "module_id": 11,
-      "name": "El Primer Vuelo en la Nube",
-      "content": "# Bienvenido a los Cielos Digitales\n\n¡Hola, intrépido explorador de la nube! Hoy emprenderemos nuestro primer vuelo en el vasto cielo de la computación en la nube.\n\n## ¿Qué es la Computación en la Nube?\n\nLa computación en la nube es como tener un súper computador mágico al que puedes acceder desde cualquier lugar del mundo.\n\n## Tu Primera Instancia en la Nube\n\nVamos a simular la creación de una instancia en la nube usando Python:\n\n```python\nclass InstanciaNube:\n    def __init__(self, nombre, tipo):\n        self.nombre = nombre\n        self.tipo = tipo\n        self.estado = \"apagado\"\n    \n    def encender(self):\n        print(f\"Iniciando {self.nombre}...\")\n        self.estado = \"encendido\"\n        print(f\"{self.nombre} está listo para usar!\")\n    \n    def apagar(self):\n        print(f\"Apagando {self.nombre}...\")\n        self.estado = \"apagado\"\n        print(f\"{self.nombre} se ha apagado.\")\n\n# Crear y usar una instancia\nmi_servidor = InstanciaNube(\"MiPrimerServidor\", \"t2.micro\")\nmi_servidor.encender()\nprint(f\"Estado actual: {mi_servidor.estado}\")\nmi_servidor.apagar()\n```\n\nEste código simula la creación y el control de una instancia en la nube.\n\n## Dato Curioso\n\nEn la nube real, puedes tener cientos o miles de estas instancias trabajando juntas para hacer cosas increíbles.\n\n## Explora Más Allá\n\nIntenta crear diferentes tipos de instancias. ¿Puedes hacer una función que muestre todas tus instancias y sus estados?\n\n¡Fantástico trabajo, explorador de la nube! Has dado tu primer paso en el vasto mundo de la computación en la nube. En nuestra próxima lección, aprenderemos cómo estas instancias pueden trabajar juntas para crear aplicaciones poderosas y escalables.",
+      "module_id": 3,
+      "name": "Jugando con python",
+      "content_file": "leccion-1-Curso-Python-para-niños.md",
       "credits": 40,
-      "is_published": false
+      "is_published": true
     },
     {
-      "module_id": 12,
-      "name": "El Escudo del Guardián Digital",
-      "content": "# Bienvenido a la Academia de Guardianes Digitales\n\n¡Saludos, valiente defensor del ciberespacio! Hoy comenzaremos tu entrenamiento como Guardián Digital aprendiendo a forjar tu primer escudo de ciberseguridad.\n\n## ¿Qué es la Ciberseguridad?\n\nLa ciberseguridad es como ser un caballero en el mundo digital, protegiendo la información y los sistemas de los villanos cibernéticos.\n\n## Tu Primer Escudo: Una Contraseña Fuerte\n\nVamos a crear un generador de contraseñas seguras usando Python:\n\n```python\nimport random\nimport string\n\ndef generar_contrasena(longitud=12):\n    caracteres = string.ascii_letters + string.digits + string.punctuation\n    contrasena = ''.join(random.choice(caracteres) for i in range(longitud))\n    return contrasena\n\n# Generar y mostrar una contraseña segura\ncontrasena_segura = generar_contrasena()\nprint(f\"Tu contraseña segura es: {contrasena_segura}\")\n\n# Verificar la fuerza de la contraseña\ndef verificar_fuerza(contrasena):\n    puntaje = 0\n    if len(contrasena) >= 12:\n        puntaje += 1\n    if any(c.islower() for c in contrasena):\n        puntaje += 1\n    if any(c.isupper() for c in contrasena):\n        puntaje += 1\n    if any(c.isdigit() for c in contrasena):\n        puntaje += 1\n    if any(c in string.punctuation for c in contrasena):\n        puntaje += 1\n    return puntaje\n\nfuerza = verificar_fuerza(contrasena_segura)\nprint(f\"Fuerza de la contraseña: {fuerza}/5\")\n```\n\nEste código genera una contraseña segura y verifica su fuerza.\n\n## Dato Curioso\n\nUna contraseña que tomaría 1 hora en ser descifrada si tuviera 6 caracteres, podría tomar más de 1000 años si tiene 12 caracteres variados.\n\n## Fortalece tu Escudo\n\nIntenta modificar el generador para crear contraseñas aún más fuertes. ¿Puedes hacer que siempre obtenga una puntuación de 5/5?\n\n¡Excelente trabajo, joven Guardián Digital! Has forjado tu primer escudo en la batalla por la ciberseguridad. En nuestra próxima lección, aprenderemos sobre la encriptación y cómo puede proteger mensajes secretos de ojos curiosos.",
-      "credits": 45,
-      "is_published": false
+      "module_id": 3,
+      "name": "Explorando el mundo de python",
+      "content_file": "leccion-2-Aventuras-y-Maravillas-de-python-.md",
+      "credits": 40,
+      "is_published": true
     },
     {
-      "module_id": 13,
-      "name": "El Arte de la Invisibilidad Digital",
-      "content": "# Bienvenido al Taller de Hackers Éticos\n\n¡Saludos, aspirante a hacker ético! Hoy nos sumergiremos en el arte de la invisibilidad digital y aprenderemos cómo protegernos en línea.\n\n## ¿Qué es el Hacking Ético?\n\nEl hacking ético es como ser un espía del lado bueno, encontrando y arreglando problemas de seguridad antes de que los malos los exploten.\n\n## Tu Primera Herramienta: Un Escáner de Puertos Simple\n\nVamos a crear un escáner de puertos básico usando Python:\n\n```python\nimport socket\nimport threading\n\ndef escanear_puerto(ip, puerto):\n    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n    sock.settimeout(1)\n    resultado = sock.connect_ex((ip, puerto))\n    if resultado == 0:\n        print(f\"Puerto {puerto}: Abierto\")\n    sock.close()\n\ndef escanear_rango(ip, inicio, fin):\n    for puerto in range(inicio, fin + 1):\n        thread = threading.Thread(target=escanear_puerto, args=(ip, puerto))\n        thread.start()\n\n# Usar el escáner\nip_objetivo = \"127.0.0.1\"  # Esta es la dirección IP de tu propia computadora\nprint(f\"Escaneando puertos en {ip_objetivo}\")\nescanear_rango(ip_objetivo, 1, 1024)\n```\n\nEste código crea un escáner de puertos simple que puede ayudarte a entender qué puertos están abiertos en un sistema.\n\n## Dato Curioso\n\nLos hackers maliciosos a menudo buscan puertos abiertos como punto de entrada a un sistema. Conocer tus puertos abiertos te ayuda a protegerte mejor.\n\n## Mejora tu Arsenal\n\nIntenta modificar el escáner para que muestre más información sobre los puertos abiertos. ¿Puedes hacer que identifique qué servicio podría estar corriendo en cada puerto?\n\n¡Excelente trabajo, futuro hacker ético! Has creado tu primera herramienta de reconocimiento. Recuerda, con gran poder viene gran responsabilidad. Usa tus nuevas habilidades solo con permiso y para hacer del mundo digital un lugar más seguro. En nuestra próxima lección, aprenderemos sobre técnicas de anonimato y cómo proteger tu propia identidad en línea.",
-      "credits": 55,
-      "is_published": false
+      "module_id": 4,
+      "name": "La cocina de TypeScript",
+      "content_file": "leccion-1-Cocinando-con-TypeScript.md",
+      "credits": 40,
+      "is_published": true
+    },
+    {
+      "module_id": 4,
+      "name": "Masterizando la cocina de TypeScript",
+      "content_file": "leccion-2-Recetas-de-TypeScript.md",
+      "credits": 40,
+      "is_published": true
+    },
+    {
+      "module_id": 5,
+      "name": "Aventuras galacticas en Rust",
+      "content_file": "leccion-1-Los-super-heroes-rust.md",
+      "credits": 40,
+      "is_published": true
+    },
+    {
+      "module_id": 5,
+      "name": "Super heroes de rust",
+      "content_file": "leccion-2-Aventuras-con-rust.md",
+      "credits": 40,
+      "is_published": true
+    },
+    {
+      "module_id": 6,
+      "name": "Explorando el cosmos con go",
+      "content_file": "leccion-1-go-la-ardilla-amigable.md",
+      "credits": 40,
+      "is_published": true
+    },
+    {
+      "module_id": 6,
+      "name": "Aprendiendo del espacio junto a go",
+      "content_file": "leccion-2-Aventuras-espaciales-en-go.md",
+      "credits": 40,
+      "is_published": true
+    },
+    {
+      "module_id": 7,
+      "name": "La fundación de la tecnologia",
+      "content_file": "leccion-1-Conceptos-Básicos-de-Computación.md",
+      "credits": 40,
+      "is_published": true
     }
   ]
 }
