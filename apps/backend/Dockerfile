@@ -19,6 +19,7 @@ COPY media/pom.xml ./media/pom.xml
 COPY payments/pom.xml ./payments/pom.xml
 COPY user/pom.xml ./user/pom.xml
 COPY chat/pom.xml ./chat/pom.xml
+COPY lemon-squeezy/pom.xml ./lemon-squeezy/pom.xml
 
 RUN apt-get update && apt-get install -y dos2unix && dos2unix /root/mvnw
 
