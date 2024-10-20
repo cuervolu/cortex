@@ -1,10 +1,12 @@
 # Introducción
 
-![java](../images/comenzando_con_java.png)
+![flopa](https://res.cloudinary.com/dukgkrpft/image/upload/v1729456251/lessons/java-para-ninos/vz6yfftlzvxdv0rgonvx.gif)
 
 ¡Hola, pequeños programadores de Java! 🧑‍💻 Hoy vamos a aprender cómo se ve un programa en Java. ¡Es como una receta de cocina! Si sigues los pasos en orden, tu computadora hará exactamente lo que le pidas.
 
 ## ¿Qué es un programa en Java?
+
+![programa](https://res.cloudinary.com/dukgkrpft/image/upload/v1729456321/lessons/java-para-ninos/fsred689zqicnckuf9xe.jpg)
 
 Un programa en Java es como una carta que le escribes a la computadora. Debes seguir ciertas reglas para que entienda lo que le estás diciendo.
 

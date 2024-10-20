@@ -1,10 +1,12 @@
 # Introducción
 
-![python](../images/python_la_serpiente_amigable.jpg)
+![python](https://res.cloudinary.com/dukgkrpft/image/upload/v1729455689/lessons/aventuras-y-maravillas-de-python/ddwx8ptus33dbm94rceb.jpg)
 
 ¡Bienvenidos de vuelta, valientes exploradores del código! Hoy nos sumergiremos más profundo en el fascinante mundo de Python. Prepárense para descubrir nuevos poderes mágicos y desafiar sus mentes con ejercicios más avanzados. ¡Allá vamos!
 
 ## Nuevos conceptos mágicos
+
+![magia](https://res.cloudinary.com/dukgkrpft/image/upload/v1729455831/lessons/aventuras-y-maravillas-de-python/lgmkbzguwqpnb3141sdh.avif)
 
 ### 1. Las Listas Mágicas 📜
 
@@ -43,6 +45,8 @@ print(saludo_magico("Harry"))
 * Python usa sangría (espacios al principio de la línea) para organizar el código. Es como si cada hechizo tuviera su propio espacio mágico.
 
 ## Ejercicios avanzados
+
+![ee36bdd5021c9e8c](https://res.cloudinary.com/dukgkrpft/image/upload/v1729455958/lessons/aventuras-y-maravillas-de-python/mkp8wjnheujolm89y3vb.jpg)
 
 ### Ejercicio 1: El Ordenador de Casas de Hogwarts
 

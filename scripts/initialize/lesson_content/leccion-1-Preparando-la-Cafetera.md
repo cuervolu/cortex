@@ -1,6 +1,6 @@
 # Lección 1: ¿Qué es Java y por qué es tan popular?
 
-## ![7189203735c2eca8](<./attachments/7189203735c2eca8-7189203735c2eca8>)
+![java](https://res.cloudinary.com/dukgkrpft/image/upload/v1729370701/lessons/Tu-primera-taza-de-java/ezk3tmgablr0xhixr07x.png)
 
 Introducción
 
@@ -8,7 +8,7 @@ Introducción
 
 ## Historia de Java: Del Expresso al Latte
 
-![ee36bdd5021c9e8c](<./attachments/ee36bdd5021c9e8c-ee36bdd5021c9e8c>)
+![creador](https://res.cloudinary.com/dukgkrpft/image/upload/v1728694782/lessons/%C2%BFque-es-java-y-por-que-es-tan-popular/rwtbv9mfjwjb990hp2d3.jpg)
 
 Imagina que estás en una cafetería en 1991. Un grupo de programadores de Sun Microsystems, liderados por James Gosling, está tratando de crear un lenguaje de programación para dispositivos electrónicos. Inicialmente lo llamaron "Oak" (roble), pero descubrieron que ese nombre ya estaba registrado.
 
@@ -112,6 +112,8 @@ Java es como el café en el mundo de la programación: lo encuentras en todas pa
 
 ## Software popular que usa Java
 
+![softwares](https://res.cloudinary.com/dukgkrpft/image/upload/v1729454640/lessons/preparando-la-cafetera/lmwcnnb02ql66q8l9dyw.webp)
+
 Java está detrás de muchas aplicaciones y sistemas que usamos a diario. Aquí tienes algunos ejemplos fascinantes:
 
 1. **IDEs de JetBrains**: Herramientas como IntelliJ IDEA, PyCharm, y Android Studio están desarrolladas principalmente en Java. Estos entornos de desarrollo son como las cocinas profesionales donde los chefs del código preparan sus mejores recetas.
@@ -151,6 +153,8 @@ Como con los tipos de café, Java es genial para muchas cosas, pero no para todo
 5. **Estás trabajando con big data**: Herramientas como Hadoop están escritas en Java.
 
 ### Mejor no usar Java cuando
+
+![foca](https://res.cloudinary.com/dukgkrpft/image/upload/v1729454534/lessons/preparando-la-cafetera/yrmjy2w3ar3qncgus7dm.gif)
 
 1. **Necesitas un rendimiento extremadamente rápido**: Para cosas como sistemas operativos o drivers, lenguajes como C o C++ son mejores.
 
@@ -217,6 +221,8 @@ Un IDE (Entorno de Desarrollo Integrado) es como tu cocina personalizada para pr
 4. **Visual Studio Code**: Con las extensiones adecuadas, este editor ligero puede ser un gran entorno para Java.
 
 ### SDKMAN: El mayordomo de tus SDKs
+
+![sdkman](https://res.cloudinary.com/dukgkrpft/image/upload/v1729454725/lessons/preparando-la-cafetera/wa1rfltwxkghel7dj9pj.png)
 
 [SDKMAN](<https://sdkman.io/>) es como un mayordomo para tus Kits de Desarrollo de Software (SDKs). Te permite manejar múltiples versiones de Java y otras herramientas relacionadas. Es completamente gratuito y muy útil si necesitas trabajar con diferentes versiones de Java.
 

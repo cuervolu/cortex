@@ -1,6 +1,6 @@
 # Introducción
 
-![rust](../images/la_fábrica_de_robots_rust.png)
+![rust](https://res.cloudinary.com/dukgkrpft/image/upload/v1729453464/lessons/los-super-heroes-rust/g7zewy6vcyrkngq3tuav.jpg)
 
 ¡Hola, jóvenes aventureros del código! ¿Están listos para una emocionante expedición a la Tierra del Cangrejo Oxidado? ¡Pues abróchense los cinturones, porque vamos a explorar el fascinante mundo de Rust! 🦀🚀
 
@@ -37,6 +37,8 @@ Imagina que Rust es como un superhéroe. Hay momentos en los que es la mejor opc
 5. Cuando estás programando dispositivos pequeñitos como robots o sensores.
 
 ## ¿Cuándo quizás no necesitamos a rust?
+
+![gatoton](https://res.cloudinary.com/dukgkrpft/image/upload/v1729453770/lessons/los-super-heroes-rust/tyvwxhmwgnwnp0bg5xh7.png)
 
 A veces, incluso los superhéroes necesitan descansar:
 
