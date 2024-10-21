@@ -1,23 +1,52 @@
 import mimetypes
 import os
 import re
-from typing import List, Dict, Any, Union
+from pathlib import Path
+from typing import List, Dict, Any, Union, Optional
 
 import requests
 from rich.progress import Progress
 from rich.console import Console
 from api_client import api_request, BASE_URL
 import logging
+from slugify import slugify
 
 log = logging.getLogger("rich")
 console = Console()
 
-def generate_valid_filename(resource_name: str) -> str:
-    filename = re.sub(r'[^\w\s-]', '_', resource_name.lower())
-    filename = re.sub(r'\s+', '_', filename)
-    filename = re.sub(r'_+', '_', filename)
-    filename = filename.strip('_')
-    return f"{filename}.png"
+
+def get_image_extension(image_path: Optional[str]) -> str:
+    if not image_path:
+        return ".png"
+
+    path = Path(image_path)
+    mime_type, _ = mimetypes.guess_type(image_path)
+
+    mime_to_ext = {
+        "image/jpeg": ".jpg",
+        "image/jpg": ".jpg",
+        "image/png": ".png",
+        "image/webp": ".webp",
+    }
+
+    if mime_type in mime_to_ext:
+        return mime_to_ext[mime_type]
+
+    return path.suffix if path.suffix else ".png"
+
+
+def generate_valid_filename(
+    resource_name: str, image_path: Optional[str] = None
+) -> str:
+    slug = slugify(resource_name, separator="-", lowercase=True)
+
+    extension = get_image_extension(image_path)
+
+    if not slug:
+        # This should never happen, but just in case
+        slug = "unnamed-resource"
+
+    return f"{slug}{extension}"
 
 
 def register_user(user_data: Dict[str, Any]) -> None:
@@ -55,35 +84,40 @@ def register_users(
                 )
             progress.update(task, advance=1)
 
+
 def get_content_type(file_path: str) -> str:
     mime_type, _ = mimetypes.guess_type(file_path)
-    if mime_type in ['image/jpeg', 'image/png', 'image/webp']:
+    if mime_type in ["image/jpeg", "image/png", "image/webp"]:
         return mime_type
-    return 'application/octet-stream'
+    return "application/octet-stream"
 
-def upload_image(resource_type: str, resource_id: int, image_path: str, token: str) -> None:
+
+def upload_image(
+    resource_type: str, resource_id: int, image_path: str, token: str
+) -> None:
     endpoint = f"education/{resource_type}/{resource_id}/image"
     content_type = get_content_type(image_path)
 
-    with open(image_path, 'rb') as image_file:
-        files = {
-            'image': (os.path.basename(image_path), image_file, content_type)
-        }
-        data = {'altText': os.path.splitext(os.path.basename(image_path))[0]}
+    with open(image_path, "rb") as image_file:
+        files = {"image": (os.path.basename(image_path), image_file, content_type)}
+        data = {"altText": os.path.splitext(os.path.basename(image_path))[0]}
 
         try:
             response = requests.post(
                 f"{BASE_URL}/{endpoint}",
                 files=files,
                 data=data,
-                headers={"Authorization": f"Bearer {token}"}
+                headers={"Authorization": f"Bearer {token}"},
             )
             response.raise_for_status()
             log.info(f"Image uploaded successfully for {resource_type} {resource_id}")
         except requests.exceptions.RequestException as e:
-            log.error(f"Failed to upload image for {resource_type} {resource_id}: {str(e)}")
+            log.error(
+                f"Failed to upload image for {resource_type} {resource_id}: {str(e)}"
+            )
             if response.status_code == 400:
                 log.error(f"Server response: {response.text}")
+
 
 def create_resource(
     resource_type: str, token: str, data: Dict[str, Any], image_folder: str = None
@@ -99,11 +133,11 @@ def create_resource(
             )
             return data
 
-        if image_folder and 'id' in response:
+        if image_folder and "id" in response:
             image_filename = generate_valid_filename(resource_name)
             image_path = os.path.join(image_folder, image_filename)
             if os.path.exists(image_path):
-                upload_image(resource_type, response['id'], image_path, token)
+                upload_image(resource_type, response["id"], image_path, token)
             else:
                 log.warning(f"Image not found for {resource_type}: {image_path}")
 
@@ -113,12 +147,13 @@ def create_resource(
         log.debug(f"Data used for creation: {data}")
         raise
 
+
 def create_resources_with_progress(
     resource_type: str,
     token: str,
     resources_data: List[Dict[str, Any]],
     existing_resources: Union[List[Dict[str, Any]], Dict[str, Any]],
-    image_folder: str = None
+    image_folder: str = None,
 ) -> List[Dict[str, Any]]:
     # Use 'title' for roadmaps, 'name' for other resources
     key = "title" if resource_type == "roadmap" else "name"
@@ -152,7 +187,9 @@ def create_resources_with_progress(
 
             if resource_data.get(key) not in existing_names:
                 try:
-                    resource = create_resource(resource_type, token, resource_data, image_folder)
+                    resource = create_resource(
+                        resource_type, token, resource_data, image_folder
+                    )
                     if resource is not None:
                         created_resources.append(resource)
                     else:
@@ -189,13 +226,16 @@ def create_courses(
     token: str,
     courses_data: List[Dict[str, Any]],
     existing_courses: Union[List[Dict[str, Any]], Dict[str, Any]],
-    image_folder: str = None
+    image_folder: str = None,
 ) -> List[Dict[str, Any]]:
     return create_resources_with_progress(
         "course", token, courses_data, existing_courses, image_folder
     )
 
-def create_roadmaps(token: str, roadmaps_data: List[Dict[str, Any]], image_folder: str = None) -> None:
+
+def create_roadmaps(
+    token: str, roadmaps_data: List[Dict[str, Any]], image_folder: str = None
+) -> None:
     create_resources_with_progress("roadmap", token, roadmaps_data, [], image_folder)
 
 
@@ -203,7 +243,7 @@ def create_modules_and_lessons(
     token: str,
     modules_data: List[Dict[str, Any]],
     lessons_data: List[Dict[str, Any]],
-    image_folder: str = None
+    image_folder: str = None,
 ) -> None:
     with Progress() as progress:
         total_modules = len(modules_data)
