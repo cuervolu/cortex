@@ -38,7 +38,7 @@ def get_image_extension(image_path: Optional[str]) -> str:
 def generate_valid_filename(
     resource_name: str, image_path: Optional[str] = None
 ) -> str:
-    slug = slugify(resource_name, separator="_", lowercase=True)
+    slug = slugify(resource_name, separator="-", lowercase=True)
 
     extension = get_image_extension(image_path)
 
@@ -135,6 +135,7 @@ def create_resource(
             log.warning(f"{resource_type.capitalize()} '{resource_name}' may already exist")
             return data
 
+<<<<<<< ours
         if image_folder and "id" in response:
             possible_extensions = [".png", ".jpg", ".jpeg", ".webp"]
             image_path = None
@@ -160,6 +161,19 @@ def create_resource(
                     image_path = final_path
 
                 upload_image(resource_type, response["id"], image_path, token)
+||||||| ancestor
+        if image_folder and 'id' in response:
+            image_filename = generate_valid_filename(resource_name)
+            image_path = os.path.join(image_folder, image_filename)
+            if os.path.exists(image_path):
+                upload_image(resource_type, response['id'], image_path, token)
+=======
+        if image_folder and "id" in response:
+            image_filename = generate_valid_filename(resource_name)
+            image_path = os.path.join(image_folder, image_filename)
+            if os.path.exists(image_path):
+                upload_image(resource_type, response["id"], image_path, token)
+>>>>>>> theirs
             else:
                 log.warning(f"No image found for {resource_type}: {resource_name}")
 
