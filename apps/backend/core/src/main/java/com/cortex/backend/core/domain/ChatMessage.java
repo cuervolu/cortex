@@ -9,9 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
-import java.time.OffsetDateTime;
 import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,20 +34,18 @@ public class ChatMessage {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "mentorship_id", nullable = false)
   private Mentorship mentorship;
-  
+
   @Column(nullable = false, name = "chat_id")
   private String chatId;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "sender_id", nullable = false)
-  private User sender;
+  @Column(nullable = false, name = "sender_id")
+  private Long senderId;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "recipient_id", nullable = false)
-  private User recipient;
+  @Column(nullable = false, name = "recipient_id")
+  private Long recipientId;
 
   @Column(nullable = false, columnDefinition = "TEXT")
   private String content;
-
+  
   private Date timestamp;
 }
