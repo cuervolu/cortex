@@ -12,7 +12,13 @@ export default defineNuxtConfig({
     optimizeDeps: {
       exclude: ['vee-validate'],
     },
+    define: {
+      global: 'window',
+    },
   },
+  plugins: [
+    '~/plugins/websocket.ts'
+  ],
   extends: [
     "@cortex/shared"
   ],

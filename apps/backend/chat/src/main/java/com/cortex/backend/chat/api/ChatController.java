@@ -1,5 +1,6 @@
 package com.cortex.backend.chat.api;
 
+import com.cortex.backend.chat.api.dto.ChatMessageRequest;
 import com.cortex.backend.chat.api.dto.ChatRoomCreationDTO;
 import com.cortex.backend.chat.internal.ChatMessageService;
 import com.cortex.backend.chat.internal.ChatRoomService;
@@ -10,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -30,18 +32,15 @@ public class ChatController {
   private final ChatMessageService chatMessageService;
   private final ChatRoomService chatRoomService;
 
-  @Operation(summary = "Process a chat message",
-      description = "Saves a chat message and sends a notification to the recipient")
   @MessageMapping("/chat")
-  public void processMessage(@Parameter(description = "Chat message to be processed")
-  @Payload ChatMessage chatMessage) {
-    ChatMessage savedMsg = chatMessageService.save(chatMessage);
+  public void processMessage(@Payload @Valid ChatMessageRequest chatMessageRequest) {
+    ChatMessage savedMsg = chatMessageService.save(chatMessageRequest);
     messagingTemplate.convertAndSendToUser(
-        String.valueOf(chatMessage.getRecipient().getId()), "/queue/messages",
+        String.valueOf(chatMessageRequest.recipientId()), "/queue/messages",
         ChatNotification.builder()
             .id(savedMsg.getId())
-            .senderId(savedMsg.getSender().getId())
-            .recipientId(savedMsg.getRecipient().getId())
+            .senderId(savedMsg.getSenderId())
+            .recipientId(savedMsg.getRecipientId())
             .content(savedMsg.getContent())
             .build());
   }
@@ -60,7 +59,6 @@ public class ChatController {
     return ResponseEntity.ok(chatId);
   }
 
-
   @Operation(summary = "Find chat messages",
       description = "Retrieves all chat messages for a specific mentorship",
       responses = {
@@ -74,18 +72,15 @@ public class ChatController {
     return ResponseEntity.ok(chatMessageService.findChatMessagesByMentorship(mentorshipId));
   }
 
-  @Operation(summary = "Send a mentorship message",
-      description = "Sends a chat message within the context of a mentorship")
   @MessageMapping("/chat.mentorship")
-  public void sendMentorshipMessage(@Parameter(description = "Chat message to be sent")
-  @Payload ChatMessage chatMessage) {
-    ChatMessage savedMsg = chatMessageService.save(chatMessage);
+  public void sendMentorshipMessage(@Payload @Valid ChatMessageRequest chatMessageRequest) {
+    ChatMessage savedMsg = chatMessageService.save(chatMessageRequest);
     messagingTemplate.convertAndSendToUser(
-        String.valueOf(chatMessage.getMentorship().getId()), "/queue/mentorship",
+        String.valueOf(chatMessageRequest.mentorshipId()), "/queue/mentorship",
         ChatNotification.builder()
             .id(savedMsg.getId())
-            .senderId(savedMsg.getSender().getId())
-            .recipientId(savedMsg.getRecipient().getId())
+            .senderId(savedMsg.getSenderId())
+            .recipientId(savedMsg.getRecipientId())
             .content(savedMsg.getContent())
             .build());
   }

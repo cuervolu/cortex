@@ -1,0 +1,23 @@
+meta {
+  name: See messages
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{BASEURL}}/api/v1/chat/messages/52
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "mentorship_id": 52,
+    "mentor_id": 4,
+    "mentee_id": 2
+  }
+}

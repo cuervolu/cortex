@@ -20,6 +20,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 @Configuration
@@ -33,13 +34,12 @@ public class SecurityConfig {
   private final AuthenticationProvider authenticationProvider;
   private final CustomOAuth2UserService customOAuth2UserService;
   private final CustomOidcUserService customOidcUserService;
-  private final CorsFilter corsFilter;
+  private final CorsConfigurationSource corsConfigurationSource;
   private final UserRepository userRepository;
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    http.cors(cors -> cors.configurationSource(
-            request -> new CorsConfiguration().applyPermitDefaultValues()))
+    http.cors(cors -> cors.configurationSource(corsConfigurationSource))
         .csrf(AbstractHttpConfigurer::disable)
         .authorizeHttpRequests(
             req ->
@@ -58,6 +58,7 @@ public class SecurityConfig {
                         "/swagger-ui/**",
                         "/webjars/**",
                         "/chat/ai/**",
+                        "/ws/**",
                         "/swagger-ui.html")
                     .permitAll()
                     .anyRequest()
@@ -71,13 +72,12 @@ public class SecurityConfig {
         )
         .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
         .authenticationProvider(authenticationProvider)
-        .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
         .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
     return http.build();
   }
 
   @Bean
   public AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler() {
-    return new OAuth2AuthenticationSuccessHandler(jwtService,userRepository);
+    return new OAuth2AuthenticationSuccessHandler(jwtService, userRepository);
   }
 }
