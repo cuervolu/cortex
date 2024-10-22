@@ -523,7 +523,7 @@
   "modules": [
     {
       "course_id": 1,
-      "name": "¡Bienvenidos al mundo de la programación!",
+      "name": "Bienvenidos al mundo de la programación",
       "description": "¡Vamos a explorar el fascinante mundo de los programas de computadora.",
       "is_published": true
     },
