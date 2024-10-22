@@ -38,7 +38,7 @@ def get_image_extension(image_path: Optional[str]) -> str:
 def generate_valid_filename(
     resource_name: str, image_path: Optional[str] = None
 ) -> str:
-    slug = slugify(resource_name, separator="-", lowercase=True)
+    slug = slugify(resource_name, separator="_", lowercase=True)
 
     extension = get_image_extension(image_path)
 
@@ -120,26 +120,48 @@ def upload_image(
 
 
 def create_resource(
-    resource_type: str, token: str, data: Dict[str, Any], image_folder: str = None
+    resource_type: str,
+    token: str,
+    data: Dict[str, Any],
+    image_folder: str = None
 ) -> Dict[str, Any]:
     key = "title" if resource_type == "roadmap" else "name"
     resource_name = data.get(key, "Unnamed")
     log.info(f"Creating {resource_type}: {resource_name}")
+
     try:
         response = api_request("POST", f"education/{resource_type}", token, data)
         if response is None:
-            log.warning(
-                f"{resource_type.capitalize()} '{resource_name}' may already exist"
-            )
+            log.warning(f"{resource_type.capitalize()} '{resource_name}' may already exist")
             return data
 
         if image_folder and "id" in response:
-            image_filename = generate_valid_filename(resource_name)
-            image_path = os.path.join(image_folder, image_filename)
-            if os.path.exists(image_path):
+            possible_extensions = [".png", ".jpg", ".jpeg", ".webp"]
+            image_path = None
+
+            # Primero intentamos encontrar el archivo exacto
+            original_filename = generate_valid_filename(resource_name)
+            full_path = os.path.join(image_folder, original_filename)
+            if os.path.exists(full_path):
+                image_path = full_path
+            else:
+                base_name = os.path.splitext(original_filename)[0]
+                for ext in possible_extensions:
+                    test_path = os.path.join(image_folder, f"{base_name}{ext}")
+                    if os.path.exists(test_path):
+                        image_path = test_path
+                        break
+
+            if image_path:
+                final_filename = generate_valid_filename(resource_name, image_path)
+                final_path = os.path.join(image_folder, final_filename)
+                if image_path != final_path:
+                    os.rename(image_path, final_path)
+                    image_path = final_path
+
                 upload_image(resource_type, response["id"], image_path, token)
             else:
-                log.warning(f"Image not found for {resource_type}: {image_path}")
+                log.warning(f"No image found for {resource_type}: {resource_name}")
 
         return response
     except Exception as e:
