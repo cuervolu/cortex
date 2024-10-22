@@ -16,13 +16,13 @@
   },
   "devDependencies": {
     "@nuxt/eslint": "^0.6.0",
-    "@nuxtjs/tailwindcss": "6.12.1",
-    "eslint": "^9.12.0",
+    "@nuxtjs/tailwindcss": "6.12.2",
+    "eslint": "^9.13.0",
     "shadcn-nuxt": "^0.10.4"
   },
   "dependencies": {
     "@codemirror/autocomplete": "^6.18.1",
-    "@codemirror/commands": "^6.7.0",
+    "@codemirror/commands": "^6.7.1",
     "@codemirror/lang-java": "^6.0.1",
     "@codemirror/lang-json": "^6.0.1",
     "@codemirror/lang-markdown": "^6.3.0",
@@ -50,6 +50,6 @@
     "thememirror": "^2.0.1",
     "v-calendar": "^3.1.2",
     "vaul-vue": "^0.2.0",
-    "vue-sonner": "^1.2.1"
+    "vue-sonner": "^1.2.3"
   }
 }
