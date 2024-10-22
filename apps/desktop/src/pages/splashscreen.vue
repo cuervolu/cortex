@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { invoke } from '@tauri-apps/api/core';
-import { useOllamaStore } from '~/stores';
 import { error as logError } from "@tauri-apps/plugin-log";
 
 definePageMeta({
@@ -11,25 +10,9 @@ definePageMeta({
 
 const progress = ref(0);
 const statusMessage = ref('Initializing...');
-const ollamaStore = useOllamaStore();
 
 async function initApp() {
   try {
-    // Check Ollama installation
-    statusMessage.value = 'Checking Ollama installation...';
-    await ollamaStore.checkOllamaInstallation();
-    progress.value = 20;
-
-    if (!ollamaStore.isOllamaInstalled) {
-      statusMessage.value = 'Ollama is not installed. Please install it to continue.';
-      return;
-    }
-
-    // Initialize Ollama models
-    statusMessage.value = 'Initializing Ollama models...';
-    await invoke('init_ollama_models');
-    progress.value = 100;
-
     // Close splashscreen and show main window
     await invoke('close_splashscreen_show_main');
   } catch (error) {
@@ -52,7 +35,6 @@ onMounted(() => {
       <div class="w-64 mb-4">
         <Progress :model-value="progress" />
       </div>
-      <p v-if="ollamaStore.checkError" class="text-red-500 mt-2">{{ ollamaStore.checkError }}</p>
     </div>
   </div>
 </template>

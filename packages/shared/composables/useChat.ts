@@ -1,62 +1,48 @@
-import { ref, watch, nextTick } from "vue";
-import { parseMarkdown } from "@nuxtjs/mdc/runtime";
-import type { MDCParserResult } from "@nuxtjs/mdc";
+import {computed} from 'vue'
+import {parseMarkdown} from '@nuxtjs/mdc/runtime'
+import type {MDCParserResult} from '@nuxtjs/mdc'
 
 export interface Message {
-  sender: "ai" | "user";
-  content: string;
+  sender: 'ai' | 'user'
+  content: string
+  parsedContent?: MDCParserResult
 }
 
 export function useChat(messages: Message[], currentStreamingMessage: string) {
-  const userMessage = ref("");
-  const processedMessages = ref<(Message & { parsedContent?: MDCParserResult | null })[]>([]);
-  const processedStreamingMessage = ref<MDCParserResult | null>(null);
-
-  const processAIMessages = async () => {
-    const aiMessages = messages.map(async (message) => {
-      if (message.sender === "ai") {
-        const parsedContent = await parseMarkdown(message.content);
-        return { ...message, parsedContent };
-      }
-      return { ...message };
-    });
-
-    processedMessages.value = await Promise.all(aiMessages);
-  };
-
-  const processStreamingMessage = async () => {
-    if (currentStreamingMessage) {
-      processedStreamingMessage.value = await parseMarkdown(currentStreamingMessage);
-    } else {
-      processedStreamingMessage.value = null;
+  const processMarkdown = async (content: string): Promise<MDCParserResult | null> => {
+    try {
+      if (!content.trim()) return null
+      return await parseMarkdown(content)
+    } catch (error) {
+      console.error('Failed to parse markdown:', error)
+      return null
     }
-  };
+  }
 
-  watch(
-    () => messages,
-    async () => {
-      await processAIMessages();
-      nextTick(() => {
-        const chatContainer = document.querySelector(".overflow-y-auto");
-        if (chatContainer) {
-          chatContainer.scrollTop = chatContainer.scrollHeight;
+  // Process all existing messages
+  const processedMessages = computed(async () => {
+    return await Promise.all(
+      messages.map(async (message) => {
+        if (message.sender === 'ai' && !message.parsedContent) {
+          const parsed = await processMarkdown(message.content)
+          return {
+            ...message,
+            parsedContent: parsed
+          }
         }
-      });
-    },
-    { deep: true, immediate: true }
-  );
+        return message
+      })
+    )
+  })
 
-  watch(
-    () => currentStreamingMessage,
-    async () => {
-      await processStreamingMessage();
-    },
-    { immediate: true }
-  );
+  // Process streaming message separately
+  const processedStreamingMessage = computed(async () => {
+    if (!currentStreamingMessage) return null
+    return await processMarkdown(currentStreamingMessage)
+  })
 
   return {
-    userMessage,
     processedMessages,
-    processedStreamingMessage,
-  };
+    processedStreamingMessage
+  }
 }

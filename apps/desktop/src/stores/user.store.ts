@@ -1,9 +1,9 @@
-import { invoke } from '@tauri-apps/api/core'
-import type { Store } from '@tauri-apps/plugin-store';
-import { createStore } from '@tauri-apps/plugin-store'
-import { defineStore } from 'pinia'
-import { ref } from 'vue'
-import type { User } from "~/types"
+import {invoke} from '@tauri-apps/api/core'
+import type {Store} from '@tauri-apps/plugin-store';
+import {load} from '@tauri-apps/plugin-store';
+import {defineStore} from 'pinia'
+import {ref} from 'vue'
+import type {User} from "~/types"
 
 interface AuthResponse {
   token: string;
@@ -17,17 +17,14 @@ function createUserStore() {
     const token = ref<string | null>(null)
 
     const initStore = async () => {
-      store = await createStore('store.bin', {
-        autoSave: 1, //HACK: This is a workaround for the issue #1902 in Tauri, waiting for a fix in #1860.
-                     // See https://github.com/tauri-apps/plugins-workspace/issues/1902
-      });
+      store = await load('store.bin', {autoSave: true});
 
       const storedUser = await store.get('user')
       const storedToken = await store.get('token')
       if (storedUser) user.value = storedUser as User
       if (storedToken) token.value = storedToken as string
       if (user.value && token.value) {
-        await invoke('set_user', { user: user.value, token: token.value })
+        await invoke('set_user', {user: user.value, token: token.value})
       }
     }
 
@@ -35,7 +32,7 @@ function createUserStore() {
       token.value = authResponse.token
       await store.set('token', authResponse.token)
       if (user.value) {
-        await invoke('set_user', { user: user.value, token: authResponse.token })
+        await invoke('set_user', {user: user.value, token: authResponse.token})
       }
     }
 
@@ -43,7 +40,7 @@ function createUserStore() {
       user.value = userData
       await store.set('user', userData)
       if (token.value) {
-        await invoke('set_user', { user: userData, token: token.value })
+        await invoke('set_user', {user: userData, token: token.value})
       }
     }
 

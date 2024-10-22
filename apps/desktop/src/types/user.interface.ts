@@ -2,14 +2,14 @@ export interface User {
   id: number;
   username: string;
   email: string;
-  firstName: string;
-  lastName: string;
-  fullName: string;
-  avatarUrl: string | null;
-  dateOfBirth: string;
-  countryCode: string;
+  first_name: string;
+  last_name: string;
+  full_name: string;
+  avatar_url: string | null;
+  date_of_birth: string;
+  country_code: string;
   gender: string;
-  accountLocked: boolean;
+  account_locked: boolean;
   enabled: boolean;
   roles: string[];
 }

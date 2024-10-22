@@ -32,4 +32,6 @@ public class ExerciseDetailsResponse {
   private String fileName;
   
   private String language;
+  
+  private String slug;
 }
