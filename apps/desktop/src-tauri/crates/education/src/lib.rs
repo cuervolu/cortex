@@ -104,6 +104,7 @@ pub struct ExerciseDetails {
     pub test_code: String,
     pub lesson_name: String,
     pub file_name: String,
+    pub slug: String,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
