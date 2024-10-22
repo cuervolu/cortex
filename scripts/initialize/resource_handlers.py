@@ -38,7 +38,7 @@ def get_image_extension(image_path: Optional[str]) -> str:
 def generate_valid_filename(
     resource_name: str, image_path: Optional[str] = None
 ) -> str:
-    slug = slugify(resource_name, separator="-", lowercase=True)
+    slug = slugify(resource_name, separator="_", lowercase=True)
 
     extension = get_image_extension(image_path)
 
