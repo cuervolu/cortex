@@ -226,6 +226,7 @@ public class ExerciseServiceImpl implements ExerciseService {
           .lessonName(exercise.getLesson().getName())
           .fileName(fileName)
           .language(language)
+          .slug(exercise.getSlug())
           .build();
     } catch (IOException e) {
       log.error("Error reading exercise files for exercise id: {}", id, e);
