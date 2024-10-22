@@ -2,7 +2,7 @@ use std::sync::Mutex;
 use serde::{Serialize, Deserialize};
 
 #[derive(Default, Serialize, Deserialize, Clone)]
-#[serde(rename_all = "camelCase")]
+// #[serde(rename_all = "camelCase")]
 pub struct User {
     pub id: u64,
     pub username: String,

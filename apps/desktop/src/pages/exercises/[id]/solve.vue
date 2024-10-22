@@ -1,19 +1,20 @@
 <script setup lang="ts">
-import {useRouter} from 'vue-router';
-import {useOllamaStore} from '~/stores/useOllama.store';
-import {useChatStore} from '~/stores/useChat.store';
+import { ref, markRaw, computed } from 'vue';
+import { useRouter } from 'vue-router';
+import { useOllamaStore } from '~/stores/useOllama.store';
+import { useChatStore } from '~/stores/useChat.store';
 import AiChat from '@cortex/shared/components/ai/chat.vue';
 import CodeEditor from '@cortex/shared/components/CodeEditor.vue';
 import ExerciseHeader from '@cortex/shared/components/exercise/ExerciseHeader.vue';
 import ExercisePanel from '@cortex/shared/components/exercise/ExercisePanel.vue';
-import logo from '~/assets/img/Cortex Logo.svg';
 import BotIcon from '~/components/icons/BotIcon.vue';
-import {useExercise, useCodeEditor, usePanel} from '~/composables';
+import { useExercise, useCodeEditor, usePanel } from '~/composables';
 import LoadingOverlay from "~/components/LoadingOverlay.vue";
 
 const router = useRouter();
 const ollamaStore = useOllamaStore();
 const chatStore = useChatStore();
+const {data} = useAuth();
 
 const {
   exercise,
@@ -27,22 +28,17 @@ const {
   handleCodeChange,
 } = useExercise();
 
-const {isPanelOpen, handleSettingsClick} = usePanel();
-
-const {availableExtensions, availableThemes, activeExtensions, editorTheme} =
-    useCodeEditor();
+const { isPanelOpen, handleSettingsClick } = usePanel();
+const { availableExtensions, availableThemes, activeExtensions, editorTheme } = useCodeEditor();
 
 const handleSendMessage = async (message: string) => {
   if (!exercise.value) return;
-  chatStore.addMessage({sender: 'user', content: message});
-  chatStore.setIsStreaming(true);
-  chatStore.clearStreamingMessage();
+
   await ollamaStore.sendPrompt({
     message,
-    userId: 'user-id',
+    exerciseSlug: exercise.value.slug,
     editorContent: editorCode.value,
     language: currentLanguage.value,
-    selectedModel: 'phi3.5:latest',
   });
 };
 
@@ -54,27 +50,27 @@ const panelTabs = computed(() => [
   {
     value: 'ia-help',
     label: 'AI Help',
-    component: AiChat,
+    component: markRaw(AiChat),
     iconSrc: BotIcon,
     props: {
       messages: chatStore.messages,
       isStreaming: chatStore.isStreaming,
       currentStreamingMessage: chatStore.currentStreamingMessage,
-      avatarSrc: "https://placewaifu.com/image",
-      cortexLogo: logo,
+      avatarSrc: data.value?.avatar_url || "https://placewaifu.com/image",
+      isSending: ollamaStore.isSending,
+      exerciseSlug: exercise.value?.slug || '',
     },
   },
 ]);
 
 const defaultPanelTab = 'ia-help';
-
-const isLoading = ref(true)
+const isLoading = ref(true);
 
 onMounted(async () => {
-  await fetchExerciseDetails()
-  await ollamaStore.setupListeners()
-  isLoading.value = false
-})
+  await fetchExerciseDetails();
+  await ollamaStore.setupListeners();
+  isLoading.value = false;
+});
 
 onUnmounted(() => {
   ollamaStore.removeListeners();
@@ -83,15 +79,6 @@ onUnmounted(() => {
 watch(initialCode, (newCode) => {
   editorCode.value = newCode;
 });
-
-watch(
-    () => ollamaStore.isStreaming,
-    (newValue) => {
-      if (!newValue) {
-        chatStore.finishAIMessage();
-      }
-    }
-);
 </script>
 
 <template>
@@ -104,7 +91,6 @@ watch(
         :on-back-click="handleBackClick"
         :on-settings-click="handleSettingsClick"
     />
-
     <ResizablePanelGroup direction="horizontal" class="flex-grow">
       <ResizablePanel :default-size="70" :min-size="30">
         <div class="h-full p-4">

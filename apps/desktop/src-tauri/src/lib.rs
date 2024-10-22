@@ -1,4 +1,3 @@
-use log::error;
 use std::sync::Mutex;
 use tauri::Manager;
 use tauri_plugin_log::fern::colors::ColoredLevelConfig;
@@ -39,13 +38,6 @@ fn setup_logger(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> 
 }
 
 #[tauri::command]
-async fn init_ollama_models(app_handle: tauri::AppHandle) {
-    if let Err(e) = ai_chat::ollama_models::init(&app_handle).await {
-        error!("Failed to initialize Ollama models: {:?}", e);
-    }
-}
-
-#[tauri::command]
 async fn close_splashscreen_show_main(app_handle: tauri::AppHandle) -> Result<(), String> {
     let splash_window = app_handle.get_webview_window("splashscreen").unwrap();
     let main_window = app_handle.get_webview_window("main").unwrap();
@@ -81,21 +73,11 @@ pub fn run() {
         .plugin(tauri_plugin_fs::init())
         .invoke_handler(tauri::generate_handler![
             close_splashscreen_show_main,
-            init_ollama_models,
             auth::commands::set_user,
             auth::commands::get_user,
             auth::commands::clear_user,
             auth::commands::get_token, 
-            ai_chat::commands::is_ollama_installed,
-            ai_chat::commands::send_prompt_to_ollama,
-            ai_chat::commands::list_local_models,
-            ai_chat::commands::get_ollama_models,
-            ai_chat::commands::refresh_ollama_models,
-            ai_chat::commands::list_ollama_models,
-            ai_chat::commands::show_ollama_model,
-            ai_chat::commands::pull_ollama_model,
-            ai_chat::commands::forced_update,
-            ai_chat::commands::delete_ollama_model,
+            ai_chat::commands::send_chat_prompt,
             education::roadmaps::commands::fetch_all_roadmaps,
             education::roadmaps::commands::fetch_roadmap_course,
             education::roadmaps::commands::get_roadmap,
