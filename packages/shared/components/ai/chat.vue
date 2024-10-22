@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { Send } from "lucide-vue-next";
-import { useChat, useSendMessage, type Message } from "../../composables";
-
+import { ref, nextTick, watchEffect } from "vue";
+import { type Message } from "../../composables";
+import { parseMarkdown } from '@nuxtjs/mdc/runtime';
 
 interface Props {
   messages: Message[];
   isStreaming: boolean;
   currentStreamingMessage: string;
-  avatarSrc: string;
+  isSending: boolean;
+  avatarSrc?: string;
   explanation?: string;
   streamingMessage?: string;
   cortexLogo?: string;
@@ -21,30 +23,72 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const emit = defineEmits<{
-  (e: "send-message", message: string): void;
+  (e: 'send-message', message: string): void;
 }>();
 
-const { processedMessages, processedStreamingMessage } = useChat(props.messages, props.currentStreamingMessage);
-const { userMessage, sendMessage } = useSendMessage(emit);
+const userMessage = ref('');
+const renderedMessages = ref<Message[]>([]);
+const renderedStreamingContent = ref<any>(null);
+
+// Process and parse markdown for messages
+watchEffect(async () => {
+  renderedMessages.value = await Promise.all(props.messages.map(async (message) => {
+    if (message.sender === 'ai') {
+      try {
+        const parsed = await parseMarkdown(message.content);
+        return {
+          ...message,
+          parsedContent: parsed
+        };
+      } catch (error) {
+        console.error('Failed to parse markdown:', error);
+      }
+    }
+    return message;
+  }));
+});
+
+// Process streaming message separately
+watchEffect(async () => {
+  if (props.isStreaming && props.currentStreamingMessage) {
+    try {
+      renderedStreamingContent.value = await parseMarkdown(props.currentStreamingMessage);
+    } catch (error) {
+      console.error('Failed to parse streaming markdown:', error);
+      renderedStreamingContent.value = null;
+    }
+  } else {
+    renderedStreamingContent.value = null;
+  }
+});
+
+const sendMessage = async () => {
+  const message = userMessage.value.trim();
+  if (!message || props.isSending || props.isStreaming) return;
+
+  emit('send-message', message);
+  nextTick(() => {
+    userMessage.value = '';
+  });
+};
+
+const handleKeydown = (event: KeyboardEvent) => {
+  if (event.key === 'Enter' && !event.shiftKey && !event.ctrlKey) {
+    event.preventDefault();
+    sendMessage();
+  }
+};
 </script>
 
 <template>
-   <div
+  <div
     class="flex flex-col gap-4 p-3 sm:p-5 bg-muted/50 rounded-lg border-2 border-transparent shadow-md overflow-hidden h-full"
-    style="
-      border-image: linear-gradient(
-          to bottom,
-          rgb(56, 22, 83),
-          rgb(146, 210, 221)
-        )
-        1;
-    "
+    style="border-image: linear-gradient(to bottom, rgb(56, 22, 83), rgb(146, 210, 221)) 1;"
   >
+    <!-- Header -->
     <div class="flex justify-center">
       <div class="relative w-[152px] h-[33px]">
-        <p
-          class="absolute top-[5px] left-[33px] font-normal text-muted-foreground text-base sm:text-lg"
-        >
+        <p class="absolute top-[5px] left-[33px] font-normal text-muted-foreground text-base sm:text-lg">
           <span class="tracking-widest">CORTEX-</span>
           <span class="tracking-tight">Ia</span>
         </p>
@@ -56,19 +100,17 @@ const { userMessage, sendMessage } = useSendMessage(emit);
       </div>
     </div>
 
+    <!-- Messages Container -->
     <div class="flex-grow overflow-y-auto overflow-x-hidden rounded-lg">
-      <div v-for="(message, index) in processedMessages" :key="index">
+      <!-- Rendered Messages -->
+      <div v-for="(message, index) in renderedMessages" :key="index">
+        <!-- User Message -->
         <div
           v-if="message.sender === 'user'"
           class="flex justify-end py-2 sm:py-3"
         >
           <div
             class="inline-flex items-center p-2 bg-white rounded-lg max-w-[80%] sm:max-w-[70%]"
-            style="
-              word-break: break-word;
-              overflow-wrap: anywhere;
-              overflow: hidden;
-            "
           >
             <p class="text-xs sm:text-sm text-purple-900 break-words">
               {{ message.content }}
@@ -79,61 +121,108 @@ const { userMessage, sendMessage } = useSendMessage(emit);
             </Avatar>
           </div>
         </div>
+
+        <!-- AI Message -->
         <div
           v-if="message.sender === 'ai'"
           class="flex justify-center py-2 sm:py-3"
         >
           <Card class="w-full mx-auto">
             <CardContent class="overflow-x-auto">
-              <MDCRenderer
+              <div
                 v-if="message.parsedContent"
-                :data="message.parsedContent.data"
-                :body="message.parsedContent.body"
-                class="text-xs sm:text-sm text-foreground break-words py-5"
-              />
+                class="prose dark:prose-invert max-w-none py-5"
+              >
+                <MDCRenderer
+                  :data="message.parsedContent.data"
+                  :body="message.parsedContent.body"
+                  class="text-xs sm:text-sm text-foreground break-words"
+                />
+              </div>
+              <p v-else class="text-xs sm:text-sm text-foreground break-words py-5">
+                {{ message.content }}
+              </p>
             </CardContent>
           </Card>
         </div>
       </div>
 
+      <!-- Streaming Message -->
       <div v-if="isStreaming" class="flex justify-center py-2 sm:py-3">
         <Card class="w-full mx-auto">
-          <CardHeader>
+          <CardHeader v-if="streamingMessage">
             <span>{{ streamingMessage }}</span>
           </CardHeader>
           <CardContent class="overflow-x-auto">
-            <MDCRenderer
-              v-if="processedStreamingMessage"
-              :data="processedStreamingMessage.data"
-              :body="processedStreamingMessage.body"
-              class="text-xs sm:text-sm text-foreground break-words py-5"
-            />
+            <div
+              v-if="renderedStreamingContent"
+              class="prose dark:prose-invert max-w-none py-5"
+            >
+              <MDCRenderer
+                :data="renderedStreamingContent.data"
+                :body="renderedStreamingContent.body"
+                class="text-xs sm:text-sm text-foreground break-words"
+              />
+            </div>
+            <p v-else class="text-xs sm:text-sm text-foreground break-words py-5">
+              {{ currentStreamingMessage }}
+            </p>
           </CardContent>
         </Card>
       </div>
     </div>
-    <div
-      class="flex items-center justify-between px-3 sm:px-6 py-2 bg-primary rounded-full shadow mt-4"
-    >
+
+    <!-- Input Area -->
+    <div class="flex items-center justify-between px-3 sm:px-6 py-2 bg-primary rounded-full shadow mt-4">
       <Textarea
         v-model="userMessage"
         placeholder="Escribe tu mensaje aquí..."
         class="w-full bg-transparent border-transparent text-xs sm:text-sm text-muted-foreground outline-none min-h-[24px] resize-none py-0"
-        @keyup.enter="sendMessage"
+        @keydown="handleKeydown"
       />
-      <Button size="icon" variant="ghost">
-        <Send
-          class="w-2 h-2 sm:w-5 sm:h-5 cursor-pointer ml-2"
-          @click="sendMessage"
-        />
+      <Button
+        size="icon"
+        variant="ghost"
+        :disabled="isSending || isStreaming"
+        @click="sendMessage"
+      >
+        <Send class="w-2 h-2 sm:w-5 sm:h-5 cursor-pointer ml-2" />
       </Button>
     </div>
   </div>
 </template>
 
-<style scoped>
-/* Asegúrate de que el componente padre tenga una altura definida */
-:deep(.h-full) {
-  height: 100%;
+<style>
+.prose {
+  width: 100%;
+  color: inherit;
+}
+
+.prose pre {
+  background-color: rgb(40, 44, 52);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+}
+
+.prose code {
+  color: #e06c75;
+  background-color: rgba(40, 44, 52, 0.1);
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.25rem;
+}
+
+.prose pre code {
+  color: inherit;
+  padding: 0;
+  background: none;
+}
+
+.dark .prose {
+  color: inherit;
+}
+
+.dark .prose code {
+  background-color: rgba(255, 255, 255, 0.1);
 }
 </style>

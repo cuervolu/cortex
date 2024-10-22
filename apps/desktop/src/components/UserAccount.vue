@@ -9,11 +9,11 @@ defineProps<{
 
 const userStore = useUserStore();
 
-const userFullName = computed(() => userStore.user?.fullName || 'Unknown User');
+const userFullName = computed(() => userStore.user?.full_name || 'Unknown User');
 const userUsername = computed(() => userStore.user?.username ? `@${userStore.user.username}` : 'No username');
-const userAvatar = computed(() => userStore.user?.avatarUrl || '');
+const userAvatar = computed(() => userStore.user?.avatar_url || '');
 const userInitials = computed(() => {
-  const name = userStore.user?.fullName || '';
+  const name = userStore.user?.full_name || '';
   return name.split(' ').map(n => n[0]).join('').toUpperCase();
 });
 
