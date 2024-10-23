@@ -47,13 +47,14 @@ jobs:
           workspaces: './apps/desktop/src-tauri -> target'
       - name: Install dependencies
         run: pnpm install
-      - name: Install LLVM (macOS)
+      - name: Install LLVM and LLD (macOS)
         if: matrix.platform == 'macos-latest'
         run: |
           brew install llvm
+          brew install lld
+          echo 'export PATH="/opt/homebrew/opt/llvm/bin:$PATH"' >> $GITHUB_ENV
           echo "LDFLAGS=-L/opt/homebrew/opt/llvm/lib" >> $GITHUB_ENV
           echo "CPPFLAGS=-I/opt/homebrew/opt/llvm/include" >> $GITHUB_ENV
-          echo "/opt/homebrew/opt/llvm/bin" >> $GITHUB_PATH
       - name: Build Tauri app
         uses: tauri-apps/tauri-action@v0.5.12
         env:
