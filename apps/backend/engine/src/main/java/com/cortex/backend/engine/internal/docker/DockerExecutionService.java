@@ -32,13 +32,11 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @RequiredArgsConstructor
 public class DockerExecutionService {
-
   private final DockerClient dockerClient;
   private final LanguageRepository languageRepository;
   private final LanguageEnvironmentSetup environmentSetup;
 
-  public ExecutionResult executeCode(String decodedCode, Path exercisePath, String languageName)
-      throws IOException {
+  public ExecutionResult executeCode(String decodedCode, Path exercisePath, String languageName) throws IOException {
     Language language = languageRepository.findByName(languageName)
         .orElseThrow(() -> new IllegalArgumentException("Unsupported language: " + languageName));
 
