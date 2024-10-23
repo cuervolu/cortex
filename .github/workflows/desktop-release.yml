@@ -51,6 +51,8 @@ jobs:
         if: matrix.platform == 'macos-latest'
         run: |
           brew install llvm
+          echo "LDFLAGS=-L/opt/homebrew/opt/llvm/lib" >> $GITHUB_ENV
+          echo "CPPFLAGS=-I/opt/homebrew/opt/llvm/include" >> $GITHUB_ENV
           echo "/opt/homebrew/opt/llvm/bin" >> $GITHUB_PATH
       - name: Build Tauri app
         uses: tauri-apps/tauri-action@v0.5.12
