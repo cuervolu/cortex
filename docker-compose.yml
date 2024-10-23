@@ -37,6 +37,7 @@ services:
       - OLLAMA_BASE_URL=http://ollama:11434
     volumes:
       - cortex_exercises:/app/cortex-exercises
+      - /var/run/docker.sock:/var/run/docker.sock
 
   postgres:
     image: postgres:alpine3.19
