@@ -1,6 +1,10 @@
 <template>
-  <div>
+  <div class="min-h-screen ">
+    <app-header />
+    <main>
     <slot />
+    </main>
+    <app-footer />
   </div>
 </template>
 
