@@ -143,8 +143,12 @@ public class DockerExecutionService {
     }
   }
 
-  private record ContainerLogs(String stdout, String stderr) {}
+  private record ContainerLogs(String stdout, String stderr) {
+
+  }
 
   public record ExecutionResult(int exitCode, String stdout, String stderr,
-                                long executionTime, long memoryUsed) {}
+                                long executionTime, long memoryUsed) {
+
+  }
 }
