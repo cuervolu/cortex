@@ -152,6 +152,7 @@ public class CodeExecutionService {
           .executionTime((int) dockerResult.executionTime())
           .language(request.language())
           .memoryUsed((int) dockerResult.memoryUsed())
+          .exerciseId(request.exerciseId())  
           .testCaseResults(testCaseResults)
           .build();
     } catch (Exception e) {
@@ -160,6 +161,7 @@ public class CodeExecutionService {
           .success(false)
           .stderr("Unexpected error: " + e.getMessage())
           .language(request.language())
+          .exerciseId(request.exerciseId())  
           .build();
     }
   }

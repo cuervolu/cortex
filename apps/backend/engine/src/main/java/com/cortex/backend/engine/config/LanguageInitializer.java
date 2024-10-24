@@ -1,5 +1,11 @@
 package com.cortex.backend.engine.config;
 
+import static com.cortex.backend.engine.internal.utils.Constants.GO_EXTENSION;
+import static com.cortex.backend.engine.internal.utils.Constants.JAVA_EXTENSION;
+import static com.cortex.backend.engine.internal.utils.Constants.PYTHON_EXTENSION;
+import static com.cortex.backend.engine.internal.utils.Constants.RUST_EXTENSION;
+import static com.cortex.backend.engine.internal.utils.Constants.TYPESCRIPT_EXTENSION;
+
 import com.cortex.backend.core.domain.Language;
 import com.cortex.backend.engine.api.LanguageRepository;
 import com.cortex.backend.engine.internal.LanguageConfig;
@@ -19,6 +25,17 @@ public class LanguageInitializer {
   private static final long MB = 1024 * 1024L;
   private static final long DEFAULT_CPU_LIMIT = 1L;
   private static final long DEFAULT_TIMEOUT = 30000L;
+  private static final String MAVEN_CMD = String.join(" ",
+      "mvn",
+      "test",  // Maven goal
+      "-B",    // Batch mode
+      "-V",    // Show Maven version
+      "-ntp",  // No transfer progress
+      "--fail-at-end",  // Run all tests even if some fail
+      "-Djansi.force=true",  // Force colored output
+      "-Dmaven.repo.local=/tmp/maven-repo",  // Use temporary local repository
+      "-Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn"
+  );
 
   @PostConstruct
   @Transactional
@@ -27,9 +44,8 @@ public class LanguageInitializer {
         LanguageConfig.builder()
             .name("python")
             .dockerImage("python:3.12-slim")
-            .executeCommand(
-                "python $(find /code -name '*.py' ! -name '*_test.py') && python -m unittest discover /code")
-            .fileExtension(".py")
+            .executeCommand("python -m unittest discover -v")
+            .fileExtension(PYTHON_EXTENSION)
             .memoryLimit(128 * MB)
             .cpuLimit(DEFAULT_CPU_LIMIT)
             .timeout(DEFAULT_TIMEOUT)
@@ -37,18 +53,17 @@ public class LanguageInitializer {
         LanguageConfig.builder()
             .name("java")
             .dockerImage("maven:3.9.9-eclipse-temurin-21")
-            .executeCommand("cd /code && mvn test -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -Dsurefire.useFile=false")// Only print test results, for Debug use `.executeCommand("cd /code && mvn test")`
-            .fileExtension(".java")
+            .executeCommand(MAVEN_CMD)
+            .fileExtension(JAVA_EXTENSION)
             .memoryLimit(512 * MB)
             .cpuLimit(DEFAULT_CPU_LIMIT)
             .timeout(60000L)
             .build(),
         LanguageConfig.builder()
             .name("typescript")
-            .dockerImage("cortex-typescript-exercises:latest") // Custom image with pnpm installed
-            .executeCommand(
-                "cd /app/exercises/practice/{exerciseName} && pnpm install && pnpm test")
-            .fileExtension(".ts")
+            .dockerImage("cortex-typescript-exercises:latest")
+            .executeCommand("pnpm install && pnpm test")
+            .fileExtension(TYPESCRIPT_EXTENSION)
             .memoryLimit(1024 * MB)
             .cpuLimit(DEFAULT_CPU_LIMIT)
             .timeout(180000L)
@@ -56,26 +71,17 @@ public class LanguageInitializer {
         LanguageConfig.builder()
             .name("rust")
             .dockerImage("rust:1.80-slim")
-            .executeCommand("cd /code && cargo test")
-            .fileExtension(".rs")
+            .executeCommand("CARGO_TARGET_DIR=/tmp/target cargo test")
+            .fileExtension(RUST_EXTENSION)
             .memoryLimit(256 * MB)
             .cpuLimit(DEFAULT_CPU_LIMIT)
             .timeout(DEFAULT_TIMEOUT)
             .build(),
         LanguageConfig.builder()
-            .name("csharp")
-            .dockerImage("mcr.microsoft.com/dotnet/sdk:8.0")
-            .executeCommand("cd /code && dotnet test")
-            .fileExtension(".cs")
-            .memoryLimit(512 * MB)
-            .cpuLimit(2L)
-            .timeout(60000L)
-            .build(),
-        LanguageConfig.builder()
             .name("go")
             .dockerImage("golang:1.23-bookworm")
-            .executeCommand("cd /code && go mod tidy && go test")
-            .fileExtension(".go")
+            .executeCommand("GOPATH=/tmp/go go test ./...")
+            .fileExtension(GO_EXTENSION)
             .memoryLimit(512 * MB)
             .cpuLimit(2L)
             .timeout(30000L)
@@ -117,4 +123,3 @@ public class LanguageInitializer {
     languageRepository.save(existingLanguage);
   }
 }
-

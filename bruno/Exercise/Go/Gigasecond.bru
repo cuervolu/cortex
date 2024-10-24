@@ -5,7 +5,7 @@ meta {
 }
 
 post {
-  url: http://localhost:8088/api/v1/engine/execute
+  url: {{BASEURL}}/api/v1/engine/execute
   body: json
   auth: bearer
 }
@@ -20,8 +20,8 @@ auth:bearer {
 
 body:json {
     {
-      "code": "aW1wb3J0IGphdmEudGltZS5Mb2NhbERhdGVUaW1lOwppbXBvcnQgamF2YS50aW1lLkR1cmF0aW9uOwoKcHVibGljIGNsYXNzIEdpZ2FzZWNvbmQgewogICAgcHJpdmF0ZSBzdGF0aWMgZmluYWwgbG9uZyBHSUdBU0VDT05EID0gMV8wMDBfMDAwXzAwMEw7CgogICAgcHVibGljIHN0YXRpYyBMb2NhbERhdGVUaW1lIGFmdGVyKExvY2FsRGF0ZVRpbWUgc3RhcnQpIHsKICAgICAgICByZXR1cm4gc3RhcnQucGx1cyhEdXJhdGlvbi5vZlNlY29uZHMoR0lHQVNFQ09ORCkpOwogICAgfQp9",
-      "language": "java",
-      "exerciseId": 258
+      "code": "cGFja2FnZSBnaWdhc2Vjb25kCgppbXBvcnQgInRpbWUiCgovLyBBZGRHaWdhc2Vjb25kIGFkZHMgMSBnaWdhc2Vjb25kICgxLDAwMCwwMDAsMDAwIHNlY29uZHMpIHRvIHRoZSBnaXZlbiB0aW1lLgpmdW5jIEFkZEdpZ2FzZWNvbmQodCB0aW1lLlRpbWUpIHRpbWUuVGltZSB7CiAgICAvLyBBZGQgMSBnaWdhc2Vjb25kICgxMF45IHNlY29uZHMpIHRvIHRoZSBpbnB1dCB0aW1lCiAgICByZXR1cm4gdC5BZGQodGltZS5TZWNvbmQgKiAxZTkpCn0K",
+      "language": "go",
+      "exercise_id": 22
     }
 }
