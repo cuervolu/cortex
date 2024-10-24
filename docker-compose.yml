@@ -87,7 +87,7 @@ services:
   ollama:
     image: ollama/ollama:0.3.12
     ports:
-      - 7869:11434
+      - "7869:11434"
     volumes:
       - ollama_models:/root/.ollama
     container_name: ollama
