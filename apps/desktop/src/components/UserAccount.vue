@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue';
 import { useUserStore } from '~/stores';
 import { useRouter } from 'vue-router';
-
+import { error as logError, info } from "@tauri-apps/plugin-log";
 defineProps<{
   isCollapsed: boolean;
 }>();
@@ -23,24 +23,20 @@ const { clearUser } = useUserStore();
 const { signOut } = useAuth();
 
 const handleSignOut = async () => {
+  if (isLoading.value) return;
+  
   isLoading.value = true;
   try {
-    // Primero navegamos a la ruta default
-    await router.push({
-      path: '/auth/login',
-      query: { redirect: router.currentRoute.value.fullPath }
-    });
+
+    await signOut();
+    clearUser();
     
-    // Luego limpiamos la sesión y el usuario en segundo plano
-    await Promise.all([
-      signOut(),
-      clearUser()
-    ]);
-    
+
   } catch (error) {
     console.error('Error signing out:', error);
-    // Si hay un error, aseguramos que el usuario llegue a default de todos modos
-    window.location.href = '/auth/login';
+    await logError(`Error signing out: ${error}`);
+
+    await router.push('/auth/login');
   } finally {
     isLoading.value = false;
   }
