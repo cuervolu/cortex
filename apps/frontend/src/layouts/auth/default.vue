@@ -1,8 +1,12 @@
-<script setup></script>
+<script setup>
+
+import TitleBar from '~/components/TitleBar.vue'
+</script>
 
 <template>
   <div class="w-screen h-screen inset-0 bg-cover bg-center bg-no-repeat flex-col justify-center items-center gap-[60px] inline-flex bg-auth-background dark:bg-auth-background-dark">
-
+    <!-- TitleBar -->
+    <TitleBar class="sticky top-0 z-50" :has-sidebar="false" :class="{ 'shadow-md': isScrolled }" />
     <!-- Content overlay -->
     <div class="self-stretch px-[50px] my-8 justify-center items-center gap-[57px] inline-flex flex-wrap">
       <!-- Left side with text -->
