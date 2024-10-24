@@ -16,19 +16,15 @@ useHead({
 
 
 definePageMeta({
-  middleware: 'auth'
+  auth: false
 })
 </script>
 
 <template>
-  <div class="min-h-screen ">
-    <app-header />
-    <main>
-      <landing-hero />
-      <learning-interface />
-      <common-questions />
-      <pricing-section />
-    </main>
-    <app-footer />
-  </div>
+  <section>
+    <landing-hero />
+    <learning-interface />
+    <common-questions />
+    <pricing-section />
+  </section>
 </template>
