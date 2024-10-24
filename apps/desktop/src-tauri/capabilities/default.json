@@ -46,6 +46,8 @@
     "process:allow-exit",
     "process:allow-restart",
     "oauth:allow-cancel",
-    "oauth:allow-start"
+    "oauth:allow-start",
+    "updater:allow-download-and-install",
+    "updater:allow-check"
   ]
 }

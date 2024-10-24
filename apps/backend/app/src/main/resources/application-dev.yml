@@ -95,7 +95,7 @@ server:
 github:
   exercises:
     repo-url: https://github.com/cuervolu/cortex-exercises
-    local-path: ${GITHUB_EXERCISES_LOCAL_PATH}
+    local-path: ${GITHUB_EXERCISES_LOCAL_PATH:/app/cortex-exercises}
     branch: main
     sync-interval-ms: 3600000
 lemon-squeezy:
