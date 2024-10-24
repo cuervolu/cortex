@@ -32,11 +32,13 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @RequiredArgsConstructor
 public class DockerExecutionService {
+
   private final DockerClient dockerClient;
   private final LanguageRepository languageRepository;
   private final LanguageEnvironmentSetup environmentSetup;
 
-  public ExecutionResult executeCode(String decodedCode, Path exercisePath, String languageName) throws IOException {
+  public ExecutionResult executeCode(String decodedCode, Path exercisePath, String languageName)
+      throws IOException {
     Language language = languageRepository.findByName(languageName)
         .orElseThrow(() -> new IllegalArgumentException("Unsupported language: " + languageName));
 
@@ -64,25 +66,28 @@ public class DockerExecutionService {
     }
   }
 
-  private ExecutionResult runContainer(Language language, WorkspaceSetup workspace, String containerId) {
+  private ExecutionResult runContainer(Language language, WorkspaceSetup workspace,
+      String containerId) {
     String workingDir = "/workspace";
-    
+    String projectRoot = workspace.projectRoot().toAbsolutePath().toString();
+
     HostConfig hostConfig = HostConfig.newHostConfig()
-        .withBinds(Bind.parse(workspace.workspaceDir().toAbsolutePath() + ":" + workingDir + ":rw"))
+        .withBinds(Bind.parse(projectRoot + ":" + workingDir + ":rw"))
         .withMemory(language.getDefaultMemoryLimit())
         .withCpuCount(language.getDefaultCpuLimit());
 
     try {
+
       CreateContainerResponse container = dockerClient.createContainerCmd(language.getDockerImage())
           .withHostConfig(hostConfig)
           .withName("code-execution-" + containerId)
           .withWorkingDir(workingDir)
-          .withCmd("/bin/sh", "-c", language.getExecuteCommand())  
+          .withCmd("/bin/sh", "-c", language.getExecuteCommand())
           .exec();
 
       try (AutoCloseableContainer _ = new AutoCloseableContainer(container, dockerClient)) {
         dockerClient.startContainerCmd(container.getId()).exec();
-        
+
         int exitCode = waitForContainer(container.getId(), language.getDefaultTimeout());
         ContainerLogs logs = collectLogs(container.getId(), language.getDefaultTimeout());
 
