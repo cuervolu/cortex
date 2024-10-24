@@ -105,7 +105,7 @@ public class DockerExecutionService {
     }
   }
 
- 
+
   private int waitForContainer(String containerId, long timeout) {
     try {
       return dockerClient.waitContainerCmd(containerId)
@@ -125,7 +125,7 @@ public class DockerExecutionService {
       LogContainerCmd logCmd = dockerClient.logContainerCmd(containerId)
           .withStdOut(true)
           .withStdErr(true)
-          .withTail(1000); 
+          .withTail(1000);
 
       logCmd.exec(new ResultCallback.Adapter<Frame>() {
         @Override
