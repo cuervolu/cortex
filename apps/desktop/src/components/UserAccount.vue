@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue';
 import { useUserStore } from '~/stores';
 import { useRouter } from 'vue-router';
-
+import { error as logError, info } from "@tauri-apps/plugin-log";
 defineProps<{
   isCollapsed: boolean;
 }>();
@@ -27,15 +27,15 @@ const handleSignOut = async () => {
   
   isLoading.value = true;
   try {
-    // Primero limpiamos la sesión
+
     await signOut();
     clearUser();
     
-    // Después hacemos la redirección
-    await router.push('/auth/login');
+
   } catch (error) {
     console.error('Error signing out:', error);
-    // Si hay un error, intentamos la redirección de todos modos
+    await logError(`Error signing out: ${error}`);
+
     await router.push('/auth/login');
   } finally {
     isLoading.value = false;
