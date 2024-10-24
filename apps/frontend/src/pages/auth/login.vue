@@ -5,6 +5,10 @@ import LoginForm from "~/components/auth/LoginForm.vue";
 
 definePageMeta({
   layout: 'auth-default',
+  auth: {
+    unauthenticatedOnly: true,
+    navigateAuthenticatedTo: '/roadmaps'
+  },
 })
 
 const auth = useAuthStore()

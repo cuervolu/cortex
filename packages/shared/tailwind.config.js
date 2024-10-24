@@ -88,6 +88,10 @@ module.exports = {
         sans: ['Montserrat', 'sans-serif'],
         mono: ['"Source Code Pro"', 'monospace'],
       },
+      backgroundImage: {
+        'auth-background': "url('~/assets/img/auth-background.svg')",
+        'auth-background-dark': "url('~/assets/img/auth-background-dark.svg')",
+      },
     },
   },
   ignoreFiles: ['/lost+found/**/*'],
