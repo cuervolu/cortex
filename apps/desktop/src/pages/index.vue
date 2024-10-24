@@ -14,11 +14,11 @@ const userUsername = computed(() => userStore.user?.username ? `${userStore.user
     <div
         class="grow shrink basis-0 self-stretch min-w-[600px] w-full md:w-auto px-[43px] flex-col justify-center items-start gap-[27px] inline-flex">
       <div
-          class="self-stretch text-foreground text-[58px] font-semibold font-['Axiforma'] leading-[62px]">
+          class="self-stretch text-foreground text-[58px] font-semibold leading-[62px]">
         Bienvenido, {{ userUsername }}
       </div>
       <div
-          class="self-stretch text-foreground text-2xl font-light font-['Axiforma'] leading-[35px]">
+          class="self-stretch text-foreground text-2xl font-light leading-[35px]">
         Tu plataforma de aprendizaje personalizado. Explora, aprende y crece con nuestros roadmaps
         educativos.
       </div>
@@ -29,7 +29,7 @@ const userUsername = computed(() => userStore.user?.username ? `${userStore.user
               class="w-full h-[61px] px-5 py-[13px] bg-primary rounded-[14px] justify-center items-center gap-2.5 flex"
               size="lg">
             <BookOpen class="mr-2 h-5 w-5"/>
-            <div class="text-white text-lg font-medium font-['Axiforma'] leading-[35px]">Explorar
+            <div class="text-white text-lg font-medium leading-[35px]">Explorar
               Roadmaps
             </div>
           </Button>
@@ -41,14 +41,14 @@ const userUsername = computed(() => userStore.user?.username ? `${userStore.user
               class="w-full h-[61px] px-5 py-[13px] rounded-[14px] border border-border-color justify-center items-center gap-2.5 flex"
               size="lg">
             <User class="mr-2 h-5 w-5"/>
-            <div class="text-foreground text-lg font-medium font-['Axiforma'] leading-[35px]">Mi
+            <div class="text-foreground text-lg font-medium leading-[35px]">Mi
               Perfil
             </div>
           </Button>
         </NuxtLink>
       </div>
       <div
-          class="self-stretch text-muted-foreground text-base font-light font-['Axiforma'] leading-snug">
+          class="self-stretch text-muted-foreground text-base font-light leading-snug">
         ¿Listo para comenzar tu viaje? Elige un roadmap o personaliza tu perfil para obtener
         recomendaciones adaptadas a
         ti.
@@ -59,7 +59,7 @@ const userUsername = computed(() => userStore.user?.username ? `${userStore.user
             class="w-full h-[61px] px-5 py-[13px] rounded-[14px] border border-border-color justify-center items-center gap-2.5 flex"
             size="lg">
           <User class="mr-2 h-5 w-5"/>
-          <div class="text-foreground text-lg font-medium font-['Axiforma'] leading-[35px]">
+          <div class="text-foreground text-lg font-medium leading-[35px]">
             Ejercicios (DEBUG)
           </div>
         </Button>
@@ -78,12 +78,12 @@ const userUsername = computed(() => userStore.user?.username ? `${userStore.user
         <div class="self-stretch justify-start items-center gap-5 inline-flex">
           <Rocket class="mr-2 h-6 w-6 text-primary"/>
           <div
-              class="grow shrink basis-0 text-foreground text-2xl font-semibold font-['Axiforma'] leading-[30px]">
+              class="grow shrink basis-0 text-foreground text-2xl font-semibold leading-[30px]">
             Comienza tu aventura
           </div>
         </div>
         <div
-            class="self-stretch text-muted-foreground text-base font-light font-['Axiforma'] leading-snug">
+            class="self-stretch text-muted-foreground text-base font-light leading-snug">
           Cortex te guía paso a paso en tu camino de aprendizaje. Descubre nuevos temas, domina
           habilidades y alcanza
           tus metas educativas.
