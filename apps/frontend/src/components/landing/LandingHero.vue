@@ -23,7 +23,7 @@ import JavaIcon from "~/components/icons/JavaIcon.vue";
     
           <div class="space-x-4 py-10" >
         <Button class="bg-purple-900 hover:bg-purple-800 text-white px-6 rounded-full">Get started</Button>
-        <Button variant="outline" class="border-gray-200 hover:bg-gray-50 rounded-full text-purple-900">Explore Roadmaps</Button>
+        <Button variant="outline" class="bg-white border-gray-200 hover:bg-gray-50 rounded-full text-purple-900">Explore Roadmaps</Button>
       </div>
 
     <vue-icon class="icon-float absolute top-20 left-10 w-16 h-16 opacity-40" />
