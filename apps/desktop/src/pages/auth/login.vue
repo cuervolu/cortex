@@ -1,15 +1,14 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
-import { error as logError, info } from "@tauri-apps/plugin-log";
-import { useUserStore } from '~/stores'
+import {ref, onMounted} from "vue";
+import {error as logError, info, warn} from "@tauri-apps/plugin-log";
+import {useUserStore} from '~/stores'
 import LoginForm from "~/components/auth/LoginForm.vue";
-import { useCookie} from "#app";
 
 definePageMeta({
   layout: 'auth-default',
 })
 
-const { signIn, getSession } = useAuth()
+const {signIn, getSession} = useAuth()
 const userStore = useUserStore()
 const error = ref('')
 const loading = ref(false)
@@ -18,8 +17,15 @@ onMounted(async () => {
   await userStore.initStore()
   const user = await userStore.getUser()
   if (user) {
+    const authToken = await userStore.getToken();
+    if (authToken) {
+      await userStore.setToken({token: authToken})
+    } else {
+      await warn('No auth token found in store')
+    }
+
     await info(`User already logged in: ${user.username}`)
-    
+
   }
 })
 
@@ -27,7 +33,7 @@ const handleSubmit = async (credentials: { username: string; password: string })
   error.value = ''
   loading.value = true
   try {
-    const response = await signIn(credentials, { callbackUrl: '/' })
+    const response = await signIn(credentials, {callbackUrl: '/'})
     if (response?.error) {
       throw new Error(response.error)
     }
@@ -39,9 +45,9 @@ const handleSubmit = async (credentials: { username: string; password: string })
       // Obtener el token de la cookie
       const authToken = useCookie('auth.token')
       if (authToken.value) {
-        await userStore.setToken({ token: authToken.value })
+        await userStore.setToken({token: authToken.value})
       } else {
-        console.warn('No auth token found in cookie')
+        await warn('No auth token found in cookie')
       }
     }
   } catch (err) {

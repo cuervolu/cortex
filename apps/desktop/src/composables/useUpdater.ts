@@ -28,6 +28,8 @@ export function useUpdater() {
         updateVersion.value = update.version
         updateNotes.value = update.body || ''
         updateDate.value = update.date || new Date().toISOString()
+      }else{
+        await info('No updates available')
       }
       return update
     } catch (error) {

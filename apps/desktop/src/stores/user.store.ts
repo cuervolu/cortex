@@ -1,6 +1,7 @@
 import {invoke} from '@tauri-apps/api/core'
 import type {Store} from '@tauri-apps/plugin-store';
 import {load} from '@tauri-apps/plugin-store';
+import {info, error as logError} from "@tauri-apps/plugin-log";
 import {defineStore} from 'pinia'
 import {ref} from 'vue'
 import type {User} from "~/types"
@@ -57,7 +58,7 @@ function createUserStore() {
               await store.set('user', fetchedUser)
             }
           } catch (error) {
-            console.error('Failed to get user from Rust backend:', error)
+            await logError(`Failed to get user from Rust backend: ${error}`)
           }
         }
       }
@@ -77,7 +78,7 @@ function createUserStore() {
               await store.set('token', fetchedToken)
             }
           } catch (error) {
-            console.error('Failed to get token from Rust backend:', error)
+            await logError(`Failed to get user from Rust backend: ${error}`)
           }
         }
       }
@@ -85,14 +86,14 @@ function createUserStore() {
     }
 
     const clearUser = async () => {
+      await info('Clearing user data')
       user.value = null
       token.value = null
-      await store.delete('user')
-      await store.delete('token')
+      await store.clear();
       try {
         await invoke('clear_user')
       } catch (error) {
-        console.error('Failed to clear user in Rust backend:', error)
+       await logError(`Failed to clear user from Rust backend: ${error}`)
       }
     }
 
