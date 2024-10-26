@@ -38,8 +38,8 @@ services:
       - GITHUB_EXERCISES_LOCAL_PATH=/app/cortex-exercises
     volumes:
       - cortex_exercises:/app/cortex-exercises
-      - /var/run/docker.sock:/var/run/docker.sock
       - /tmp:/tmp
+      - /var/run/docker.sock:/var/run/docker.sock
 
   postgres:
     image: postgres:alpine3.19
