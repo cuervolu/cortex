@@ -48,6 +48,13 @@
     "oauth:allow-cancel",
     "oauth:allow-start",
     "updater:allow-download-and-install",
-    "updater:allow-check"
+    "updater:allow-check",
+    "stronghold:default",
+    "stronghold:allow-create-client",
+    "stronghold:allow-save-store-record",
+    "stronghold:allow-destroy",
+    "stronghold:allow-save",
+    "stronghold:allow-remove-store-record",
+    "stronghold:allow-remove-secret"
   ]
 }
