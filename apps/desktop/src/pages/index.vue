@@ -42,6 +42,17 @@ const userUsername = computed(() => userStore.user?.username ? `${userStore.user
         ¿Listo para comenzar tu viaje? Elige un roadmap o personaliza tu perfil para obtener recomendaciones adaptadas a
         ti.
       </div>
+      
+      <NuxtLink to="/exercises" class="w-full">
+        <Button
+          class="w-full h-[61px] px-5 py-[13px] bg-primary rounded-[14px] justify-center items-center gap-2.5 flex"
+          size="lg">
+          <BookOpen class="mr-2 h-5 w-5" />
+          <div class="text-white text-lg font-medium leading-[35px]">Explorar Ejercicios</div>
+        </Button>
+      </NuxtLink>
+      
+      
     </div>
 
     <!-- Sección derecha (imagen) -->

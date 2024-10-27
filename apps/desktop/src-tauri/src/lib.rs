@@ -1,9 +1,8 @@
+use common::state::AppState;
 use std::sync::Mutex;
 use tauri::Manager;
 use tauri_plugin_log::fern::colors::ColoredLevelConfig;
 use tauri_plugin_log::RotationStrategy;
-use common::state::AppState;
-
 
 fn setup_logger(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> {
     // create the log plugin as usual, but call split() instead of build()
@@ -57,6 +56,13 @@ pub fn run() {
                 user: Mutex::new(None),
                 token: Mutex::new(None),
             });
+            let salt_path = app
+                .path()
+                .app_local_data_dir()
+                .expect("could not resolve app local data path")
+                .join("salt.txt");
+
+            app.handle().plugin(tauri_plugin_stronghold::Builder::with_argon2(&salt_path).build())?;
             Ok(())
         });
 
@@ -76,8 +82,10 @@ pub fn run() {
             auth::commands::set_user,
             auth::commands::get_user,
             auth::commands::clear_user,
-            auth::commands::get_token, 
+            auth::commands::get_token,
             ai_chat::commands::send_chat_prompt,
+            ai_chat::anthropic::commands::chat_with_claude,
+            ai_chat::anthropic::commands::chat_with_history,
             education::roadmaps::commands::fetch_all_roadmaps,
             education::roadmaps::commands::fetch_roadmap_course,
             education::roadmaps::commands::get_roadmap,

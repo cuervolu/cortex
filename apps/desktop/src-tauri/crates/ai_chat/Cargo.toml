@@ -11,6 +11,7 @@ serde_json = { workspace = true }
 error = { path = "../error" }
 common = {path = "../common"}
 tauri-plugin-store = {workspace = true}
+tauri-plugin-stronghold = {workspace = true}
 tauri = { workspace = true }
 reqwest = {workspace = true}
 futures = "0.3.31"

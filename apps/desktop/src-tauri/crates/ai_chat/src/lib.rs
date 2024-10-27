@@ -1,4 +1,6 @@
 pub mod commands;
+pub mod anthropic;
+
 use futures::StreamExt;
 use log::error;
 use tauri::{Emitter, Window};

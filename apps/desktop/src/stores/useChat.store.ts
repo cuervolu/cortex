@@ -52,6 +52,15 @@ export const useChatStore = defineStore('chat', () => {
     promptError.value = error
   }
 
+  const clearChat = () => {
+    messages.value = []
+    currentStreamingMessage.value = ''
+    isStreaming.value = false
+    isSending.value = false
+    promptError.value = null
+  }
+
+
   return {
     messages,
     currentStreamingMessage,
@@ -65,5 +74,6 @@ export const useChatStore = defineStore('chat', () => {
     setIsStreaming,
     setIsSending,
     setPromptError,
+    clearChat
   }
 })

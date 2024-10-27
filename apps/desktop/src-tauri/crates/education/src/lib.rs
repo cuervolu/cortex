@@ -21,17 +21,23 @@ pub struct PaginatedResponse<T> {
 pub struct SubmissionResponse {
     pub id: u64,
     pub code: String,
-    pub language_id: u64,
-    pub stdin: String,
-    pub expected_output: String,
-    pub solution_id: u64,
+    #[serde(default)]
+    pub stdin: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub language_id: Option<u64>,
+    #[serde(default)]
+    pub expected_output: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub solution_id: Option<u64>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SolutionResponse {
     pub id: u64,
-    pub user_id: u64,
-    pub exercise_id: u64,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub user_id: Option<u64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub exercise_id: Option<u64>,
     pub status: u32,
     pub points_earned: u32,
     pub submissions: Vec<SubmissionResponse>,
