@@ -1,219 +1,83 @@
-<script setup>
-import { ref, computed } from 'vue'
+<script setup lang="ts">
 import RoadmapCard from '~/components/explore-roadmaps/RoadmapCard.vue'
-import PaginatedRoadmaps from '~/components/explore-roadmaps/RoadmapPagination.vue'
+import RoadmapCardSkeleton from '~/components/explore-roadmaps/RoadmapCardSkeleton.vue'
+import type {PaginatedRoadmaps} from "@cortex/shared/types"
+import {useRoadmaps} from "~/composables/useRoadmaps"
+import RoadmapPagination from "~/components/explore-roadmaps/RoadmapPagination.vue"
 
-const roadmaps = ref([
-    // Tus datos de roadmaps aquí...
-    {
-        id: 1,
-        title: "Frontend Frameworks: React, Vue.js & Angular",
-        image: "https://blog.facialix.com/wp-content/uploads/2024/06/curso_golang_programacion_lenguaje_udemy_gratis.jpg",
-        tags: ["Rendimiento", "Concurrencia", "Go", "Backend Development", "Intermedio"],
-        rating: 4.5,
-        reviews: 17,
-        courses: 4,
-        instructor: {
-            name: "Hamir Llanos",
-            avatar: "https://d2zp5xs5cp8zlg.cloudfront.net/image-79322-800.jpg"
-        }
-    },
-    {
-        id: 2,
-        title: "Frontend Frameworks: React, Vue.js & Angular",
-        image: "https://blog.facialix.com/wp-content/uploads/2024/06/curso_golang_programacion_lenguaje_udemy_gratis.jpg",
-        tags: ["Rendimiento", "Concurrencia", "Go", "Backend Development", "Intermedio"],
-        rating: 4.5,
-        reviews: 17,
-        courses: 4,
-        instructor: {
-            name: "Hamir Llanos",
-            avatar: "https://d2zp5xs5cp8zlg.cloudfront.net/image-79322-800.jpg"
-        }
-    },
-    {
-        id: 3,
-        title: "Frontend Frameworks: React, Vue.js & Angular",
-        image: "https://blog.facialix.com/wp-content/uploads/2024/06/curso_golang_programacion_lenguaje_udemy_gratis.jpg",
-        tags: ["Rendimiento", "Concurrencia", "Go", "Backend Development", "Intermedio"],
-        rating: 4.5,
-        reviews: 17,
-        courses: 4,
-        instructor: {
-            name: "Hamir Llanos",
-            avatar: "https://d2zp5xs5cp8zlg.cloudfront.net/image-79322-800.jpg"
-        }
-    },
-    {
-        id: 4,
-        title: "Frontend Frameworks: React, Vue.js & Angular",
-        image: "https://blog.facialix.com/wp-content/uploads/2024/06/curso_golang_programacion_lenguaje_udemy_gratis.jpg",
-        tags: ["Rendimiento", "Concurrencia", "Go", "Backend Development", "Intermedio"],
-        rating: 4.5,
-        reviews: 17,
-        courses: 4,
-        instructor: {
-            name: "Hamir Llanos",
-            avatar: "https://d2zp5xs5cp8zlg.cloudfront.net/image-79322-800.jpg"
-        }
-    },
-    {
-        id: 5,
-        title: "Frontend Frameworks: React, Vue.js & Angular",
-        image: "https://blog.facialix.com/wp-content/uploads/2024/06/curso_golang_programacion_lenguaje_udemy_gratis.jpg",
-        tags: ["Rendimiento", "Concurrencia", "Go", "Backend Development", "Intermedio"],
-        rating: 4.5,
-        reviews: 17,
-        courses: 4,
-        instructor: {
-            name: "Hamir Llanos",
-            avatar: "https://d2zp5xs5cp8zlg.cloudfront.net/image-79322-800.jpg"
-        }
-    },
-    {
-        id: 6,
-        title: "Frontend Frameworks: React, Vue.js & Angular",
-        image: "https://blog.facialix.com/wp-content/uploads/2024/06/curso_golang_programacion_lenguaje_udemy_gratis.jpg",
-        tags: ["Rendimiento", "Concurrencia", "Go", "Backend Development", "Intermedio"],
-        rating: 4.5,
-        reviews: 17,
-        courses: 4,
-        instructor: {
-            name: "Hamir Llanos",
-            avatar: "https://d2zp5xs5cp8zlg.cloudfront.net/image-79322-800.jpg"
-        }
-    },
-    {
-        id: 7,
-        title: "Frontend Frameworks: React, Vue.js & Angular",
-        image: "https://blog.facialix.com/wp-content/uploads/2024/06/curso_golang_programacion_lenguaje_udemy_gratis.jpg",
-        tags: ["Rendimiento", "Concurrencia", "Go", "Backend Development", "Intermedio"],
-        rating: 4.5,
-        reviews: 17,
-        courses: 4,
-        instructor: {
-            name: "Hamir Llanos",
-            avatar: "https://d2zp5xs5cp8zlg.cloudfront.net/image-79322-800.jpg"
-        }
-    },
-    {
-        id: 8,
-        title: "Frontend Frameworks: React, Vue.js & Angular",
-        image: "https://blog.facialix.com/wp-content/uploads/2024/06/curso_golang_programacion_lenguaje_udemy_gratis.jpg",
-        tags: ["Rendimiento", "Concurrencia", "Go", "Backend Development", "Intermedio"],
-        rating: 4.5,
-        reviews: 17,
-        courses: 4,
-        instructor: {
-            name: "Hamir Llanos",
-            avatar: "https://d2zp5xs5cp8zlg.cloudfront.net/image-79322-800.jpg"
-        }
-    },
-    {
-        id: 9,
-        title: "Frontend Frameworks: React, Vue.js & Angular",
-        image: "https://blog.facialix.com/wp-content/uploads/2024/06/curso_golang_programacion_lenguaje_udemy_gratis.jpg",
-        tags: ["Rendimiento", "Concurrencia", "Go", "Backend Development", "Intermedio"],
-        rating: 4.5,
-        reviews: 17,
-        courses: 4,
-        instructor: {
-            name: "Hamir Llanos",
-            avatar: "https://d2zp5xs5cp8zlg.cloudfront.net/image-79322-800.jpg"
-        }
-    },
-    {
-        id: 10,
-        title: "Frontend Frameworks: React, Vue.js & Angular",
-        image: "https://blog.facialix.com/wp-content/uploads/2024/06/curso_golang_programacion_lenguaje_udemy_gratis.jpg",
-        tags: ["Rendimiento", "Concurrencia", "Go", "Backend Development", "Intermedio"],
-        rating: 4.5,
-        reviews: 17,
-        courses: 4,
-        instructor: {
-            name: "Hamir Llanos",
-            avatar: "https://d2zp5xs5cp8zlg.cloudfront.net/image-79322-800.jpg"
-        }
-    },
-    {
-        id: 11,
-        title: "Frontend Frameworks: React, Vue.js & Angular",
-        image: "https://blog.facialix.com/wp-content/uploads/2024/06/curso_golang_programacion_lenguaje_udemy_gratis.jpg",
-        tags: ["Rendimiento", "Concurrencia", "Go", "Backend Development", "Intermedio"],
-        rating: 4.5,
-        reviews: 17,
-        courses: 4,
-        instructor: {
-            name: "Hamir Llanos",
-            avatar: "https://d2zp5xs5cp8zlg.cloudfront.net/image-79322-800.jpg"
-        }
-    },
-    {
-        id: 12,
-        title: "Frontend Frameworks: React, Vue.js & Angular",
-        image: "https://blog.facialix.com/wp-content/uploads/2024/06/curso_golang_programacion_lenguaje_udemy_gratis.jpg",
-        tags: ["Rendimiento", "Concurrencia", "Go", "Backend Development", "Intermedio"],
-        rating: 4.5,
-        reviews: 17,
-        courses: 4,
-        instructor: {
-            name: "Hamir Llanos",
-            avatar: "https://d2zp5xs5cp8zlg.cloudfront.net/image-79322-800.jpg"
-        }
-    },
-    {
-        id: 13,
-        title: "Frontend Frameworks: React, Vue.js & Angular",
-        image: "https://blog.facialix.com/wp-content/uploads/2024/06/curso_golang_programacion_lenguaje_udemy_gratis.jpg",
-        tags: ["Rendimiento", "Concurrencia", "Go", "Backend Development", "Intermedio"],
-        rating: 4.5,
-        reviews: 17,
-        courses: 4,
-        instructor: {
-            name: "Hamir Llanos",
-            avatar: "https://d2zp5xs5cp8zlg.cloudfront.net/image-79322-800.jpg"
-        }
-    },
-    {
-        id: 14,
-        title: "Frontend Frameworks: React, Vue.js & Angular",
-        image: "https://blog.facialix.com/wp-content/uploads/2024/06/curso_golang_programacion_lenguaje_udemy_gratis.jpg",
-        tags: ["Rendimiento", "Concurrencia", "Go", "Backend Development", "Intermedio"],
-        rating: 4.5,
-        reviews: 17,
-        courses: 4,
-        instructor: {
-            name: "Hamir Llanos",
-            avatar: "https://d2zp5xs5cp8zlg.cloudfront.net/image-79322-800.jpg"
-        }
-    },
-    {
-        id: 15,
-        title: "Frontend Frameworks: React, Vue.js & Angular",
-        image: "https://blog.facialix.com/wp-content/uploads/2024/06/curso_golang_programacion_lenguaje_udemy_gratis.jpg",
-        tags: ["Rendimiento", "Concurrencia", "Go", "Backend Development", "Intermedio"],
-        rating: 4.5,
-        reviews: 17,
-        courses: 4,
-        instructor: {
-            name: "Hamir Llanos",
-            avatar: "https://d2zp5xs5cp8zlg.cloudfront.net/image-79322-800.jpg"
-        }
-    },
+const route = useRoute()
+const router = useRouter()
 
-])
-
+const sortBy = ref(route.query.sort as string || 'recent')
+const currentPage = ref(Number(route.query.page) || 1)
 const itemsPerPage = 10
-const currentPage = ref(1)
 
+const roadmapsData = ref<PaginatedRoadmaps>({
+  content: [],
+  total_elements: 0,
+  total_pages: 1,
+  number: 0,
+  size: itemsPerPage,
+  first: true,
+  last: true
+})
+const isLoading = ref(true)
+const error = ref<string | null>(null)
 
-const paginatedRoadmaps = computed(() => {
-    const start = (currentPage.value - 1) * itemsPerPage
-    const end = start + itemsPerPage
-    return roadmaps.value.slice(start, end)
+const {fetchRoadmaps} = useRoadmaps()
+
+const loadRoadmaps = async () => {
+  isLoading.value = true
+  error.value = null
+
+  try {
+    const response = await fetchRoadmaps({
+      page: currentPage.value - 1,
+      size: itemsPerPage,
+      sort: sortBy.value
+    })
+
+    if (response.data.value) {
+      roadmapsData.value = response.data.value
+    }
+  } catch (e) {
+    error.value = 'Error al cargar los roadmaps'
+    console.error('Error loading roadmaps:', e)
+  } finally {
+    isLoading.value = false
+  }
+}
+
+onMounted(() => {
+  loadRoadmaps()
 })
 
+const handleSortChange = async (value: string) => {
+  sortBy.value = value
+  currentPage.value = 1
+  await router.push({
+    query: {
+      ...route.query,
+      sort: value,
+      page: '1'
+    }
+  })
+  await loadRoadmaps()
+}
 
+watch(
+    () => route.query,
+    async (newQuery) => {
+      const newPage = Number(newQuery.page) || 1
+      const newSort = newQuery.sort as string || 'recent'
+
+      if (currentPage.value !== newPage || sortBy.value !== newSort) {
+        currentPage.value = newPage
+        sortBy.value = newSort
+        await loadRoadmaps()
+      }
+    }
+)
 </script>
 
 <template>
