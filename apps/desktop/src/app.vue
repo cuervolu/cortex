@@ -39,6 +39,7 @@ onMounted(async () => {
 
 <template>
   <NuxtLayout>
+    <Toaster />
     <NuxtPage />
   </NuxtLayout>
 

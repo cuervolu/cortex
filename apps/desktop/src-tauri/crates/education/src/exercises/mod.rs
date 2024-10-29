@@ -1,11 +1,11 @@
 pub mod commands;
 
+use crate::{ExerciseDetails, PaginatedExercises};
+use common::state::AppState;
+use common::{API_BASE_URL, CLIENT};
+use error::AppError;
 use log::error;
 use tauri::State;
-use crate::{ExerciseDetails, PaginatedExercises};
-use error::AppError;
-use common::{API_BASE_URL, CLIENT};
-use common::state::AppState;
 
 pub async fn fetch_exercises(state: State<'_, AppState>) -> Result<PaginatedExercises, AppError> {
     let token = state.token.lock().map_err(|_| AppError::ContextLockError)?

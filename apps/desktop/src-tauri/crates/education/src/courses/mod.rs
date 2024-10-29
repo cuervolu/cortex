@@ -1,10 +1,10 @@
 pub mod commands;
 
-use tauri::State;
-use crate::{PaginatedCourses, Course};
-use error::AppError;
-use common::{API_BASE_URL, CLIENT};
+use crate::{Course, PaginatedCourses};
 use common::state::AppState;
+use common::{API_BASE_URL, CLIENT};
+use error::AppError;
+use tauri::State;
 
 pub async fn fetch_courses(state: State<'_,AppState>) -> Result<PaginatedCourses, AppError>{
     let token = state.token.lock().map_err(|_| AppError::ContextLockError)?

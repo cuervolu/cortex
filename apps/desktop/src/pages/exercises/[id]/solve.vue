@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { ref, markRaw, computed } from 'vue';
-import { useRouter } from 'vue-router';
-import { useAnthropicStore, useOllamaStore, useChatStore } from '~/stores';
-import AiChat from '@cortex/shared/components/ai/chat.vue';
+import {error as logError} from "@tauri-apps/plugin-log";
+
+import { useChatStore } from '~/stores';
+import { createExerciseContext } from '~/types';
+import AiChat from '~/components/ai/chat.vue';
 import CodeEditor from '@cortex/shared/components/CodeEditor.vue';
 import ModelSelector from '~/components/ai/ModelSelector.vue';
 import ExerciseHeader from '@cortex/shared/components/exercise/ExerciseHeader.vue';
@@ -11,13 +12,22 @@ import BotIcon from '~/components/icons/BotIcon.vue';
 import { useExercise, useCodeEditor, usePanel } from '~/composables';
 import LoadingOverlay from "~/components/LoadingOverlay.vue";
 
-const router = useRouter();
-const ollamaStore = useOllamaStore();
-const anthropicStore = useAnthropicStore();
-const chatStore = useChatStore();
-const { data } = useAuth();
 
-const selectedModel = ref('llama3:8b');
+const { data: authData } = useAuth();
+const router = useRouter();
+const chatStore = useChatStore();
+const keystore = useKeystore();
+const { data } = useAuth();
+const isMounted = ref(true);
+const selectedModel = ref('claude');
+const isLoading = ref(true);
+const providerStore = useAIProviderStore();
+const { handleError } = useErrorHandler();
+const apiKeyStatus = reactive({
+  isLoading: false,
+  error: null as string | null,
+});
+
 const {
   exercise,
   currentLesson,
@@ -33,98 +43,190 @@ const {
 const { isPanelOpen, handleSettingsClick } = usePanel();
 const { availableExtensions, availableThemes, activeExtensions, editorTheme } = useCodeEditor();
 
-const handleModelChange = async (model: { value: string, label: string }) => {
-  selectedModel.value = model.value;
-  chatStore.clearChat();
-  chatStore.addMessage({
-    sender: 'ai',
-    content: `¡Hola! Ahora estás usando ${model.label}. ¿En qué puedo ayudarte?`
-  });
-};
 
-const handleSendMessage = async (message: string) => {
-  if (!exercise.value) return;
+
+
+
+
+
+const verifyApiKey = async (providerName: string): Promise<boolean> => {
+  if (!authData.value?.id) return false;
 
   try {
-    chatStore.addMessage({
-      sender: 'user',
-      content: message
-    });
+    apiKeyStatus.isLoading = true;
+    apiKeyStatus.error = null;
 
-    if (selectedModel.value.startsWith('claude')) {
-      const context = {
-        exerciseTitle: exercise.value.title,
-        exerciseInstructions: exercise.value.instructions,
-        exerciseHints: exercise.value.hints,
-        editorContent: editorCode.value,
-        editorLanguage: currentLanguage.value
-      };
+    await keystore.initializeKeystore();
+    const apiKey = await keystore.getApiKey(providerName);
 
-      if (chatStore.messages.length > 1) {
-        await anthropicStore.sendMessageWithHistory(message, context);
-      } else {
-        await anthropicStore.sendMessage(message, context);
-      }
-    } else {
-      await ollamaStore.sendPrompt({
-        message,
-        exerciseSlug: exercise.value.slug,
-        editorContent: editorCode.value,
-        language: currentLanguage.value,
-      });
+    if (!apiKey) {
+      apiKeyStatus.error = `No API key configured for ${providerName}`;
+      return false;
     }
+    
+    providerStore.setProviderConfigured(providerName, true);
+    return true;
   } catch (error) {
-    console.error('Error sending message:', error);
-    chatStore.setPromptError(error instanceof Error ? error.message : 'Error desconocido');
+    apiKeyStatus.error = error instanceof Error ? error.message : 'Failed to verify API key';
+    providerStore.setProviderConfigured(providerName, false);
+    return false;
+  } finally {
+    apiKeyStatus.isLoading = false;
   }
 };
 
+const initializeChat = async () => {
+  if (!exercise.value || !authData.value?.id) return;
+
+  try {
+    const provider = providerStore.getProvider(selectedModel.value);
+    if (!provider) throw new Error('Invalid provider');
+    
+    await chatStore.setProvider(selectedModel.value);
+    
+    if (provider.requiresApiKey) {
+      const hasValidKey = await verifyApiKey(selectedModel.value);
+      if (!hasValidKey) {
+        selectedModel.value = 'ollama';
+        throw new Error(`${provider.name} requires API key configuration`);
+      }
+    }
+
+    const context = createExerciseContext({
+      exercise_id: exercise.value.id.toString(),
+      exercise_slug: exercise.value.slug,
+      username: authData.value.username || 'anonymous',
+      exercise_title: exercise.value.title,
+      exercise_instructions: exercise.value.instructions,
+      exercise_hints: exercise.value.hints,
+      editor_content: editorCode.value,
+      editor_language: currentLanguage.value
+    });
+
+    await chatStore.startSession(context);
+  } catch (error) {
+    await logError(`Error initializing chat: ${error}`);
+    handleError(error);
+  }
+};
+const handleSendMessage = async (message: string) => {
+  if (!exercise.value || !isMounted.value) return;
+
+  try {
+    const context = createExerciseContext({
+      exercise_id: exercise.value.id.toString(),
+      exercise_slug: exercise.value.slug,
+      username: data.value?.username || 'anonymous',
+      exercise_title: exercise.value.title,
+      exercise_instructions: exercise.value.instructions,
+      exercise_hints: exercise.value.hints,
+      editor_content: editorCode.value,
+      editor_language: currentLanguage.value
+    });
+    
+    if (chatStore.messages.length === 0) {
+      await initializeChat();
+    }
+
+    await chatStore.sendMessage(context.exercise_id, message);
+  } catch (error) {
+    if (!isMounted.value) return;
+    handleError(error);
+  }
+};
+
+const handleModelChange = async (model: { value: string, label: string }) => {
+  if (!isMounted.value || !authData.value?.id) return;
+
+  try {
+    const provider = providerStore.getProvider(model.value);
+    if (!provider) throw new Error('Invalid provider');
+    
+    await chatStore.setProvider(model.value);
+    
+    if (provider.requiresApiKey) {
+      const hasValidKey = await verifyApiKey(model.value);
+      if (!hasValidKey) {
+        throw new Error(`${model.value} requires API key configuration`);
+      }
+    }
+
+    selectedModel.value = model.value;
+    await initializeChat();
+    chatStore.clearChat();
+  } catch (error) {
+    await logError(`Error changing model: ${error}`);
+    handleError(error);
+  }
+};
+
+// Navegación
 const handleBackClick = () => {
   router.push('/exercises');
 };
 
-const isSending = computed(() =>
-    selectedModel.value.startsWith('claude')
-        ? anthropicStore.isLoading
-        : ollamaStore.isSending
-);
-
-const panelTabs = computed(() => [
-  {
-    value: 'ia-help',
-    label: 'AI Help',
-    component: markRaw(AiChat),
-    iconSrc: BotIcon,
-    props: {
-      messages: chatStore.messages,
-      isStreaming: chatStore.isStreaming,
-      currentStreamingMessage: chatStore.currentStreamingMessage,
-      avatarSrc: data.value?.avatar_url || "https://placewaifu.com/image",
-      isSending: isSending.value,
-    },
+// Computed properties para el estado del chat
+const panelTabs = computed(() => [{
+  value: 'ia-help',
+  label: 'AI Help',
+  component: markRaw(AiChat),
+  iconSrc: BotIcon,
+  props: {
+    messages: chatStore.messages,
+    isStreaming: chatStore.isStreaming,
+    currentStreamingMessage: chatStore.currentStreamingMessage,
+    avatarSrc: data.value?.avatar_url || "https://placewaifu.com/image",
+    isSending: chatStore.isSending,
   },
-]);
+}]);
 
 const defaultPanelTab = 'ia-help';
-const isLoading = ref(true);
 
 onMounted(async () => {
-  await fetchExerciseDetails();
-  // Setup listeners según el modelo seleccionado
-  if (!selectedModel.value.startsWith('claude')) {
-    await ollamaStore.setupListeners();
+  if (!isMounted.value || !authData.value?.id) return;
+
+  isLoading.value = true;
+  try {
+    // Verificar API key al montar
+    const provider = providerStore.getProvider(selectedModel.value);
+    if (provider?.requiresApiKey) {
+      const hasValidKey = await verifyApiKey(selectedModel.value);
+      if (!hasValidKey) {
+        selectedModel.value = 'ollama';
+      }
+    }
+
+    await fetchExerciseDetails();
+    await initializeChat();
+  } catch (error) {
+    await logError(`Error during component mount: ${error}`);
+    handleError(error);
+  } finally {
+    if (isMounted.value) {
+      isLoading.value = false;
+    }
   }
-  isLoading.value = false;
 });
 
 onUnmounted(() => {
-  if (!selectedModel.value.startsWith('claude')) {
-    ollamaStore.removeListeners();
-  }
+  isMounted.value = false;
+  chatStore.removeListeners();
+});
+
+onBeforeRouteLeave(() => {
+  chatStore.removeListeners();
 });
 
 watch(initialCode, (newCode) => {
-  editorCode.value = newCode;
+  if (isMounted.value) {
+    editorCode.value = newCode;
+  }
+});
+
+watch(selectedModel, async (newModel) => {
+  if (isMounted.value) {
+    await chatStore.setProvider(newModel);
+  }
 });
 </script>
 

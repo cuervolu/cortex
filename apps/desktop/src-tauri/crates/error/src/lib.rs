@@ -14,6 +14,9 @@ pub enum AppError {
     #[error("IO error: {0}")]
     Io(#[from] std::io::Error),
 
+    #[error("Invalid header value: {0}")]
+    InvalidHeader(#[from] reqwest::header::InvalidHeaderValue),
+
     #[error("Failed to execute system command")]
     CommandExecutionError(String),
 
@@ -35,11 +38,20 @@ pub enum AppError {
     #[error("No authentication token found")]
     NoTokenError,
 
-    #[error("Failed to deserialize response")]
-    DeserializationError(serde_json::Error),
+    #[error("Failed to deserialize response: {0}")]
+    DeserializationError(#[from] serde_json::Error),
 
     #[error("Unknown error")]
     Unknown(#[from] anyhow::Error),
+
+    #[error("Session not found")]
+    SessionError(String),
+
+    #[error("Provider error: {0}")]
+    ProviderError(String),
+
+    #[error("Keystore error: {0}")]
+    KeystoreError(String),
 }
 
 impl serde::Serialize for AppError {

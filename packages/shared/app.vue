@@ -3,7 +3,7 @@ import { ref, markRaw, computed } from 'vue'
 import type { Component } from 'vue'
 import { okaidia } from "@uiw/codemirror-theme-okaidia";
 import { noctisLilac } from 'thememirror';
-import Chat from "./components/ai/chat.vue";
+import Chat from "@cortex/desktop/src/components/ai/chat.vue";
 import CodeEditor from "./components/CodeEditor.vue";
 import {materialLight, materialDark} from "./themes";
 

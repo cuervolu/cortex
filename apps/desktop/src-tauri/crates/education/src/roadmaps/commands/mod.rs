@@ -1,9 +1,9 @@
+use crate::roadmaps::{fetch_course_from_roadmap, fetch_roadmaps, fetch_roadmaps_details};
 use crate::{Course, PaginatedRoadmaps, RoadmapDetails};
-use crate::roadmaps::{fetch_roadmaps, fetch_roadmaps_details, fetch_course_from_roadmap};
+use common::state::AppState;
 use error::AppError;
 use log::info;
 use tauri::State;
-use common::state::AppState;
 
 #[tauri::command]
 pub async fn fetch_all_roadmaps(state: State<'_, AppState>) -> Result<PaginatedRoadmaps, AppError> {

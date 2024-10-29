@@ -10,14 +10,14 @@ interface AIModel {
 
 const aiModels = [
   {
-    value: "claude-3-sonnet",
-    label: "Claude 3 Sonnet",
+    value: "claude", 
+    label: "Claude",
     description: "Modelo avanzado de Anthropic con excelentes capacidades de razonamiento y comprensión contextual.",
   },
   {
-    value: "llama3:8b",
-    label: "Llama 2",
-    description: "Modelo de código abierto de Meta, eficiente para la mayoría de tareas.",
+    value: "ollama",
+    label: "Ollama",
+    description: "Modelo local basado en Llama, eficiente para la mayoría de tareas.",
   }
 ]
 
