@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { Check, ChevronsUpDown } from 'lucide-vue-next'
+import {ref} from 'vue'
+import {Check, ChevronsUpDown} from 'lucide-vue-next'
 
 interface AIModel {
   value: string
@@ -10,7 +10,7 @@ interface AIModel {
 
 const aiModels = [
   {
-    value: "claude", 
+    value: "claude",
     label: "Claude",
     description: "Modelo avanzado de Anthropic con excelentes capacidades de razonamiento y comprensión contextual.",
   },
@@ -32,7 +32,7 @@ const emit = defineEmits<{
 
 const open = ref(false)
 const selectedModel = ref(aiModels.find(model => model.value === props.modelValue) || aiModels[0])
-
+const providerStore = useAIProviderStore();
 const handleSelect = (value: string) => {
   const model = aiModels.find(m => m.value === value)
   if (model) {
@@ -52,6 +52,11 @@ const filteredModels = computed(() => {
       model.description.toLowerCase().includes(query)
   )
 })
+
+const isModelDisabled = (model: AIModel) => {
+  const provider = providerStore.getProvider(model.value);
+  return provider?.requiresApiKey && !provider?.isConfigured;
+};
 </script>
 
 <template>
@@ -70,7 +75,7 @@ const filteredModels = computed(() => {
               class="w-full justify-between"
           >
             {{ selectedModel.label }}
-            <ChevronsUpDown class="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            <ChevronsUpDown class="ml-2 h-4 w-4 shrink-0 opacity-50"/>
           </Button>
         </PopoverTrigger>
 
@@ -86,16 +91,20 @@ const filteredModels = computed(() => {
                   v-for="model in filteredModels"
                   :key="model.value"
                   :value="model.value"
+                  :disabled="isModelDisabled(model)"
                   @select="handleSelect(model.value)"
               >
                 <Check
                     class="mr-2 h-4 w-4"
                     :class="{
-                      'opacity-100': selectedModel.value === model.value,
-                      'opacity-0': selectedModel.value !== model.value
-                    }"
+                    'opacity-100': selectedModel.value === model.value,
+                    'opacity-0': selectedModel.value !== model.value
+                  }"
                 />
                 {{ model.label }}
+                <span v-if="isModelDisabled(model)" class="text-sm text-muted-foreground ml-2">
+      (API Key Required)
+    </span>
               </CommandItem>
             </CommandGroup>
           </Command>

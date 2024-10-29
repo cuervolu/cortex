@@ -15,46 +15,54 @@ export const useChatStore = defineStore('chat', () => {
     isSending: false,
     error: null
   })
-  
-  const aiProviderStore = useAIProviderStore();
 
+  const aiProviderStore = useAIProviderStore();
+  const {handleError, createAppError} = useErrorHandler()
   let unlistenStream: (() => void) | null = null
   let unlistenStreamEnd: (() => void) | null = null
   let lastChunk: string = ''
 
   const setupListeners = async (providerName: string) => {
-    removeListeners();
-    lastChunk = '';
+    try {
+      removeListeners()
+      lastChunk = ''
 
-    const streamEvent = `${providerName}-stream`;
-    const streamEndEvent = `${providerName}-stream-end`;
+      const streamEvent = `${providerName}-stream`
+      const streamEndEvent = `${providerName}-stream-end`
 
-    unlistenStream = await listen<string>(streamEvent, (event) => {
-      state.isStreaming = true;
-      const chunk = event.payload;
+      unlistenStream = await listen<string>(streamEvent, (event) => {
+        state.isStreaming = true
+        const chunk = event.payload
 
-      if (chunk !== lastChunk) {
-        state.currentStreamingMessage += chunk;
-        lastChunk = chunk;
-      }
-    });
+        if (chunk !== lastChunk) {
+          state.currentStreamingMessage += chunk
+          lastChunk = chunk
+        }
+      })
 
-    unlistenStreamEnd = await listen(streamEndEvent, () => {
-      if (state.currentStreamingMessage) {
-        state.messages.push({
-          sender: 'ai',
-          content: state.currentStreamingMessage,
-          timestamp: new Date().toISOString()
-        });
-      }
-      state.currentStreamingMessage = '';
-      state.isStreaming = false;
-      state.isSending = false;
-      lastChunk = '';
-    });
+      unlistenStreamEnd = await listen(streamEndEvent, () => {
+        if (state.currentStreamingMessage) {
+          state.messages.push({
+            sender: 'ai',
+            content: state.currentStreamingMessage,
+            timestamp: new Date().toISOString()
+          })
+        }
+        state.currentStreamingMessage = ''
+        state.isStreaming = false
+        state.isSending = false
+        lastChunk = ''
+      })
 
-    await info(`Set up listeners for ${providerName}: ${streamEvent}, ${streamEndEvent}`);
-  };
+      await info(`Set up listeners for ${providerName}: ${streamEvent}, ${streamEndEvent}`)
+    } catch (error) {
+      await handleError(error, {
+        statusCode: 500,
+        data: {provider: providerName},
+        fatal: false
+      })
+    }
+  }
 
 
   const removeListeners = () => {
@@ -70,75 +78,89 @@ export const useChatStore = defineStore('chat', () => {
 
 
   const setProvider = async (providerName: string) => {
-    try {
-      if (!providerName) {
-        throw new Error('Invalid provider name');
-      }
-
-      const provider = aiProviderStore.getProvider(providerName);
-      if (!provider) {
-        throw new Error(`Unknown provider: ${providerName}`);
-      }
-
-      await debug(`Setting up provider: ${providerName}`);
-
-      // Si el proveedor requiere API key, verificamos su configuración
-      if (provider.requiresApiKey) {
-        try {
-          // Verificar y obtener la API key
-          await aiProviderStore.checkProviderConfiguration(providerName);
-          if (!provider.isConfigured) {
-            throw new Error('Provider not configured');
-          }
-          await invoke('set_provider', {providerName: providerName});
-
-        } catch (error) {
-          await debug(`Error configuring provider: ${error}`);
-          aiProviderStore.setProviderConfigured(providerName, false);
-          throw new Error('Provider requires API key configuration');
-        }
-      } else {
-        // Para proveedores que no requieren API key
-        await invoke('set_provider', {providerName: providerName});
-      }
-
-      state.provider.name = providerName;
-      state.provider.requiresApiKey = provider.requiresApiKey;
-      await setupListeners(providerName);
-
-      await debug(`Provider ${providerName} set up successfully`);
-
-    } catch (error) {
-      state.error = error instanceof Error ? error.message : 'Failed to set provider';
-      throw error;
+    if (!providerName) {
+      throw createAppError('Invalid provider name', {
+        statusCode: 400,
+        silent: true // Evitar múltiples notificaciones para errores de validación
+      })
     }
-  };
+
+    const provider = aiProviderStore.getProvider(providerName)
+    if (!provider) {
+      throw createAppError(`Unknown provider: ${providerName}`, {
+        statusCode: 404,
+        data: {providerName},
+        silent: true
+      })
+    }
+
+    await debug(`Setting up provider: ${providerName}`)
+
+    if (provider.requiresApiKey) {
+      try {
+        await aiProviderStore.checkProviderConfiguration(providerName)
+        if (!provider.isConfigured) {
+          throw createAppError('Provider not configured', {
+            statusCode: 401,
+            data: {provider: providerName}
+          })
+        }
+        await invoke('set_provider', {providerName})
+      } catch (error) {
+        await debug(`Error configuring provider: ${error}`)
+        await aiProviderStore.setProviderConfigured(providerName, false)
+        throw createAppError('Provider requires API key configuration', {
+          statusCode: 401,
+          cause: error,
+          silent: true
+        })
+      }
+    } else {
+      await invoke('set_provider', {providerName})
+    }
+
+    state.provider.name = providerName
+    state.provider.requiresApiKey = provider.requiresApiKey
+    await setupListeners(providerName)
+
+    await debug(`Provider ${providerName} set up successfully`)
+  }
 
   const sendMessage = async (exerciseId: string, content: string) => {
     try {
-      state.isSending = true
-      state.isStreaming = true
-      state.error = null
-      state.currentStreamingMessage = '' // Clear last streaming message
+      if (state.provider.requiresApiKey) {
+        const provider = aiProviderStore.getProvider(state.provider.name);
+        if (!provider?.isConfigured) {
+          throw createAppError(`${state.provider.name} requires API key configuration`, {
+            statusCode: 401,
+            silent: true
+          });
+        }
+      }
 
-      // Add user message to chat
+      state.isSending = true;
+      state.isStreaming = true;
+      state.error = null;
+      state.currentStreamingMessage = '';
+
       state.messages.push({
         sender: 'user',
         content,
         timestamp: new Date().toISOString()
-      })
+      });
 
       await invoke('send_message', {
         exerciseId,
         message: content
-      })
+      });
     } catch (error) {
-      state.isStreaming = false
-      state.isSending = false
-      state.error = error instanceof Error ? error.message : 'Failed to send message'
-      throw error
+      state.isStreaming = false;
+      state.isSending = false;
+      throw error; 
     }
-  }
+  };
+
+
 
   const startSession = async (context: ExerciseContext) => {
     try {
@@ -147,8 +169,10 @@ export const useChatStore = defineStore('chat', () => {
       state.currentStreamingMessage = ''
       state.error = null
     } catch (error) {
-      state.error = error instanceof Error ? error.message : 'Failed to start session'
-      throw error
+      await handleError(error, {
+        statusCode: 500,
+        data: {exerciseId: context.exercise_id},
+      })
     }
   }
 
@@ -159,8 +183,10 @@ export const useChatStore = defineStore('chat', () => {
       state.currentStreamingMessage = ''
       removeListeners()
     } catch (error) {
-      state.error = error instanceof Error ? error.message : 'Failed to end session'
-      throw error
+      await handleError(error, {
+        statusCode: 500,
+        data: {exerciseId}
+      })
     }
   }
 

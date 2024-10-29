@@ -1,28 +1,31 @@
 <script setup lang="ts">
-import {error as logError} from "@tauri-apps/plugin-log";
+import {debug, error as logError} from "@tauri-apps/plugin-log";
 
-import { useChatStore } from '~/stores';
-import { createExerciseContext } from '~/types';
+import {useChatStore} from '~/stores';
+import {createExerciseContext} from '~/types';
 import AiChat from '~/components/ai/chat.vue';
 import CodeEditor from '@cortex/shared/components/CodeEditor.vue';
 import ModelSelector from '~/components/ai/ModelSelector.vue';
 import ExerciseHeader from '@cortex/shared/components/exercise/ExerciseHeader.vue';
 import ExercisePanel from '@cortex/shared/components/exercise/ExercisePanel.vue';
 import BotIcon from '~/components/icons/BotIcon.vue';
-import { useExercise, useCodeEditor, usePanel } from '~/composables';
+import {useExercise, useCodeEditor, usePanel} from '~/composables';
 import LoadingOverlay from "~/components/LoadingOverlay.vue";
+import {useToast} from "@cortex/shared/components/ui/toast";
 
-
-const { data: authData } = useAuth();
+const isErrorInProgress = ref(false);
+const {data: authData} = useAuth();
 const router = useRouter();
 const chatStore = useChatStore();
 const keystore = useKeystore();
-const { data } = useAuth();
+const {data} = useAuth();
 const isMounted = ref(true);
 const selectedModel = ref('claude');
 const isLoading = ref(true);
+const isChangingProvider = ref(false);
 const providerStore = useAIProviderStore();
-const { handleError } = useErrorHandler();
+const {handleError} = useErrorHandler();
+const { toast } = useToast();
 const apiKeyStatus = reactive({
   isLoading: false,
   error: null as string | null,
@@ -40,14 +43,8 @@ const {
   handleCodeChange,
 } = useExercise();
 
-const { isPanelOpen, handleSettingsClick } = usePanel();
-const { availableExtensions, availableThemes, activeExtensions, editorTheme } = useCodeEditor();
-
-
-
-
-
-
+const {isPanelOpen, handleSettingsClick} = usePanel();
+const {availableExtensions, availableThemes, activeExtensions, editorTheme} = useCodeEditor();
 
 const verifyApiKey = async (providerName: string): Promise<boolean> => {
   if (!authData.value?.id) return false;
@@ -63,12 +60,12 @@ const verifyApiKey = async (providerName: string): Promise<boolean> => {
       apiKeyStatus.error = `No API key configured for ${providerName}`;
       return false;
     }
-    
-    providerStore.setProviderConfigured(providerName, true);
+
+    await providerStore.setProviderConfigured(providerName, true);
     return true;
   } catch (error) {
     apiKeyStatus.error = error instanceof Error ? error.message : 'Failed to verify API key';
-    providerStore.setProviderConfigured(providerName, false);
+    await providerStore.setProviderConfigured(providerName, false);
     return false;
   } finally {
     apiKeyStatus.isLoading = false;
@@ -81,9 +78,9 @@ const initializeChat = async () => {
   try {
     const provider = providerStore.getProvider(selectedModel.value);
     if (!provider) throw new Error('Invalid provider');
-    
+
     await chatStore.setProvider(selectedModel.value);
-    
+
     if (provider.requiresApiKey) {
       const hasValidKey = await verifyApiKey(selectedModel.value);
       if (!hasValidKey) {
@@ -106,7 +103,7 @@ const initializeChat = async () => {
     await chatStore.startSession(context);
   } catch (error) {
     await logError(`Error initializing chat: ${error}`);
-    handleError(error);
+    await handleError(error);
   }
 };
 const handleSendMessage = async (message: string) => {
@@ -123,7 +120,7 @@ const handleSendMessage = async (message: string) => {
       editor_content: editorCode.value,
       editor_language: currentLanguage.value
     });
-    
+
     if (chatStore.messages.length === 0) {
       await initializeChat();
     }
@@ -131,41 +128,63 @@ const handleSendMessage = async (message: string) => {
     await chatStore.sendMessage(context.exercise_id, message);
   } catch (error) {
     if (!isMounted.value) return;
-    handleError(error);
+    await handleError(error);
   }
 };
 
 const handleModelChange = async (model: { value: string, label: string }) => {
-  if (!isMounted.value || !authData.value?.id) return;
-
+  if (!isMounted.value || !authData.value?.id || isChangingProvider.value) return;
+  const previousModel = selectedModel.value;
   try {
+    isChangingProvider.value = true;
+    const previousModel = selectedModel.value;
+    
     const provider = providerStore.getProvider(model.value);
-    if (!provider) throw new Error('Invalid provider');
-    
-    await chatStore.setProvider(model.value);
-    
+    if (!provider) return;
+
     if (provider.requiresApiKey) {
-      const hasValidKey = await verifyApiKey(model.value);
-      if (!hasValidKey) {
-        throw new Error(`${model.value} requires API key configuration`);
+      const hasKey = await verifyApiKey(model.value);
+      if (!hasKey) {
+        selectedModel.value = previousModel;
+        chatStore.clearChat(); 
+        
+        toast({
+          title: "API Key Required",
+          description: `Please configure API key for ${model.value} in settings`,
+          variant: "default",
+        });
+        return;
       }
     }
 
     selectedModel.value = model.value;
-    await initializeChat();
+    await chatStore.setProvider(model.value);
+
+    // Solo iniciar sesión si el proveedor está configurado correctamente
+    if (!provider.requiresApiKey || (provider.requiresApiKey && provider.isConfigured)) {
+      await initializeChat();
+    }
+
     chatStore.clearChat();
   } catch (error) {
-    await logError(`Error changing model: ${error}`);
-    handleError(error);
+    await handleError(error, {
+      statusCode: 401,
+      silent: true,
+      data: {
+        action: 'model_change',
+        provider: model.value
+      }
+    });
+    selectedModel.value = previousModel;
+  } finally {
+    isChangingProvider.value = false;
   }
 };
 
-// Navegación
 const handleBackClick = () => {
   router.push('/exercises');
 };
 
-// Computed properties para el estado del chat
 const panelTabs = computed(() => [{
   value: 'ia-help',
   label: 'AI Help',
@@ -187,7 +206,6 @@ onMounted(async () => {
 
   isLoading.value = true;
   try {
-    // Verificar API key al montar
     const provider = providerStore.getProvider(selectedModel.value);
     if (provider?.requiresApiKey) {
       const hasValidKey = await verifyApiKey(selectedModel.value);
@@ -200,7 +218,7 @@ onMounted(async () => {
     await initializeChat();
   } catch (error) {
     await logError(`Error during component mount: ${error}`);
-    handleError(error);
+    await handleError(error);
   } finally {
     if (isMounted.value) {
       isLoading.value = false;
@@ -210,10 +228,11 @@ onMounted(async () => {
 
 onUnmounted(() => {
   isMounted.value = false;
+  isErrorInProgress.value = false;
   chatStore.removeListeners();
 });
-
 onBeforeRouteLeave(() => {
+  isErrorInProgress.value = false;
   chatStore.removeListeners();
 });
 
@@ -224,8 +243,15 @@ watch(initialCode, (newCode) => {
 });
 
 watch(selectedModel, async (newModel) => {
-  if (isMounted.value) {
-    await chatStore.setProvider(newModel);
+  if (isMounted.value && !isErrorInProgress.value) {
+    try {
+      isErrorInProgress.value = true;
+      await chatStore.setProvider(newModel);
+    } catch (error) {
+      await debug(`Error changing model: ${error}`);
+    } finally {
+      isErrorInProgress.value = false;
+    }
   }
 });
 </script>
@@ -262,6 +288,7 @@ watch(selectedModel, async (newModel) => {
         <div class="flex flex-col h-full">
           <ModelSelector
               v-model="selectedModel"
+              :disabled="isChangingProvider"
               @change="handleModelChange"
           />
           <ExercisePanel

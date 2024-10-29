@@ -1,104 +1,109 @@
-import { invoke } from '@tauri-apps/api/core';
-import { debug, error as logError } from '@tauri-apps/plugin-log';
+import {invoke} from '@tauri-apps/api/core';
 
-// Variable para mantener el estado de inicialización
-let isInitialized = false;
+interface KeystoreState {
+  initialized: boolean;
+  hasKey: boolean;
+}
+
+const state: KeystoreState = {
+  initialized: false,
+  hasKey: false
+};
 
 export const useKeystore = () => {
-  const { data: authData } = useAuth();
+  const {data: authData} = useAuth();
+  const {handleError, createAppError} = useErrorHandler();
 
   const initializeKeystore = async () => {
-    if (isInitialized) {
-      await debug('Keystore already initialized');
+    if (state.initialized) {
       return;
     }
 
     if (!authData.value?.id) {
-      throw new Error('User not authenticated');
+      return;
     }
 
     try {
-      await debug('Initializing keystore');
       await invoke('set_provider_api_key', {
         providerName: 'init',
         apiKey: null,
         userId: authData.value.id
       });
-      isInitialized = true;
-      await debug('Keystore initialized successfully');
-    } catch (error) {
-      // Si el error es "No API key configured", consideramos que la inicialización fue exitosa
-      if (String(error).includes('No API key configured')) {
-        isInitialized = true;
-        await debug('Keystore initialized with default state');
-        return;
-      }
-      await logError(`Error initializing keystore: ${error}`);
-      isInitialized = false;
-      throw error;
+      state.initialized = true;
+    } catch {
+      // Silenciosamente inicializamos el estado
+      state.initialized = true;
     }
   };
 
-  const getApiKey = async (provider: string) => {
+  const getApiKey = async (provider: string): Promise<string | null> => {
+    if (!state.initialized) {
+      await initializeKeystore();
+    }
+
     try {
-      if (!isInitialized) {
-        await initializeKeystore();
-      }
-      return await invoke<string>('get_provider_api_key', {
+      const key = await invoke<string>('get_provider_api_key', {
         providerName: provider
       });
-    } catch (error) {
-      if (String(error).includes('No API key configured')) {
-        await debug(`No API key configured for provider ${provider}`);
-        return null;
-      }
-      await logError(`Error getting API key: ${error}`);
-      throw error;
+      state.hasKey = true;
+      return key;
+    } catch {
+      // Si no hay key, simplemente retornamos null sin error
+      return null;
     }
   };
 
   const setApiKey = async (provider: string, key: string) => {
-    try {
-      if (!authData.value?.id) {
-        throw new Error('User not authenticated');
-      }
+    if (!authData.value?.id) {
+      throw createAppError('User not authenticated', {
+        statusCode: 401,
+        data: {
+          action: 'set_api_key',
+          provider
+        }
+      });
+    }
 
-      if (!isInitialized) {
-        await initializeKeystore();
-      }
-      
+    if (!state.initialized) {
+      await initializeKeystore();
+    }
+
+    try {
       await invoke('set_provider_api_key', {
         providerName: provider,
         apiKey: key,
         userId: authData.value.id
       });
-      await debug('API key set successfully');
+      state.hasKey = true;
     } catch (error) {
-      await logError(`Error setting API key: ${error}`);
-      throw error;
+      throw await handleError(error, {
+        statusCode: 500,
+        data: {
+          action: 'set_api_key',
+          provider,
+          userId: authData.value?.id
+        }
+      });
     }
   };
 
   const removeApiKey = async () => {
+    if (!state.initialized) {
+      await initializeKeystore();
+    }
+
     try {
-      if (!isInitialized) {
-        await initializeKeystore();
-      }
       await invoke('remove_provider_api_key');
-      await debug('API key removed successfully');
-    } catch (error) {
-      // Si no hay clave para eliminar, no consideramos que sea un error
-      if (String(error).includes('No API key to remove')) {
-        await debug('No API key to remove');
-        return;
-      }
-      await logError(`Error removing API key: ${error}`);
-      throw error;
+      state.hasKey = false;
+    } catch {
+      // Si no hay key que remover, simplemente lo ignoramos
+      state.hasKey = false;
     }
   };
 
   const resetKeystore = () => {
-    isInitialized = false;
+    state.initialized = false;
+    state.hasKey = false;
   };
 
   return {
@@ -107,6 +112,7 @@ export const useKeystore = () => {
     setApiKey,
     removeApiKey,
     resetKeystore,
-    isInitialized: () => isInitialized
+    isInitialized: () => state.initialized,
+    hasApiKey: () => state.hasKey
   };
 };
