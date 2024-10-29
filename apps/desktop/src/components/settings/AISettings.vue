@@ -1,126 +1,114 @@
 <script setup lang="ts">
-import {debug, error as logError} from "@tauri-apps/plugin-log";
-import {AlertCircle, CheckCircle2, Loader2, Lock, Trash2} from 'lucide-vue-next'
+import {debug} from "@tauri-apps/plugin-log";
+import {CheckCircle2, Loader2, Lock, Trash2, Eye, EyeOff} from 'lucide-vue-next'
 import {useAIProviderStore} from '~/stores/ai-provider.store'
 import {useChatStore} from '~/stores/'
 
-interface Notification {
-  show: boolean
-  message: string
-  type: 'error' | 'success'
-}
-
 const apiKey = ref('')
+const showApiKey = ref(false)
 const currentProvider = ref('claude')
-const notification = ref<Notification>({
-  show: false,
-  message: '',
-  type: 'success'
-})
 
-const {data: authData} = useAuth();
-const keystore = useKeystore();
+const keystore = useKeystore()
 const providerStore = useAIProviderStore()
 const chatStore = useChatStore()
+const {createAppError} = useErrorHandler()
+
+const isLoading = ref(true)
 const isSaving = ref(false)
 const isRemoving = ref(false)
 
-const showNotification = (message: string, type: 'success' | 'error') => {
-  notification.value = {
-    show: true,
-    message,
-    type
-  }
-
-  setTimeout(() => {
-    if (notification.value.message === message) {
-      notification.value.show = false
-    }
-  }, 5000)
-}
-
 const validateApiKey = (provider: string, key: string): boolean => {
   if (!key.trim()) {
-    showNotification('API key cannot be empty', 'error')
-    return false
+    throw createAppError('API key cannot be empty', {
+      statusCode: 400,
+      data: { provider }
+    })
   }
 
-  switch (provider) {
-    case 'claude':
-      if (!key.startsWith('sk-')) {
-        showNotification('Invalid API key format. Claude API keys should start with "sk-"', 'error')
-        return false
-      }
-      break
+  if (provider === 'claude' && !key.startsWith('sk-')) {
+    throw createAppError('Invalid API key format. Claude API keys should start with "sk-"', {
+      statusCode: 400,
+      data: { provider }
+    })
   }
 
   return true
 }
 
+const loadCurrentApiKey = async () => {
+  try {
+    isLoading.value = true
+    const key = await keystore.getApiKey(currentProvider.value)
+    if (key) {
+      apiKey.value = key
+      await providerStore.setProviderConfigured(currentProvider.value, true)
+    }
+  } catch (error) {
+    await debug(`Error loading API key: ${error}`)
+    await debug(`No existing API key found for ${currentProvider.value}`)
+  } finally {
+    isLoading.value = false
+  }
+}
+
 const handleProviderChange = async (providerName: string) => {
   try {
     currentProvider.value = providerName
-    const provider = providerStore.getProvider(providerName)
+    apiKey.value = ''
+    showApiKey.value = false
+    isLoading.value = true
 
-    if (!provider) return
-    
+    const provider = providerStore.getProvider(providerName)
+    if (!provider) {
+      throw createAppError(`Provider ${providerName} not found`, {
+        statusCode: 404,
+        data: { providerName }
+      })
+    }
+
     if (!provider.requiresApiKey) {
       isSaving.value = true
       await chatStore.setProvider(providerName)
       provider.isConfigured = true
-      showNotification(`${provider.name} configured successfully`, 'success')
     } else {
+      await loadCurrentApiKey()
       await chatStore.setProvider(providerName)
     }
-  } catch (error) {
-    showNotification(
-        error instanceof Error ? error.message : `Failed to configure provider`,
-        'error'
-    )
   } finally {
+    isLoading.value = false
     isSaving.value = false
   }
 }
 
 const saveApiKey = async () => {
-  const provider = providerStore.getProvider(currentProvider.value);
-  if (!provider) return;
+  const provider = providerStore.getProvider(currentProvider.value)
+  if (!provider) return
 
-  if (!validateApiKey(currentProvider.value, apiKey.value)) return;
+  validateApiKey(currentProvider.value, apiKey.value)
 
-  isSaving.value = true;
+  isSaving.value = true
   try {
-    // Primero configurar el proveedor
-    await chatStore.setProvider(currentProvider.value);
-
-    // Luego guardar la API key
-    await keystore.setApiKey(currentProvider.value, apiKey.value);
-    providerStore.setProviderConfigured(currentProvider.value, true);
-    apiKey.value = '';
-    showNotification('API key saved successfully', 'success');
-  } catch (error) {
-    providerStore.setProviderConfigured(currentProvider.value, false);
-    showNotification('Failed to save API key', 'error');
+    await chatStore.setProvider(currentProvider.value)
+    await keystore.setApiKey(currentProvider.value, apiKey.value)
+    await providerStore.setProviderConfigured(currentProvider.value, true)
   } finally {
-    isSaving.value = false;
+    isSaving.value = false
   }
-};
+}
 
 const removeApiKey = async () => {
-  const provider = providerStore.getProvider(currentProvider.value);
-  if (!provider) return;
+  const provider = providerStore.getProvider(currentProvider.value)
+  if (!provider) return
 
-  isRemoving.value = true;
+  isRemoving.value = true
   try {
-    await keystore.removeApiKey();
-    providerStore.setProviderConfigured(currentProvider.value, false);
-    showNotification(`${provider.name} removed successfully`, 'success');
-  } catch (error) {
-    showNotification('Failed to remove configuration', 'error');
+    await keystore.removeApiKey()
+    await providerStore.setProviderConfigured(currentProvider.value, false)
+    apiKey.value = ''
   } finally {
-    isRemoving.value = false;
+    isRemoving.value = false
   }
-};
+}
 
 const handleKeyDown = (event: KeyboardEvent) => {
   if (event.key === 'Enter' && !isSaving.value && !isRemoving.value) {
@@ -141,12 +129,16 @@ const isProviderConfigured = computed(() => currentProviderDetails.value.isConfi
 const currentProviderName = computed(() => currentProviderDetails.value.name)
 
 onMounted(async () => {
-  const provider = providerStore.getProvider(currentProvider.value);
+  const provider = providerStore.getProvider(currentProvider.value)
   if (provider) {
-    await providerStore.checkProviderConfiguration(currentProvider.value);
+    await providerStore.checkProviderConfiguration(currentProvider.value)
+    if (provider.requiresApiKey) {
+      await loadCurrentApiKey()
+    }
   }
-});
+})
 </script>
+
 <template>
   <div class="w-full max-w-4xl mx-auto p-6">
     <Card class="border-primary/20">
@@ -189,31 +181,41 @@ onMounted(async () => {
               :value="name"
               class="border rounded-lg p-6 shadow-sm"
           >
-            <div class="space-y-6">
-              <!-- Usar currentProviderDetails para determinar qué mostrar -->
+            <div v-if="isLoading" class="flex justify-center p-4">
+              <Loader2 class="h-6 w-6 animate-spin"/>
+            </div>
+            <div v-else class="space-y-6">
               <template v-if="currentProviderDetails.requiresApiKey">
                 <div class="space-y-4">
-                  <!-- Input de API Key -->
                   <div class="space-y-2">
                     <Label :for="`${name}-api-key`" class="text-lg font-medium">
                       {{ currentProviderName }} API Key
                     </Label>
-                    <Input
-                        :id="`${name}-api-key`"
-                        v-model="apiKey"
-                        type="password"
-                        class="font-mono"
-                        :placeholder="`Enter your ${currentProviderName} API key`"
-                        :disabled="isSaving || isRemoving"
-                        @keydown="handleKeyDown"
-                    />
+                    <div class="relative">
+                      <Input
+                          :id="`${name}-api-key`"
+                          v-model="apiKey"
+                          :type="showApiKey ? 'text' : 'password'"
+                          class="font-mono pr-10"
+                          :placeholder="`Enter your ${currentProviderName} API key`"
+                          :disabled="isSaving || isRemoving"
+                          @keydown="handleKeyDown"
+                      />
+                      <Button
+                          variant="ghost"
+                          size="icon"
+                          class="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
+                          @click="showApiKey = !showApiKey"
+                      >
+                        <component :is="showApiKey ? EyeOff : Eye" class="h-4 w-4"/>
+                      </Button>
+                    </div>
                     <p class="text-sm text-muted-foreground flex items-center">
                       <Lock class="w-4 h-4 mr-2"/>
                       Your API key will be securely encrypted and stored locally
                     </p>
                   </div>
 
-                  <!-- Botones -->
                   <div class="flex space-x-4">
                     <Button
                         class="min-w-[120px]"
@@ -246,7 +248,6 @@ onMounted(async () => {
                 </div>
               </template>
 
-              <!-- Provider sin API Key -->
               <template v-else>
                 <Alert class="bg-success/10 border-success/20">
                   <CheckCircle2 class="h-5 w-5 text-success"/>
@@ -262,25 +263,6 @@ onMounted(async () => {
           </TabsContent>
         </Tabs>
       </CardContent>
-
-      <CardFooter>
-        <TransitionGroup name="fade">
-          <Alert
-              v-if="notification.show"
-              :variant="notification.type === 'error' ? 'destructive' : 'default'"
-              class="w-full"
-          >
-            <component
-                :is="notification.type === 'error' ? AlertCircle : CheckCircle2"
-                class="h-5 w-5"
-            />
-            <AlertTitle class="font-medium">
-              {{ notification.type === 'error' ? 'Error' : 'Success' }}
-            </AlertTitle>
-            <AlertDescription>{{ notification.message }}</AlertDescription>
-          </Alert>
-        </TransitionGroup>
-      </CardFooter>
     </Card>
   </div>
 </template>
