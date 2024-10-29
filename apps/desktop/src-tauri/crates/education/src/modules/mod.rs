@@ -1,10 +1,10 @@
 pub mod commands;
 
-use tauri::State;
-use common::{API_BASE_URL, CLIENT};
 use crate::PaginatedModules;
-use error::AppError;
 use common::state::AppState;
+use common::{API_BASE_URL, CLIENT};
+use error::AppError;
+use tauri::State;
 
 pub async fn fetch_modules(state: State<'_, AppState>) -> Result<PaginatedModules, AppError> {
     let token = state.token.lock().map_err(|_| AppError::ContextLockError)?

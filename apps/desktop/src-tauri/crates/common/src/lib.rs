@@ -1,5 +1,5 @@
-use std::sync::LazyLock;
 use reqwest::Client;
+use std::sync::LazyLock;
 
 pub mod state;
 

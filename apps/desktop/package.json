@@ -5,7 +5,7 @@
   "scripts": {
     "build": "tauri build",
     "debug": "tauri build -d -b appimage",
-    "dev": "cross-env RUST_BACKTRACE=1 RUST_LOG=info tauri dev",
+    "dev": "cross-env RUST_BACKTRACE=1 RUST_LOG=debug tauri dev",
     "nuxt:build": "nuxt build",
     "nuxt:dev": "nuxt dev",
     "generate": "nuxt generate",
@@ -31,7 +31,6 @@
     "@tauri-apps/plugin-process": "2.0.0",
     "@tauri-apps/plugin-shell": "2.0.1",
     "@tauri-apps/plugin-store": "2.1.0",
-    "@tauri-apps/plugin-stronghold": "^2.0.0",
     "@tauri-apps/plugin-updater": "2.0.0",
     "@tauri-apps/plugin-window-state": "2.0.0",
     "autoprefixer": "^10.4.20"

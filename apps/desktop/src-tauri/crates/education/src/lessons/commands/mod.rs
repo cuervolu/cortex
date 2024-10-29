@@ -1,9 +1,9 @@
-use log::info;
-use tauri::State;
 use crate::lessons::{fetch_lesson_details, fetch_lessons};
 use crate::PaginatedLessons;
-use error::AppError;
 use common::state::AppState;
+use error::AppError;
+use log::info;
+use tauri::State;
 
 #[tauri::command]
 pub async fn fetch_all_lessons(state: State<'_, AppState>) -> Result<PaginatedLessons, AppError> {

@@ -11,8 +11,12 @@ serde_json = { workspace = true }
 error = { path = "../error" }
 common = {path = "../common"}
 tauri-plugin-store = {workspace = true}
-tauri-plugin-stronghold = {workspace = true}
 tauri = { workspace = true }
 reqwest = {workspace = true}
+tokio = {workspace = true}
+tokio-stream = "0.1.16"
 futures = "0.3.31"
 bytes = "1.7.2"
+async-trait = "0.1.83"
+chrono = { version = "0.4.38", features = ["serde"] }
+keyring = { version = "3", features = ["apple-native", "windows-native", "sync-secret-service"] }

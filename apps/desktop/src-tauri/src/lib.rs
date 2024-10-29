@@ -1,4 +1,7 @@
+use ai_chat::keystore::manager::KeystoreManager;
+use ai_chat::session::manager::AISessionManager;
 use common::state::AppState;
+use std::sync::Arc;
 use std::sync::Mutex;
 use tauri::Manager;
 use tauri_plugin_log::fern::colors::ColoredLevelConfig;
@@ -10,12 +13,15 @@ fn setup_logger(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> 
         .max_file_size(1024 * 1024 * 10) // 10 MB
         .rotation_strategy(RotationStrategy::KeepAll) // keep all logs in the log directory
         .timezone_strategy(tauri_plugin_log::TimezoneStrategy::UseLocal)
-        .level(log::LevelFilter::Info)
         .with_colors(ColoredLevelConfig::default())
         .level_for("tauri", log::LevelFilter::Warn)
         .level_for("wry", log::LevelFilter::Warn)
+        .level_for("hyper", log::LevelFilter::Warn)
+        .level_for("hyper::proto", log::LevelFilter::Warn)
+        .level_for("hyper_util::client::legacy", log::LevelFilter::Warn)
+        .level_for(" devtools_core", log::LevelFilter::Warn)
         .level_for("tracing", log::LevelFilter::Warn)
-        .level_for("cortex_lib", log::LevelFilter::Debug)
+        .level_for("cortex_lib", log::LevelFilter::Trace)
         .split(app.handle())?;
 
     // on debug builds, set up the DevTools plugin and pipe the logger from tauri-plugin-log
@@ -48,21 +54,23 @@ async fn close_splashscreen_show_main(app_handle: tauri::AppHandle) -> Result<()
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    let builder = tauri::Builder::default()
-        .plugin(tauri_plugin_store::Builder::new().build())
-        .setup(|app| {
+    let builder =
+        tauri::Builder::default().plugin(tauri_plugin_store::Builder::new().build()).setup(|app| {
             setup_logger(app)?;
+
+            // Initialize AppState
             app.manage(AppState {
                 user: Mutex::new(None),
                 token: Mutex::new(None),
             });
-            let salt_path = app
-                .path()
-                .app_local_data_dir()
-                .expect("could not resolve app local data path")
-                .join("salt.txt");
 
-            app.handle().plugin(tauri_plugin_stronghold::Builder::with_argon2(&salt_path).build())?;
+            let keystore_manager = Arc::new(KeystoreManager::new());
+            app.manage(keystore_manager.clone());
+
+            let window = app.get_webview_window("main").expect("main window not found");
+            let session_manager = Arc::new(AISessionManager::new(window)?);
+            app.manage(session_manager);
+
             Ok(())
         });
 
@@ -79,13 +87,12 @@ pub fn run() {
         .plugin(tauri_plugin_fs::init())
         .invoke_handler(tauri::generate_handler![
             close_splashscreen_show_main,
+            // Auth commands
             auth::commands::set_user,
             auth::commands::get_user,
             auth::commands::clear_user,
             auth::commands::get_token,
-            ai_chat::commands::send_chat_prompt,
-            ai_chat::anthropic::commands::chat_with_claude,
-            ai_chat::anthropic::commands::chat_with_history,
+            // Education commands
             education::roadmaps::commands::fetch_all_roadmaps,
             education::roadmaps::commands::fetch_roadmap_course,
             education::roadmaps::commands::get_roadmap,
@@ -97,6 +104,14 @@ pub fn run() {
             education::lessons::commands::get_lesson,
             education::modules::commands::fetch_all_modules,
             education::modules::commands::get_module,
+            // AI Chat commands
+            ai_chat::commands::start_exercise_session,
+            ai_chat::commands::send_message,
+            ai_chat::commands::end_exercise_session,
+            ai_chat::commands::set_provider,
+            ai_chat::commands::set_provider_api_key,
+            ai_chat::commands::get_provider_api_key,
+            ai_chat::commands::remove_provider_api_key,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
