@@ -38,7 +38,8 @@ export default defineNuxtConfig({
     },
   },
   plugins: [
-    '~/plugins/auth-sync.ts'
+    '~/plugins/auth-sync.ts',
+    '~/plugins/error-handler.ts',
   ],
   srcDir: 'src',
   extends: ['@cortex/shared'],

@@ -1,7 +1,6 @@
-import { check } from '@tauri-apps/plugin-updater'
-import { relaunch } from '@tauri-apps/plugin-process'
-import {info, error as logError} from "@tauri-apps/plugin-log";
-
+import {check, type Update, type DownloadEvent} from '@tauri-apps/plugin-updater'
+import {relaunch} from '@tauri-apps/plugin-process'
+import {info} from "@tauri-apps/plugin-log"
 
 export interface UpdateProgress {
   downloaded: number
@@ -9,73 +8,135 @@ export interface UpdateProgress {
 }
 
 export function useUpdater() {
-  const isUpdateAvailable = ref(false)
-  const updateVersion = ref('')
-  const updateNotes = ref('')
-  const updateDate = ref('')
-  const isUpdating = ref(false)
-  const progress = ref<UpdateProgress>({
-    downloaded: 0,
-    total: null
+  const {handleError, createAppError} = useErrorHandler()
+
+  const state = reactive({
+    isUpdateAvailable: false,
+    updateVersion: '',
+    updateNotes: '',
+    updateDate: '',
+    isUpdating: false,
+    progress: {
+      downloaded: 0,
+      total: null as number | null
+    }
   })
+
+  const validateUpdate = (update: Update): void => {
+    if (!update?.version) {
+      throw createAppError('Invalid update information received', {
+        statusCode: 400,
+        data: {update}
+      })
+    }
+  }
 
   const checkForUpdates = async () => {
     try {
+      await info('Checking for updates...')
       const update = await check()
+
       if (update) {
+        validateUpdate(update)
+
         await info(`Update available: ${update.version}`)
-        isUpdateAvailable.value = true
-        updateVersion.value = update.version
-        updateNotes.value = update.body || ''
-        updateDate.value = update.date || new Date().toISOString()
-      }else{
-        await info('No updates available')
+        state.isUpdateAvailable = true
+        state.updateVersion = update.version
+        state.updateNotes = update.body || ''
+        state.updateDate = update.date || new Date().toISOString()
+
+        return update
       }
-      return update
-    } catch (error) {
-     await logError(`Error checking for updates: ${error}`)
+
+      await info('No updates available')
+      state.isUpdateAvailable = false
       return null
+
+    } catch (error) {
+      throw await handleError(error, {
+        statusCode: 503,
+        data: {
+          action: 'check_updates',
+          currentState: state
+        },
+        notify: true
+      })
+    }
+  }
+
+  const resetProgress = () => {
+    state.progress = {
+      downloaded: 0,
+      total: null
+    }
+  }
+
+  const handleDownloadProgress = (progress: DownloadEvent) => {
+    switch (progress.event) {
+      case 'Started':
+        state.progress.total = progress.data.contentLength || null
+        break
+      case 'Progress':
+        if (progress.data.chunkLength) {
+          state.progress.downloaded += progress.data.chunkLength
+        }
+        break
+      case 'Finished':
+        state.isUpdating = false
+        break
+      default:
+        throw createAppError(`Unknown download event: ${progress}`, {
+          statusCode: 500,
+          data: {progress}
+        })
     }
   }
 
   const installUpdate = async () => {
     try {
       const update = await check()
-      if (!update) return
+
+      if (!update) {
+        throw createAppError('No update available to install', {
+          statusCode: 404,
+          data: {action: 'install_update'}
+        })
+      }
+
+      validateUpdate(update)
+
       await info(`Installing update: ${update.version}`)
+      state.isUpdating = true
+      resetProgress()
 
-      isUpdating.value = true
-      progress.value = { downloaded: 0, total: null }
+      await update.downloadAndInstall(handleDownloadProgress)
 
-      await update.downloadAndInstall((event) => {
-        switch (event.event) {
-          case 'Started':
-            progress.value.total = event.data.contentLength || null
-            break
-          case 'Progress':
-            progress.value.downloaded += event.data.chunkLength
-            break
-          case 'Finished':
-            isUpdating.value = false
-            break
-        }
-      })
-
-      await info('Update installed, relaunching app...')
+      await info('Update installed successfully, relaunching application...')
       await relaunch()
+
     } catch (error) {
-      await logError(`Error installing update: ${error}`)
-      isUpdating.value = false
+      state.isUpdating = false
+      resetProgress()
+
+      throw await handleError(error, {
+        statusCode: 500,
+        data: {
+          action: 'install_update',
+          updateVersion: state.updateVersion,
+          progress: state.progress
+        },
+        notify: true
+      })
     }
   }
 
   return {
-    isUpdateAvailable,
-    updateVersion,
-    updateNotes,
-    updateDate,
-    isUpdating,
-    progress,
+    isUpdateAvailable: computed(() => state.isUpdateAvailable),
+    updateVersion: computed(() => state.updateVersion),
+    updateNotes: computed(() => state.updateNotes),
+    updateDate: computed(() => state.updateDate),
+    isUpdating: computed(() => state.isUpdating),
+    progress: computed(() => state.progress),
     checkForUpdates,
     installUpdate
   }
