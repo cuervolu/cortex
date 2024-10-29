@@ -10,10 +10,10 @@ import JavaIcon from "~/components/icons/JavaIcon.vue";
 </script>
 
 <template>
-  <section class="relative py-20 px-4 text-center min-h-screen overflow-hidden bg-gradient-to-b from-blue-50/50 to-transparent">
-    <div class="max-w-3xl mx-auto bg-teal-50 rounded-3xl shadow-md p-8 relative z-10 border-x-emerald-300">
-      <h1 class="text-4xl font-light mb-6">
-        A <span class="text-purple-900 font-medium">unique</span> approach to learning Computer Science
+  <section class="relative py-20 px-4 text-center min-h-screen overflow-hidden text-foreground">
+    <div class="max-w-3xl mx-auto bg-muted rounded-lg shadow-lg p-8 relative z-2">
+      <h1 class="text-4xl mb-4">
+        A <span class="font-bold">unique</span> approach to learning Computer Science
       </h1>
       <p class="text-gray-600 mb-8 leading-relaxed font-8">
         Learn at your own pace with unlimited access, available anytime on both the website and
