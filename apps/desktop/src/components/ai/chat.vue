@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { Send } from "lucide-vue-next";
-import { ref, nextTick, watchEffect } from "vue";
-import { type Message } from "../../composables";
+import type { Message } from "~/types";
 import { parseMarkdown } from '@nuxtjs/mdc/runtime';
 
 interface Props {
@@ -26,20 +25,18 @@ const emit = defineEmits<{
   (e: 'send-message', message: string): void;
 }>();
 
+
 const userMessage = ref('');
-const renderedMessages = ref<Message[]>([]);
+const renderedMessages = ref<(Message & { parsedContent?: any })[]>([]);
 const renderedStreamingContent = ref<any>(null);
 
-// Process and parse markdown for messages
+// Procesar y renderizar mensajes existentes
 watchEffect(async () => {
   renderedMessages.value = await Promise.all(props.messages.map(async (message) => {
     if (message.sender === 'ai') {
       try {
         const parsed = await parseMarkdown(message.content);
-        return {
-          ...message,
-          parsedContent: parsed
-        };
+        return { ...message, parsedContent: parsed };
       } catch (error) {
         console.error('Failed to parse markdown:', error);
       }
@@ -48,7 +45,6 @@ watchEffect(async () => {
   }));
 });
 
-// Process streaming message separately
 watchEffect(async () => {
   if (props.isStreaming && props.currentStreamingMessage) {
     try {
@@ -67,9 +63,7 @@ const sendMessage = async () => {
   if (!message || props.isSending || props.isStreaming) return;
 
   emit('send-message', message);
-  nextTick(() => {
-    userMessage.value = '';
-  });
+  userMessage.value = '';
 };
 
 const handleKeydown = (event: KeyboardEvent) => {
@@ -147,21 +141,35 @@ const handleKeydown = (event: KeyboardEvent) => {
         </div>
       </div>
 
-      <!-- Streaming Message -->
-      <div v-if="isStreaming" class="flex justify-center py-2 sm:py-3">
+
+      <!-- Indicador de Escritura -->
+      <div v-if="isStreaming && !currentStreamingMessage" class="flex justify-center py-2 sm:py-3">
         <Card class="w-full mx-auto">
-          <CardHeader v-if="streamingMessage">
-            <span>{{ streamingMessage }}</span>
-          </CardHeader>
+          <CardContent class="flex items-center space-x-2 py-4">
+            <span class="text-sm text-muted-foreground">{{ streamingMessage }}</span>
+            <div class="flex space-x-1">
+              <div class="w-2 h-2 bg-primary rounded-full animate-bounce [animation-delay:-0.3s]"/>
+              <div class="w-2 h-2 bg-primary rounded-full animate-bounce [animation-delay:-0.15s]"/>
+              <div class="w-2 h-2 bg-primary rounded-full animate-bounce"/>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+
+
+      <!-- Streaming Message -->
+      <div v-if="isStreaming && currentStreamingMessage" class="flex justify-center py-2 sm:py-3">
+        <Card class="w-full mx-auto">
           <CardContent class="overflow-x-auto">
             <div
-              v-if="renderedStreamingContent"
-              class="prose dark:prose-invert max-w-none py-5"
+                v-if="renderedStreamingContent"
+                class="prose dark:prose-invert max-w-none py-5"
             >
               <MDCRenderer
-                :data="renderedStreamingContent.data"
-                :body="renderedStreamingContent.body"
-                class="text-xs sm:text-sm text-foreground break-words"
+                  :data="renderedStreamingContent.data"
+                  :body="renderedStreamingContent.body"
+                  class="text-xs sm:text-sm text-foreground break-words"
               />
             </div>
             <p v-else class="text-xs sm:text-sm text-foreground break-words py-5">
@@ -171,6 +179,7 @@ const handleKeydown = (event: KeyboardEvent) => {
         </Card>
       </div>
     </div>
+
 
     <!-- Input Area -->
     <div class="flex items-center justify-between px-3 sm:px-6 py-2 bg-primary rounded-full shadow mt-4">
@@ -224,5 +233,18 @@ const handleKeydown = (event: KeyboardEvent) => {
 
 .dark .prose code {
   background-color: rgba(255, 255, 255, 0.1);
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.animate-bounce {
+  animation: bounce 0.6s infinite;
 }
 </style>
