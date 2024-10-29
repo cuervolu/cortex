@@ -42,6 +42,7 @@
     "@uiw/codemirror-extensions-zebra-stripes": "^4.23.5",
     "@uiw/codemirror-theme-dracula": "^4.23.5",
     "@uiw/codemirror-theme-okaidia": "^4.23.5",
+    "@vueuse/core": "^11.1.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "radix-vue": "^1.9.7",
