@@ -217,7 +217,7 @@ const paginatedRoadmaps = computed(() => {
 </script>
 
 <template>
-    <main class="flex overflow-hidden flex-col flex-1 shrink p-2.5 basis-0 min-w-[240px] max-md:max-w-full">
+    <section class="flex overflow-hidden flex-col flex-1 shrink p-2.5 basis-0 min-w-[240px] max-md:max-w-full">
         <header class="flex flex-wrap gap-10 justify-between items-center w-full max-md:max-w-full">
             <h1 class="self-stretch my-auto text-xl font-medium">{{ roadmaps.length }} Roadmaps</h1>
             <Select>
@@ -249,5 +249,5 @@ const paginatedRoadmaps = computed(() => {
         </section>
 
         <PaginatedRoadmaps />
-    </main>
+    </section>
 </template>
