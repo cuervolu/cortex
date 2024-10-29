@@ -6,4 +6,5 @@ export const API_ROUTES = {
   REGISTER: `${API_BASE_URL}/auth/register`,
   OAUTH_BASE: `${API_BASE_URL}/oauth2/authorization`,
   ACTIVATE_ACCOUNT: `${API_BASE_URL}/auth/activate-account`,
+  ROADMAPS: `${API_BASE_URL}/education/roadmap`,
 }
