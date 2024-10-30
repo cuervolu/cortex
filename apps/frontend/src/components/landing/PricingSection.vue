@@ -3,51 +3,51 @@
 const isMonthly = ref(true);
 
 const plans = [
-  {
-    title: 'Basic Plan',
+{
+    title: 'Plan Básico',
     price: '$0',
-    period: 'Free per month',
+    period: 'Gratis',
     features: [
-      { text: 'Access to basic courses' },
-      { text: 'Limited projects' },
-      { text: 'Discussion forum' },
-      { text: 'No personalized mentorships' },
-      { text: 'Basic learning resources' },
-      { text: 'Self-directed learning' },
+      { text: 'Acceso a cursos básicos' },
+      { text: 'Proyectos limitados' },
+      { text: 'Foro de discusión' },
+      { text: 'Sin mentorías personalizadas' },
+      { text: 'Recursos de aprendizaje básicos' },
+      { text: 'Aprendizaje autodirigido' },
     ],
-    buttonText: 'Current Plan',
+    buttonText: 'Plan Actual',
   },
   {
-    title: 'Standard Plan',
+    title: 'Plan Estándar',
     price: '$30',
-    period: 'per editor/month',
-    subPeriod: 'billed monthly',
+    period: 'por editor/mes',
+    subPeriod: 'facturado mensualmente',
     features: [
-      { text: 'Access to all courses' },
-      { text: 'Limited mentorships' },
-      { text: 'Access to collaborative projects' },
-      { text: 'Optional extra credits' },
-      { text: 'Access to advanced forums' },
-      { text: 'Guided and personalized learning' },
+      { text: 'Acceso a todos los cursos' },
+      { text: 'Mentorías limitadas' },
+      { text: 'Acceso a proyectos colaborativos' },
+      { text: 'Créditos extra opcionales' },
+      { text: 'Acceso a foros avanzados' },
+      { text: 'Aprendizaje guiado y personalizado' },
     ],
-    buttonText: 'Choose Plan',
+    buttonText: 'Elegir Plan',
     highlighted: true,
-    tag: 'Most Popular',
+    tag: 'Más Popular',
   },
   {
-    title: 'Pro Plan',
+    title: 'Plan Pro',
     price: '$60',
-    period: 'per editor/month',
-    subPeriod: 'billed monthly',
+    period: 'por editor/mes',
+    subPeriod: 'facturado mensualmente',
     features: [
-      { text: 'Full access to all courses and exclusive resources' },
-      { text: 'Unlimited mentorships' },
-      { text: 'Priority in collaborative projects' },
-      { text: 'Additional credits' },
-      { text: 'Access to advanced content and premium tools' },
-      { text: 'Priority support' },
+      { text: 'Acceso completo a todos los cursos y recursos exclusivos' },
+      { text: 'Mentorías ilimitadas' },
+      { text: 'Prioridad en proyectos colaborativos' },
+      { text: 'Créditos adicionales' },
+      { text: 'Acceso a contenido avanzado y herramientas premium' },
+      { text: 'Soporte prioritario' },
     ],
-    buttonText: 'Choose Plan',
+    buttonText: 'Elegir Plan',
   },
 ];
 </script>
@@ -57,21 +57,21 @@ const plans = [
     <div class="flex flex-col items-center justify-center gap-[97px] px-[65px] py-[53px] relative max-w-[1200px] w-full">
       <div class="flex flex-col items-center gap-4 relative self-stretch w-full flex-[0_0_auto]">
         <div class="relative w-fit mt-[-1.00px] font-bold  text-[40px] text-center tracking-[0.80px] leading-normal">
-          Purchase a subscription
+          Compra una suscripción
         </div>
         <p class="relative w-fit font-normal  text-xl text-center tracking-[0.40px] leading-normal">
-          Choose the plan that works for you.
+          Escoje el plan que mejor te convenga
         </p>
       </div>
       <div class="flex max-w-[355px] items-center gap-[9px] p-[4.5px] self-stretch w-full bg-[#ebeff0] rounded-[112.45px] justify-center relative flex-[0_0_auto]">
         <button :class="['flex w-[168.67px] items-center justify-center gap-[4.5px] p-[11.24px] relative ml-[-0.17px] rounded-[112.45px]', isMonthly ? 'bg-[#1d2127] text-white' : 'text-[#1d2127]']" @click="isMonthly = true">
           <div class="relative flex-1 mt-[-1.12px] font-bold text-lg text-center tracking-[0.36px] leading-normal">
-            Monthly
+            Mensual
           </div>
         </button>
         <button :class="['flex w-[168.67px] items-baseline justify-center gap-[4.5px] p-[11.24px] relative mr-[-0.17px] rounded-[112.45px]', !isMonthly ? 'bg-[#1d2127] text-white' : 'text-[#1d2127]']" @click="isMonthly = false">
           <div class="relative w-fit mt-[-1.12px] font-normal text-lg text-center tracking-[0.36px] leading-normal">
-            Yearly
+            Anual
           </div>
           <div class="relative w-fit font-normal text-[13.5px] text-center tracking-[0.27px] leading-normal">
             -20% off

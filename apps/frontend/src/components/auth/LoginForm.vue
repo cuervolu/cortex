@@ -41,10 +41,10 @@ const handleLogin = (provider: 'github' | 'google') => {
   <Card class="w-full p-[29px] gap-[15px] rounded-[14.5px] card-login-form dark:card-login-form flex flex-col flex-grow">
     <CardHeader class="self-stretch flex-col items-center justify-start flex p-0">
       <CardTitle class="grow shrink basis-0 text-[28.88px] font-semibold text-[#181b32] dark:text-[#E1E0E0] text-center">
-        Sign In
+        Inicia sesión
       </CardTitle>
       <CardDescription class="grow shrink basis-0 inline-flex text-[16.85px] text-[#5e4a6e] dark:text-[#BEBEBE] text-center">
-        Log in with a provider or with email
+        Iniciar sesión con proovedor o correo
       </CardDescription>
     </CardHeader>
     <CardContent class="self-stretch flex-col items-start justify-start flex gap-[19.26px] p-0">
@@ -64,7 +64,7 @@ const handleLogin = (provider: 'github' | 'google') => {
         <Separator class="grow shrink basis-0 h-[1.20px] border-[#381653] dark:bg-[#F9CF87]"></Separator>
         <div class="px-[9.63px] flex-col justify-start items-start gap-3 inline-flex">
           <div class="self-stretch justify-center items-center gap-3 inline-flex">
-            <div class="text-[#5e4a6e] dark:text-[#BEBEBE] text-sm font-normal">OR CONTINUE WITH</div>
+            <div class="text-[#5e4a6e] dark:text-[#BEBEBE] text-sm font-normal">O CONTINUA CON</div>
           </div>
         </div>
         <Separator class="grow shrink basis-0 h-[1.20px] bg-[#381653] dark:bg-[#F9CF87]"></Separator>
@@ -73,31 +73,31 @@ const handleLogin = (provider: 'github' | 'google') => {
       <form class="self-stretch flex-col gap-[19.26px] inline-flex text-foreground" @submit.prevent="onSubmit">
         <FormField v-slot="{ componentField }" name="username">
           <FormItem>
-            <FormLabel class="text-[#181B32] dark:text-[#E1E0E0] font-medium text-[16.85px]" >Username</FormLabel>
+            <FormLabel class="text-[#181B32] dark:text-[#E1E0E0] font-medium text-[16.85px]" >Usuario</FormLabel>
             <FormControl class="bg-[#FFFFFF] border-[#E4E4E7]">
-              <Input type="text" placeholder="Username" autocomplete="username" v-bind="componentField" class="placeholder:text-[#A0A0A0] text-[#181B32]"/>
+              <Input type="text" placeholder="Usuario" autocomplete="username" v-bind="componentField" class="placeholder:text-[#A0A0A0] text-[#181B32]"/>
             </FormControl>
             <FormMessage />
           </FormItem>
         </FormField>
         <FormField v-slot="{ componentField }" name="password">
           <FormItem>
-            <FormLabel class="text-[#181B32] dark:text-[#E1E0E0] font-medium text-[16.85px]">Password</FormLabel>
+            <FormLabel class="text-[#181B32] dark:text-[#E1E0E0] font-medium text-[16.85px]">Contraseña</FormLabel>
             <FormControl class="bg-[#FFFFFF] border-[#E4E4E7]">
-              <Input type="password" placeholder="Password" autocomplete="current-password" v-bind="componentField" class="placeholder:text-[#A0A0A0] text-[#181B32]"/>
+              <Input type="password" placeholder="Contraseña" autocomplete="current-password" v-bind="componentField" class="placeholder:text-[#A0A0A0] text-[#181B32]"/>
             </FormControl>
             <FormMessage />
           </FormItem>
         </FormField>
         <Button type="submit" class="w-full text-white text-[16.85px] mt-[10px]" :disabled="props.loading">
           <Loader2 v-if="props.loading" class="mr-2 h-4 w-4 animate-spin" />
-          Sign in
+          Iniciar sesión
         </Button>
       </form>
     </CardContent>
     <CardFooter class="flex justify-center items-center w-full p-0">
       <a href="#" class="self-stretch text-[#5e4a6e] dark:text-[#BEBEBE] text-[16.85px] font-medium">
-          Forgot password?
+        Olvidaste tu contraseña?
         </a>
     </CardFooter>
   </Card>

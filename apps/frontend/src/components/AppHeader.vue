@@ -81,17 +81,17 @@ import { navigationMenuTriggerStyle } from "@cortex/shared/components/ui/navigat
         </NavigationMenuItem>
         <NavigationMenuItem>
           <LazyNavigationMenuLink as-child :class="navigationMenuTriggerStyle()" class="bg-transparent font-medium text-[16px]">
-            <a href="/about">About </a>
+            <a href="/about">Acerca </a>
           </LazyNavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <LazyNavigationMenuLink as-child :class="navigationMenuTriggerStyle()" class="bg-transparent font-medium text-[16px]">
-            <a href="/mentors">Mentors</a>
+            <a href="/mentors">Mentores</a>
           </LazyNavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <LazyNavigationMenuLink as-child :class="navigationMenuTriggerStyle()" class="bg-transparent font-medium text-[16px]">
-            <a href="/plans">Plans</a>
+            <a href="/plans">Planes</a>
           </LazyNavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>

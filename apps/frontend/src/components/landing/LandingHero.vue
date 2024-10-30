@@ -13,17 +13,16 @@ import JavaIcon from "~/components/icons/JavaIcon.vue";
   <section class="relative py-20 px-4 text-center min-h-screen overflow-hidden text-foreground">
     <div class="max-w-3xl mx-auto bg-muted rounded-lg shadow-lg p-8 relative z-2">
       <h1 class="text-4xl mb-4">
-        A <span class="font-bold">unique</span> approach to learning Computer Science
+        Un enfoque <span class="font-bold">único</span> para aprender Ciencias de la Computación
       </h1>
       <p class="text-gray-600 mb-8 leading-relaxed font-8">
-        Learn at your own pace with unlimited access, available anytime on both the website and
-        desktop. Revisit the material whenever you need, with no time restrictions.
+        Aprende a tu propio ritmo con acceso ilimitado, disponible en cualquier momento tanto en el sitio web como en el escritorio. Revisa el material cuando lo necesites, sin restricciones de tiempo.
       </p>
     </div>
     
           <div class="space-x-4 py-10" >
-        <Button class="bg-purple-900 hover:bg-purple-800 text-white px-6 rounded-full">Get started</Button>
-        <Button variant="outline" class="bg-white border-gray-200 hover:bg-gray-50 rounded-full text-purple-900">Explore Roadmaps</Button>
+        <Button class="bg-purple-900 hover:bg-purple-800 text-white px-6 rounded-full">Empieza aqui</Button>
+        <Button variant="outline" class="bg-white border-gray-200 hover:bg-gray-50 rounded-full text-purple-900">Explorar Roadmaps</Button>
       </div>
 
     <vue-icon class="icon-float absolute top-20 left-10 w-16 h-16 opacity-40" />
