@@ -39,7 +39,7 @@ const roadmaps = ref([
       </CardContent>
     </Card>
     <Button class="w-full" as-child>
-      <NuxtLink to="/roadmap">
+      <NuxtLink to="/home/cuervolu/Proyectos/capstone/apps/desktop/src/pages/roadmaps">
       View all roadmaps
       </NuxtLink>
       <ChevronRight class="ml-2 h-4 w-4"/>

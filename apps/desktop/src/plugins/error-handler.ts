@@ -7,14 +7,11 @@ export default defineNuxtPlugin((nuxtApp) => {
 
     await handleError(error, {
       fatal: isFatal,
-      notify: isFatal // If fatal, show system notification
     })
   }
 
   window.addEventListener('unhandledrejection', async (event) => {
     const {handleError} = useErrorHandler()
-    await handleError(event.reason, {
-      notify: true // Show system notification for unhandled rejections
-    })
+    await handleError(event.reason)
   })
 })
