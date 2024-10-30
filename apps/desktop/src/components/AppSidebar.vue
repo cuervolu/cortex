@@ -19,7 +19,7 @@ const selectedButton = ref('Dashboard');
 const navigationButtons = [
   {name: 'Dashboard', icon: DashboardIcon, route: '/'},
   {name: 'Analytics', icon: CubeIcon, route: '/analytics'},
-  {name: 'Roadmaps', icon: RoadmapIcon, route: '/roadmap'},
+  {name: 'Roadmaps', icon: RoadmapIcon, route: '/roadmaps'},
   {name: 'Courses', icon: CourseIcon, route: '/courses'},
   {name: 'Support', icon: SupportIcon, route: '/settings'},
 ];
