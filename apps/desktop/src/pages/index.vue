@@ -20,7 +20,7 @@ const userUsername = computed(() => userStore.user?.username ? `${userStore.user
       </div>
       <div class="self-stretch justify-start items-center gap-[18px] inline-flex w-full">
         <!-- Botón 'Explorar Roadmaps' -->
-        <NuxtLink to="/roadmap" class="w-full">
+        <NuxtLink to="/roadmaps" class="w-full">
           <Button
             class="w-full h-[61px] px-5 py-[13px] bg-primary rounded-[14px] justify-center items-center gap-2.5 flex"
             size="lg">
