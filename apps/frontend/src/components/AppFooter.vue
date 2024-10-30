@@ -12,9 +12,9 @@ import SocialIcons from "~/components/icons/SocialIcons.vue";
           <CompanyInfo />
           <nav
             class="flex flex-wrap flex-1 shrink gap-40 justify-between items-start basis-0 min-w-[240px] max-md:max-w-full">
-            <FooterSection title="Company" :items="['Careers', 'Teachers', 'Support', 'Contact']" />
-            <FooterSection title="Product" :items="['Courses', 'Pricing', 'Blog']" />
-            <FooterSection title="Legal" :items="['Terms & Conditions', 'Privacy policy']" />
+            <FooterSection title="Compañía" :items="['Empleos', 'Profesores', 'Soporte', 'Contacto']" />
+            <FooterSection title="Producto" :items="['Cursos', 'Precios', 'Blog']" />
+            <FooterSection title="Legal" :items="['Términos y Condiciones', 'Política de privacidad']" />
             <SocialIcons />
           </nav>
         </div>
