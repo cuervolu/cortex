@@ -22,10 +22,10 @@ const userInitials = computed(() => {
         <AvatarFallback>{{ userInitials }}</AvatarFallback>
       </Avatar>
       <div>
-        <h1 class="text-3xl font-bold mb-2">Welcome back, {{ user.first_name }}</h1>
+        <h1 class="text-3xl font-bold mb-2">Bienvenido de vuelta, {{ user.first_name }}</h1>
         <p class="text-purple-200">
-          Learn at your own pace with unlimited access, available anytime on both the website
-          and desktop. Revisit the material whenever you need, with no time restrictions.
+          Aprende a tu propio ritmo con acceso ilimitado, disponible en cualquier momento tanto en el sitio web
+          como en el escritorio. Revisa el material cuando lo necesites, sin restricciones de tiempo.
         </p>
       </div>
     </CardContent>

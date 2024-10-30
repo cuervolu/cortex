@@ -24,7 +24,7 @@ const roadmaps = ref([
 
 <template>
   <div class="space-y-8">
-    <h2 class="text-2xl font-bold">My Roadmaps</h2>
+    <h2 class="text-2xl font-bold">Mis Roadmaps</h2>
     <Card v-for="roadmap in roadmaps" :key="roadmap.title">
       <CardHeader class="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle class="text-sm font-medium">
@@ -40,7 +40,7 @@ const roadmaps = ref([
     </Card>
     <Button class="w-full" as-child>
       <NuxtLink to="/home/cuervolu/Proyectos/capstone/apps/desktop/src/pages/roadmaps">
-      View all roadmaps
+      Ver todos los roadmaps
       </NuxtLink>
       <ChevronRight class="ml-2 h-4 w-4"/>
     </Button>

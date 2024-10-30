@@ -43,8 +43,7 @@ onMounted(async () => {
 
 <template>
   <div class="self-stretch h-[128px] p-2.5 flex-col justify-start items-start flex">
-    <div class="w-[121px] h-[25px] text-[#f4f8f7]/80 text-xs font-semibold tracking-tight">USER
-      ACCOUNT
+    <div class="w-[121px] h-[25px] text-[#f4f8f7]/80 text-xs font-semibold tracking-tight">Cuenta de usuario
     </div>
     <div class="self-stretch justify-between items-center inline-flex">
       <div class="flex items-center">
