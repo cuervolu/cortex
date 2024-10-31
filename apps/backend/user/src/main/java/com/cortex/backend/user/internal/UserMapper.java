@@ -21,6 +21,7 @@ public interface UserMapper {
   @Mapping(target = "accountLocked", source = "accountLocked")
   @Mapping(target = "createdAt", source = "createdAt")
   @Mapping(target = "updatedAt", source = "updatedAt")
+  @Mapping(target = "hasPassword", expression = "java(user.getPassword() != null && !user.getPassword().isEmpty())")
   UserResponse toUserResponse(User user);
 
   @Named("mediaToUrl")

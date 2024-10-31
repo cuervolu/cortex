@@ -50,4 +50,7 @@ public class UserResponse {
 
   @JsonProperty("updated_at")
   private LocalDate updatedAt;
+  
+  @JsonProperty("has_password")
+  private boolean hasPassword;
 }
