@@ -2,17 +2,13 @@ package com.cortex.backend.core.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,8 +16,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "subscriptions",
-    indexes = @Index(name = "subscriptions_index_0", columnList = "user_id, plan_id"))
+@Table(name = "subscription")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -33,30 +28,49 @@ public class Subscription {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "user_id", nullable = false)
-  private User user;
+  @Column(name = "lemon_squeezy_id", nullable = false, unique = true)
+  private String lemonSqueezyId;
+
+  @Column(name = "order_id", nullable = false)
+  private Long orderId;
+
+  @Column(nullable = false)
+  private String name;
+
+  @Column(nullable = false)
+  private String email;
+
+  @Column(nullable = false)
+  private String status;
+
+  @Column(name = "status_formatted", nullable = false)
+  private String statusFormatted;
+
+  @Column(name = "renews_at")
+  private String renewsAt;
+
+  @Column(name = "ends_at")
+  private String endsAt;
+
+  @Column(name = "trial_ends_at")
+  private String trialEndsAt;
+
+  @Column(nullable = false)
+  private String price;
+
+  @Column(name = "is_usage_based")
+  private boolean isUsageBased;
+
+  @Column(name = "is_paused")
+  private boolean isPaused;
+
+  @Column(name = "subscription_item_id")
+  private Long subscriptionItemId;
+
+  @Column(name = "user_id", nullable = false)
+  private String userId;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "plan_id", nullable = false)
-  private SubscriptionPlan plan;
-
-  @Enumerated(EnumType.STRING)
-  @Column(nullable = false)
-  private SubscriptionStatus status;
-
-  @Column(name = "start_date", nullable = false)
-  private LocalDate startDate;
-
-  @Column(name = "next_billing_date")
-  private LocalDate nextBillingDate;
-
-  @Column(name = "lemon_squeezy_subscription_id")
-  private String lemonSqueezySubscriptionId;
-
-  @Column(name = "created_at", nullable = false)
-  private LocalDate createdAt;
-
-  @Column(name = "updated_at")
-  private LocalDate updatedAt;
+  private Plan plan;
 }

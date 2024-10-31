@@ -21,6 +21,8 @@ import static com.cortex.backend.core.common.BusinessErrorCodes.INVALID_TOKEN;
 import static com.cortex.backend.core.common.BusinessErrorCodes.INVALID_URI;
 import static com.cortex.backend.core.common.BusinessErrorCodes.NEW_PASSWORD_DOES_NOT_MATCH;
 import static com.cortex.backend.core.common.BusinessErrorCodes.NO_APPROVED_MENTORSHIP_REQUEST;
+import static com.cortex.backend.core.common.BusinessErrorCodes.PAYMENT_FAILED;
+import static com.cortex.backend.core.common.BusinessErrorCodes.RESOURCE_NOT_FOUND;
 import static com.cortex.backend.core.common.BusinessErrorCodes.RESULT_NOT_AVAILABLE;
 import static com.cortex.backend.core.common.BusinessErrorCodes.UNSUPPORTED_LANGUAGE;
 import static com.cortex.backend.core.common.BusinessErrorCodes.USER_ALREADY_EXISTS;
@@ -31,7 +33,6 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
-import com.cortex.backend.core.common.BusinessErrorCodes;
 import com.cortex.backend.core.common.exception.CodeExecutionException;
 import com.cortex.backend.core.common.exception.ContainerExecutionException;
 import com.cortex.backend.core.common.exception.ContentChangedException;
@@ -49,6 +50,8 @@ import com.cortex.backend.core.common.exception.InvalidURIException;
 import com.cortex.backend.core.common.exception.NewPasswordDoesNotMatchException;
 import com.cortex.backend.core.common.exception.NoApprovedMentorshipRequestException;
 import com.cortex.backend.core.common.exception.OperationNotPermittedException;
+import com.cortex.backend.core.common.exception.PaymentServiceException;
+import com.cortex.backend.core.common.exception.ResourceNotFoundException;
 import com.cortex.backend.core.common.exception.ResultNotAvailableException;
 import com.cortex.backend.core.common.exception.UnsupportedLanguageException;
 import com.cortex.backend.core.common.exception.UserNotPartOfMentorshipException;
@@ -381,7 +384,7 @@ public class GlobalExceptionHandler {
   }
 
   @ExceptionHandler(NoApprovedMentorshipRequestException.class)
-  public ResponseEntity<ExceptionResponse> handleUserNotPartOfMentorshipException(
+  public ResponseEntity<ExceptionResponse> handleNotApprovedMentorshipRequestException(
       NoApprovedMentorshipRequestException exp) {
     return ResponseEntity.status(NO_APPROVED_MENTORSHIP_REQUEST.getHttpStatus())
         .body(
@@ -391,6 +394,33 @@ public class GlobalExceptionHandler {
                 .error(exp.getReason())
                 .build());
   }
+
+  @ExceptionHandler(ResourceNotFoundException.class)
+  public ResponseEntity<ExceptionResponse> handleResourceNotFoundException(
+      ResourceNotFoundException exp) {
+    return ResponseEntity.status(RESOURCE_NOT_FOUND.getHttpStatus())
+        .body(
+            ExceptionResponse.builder()
+                .code(RESOURCE_NOT_FOUND.getCode())
+                .description(RESOURCE_NOT_FOUND.getDescription())
+                .error(exp.getMessage())
+                .build());
+  }
+
+  @ExceptionHandler(PaymentServiceException.class)
+  public ResponseEntity<ExceptionResponse> handlePaymentFailedException(
+      PaymentServiceException exp) {
+    return ResponseEntity.status(PAYMENT_FAILED.getHttpStatus())
+        .body(
+            ExceptionResponse.builder()
+                .code(PAYMENT_FAILED.getCode())
+                .description(PAYMENT_FAILED.getDescription())
+                .error(exp.getMessage())
+                .build());
+  }
+
+
+
 
 
   @ExceptionHandler(Exception.class)
