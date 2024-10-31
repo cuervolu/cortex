@@ -66,3 +66,58 @@ export interface AchievementType {
   description?: string;
   iconUrl?: string;
 }
+
+export interface UpdateProfileRequest {
+  first_name?: string
+  last_name?: string
+  username?: string
+  email?: string
+  date_of_birth?: Date
+  country_code?: string
+  gender?: Gender
+  password?: string
+  confirm_password?: string
+  avatar?: File | null
+}
+
+
+export interface UserResponse {
+  id: number
+  username: string
+  email: string
+  gender: string | null
+  enabled: boolean
+  roles: string[]
+  first_name: string | null
+  last_name: string | null
+  full_name: string
+  avatar_url: string | null
+  date_of_birth: string | null
+  country_code: string | null
+  account_locked: boolean
+  created_at: string
+  updated_at: string
+  has_password: boolean
+}
+
+
+type Gender = 'MALE' | 'FEMALE' | 'OTHER' | 'NON_BINARY' | 'PREFER_NOT_TO_SAY'
+
+export const transformSessionToProfileRequest = (sessionData: any): UpdateProfileRequest => {
+  if (!sessionData) {
+    throw new Error('No session data provided')
+  }
+
+  const transformedData: UpdateProfileRequest = {
+    username: sessionData.username || '',
+    first_name: sessionData.first_name || '',
+    last_name: sessionData.last_name || '',
+    email: sessionData.email || '',
+    date_of_birth: sessionData.date_of_birth ? new Date(sessionData.date_of_birth) : new Date(),
+    country_code: sessionData.country_code || '',
+    gender: sessionData.gender || 'PREFER_NOT_TO_SAY',
+  }
+
+  console.log('Transformed session data:', transformedData)
+  return transformedData
+}

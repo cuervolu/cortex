@@ -88,17 +88,18 @@ public class UserServiceImpl implements UserService {
   public void changePassword(ChangePasswordRequest request, Authentication connectedUser) {
     var user = (User) connectedUser.getPrincipal();
 
-    if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
-      throw new IncorrectCurrentPasswordException("Current password is incorrect");
-    }
+    // If the user has no password set, we don't need to check the current password
+    if (user.getPassword() != null && !user.getPassword().isEmpty() && !passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+        throw new IncorrectCurrentPasswordException("Current password is incorrect");
+      }
 
     if (!request.getNewPassword().equals(request.getConfirmPassword())) {
       throw new NewPasswordDoesNotMatchException("New password and confirm password do not match");
     }
 
+    
     user.setPassword(passwordEncoder.encode(request.getNewPassword()));
     userRepository.save(user);
-
   }
 
   @Override

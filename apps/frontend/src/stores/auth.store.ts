@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import {API_ROUTES} from "~/config/api";
+import { API_ROUTES } from "~/config/api"
 
 export const useAuthStore = defineStore('auth', () => {
   const { getSession } = useAuth()
@@ -9,14 +9,19 @@ export const useAuthStore = defineStore('auth', () => {
   const handleOAuthCallback = async (token: string) => {
     try {
       loading.value = true
-
-      // We need to set the token in the store
       setToken(token)
+      const session = await getSession()
 
-      // Update the session
-      await getSession()
+      if (session) {
+        const needsPassword = !session.has_password
+        
 
-      return true
+        if (needsPassword) {
+          return '/auth/complete-profile'
+        }
+      }
+      
+      return '/roadmaps'
     } catch (error) {
       console.error('OAuth callback error:', error)
       throw error
