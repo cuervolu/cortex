@@ -87,6 +87,10 @@ github:
     branch: main
     sync-interval-ms: 3600000
 lemon-squeezy:
+  store-id: ${LEMON_SQUEEZY_STORE_ID}
   api:
     base-url: https://api.lemonsqueezy.com/v1/
     api-key: ${LEMON_SQUEEZY_API_KEY}
+  webhook:
+    secret: ${LEMON_SQUEEZY_WEBHOOK_SECRET}
+    url: ${NGROK_URL}/api/v1/webhooks/lemon-squeezy
