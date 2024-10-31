@@ -25,6 +25,10 @@ public abstract class PaginatedService<T> {
   }
 
   private String buildPaginationQueryParams(PaginationRequest paginationRequest) {
+    if (paginationRequest == null) {
+      return "";
+    }
+
     List<String> params = new ArrayList<>();
     if (paginationRequest.getPageNumber() != null) {
       params.add("page[number]=" + paginationRequest.getPageNumber());

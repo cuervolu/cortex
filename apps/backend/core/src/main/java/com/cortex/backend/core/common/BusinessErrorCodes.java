@@ -45,6 +45,8 @@ public enum BusinessErrorCodes {
   CONTAINER_EXECUTION_FAILED(323, INTERNAL_SERVER_ERROR, "Container execution failed"),
   USER_NOT_PART_OF_MENTORSHIP(324, FORBIDDEN, "User is not part of this mentorship"),
   NO_APPROVED_MENTORSHIP_REQUEST(325, NOT_FOUND, "No approved mentorship request found for this mentee"),
+  PAYMENT_FAILED(326, INTERNAL_SERVER_ERROR, "Payment failed"),
+  RESOURCE_NOT_FOUND(327, NOT_FOUND, "Resource not found"),
   ;
   private final int code;
   private final String description;
