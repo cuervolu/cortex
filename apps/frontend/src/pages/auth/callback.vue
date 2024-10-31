@@ -5,10 +5,8 @@ import { useAuthStore } from "~/stores"
 definePageMeta({
   auth: {
     unauthenticatedOnly: true,
-    navigateAuthenticatedTo: '/roadmaps'
   },
 })
-
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -20,9 +18,9 @@ onMounted(async () => {
 
   try {
     if (token) {
-      await authStore.handleOAuthCallback(token)
+      const redirectTo = await authStore.handleOAuthCallback(token)
       message.value = 'Autenticación exitosa. Redirigiendo...'
-      setTimeout(() => router.push('/'), 1500)
+      setTimeout(() => router.push(redirectTo), 1500) 
     } else {
       throw new Error('No se recibió token de autenticación')
     }

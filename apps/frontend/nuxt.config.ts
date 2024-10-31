@@ -90,7 +90,8 @@ export default defineNuxtConfig({
           gender: 'string',
           account_locked: 'boolean',
           enabled: 'boolean',
-          roles: 'string[]'
+          roles: 'string[]',
+          has_password: 'boolean',
         }
       }
     }
