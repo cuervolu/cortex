@@ -1,7 +1,14 @@
 <script setup lang="ts">
-import {ref, onMounted} from 'vue'
-import {useRouter} from 'vue-router'
-import {useAuthStore} from "~/stores";
+import { ref, onMounted } from 'vue'
+import { useAuthStore } from "~/stores"
+
+definePageMeta({
+  auth: {
+    unauthenticatedOnly: true,
+    navigateAuthenticatedTo: '/roadmaps'
+  },
+})
+
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -13,7 +20,7 @@ onMounted(async () => {
 
   try {
     if (token) {
-      await authStore.setToken(token)
+      await authStore.handleOAuthCallback(token)
       message.value = 'Autenticación exitosa. Redirigiendo...'
       setTimeout(() => router.push('/'), 1500)
     } else {
@@ -26,9 +33,16 @@ onMounted(async () => {
   }
 })
 </script>
+
 <template>
-  <div>
-    <p>{{ message }}</p>
+  <div class="flex min-h-screen items-center justify-center">
+    <Card class="w-full max-w-md">
+      <CardHeader>
+        <CardTitle>Autenticación OAuth</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <p class="text-center">{{ message }}</p>
+      </CardContent>
+    </Card>
   </div>
 </template>
-

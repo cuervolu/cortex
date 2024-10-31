@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import {ChevronDown} from "lucide-vue-next";
 import RoadmapIcon from "~/components/icons/RoadmapIcon.vue";
 import { navigationMenuTriggerStyle } from "@cortex/shared/components/ui/navigation-menu";
+
+const { status } = useAuth()
+const isAuthenticated = computed(() => status.value === 'authenticated')
 </script>
 
 <template>
@@ -101,10 +103,15 @@ import { navigationMenuTriggerStyle } from "@cortex/shared/components/ui/navigat
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
-  
-    <Button as-child variant="default" class="bg-white text-center text-sm font-bold leading-7 rounded-[73px] px-8 py-3 h-[52px] text-[#381653] hover:bg-gray-100">
-      <NuxtLink to="/auth/login">Comenzar</NuxtLink>
-    </Button>
+
+      <template v-if="isAuthenticated">
+        <UserMenu />
+      </template>
+      <template v-else>
+        <Button as-child variant="default" class="bg-white text-center text-sm font-bold leading-7 rounded-[73px] px-8 py-3 h-[52px] text-[#381653] hover:bg-gray-100">
+          <NuxtLink to="/auth/login">Comenzar</NuxtLink>
+        </Button>
+      </template>
   </header>
   </div>
 
