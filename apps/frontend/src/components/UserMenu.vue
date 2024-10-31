@@ -10,8 +10,12 @@ import {
 const { data: session, signOut } = useAuth()
 
 const initials = computed(() => {
-  if (!session.value) return 'U'
-  return `${session.value.first_name.charAt(0)}${session.value.last_name.charAt(0)}`
+  if (!session.value) return 'UN'
+  const firstName = session.value.first_name
+  const lastName = session.value.last_name
+
+  if (!firstName || !lastName) return 'UN'
+  return `${firstName.charAt(0)}${lastName.charAt(0)}`
 })
 
 const avatarUrl = computed(() => {
