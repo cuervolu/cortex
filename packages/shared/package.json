@@ -17,6 +17,7 @@
   "devDependencies": {
     "@nuxt/eslint": "^0.6.0",
     "@nuxtjs/tailwindcss": "6.12.2",
+    "@tailwindcss/typography": "^0.5.15",
     "eslint": "^9.13.0",
     "shadcn-nuxt": "^0.10.4"
   },
