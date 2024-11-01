@@ -43,8 +43,13 @@ const {
   handleCodeChange,
 } = useExercise();
 
-const {isPanelOpen, handleSettingsClick} = usePanel();
+const {isPanelOpen} = usePanel();
 const {availableExtensions, availableThemes, activeExtensions, editorTheme} = useCodeEditor();
+const isSettingsOpen = ref(false)
+
+const handleSettingsClick = () => {
+  isSettingsOpen.value = true
+}
 
 const verifyApiKey = async (providerName: string): Promise<boolean> => {
   if (!authData.value?.id) return false;
@@ -266,6 +271,12 @@ watch(selectedModel, async (newModel) => {
         :on-back-click="handleBackClick"
         :on-settings-click="handleSettingsClick"
     />
+
+    <SettingsSheet
+        v-model="selectedModel"
+        v-model:is-open="isSettingsOpen"
+        @change="handleModelChange"
+    />
     <ResizablePanelGroup direction="horizontal" class="flex-grow">
       <ResizablePanel :default-size="70" :min-size="30">
         <div class="h-full p-4">
@@ -285,12 +296,7 @@ watch(selectedModel, async (newModel) => {
       </ResizablePanel>
       <ResizableHandle/>
       <ResizablePanel :default-size="30" :min-size="20">
-        <div class="flex flex-col h-full">
-          <ModelSelector
-              v-model="selectedModel"
-              :disabled="isChangingProvider"
-              @change="handleModelChange"
-          />
+        <ScrollArea class="flex flex-col h-full">
           <ExercisePanel
               :tabs="panelTabs"
               :default-tab="defaultPanelTab"
@@ -299,7 +305,7 @@ watch(selectedModel, async (newModel) => {
               @send-message="handleSendMessage"
               @update:is-open="isPanelOpen = $event"
           />
-        </div>
+        </ScrollArea>
       </ResizablePanel>
     </ResizablePanelGroup>
   </div>
