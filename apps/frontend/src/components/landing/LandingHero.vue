@@ -11,8 +11,8 @@ import JavaIcon from "~/components/icons/JavaIcon.vue";
 
 <template>
   <section class="relative py-20 px-4 text-center min-h-screen overflow-hidden text-foreground">
-    <div class="max-w-3xl mx-auto bg-muted rounded-lg shadow-lg p-8 relative z-2">
-      <h1 class="text-4xl mb-4">
+    <div class="max-w-3xl mx-auto bg-muted rounded-lg shadow-lg p-8 relative z-2 bg-cyan-50">
+      <h1 class="text-5xl mb-4">
         Un enfoque <span class="font-bold">único</span> para aprender Ciencias de la Computación
       </h1>
       <p class="text-gray-600 mb-8 leading-relaxed font-8">
@@ -25,14 +25,14 @@ import JavaIcon from "~/components/icons/JavaIcon.vue";
         <Button variant="outline" class="bg-white border-gray-200 hover:bg-gray-50 rounded-full text-purple-900">Explorar Roadmaps</Button>
       </div>
 
-    <vue-icon class="icon-float absolute top-20 left-10 w-16 h-16 opacity-40" />
-    <react-icon class="icon-float absolute top-1/4 left-1/4 w-20 h-20 opacity-40" />
-    <typescript-icon class="icon-float absolute bottom-1/4 left-16 w-14 h-14 opacity-40" />
-    <html-icon class="icon-float absolute bottom-20 left-1/3 w-16 h-16 opacity-40" />
-    <python-icon class="icon-float absolute top-32 right-1/4 w-16 h-16 opacity-40" />
-    <kotlin-icon class="icon-float absolute top-1/3 right-16 w-14 h-14 opacity-40" />
-    <c-sharp-icon class="icon-float absolute bottom-1/3 right-1/4 w-16 h-16 opacity-40" />
-    <java-icon class="icon-float absolute bottom-24 right-20 w-16 h-16 opacity-40" />
+    <vue-icon class="icon-float absolute top-20 left-10 w-16 h-16 " />
+    <react-icon class="icon-float absolute top-1/4 left-1/4 w-20 h-20 " />
+    <typescript-icon class="icon-float absolute bottom-1/4 left-16 w-14 h-14 " />
+    <html-icon class="icon-float absolute bottom-29 left-1/3 w-18 h-16 " />
+    <python-icon class="icon-float absolute top-32 right-1/4 w-16 h-18 " />
+    <kotlin-icon class="icon-float absolute top-1/3 right-16 w-14 h-14 " />
+    <c-sharp-icon class="icon-float absolute bottom-1/3 right-1/4 w-16 h-16 " />
+    <java-icon class="icon-float absolute bottom-29 right-20 w-16 h-20 " />
   </section>
   
 </template>
