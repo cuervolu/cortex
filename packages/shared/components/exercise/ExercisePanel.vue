@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type {Component} from "vue";
-
 export interface Tab {
   value: string;
   label: string;
@@ -12,14 +11,11 @@ export interface Tab {
   component: Component;
   props?: Record<string, any>;
 }
-
 interface Props {
   tabs: Tab[];
   defaultTab: string;
 }
-
 defineProps<Props>();
-
 defineEmits(["send-message"]);
 </script>
 
@@ -31,25 +27,33 @@ defineEmits(["send-message"]);
     >
       <Tabs :default-value="defaultTab" class="h-full flex flex-col">
         <TabsList
-          class="flex items-start px-6 py-2 bg-muted/40 border-b-2 border-purple-600 shrink-0"
+          class="flex justify-center px-6 py-2 bg-muted/40 border-b-2 border-purple-600 shrink-0"
         >
           <TabsTrigger
             v-for="tab in tabs"
             :key="tab.value"
             :value="tab.value"
-            class="flex items-center gap-2 px-2 py-1"
+            class="flex flex-col items-center justify-center gap-2 px-4 py-2"
             :class="tab.className"
           >
             <template v-if="tab.iconSrc">
-              <img
-                v-if="typeof tab.iconSrc === 'string'"
-                :src="tab.iconSrc"
-                :alt="tab.label"
-              >
-              <component :is="tab.iconSrc" v-else :alt="tab.label"/>
+              <div class="flex justify-center w-full">
+                <img
+                  v-if="typeof tab.iconSrc === 'string'"
+                  :src="tab.iconSrc"
+                  :alt="tab.label"
+                  class="w-5 h-5"
+                >
+                <component
+                  :is="tab.iconSrc"
+                  v-else
+                  :alt="tab.label"
+                  class="w-5 h-5"
+                />
+              </div>
             </template>
             <div v-if="tab.customIcon"/>
-            <span class="text-sm" :class="tab.labelClassName">{{ tab.label }}</span>
+            <span class="text-sm text-center" :class="tab.labelClassName">{{ tab.label }}</span>
           </TabsTrigger>
         </TabsList>
         <div class="flex-grow overflow-auto h-full">
@@ -78,24 +82,32 @@ defineEmits(["send-message"]);
           <SheetTitle>Exercise Panel</SheetTitle>
         </SheetHeader>
         <Tabs :default-value="defaultTab" class="w-full mt-4">
-          <TabsList class="flex items-start px-4 py-2 bg-neutral-50 border-b-2 border-purple-600">
+          <TabsList class="flex justify-center px-4 py-2 bg-neutral-50 border-b-2 border-purple-600">
             <TabsTrigger
               v-for="tab in tabs"
               :key="tab.value"
               :value="tab.value"
-              class="flex items-center gap-2 px-2 py-1"
+              class="flex flex-col items-center justify-center gap-2 px-4 py-2"
               :class="tab.className"
             >
               <template v-if="tab.iconSrc">
-                <img
-                  v-if="typeof tab.iconSrc === 'string'"
-                  :src="tab.iconSrc"
-                  :alt="tab.label"
-                >
-                <component :is="tab.iconSrc" v-else :alt="tab.label"/>
+                <div class="flex justify-center w-full">
+                  <img
+                    v-if="typeof tab.iconSrc === 'string'"
+                    :src="tab.iconSrc"
+                    :alt="tab.label"
+                    class="w-5 h-5"
+                  >
+                  <component
+                    :is="tab.iconSrc"
+                    v-else
+                    :alt="tab.label"
+                    class="w-5 h-5"
+                  />
+                </div>
               </template>
               <div v-if="tab.customIcon"/>
-              <span class="text-sm" :class="tab.labelClassName">{{ tab.label }}</span>
+              <span class="text-sm text-center" :class="tab.labelClassName">{{ tab.label }}</span>
             </TabsTrigger>
           </TabsList>
           <TabsContent
