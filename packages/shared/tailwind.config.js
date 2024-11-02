@@ -95,6 +95,22 @@ module.exports = {
         'auth-background': "url('~/assets/img/auth-background.svg')",
         'auth-background-dark': "url('~/assets/img/auth-background-dark.svg')",
       },
+      typography: (theme) => ({
+        DEFAULT: {
+          css: {
+            'h1, h2, h3, h4, h5, h6': {
+              textDecoration: 'none',
+            },
+          },
+        },
+        invert: {
+          css: {
+            'h1, h2, h3, h4, h5, h6': {
+              textDecoration: 'none',
+            },
+          },
+        },
+      }),
     },
   },
   ignoreFiles: ['/lost+found/**/*'],
