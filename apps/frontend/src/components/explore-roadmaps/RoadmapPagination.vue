@@ -33,8 +33,8 @@ const handlePageChange = async (page: number) => {
         @update:page="handlePageChange"
     >
       <PaginationList v-slot="{ items }" class="flex items-center gap-1">
-        <PaginationFirst />
-        <PaginationPrev />
+        <PaginationFirst :disabled="currentPage === 1 || isLoading" />
+        <PaginationPrev :disabled="currentPage === 1 || isLoading" />
 
         <template v-for="(item, index) in items">
           <PaginationListItem
@@ -48,7 +48,7 @@ const handlePageChange = async (page: number) => {
                 :variant="item.value === page ? 'default' : 'outline'"
                 :disabled="isLoading"
             >
-              {{ item.value }}
+              {{ currentPage }}
             </Button>
           </PaginationListItem>
           <PaginationEllipsis
@@ -58,8 +58,8 @@ const handlePageChange = async (page: number) => {
           />
         </template>
 
-        <PaginationNext />
-        <PaginationLast />
+        <PaginationNext :disabled="currentPage === totalPages || isLoading"/>
+        <PaginationLast :disabled="currentPage === totalPages || isLoading" @click="handlePageChange(totalPages)"/>
       </PaginationList>
     </Pagination>
   </div>

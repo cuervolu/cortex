@@ -9,15 +9,15 @@ const route = useRoute()
 const router = useRouter()
 const sortBy = ref(route.query.sort as string || 'recent')
 const currentPage = ref(Number(route.query.page) || 1)
-const itemsPerPage = 10
-const roadmapsData = ref<PaginatedRoadmaps>({
-  content: [],
-  total_elements: 0,
-  total_pages: 1,
-  number: 0,
-  size: itemsPerPage,
-  first: true,
-  last: true
+const itemsPerPage = 5
+const roadmapsData = ref < PaginatedRoadmaps > ({
+    content: [],
+    total_elements: 0,
+    total_pages: 1,
+    number: 0,
+    size: itemsPerPage,
+    first: true,
+    last: true
 })
 const isLoading = ref(true)
 const error = ref<string | null>(null)
