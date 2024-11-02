@@ -52,6 +52,9 @@ pub enum AppError {
 
     #[error("Keystore error: {0}")]
     KeystoreError(String),
+
+    #[error("Code execution timeout: {0}")]
+    CodeExecutionTimeout(String),
 }
 
 impl serde::Serialize for AppError {

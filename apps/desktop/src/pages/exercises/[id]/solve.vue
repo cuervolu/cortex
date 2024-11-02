@@ -1,15 +1,20 @@
 <script setup lang="ts">
-import { debug, error as logError } from "@tauri-apps/plugin-log"
-import { createExerciseContext } from '~/types'
+import {debug, error as logError} from "@tauri-apps/plugin-log"
+import {Book, Lightbulb, Activity} from "lucide-vue-next";
+
+import {createExerciseContext} from '~/types'
 import AiChat from '~/components/ai/chat.vue'
 import CodeEditor from '@cortex/shared/components/CodeEditor.vue'
+import ResultsTab from '@cortex/shared/components/exercise/ResultsTab.vue'
 import ExerciseHeader from '@cortex/shared/components/exercise/ExerciseHeader.vue'
 import ExercisePanel from '@cortex/shared/components/exercise/ExercisePanel.vue'
+import {useCodeExecutionStore} from '@cortex/shared/stores/useCodeExecutionStore';
+import {useCodeExecution} from '@cortex/shared/composables/useCodeExecution';
 import BotIcon from '~/components/icons/BotIcon.vue'
 import LoadingOverlay from "~/components/LoadingOverlay.vue"
 import InstructionsTab from "~/components/exercise/InstructionsTab.vue";
-import {Book, Lightbulb} from "lucide-vue-next";
 import HintsTab from "~/components/exercise/HintsTab.vue";
+import {DesktopCodeExecutionService} from "~/services/desktop-code-execution.service";
 
 const {
   isSettingsOpen,
@@ -39,10 +44,12 @@ const {
   handleCodeChange,
 } = useExercise()
 
-const { isPanelOpen } = usePanel()
-const { availableExtensions, availableThemes, activeExtensions, editorTheme } = useCodeEditor()
-const { data: authData } = useAuth()
+const {isPanelOpen} = usePanel()
+const {availableExtensions, availableThemes, activeExtensions, editorTheme} = useCodeEditor()
+const {data: authData} = useAuth()
+const codeExecutionStore = useCodeExecutionStore();
 
+const {executeCode} = useCodeExecution(new DesktopCodeExecutionService());
 const handleSendMessage = async (message: string) => {
   if (!exercise.value || !isMounted.value) return
 
@@ -65,7 +72,7 @@ const handleSendMessage = async (message: string) => {
     await chatStore.sendMessage(context.exercise_id, message)
   } catch (error) {
     if (!isMounted.value) return
-    const { handleError } = useErrorHandler()
+    const {handleError} = useErrorHandler()
     await handleError(error)
   }
 }
@@ -91,6 +98,16 @@ const panelTabs = computed(() => [
     },
   },
   {
+    value: 'results',
+    label: 'Resultados',
+    component: markRaw(ResultsTab),
+    iconSrc: markRaw(Activity),
+    props: {
+      result: codeExecutionStore.result,
+      loading: codeExecutionStore.isExecuting
+    },
+  },
+  {
     value: 'ia-help',
     label: 'AI Help',
     component: markRaw(AiChat),
@@ -105,8 +122,8 @@ const panelTabs = computed(() => [
   }
 ])
 
-// Cambiamos el tab por defecto a instructions
 const defaultPanelTab = 'instructions'
+const currentTab = ref(defaultPanelTab);
 
 // Lifecycle hooks
 onMounted(async () => {
@@ -118,7 +135,7 @@ onMounted(async () => {
     await initializeChat(exercise.value, editorCode)
   } catch (error) {
     await logError(`Error during component mount: ${error}`)
-    const { handleError } = useErrorHandler()
+    const {handleError} = useErrorHandler()
     await handleError(error)
   } finally {
     if (isMounted.value) {
@@ -131,11 +148,13 @@ onUnmounted(() => {
   isMounted.value = false
   isErrorInProgress.value = false
   chatStore.removeListeners()
+  codeExecutionStore.reset()
 })
 
 onBeforeRouteLeave(() => {
   isErrorInProgress.value = false
   chatStore.removeListeners()
+  codeExecutionStore.reset()
 })
 
 // Watchers
@@ -157,6 +176,47 @@ watch(selectedModel, async (newModel) => {
     }
   }
 })
+
+// Watch para sincronizar el store con el estado local
+watch(() => codeExecutionStore.activeTab, (newTab) => {
+  if (newTab !== currentTab.value) {
+    currentTab.value = newTab;
+  }
+});
+
+const handleCodeExecution = async (code: string) => {
+  if (!exercise.value) {
+    const { handleError } = useErrorHandler();
+    await handleError(new Error('No exercise loaded'), {
+      statusCode: 400,
+      data: {
+        action: 'execute_code',
+        message: 'Attempted to execute code without an active exercise'
+      }
+    });
+    return;
+  }
+
+  try {
+    await debug(`Executing code for exercise: ${exercise.value.id}`);
+    currentTab.value = 'results';
+    await executeCode({
+      code,
+      language: currentLanguage.value,
+      exercise_id: exercise.value.id
+    });
+  } catch (error) {
+    const { handleError } = useErrorHandler();
+    await handleError(error, {
+      statusCode: 500,
+      data: {
+        action: 'execute_code',
+        exerciseId: exercise.value.id,
+        language: currentLanguage.value
+      }
+    });
+  }
+};
 </script>
 
 <template>
@@ -189,6 +249,7 @@ watch(selectedModel, async (newModel) => {
               :active-theme="editorTheme"
               class="h-full rounded-md overflow-hidden"
               @change="handleCodeChange"
+              @execute="handleCodeExecution"
           />
         </div>
       </ResizablePanel>
@@ -196,6 +257,7 @@ watch(selectedModel, async (newModel) => {
       <ResizablePanel :default-size="30" :min-size="20">
         <ScrollArea class="flex flex-col h-full">
           <ExercisePanel
+              v-model:active-tab="currentTab"
               :tabs="panelTabs"
               :default-tab="defaultPanelTab"
               :is-open="isPanelOpen"

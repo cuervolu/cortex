@@ -98,6 +98,8 @@ pub fn run() {
             education::roadmaps::commands::get_roadmap,
             education::exercises::commands::get_exercises,
             education::exercises::commands::get_exercise_details,
+            education::exercises::commands::execute_code,
+            education::exercises::commands::get_code_execution_result,
             education::courses::commands::get_courses,
             education::courses::commands::get_course_details,
             education::lessons::commands::fetch_all_lessons,
