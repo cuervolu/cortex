@@ -141,6 +141,56 @@ pub struct RoadmapDetails {
     pub updated_at: Option<String>,
 }
 
+
+// Exercise Submission
+#[derive(Debug, Serialize, Deserialize)]
+pub struct CodeExecutionRequest {
+    pub code: String,
+    pub language: String,
+    #[serde(rename = "exercise_id")]
+    pub exercise_id: u64,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct CodeExecutionSubmissionResponse {
+    #[serde(rename = "task_id")]
+    pub task_id: String,
+    pub status: String,
+    pub message: String,
+    #[serde(rename = "submission_time")]
+    pub submission_time: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct TestCaseResult {
+    pub passed: bool,
+    pub input: String,
+    #[serde(rename = "expected_output")]
+    pub expected_output: Option<String>,  
+    #[serde(rename = "actual_output")]
+    pub actual_output: Option<String>,   
+    pub message: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct CodeExecutionResult {
+    pub success: bool,
+    pub stdout: String,
+    pub stderr: String,
+    #[serde(rename = "execution_time")]
+    pub execution_time: i32,
+    pub language: String,
+    #[serde(rename = "exercise_id")]
+    pub exercise_id: u64,
+    #[serde(rename = "memory_used")]
+    pub memory_used: i32,
+    #[serde(rename = "test_case_results")]
+    pub test_case_results: Vec<TestCaseResult>,
+}
+
+
+
+// Paginated Responses
 pub type PaginatedExercises = PaginatedResponse<Exercise>;
 pub type PaginatedLessons = PaginatedResponse<Lesson>;
 pub type PaginatedRoadmaps = PaginatedResponse<Roadmap>;
