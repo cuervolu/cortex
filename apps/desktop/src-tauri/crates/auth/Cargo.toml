@@ -7,3 +7,4 @@ edition = "2021"
 error = {path = "../error"}
 common = {path = "../common"}
 tauri = {workspace = true}
+tauri-plugin-oauth = {workspace = true}

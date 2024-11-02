@@ -36,7 +36,7 @@ tauri-plugin-log = { version = "2.0.1", features = ["colored"] }
 tauri-plugin-os = "2.0.1"
 tauri-plugin-process = "2.0.1"
 tauri-plugin-clipboard-manager = "2.0.1"
-tauri-plugin-oauth = { git = "https://github.com/FabianLars/tauri-plugin-oauth", branch = "v2" }
+tauri-plugin-oauth = {workspace = true}
 tauri-plugin-notification = "2.0.1"
 sysinfo = "0.32.0"
 common = { path = "./crates/common" }
