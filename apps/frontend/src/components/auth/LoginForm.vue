@@ -61,13 +61,13 @@ const handleLogin = (provider: 'github' | 'google') => {
         </Button>
       </div>
       <div class="self-stretch justify-start items-center inline-flex">
-        <Separator class="grow shrink basis-0 h-[1.20px] border-[#381653] dark:bg-[#F9CF87]"></Separator>
+        <Separator class="grow shrink basis-0 h-[1.20px] bg-primary dark:bg-[#F9CF87]"></Separator>
         <div class="px-[9.63px] flex-col justify-start items-start gap-3 inline-flex">
           <div class="self-stretch justify-center items-center gap-3 inline-flex">
             <div class="text-[#5e4a6e] dark:text-[#BEBEBE] text-sm font-normal">O CONTINUA CON</div>
           </div>
         </div>
-        <Separator class="grow shrink basis-0 h-[1.20px] bg-[#381653] dark:bg-[#F9CF87]"></Separator>
+        <Separator class="grow shrink basis-0 h-[1.20px] bg-primary dark:bg-[#F9CF87]"></Separator>
       </div>
 
       <form class="self-stretch flex-col gap-[19.26px] inline-flex text-foreground" @submit.prevent="onSubmit">
