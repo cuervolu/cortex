@@ -8,6 +8,13 @@ use tauri_plugin_log::fern::colors::ColoredLevelConfig;
 use tauri_plugin_log::RotationStrategy;
 
 fn setup_logger(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> {
+
+    let cortex_log_level = if cfg!(debug_assertions) {
+        log::LevelFilter::Trace
+    } else {
+        log::LevelFilter::Info
+    };
+    
     // create the log plugin as usual, but call split() instead of build()
     let (tauri_plugin_log, _max_level, logger) = tauri_plugin_log::Builder::new()
         .max_file_size(1024 * 1024 * 10) // 10 MB
@@ -21,7 +28,7 @@ fn setup_logger(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> 
         .level_for("hyper_util::client::legacy", log::LevelFilter::Warn)
         .level_for(" devtools_core", log::LevelFilter::Warn)
         .level_for("tracing", log::LevelFilter::Warn)
-        .level_for("cortex_lib", log::LevelFilter::Trace)
+        .level_for("cortex_lib", cortex_log_level)
         .split(app.handle())?;
 
     // on debug builds, set up the DevTools plugin and pipe the logger from tauri-plugin-log
