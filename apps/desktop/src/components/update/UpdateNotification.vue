@@ -15,15 +15,15 @@ defineProps<{
   <div class="flex flex-col h-full">
     <CardHeader class="text-center space-y-1 pb-5">
       <CardTitle class="text-4xl font-semibold text-white">
-        New Update is Available
+        Nueva versión disponible
       </CardTitle>
       <CardDescription class="flex flex-col items-center gap-1">
-        <span class="text-white">Version {{ version }}</span>
+        <span class="text-white">Versión {{ version }}</span>
         <button
             class="text-sm text-[#d9d9d9] underline hover:text-white transition-colors"
             @click="onViewDetails"
         >
-          View Details...
+         Ver detalles
         </button>
       </CardDescription>
     </CardHeader>
@@ -37,7 +37,7 @@ defineProps<{
       </div>
       <div class="relative z-10 flex flex-col h-full justify-end">
         <p class="text-[#5e4a6e] text-center px-4 mb-8">
-          A new version is released, please update to get new features
+          Actualiza para obtener nuevas funciones.
         </p>
         <CardFooter class="flex flex-col gap-3 px-8 pb-8">
           <div v-if="isUpdating && progress.total" class="w-full">
@@ -48,7 +48,7 @@ defineProps<{
               />
             </div>
             <p class="text-center text-white text-sm mt-2">
-              Downloading: {{ Math.round((progress.downloaded / progress.total) * 100) }}%
+              Descargando: {{ Math.round((progress.downloaded / progress.total) * 100) }}%
             </p>
           </div>
           <div class="flex w-full gap-3">
@@ -57,14 +57,14 @@ defineProps<{
                 :disabled="isUpdating"
                 @click="onInstall"
             >
-              {{ isUpdating ? 'Installing...' : 'Update now!' }}
+              {{ isUpdating ? 'Instalando...' : '¡Descargar Ahora!' }}
             </Button>
             <DialogClose as-child>
               <Button
                   class="flex-1 py-2.5 px-5 rounded-md bg-[#d9d9d9] border border-[#8c2a94] text-[#8c2a94] text-sm font-medium hover:bg-[#c9c9c9] transition-colors"
                   :disabled="isUpdating"
               >
-                Remind me later
+                Recordar más tarde
               </Button>
             </DialogClose>
           </div>
