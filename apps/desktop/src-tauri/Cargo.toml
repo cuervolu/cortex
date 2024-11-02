@@ -1,6 +1,6 @@
 [package]
 name = "cortex"
-version = "0.1.2"
+version = "0.1.3"
 description = "Cortex Desktop Application for Premium Users"
 authors = ["Bytech SpA"]
 license = ""
