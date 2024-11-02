@@ -15,7 +15,11 @@ import {
 import type { LanguageSupport } from "@codemirror/language";
 import { noctisLilac } from "thememirror";
 import { materialLight, materialDark } from "../themes";
+import {useCodeExecutionStore} from "../stores/useCodeExecutionStore";
+import ExecuteCodeButton from "./exercise/ExecuteCodeButton.vue";
 
+
+const codeExecutionStore = useCodeExecutionStore();
 interface Props {
   initialCode: string;
   language: string;
@@ -47,7 +51,17 @@ const props = withDefaults(defineProps<Props>(), {
   activeTheme: "materialDark",
 });
 
-const emit = defineEmits(["update:code", "change", "update"]);
+const emit = defineEmits<{
+  'update:code': [value: string];
+  'change': [value: string, viewUpdate: ViewUpdate];
+  'update': [viewUpdate: ViewUpdate];
+  'execute': [code: string];
+}>();
+
+
+const handleExecute = () => {
+  emit('execute', code.value);
+};
 
 const code = ref(props.initialCode);
 const codemirror = ref<CodeMirrorRef>();
@@ -139,24 +153,30 @@ onMounted(() => {
 </script>
 
 <template>
-  <ClientOnly>
-    <NuxtCodeMirror
-      ref="codemirror"
-      v-model="code"
-      :extensions="activeExtensions"
-      :theme="activeTheme"
-      :placeholder="placeholder"
-      class="w-full h-full"
-      :line-numbers="true"
-      :auto-focus="true"
-      :editable="true"
-      :basic-setup="true"
-      :indent-with-tab="true"
-      @change="handleChange"
-      @update="handleUpdate"
-      @statistics="handleStatistics"
+  <div class="relative h-full">
+    <ExecuteCodeButton
+      :loading="codeExecutionStore.isExecuting"
+      @execute="handleExecute"
     />
-  </ClientOnly>
+    <ClientOnly>
+      <NuxtCodeMirror
+        ref="codemirror"
+        v-model="code"
+        :extensions="activeExtensions"
+        :theme="activeTheme"
+        :placeholder="placeholder"
+        class="w-full h-full"
+        :line-numbers="true"
+        :auto-focus="true"
+        :editable="true"
+        :basic-setup="true"
+        :indent-with-tab="true"
+        @change="handleChange"
+        @update="handleUpdate"
+        @statistics="handleStatistics"
+      />
+    </ClientOnly>
+  </div>
 </template>
 
 <style>

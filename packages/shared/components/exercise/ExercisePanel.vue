@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type {Component} from "vue";
+
 export interface Tab {
   value: string;
   label: string;
@@ -11,12 +12,21 @@ export interface Tab {
   component: Component;
   props?: Record<string, any>;
 }
+
 interface Props {
   tabs: Tab[];
   defaultTab: string;
+  modelValue?: string;
+  activeTab: string; // <- Añadimos esta prop
 }
-defineProps<Props>();
-defineEmits(["send-message"]);
+
+const props = defineProps<Props>();
+const emit = defineEmits(['update:modelValue', 'send-message', 'update:activeTab']);
+
+const activeTabComputed = computed({
+  get: () => props.activeTab,
+  set: (value) => emit('update:activeTab', value)
+});
 </script>
 
 <template>
@@ -25,7 +35,12 @@ defineEmits(["send-message"]);
     <ScrollArea
       class="hidden lg:flex flex-col w-full h-full bg-muted/40 shadow-lg rounded-lg"
     >
-      <Tabs :default-value="defaultTab" class="h-full flex flex-col">
+      <Tabs
+        :default-value="defaultTab"
+        :value="activeTabComputed"
+        class="h-full flex flex-col"
+        @update:value="activeTabComputed = $event"
+      >
         <TabsList
           class="flex justify-center px-6 py-2 bg-muted/40 border-b-2 border-purple-600 shrink-0"
         >
@@ -81,8 +96,14 @@ defineEmits(["send-message"]);
         <SheetHeader>
           <SheetTitle>Exercise Panel</SheetTitle>
         </SheetHeader>
-        <Tabs :default-value="defaultTab" class="w-full mt-4">
-          <TabsList class="flex justify-center px-4 py-2 bg-neutral-50 border-b-2 border-purple-600">
+        <Tabs
+          :default-value="defaultTab"
+          :value="activeTabComputed"
+          class="h-full flex flex-col"
+          @update:value="activeTabComputed = $event"
+        >
+          <TabsList
+            class="flex justify-center px-4 py-2 bg-neutral-50 border-b-2 border-purple-600">
             <TabsTrigger
               v-for="tab in tabs"
               :key="tab.value"
