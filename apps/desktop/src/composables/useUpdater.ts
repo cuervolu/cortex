@@ -39,7 +39,7 @@ export function useUpdater() {
       if (update) {
         validateUpdate(update)
 
-        await info(`Update available: ${update.version}`)
+        await info(`Update available: ${update.version}, date: ${update.date}`)
         state.isUpdateAvailable = true
         state.updateVersion = update.version
         state.updateNotes = update.body || ''
@@ -59,7 +59,6 @@ export function useUpdater() {
           action: 'check_updates',
           currentState: state
         },
-        notify: true
       })
     }
   }
@@ -125,7 +124,6 @@ export function useUpdater() {
           updateVersion: state.updateVersion,
           progress: state.progress
         },
-        notify: true
       })
     }
   }
