@@ -164,7 +164,8 @@ pub struct CodeExecutionSubmissionResponse {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TestCaseResult {
     pub passed: bool,
-    pub input: String,
+    #[serde(default)] 
+    pub input: Option<String>,
     #[serde(rename = "expected_output")]
     pub expected_output: Option<String>,  
     #[serde(rename = "actual_output")]
