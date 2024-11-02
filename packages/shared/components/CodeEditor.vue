@@ -1,155 +1,50 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, watch } from "vue";
-import type { ViewUpdate } from "@codemirror/view";
-import type { CodeMirrorRef, Statistics } from "#build/nuxt-codemirror";
-import { javascript } from "@codemirror/lang-javascript";
-import interact from "@replit/codemirror-interact";
-import { loadLanguage } from "@uiw/codemirror-extensions-langs";
-import { indentationMarkers } from "@replit/codemirror-indentation-markers";
-import { lineNumbersRelative } from "@uiw/codemirror-extensions-line-numbers-relative";
-import { okaidia } from "@uiw/codemirror-theme-okaidia";
-import {
-  StateEffect,
-  type Extension as CodeMirrorExtension,
-} from "@codemirror/state";
-import type { LanguageSupport } from "@codemirror/language";
-import { noctisLilac } from "thememirror";
-import { materialLight, materialDark } from "../themes";
-import {useCodeExecutionStore} from "../stores/useCodeExecutionStore";
-import ExecuteCodeButton from "./exercise/ExecuteCodeButton.vue";
+import { ref } from 'vue'
+import type { ViewUpdate } from "@codemirror/view"
+import type {Extension} from "@codemirror/state";
+import type { CodeMirrorRef } from "#build/nuxt-codemirror"
+import type { ThemeKey } from '../composables/editor';
+import { useEditorCode, useEditorExtensions, useEditorTheme } from '../composables/editor'
+import { useCodeExecutionStore } from "../stores/useCodeExecutionStore"
+import ExecuteCodeButton from "./exercise/ExecuteCodeButton.vue"
 
-
-const codeExecutionStore = useCodeExecutionStore();
-interface Props {
-  initialCode: string;
-  language: string;
-  placeholder?: string;
-  availableExtensions: string[];
-  availableThemes: Record<string, CodeMirrorExtension>;
-  activeExtensions: string[];
-  activeTheme: string;
-}
-
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<{
+  initialCode: string
+  language: string
+  placeholder?: string
+  availableExtensions: string[]
+  availableThemes: Record<ThemeKey, Extension> // Actualizamos este tipo
+  activeExtensions: string[]
+  activeTheme: ThemeKey
+}>(), {
   placeholder: "// Type some code here",
-  availableExtensions: () => [
-    "lineNumbersRelative",
-    "indentationMarkers",
-    "interact",
-  ],
-  availableThemes: () => ({
-    noctisLilac,
-    okaidia,
-    materialLight,
-    materialDark,
-  }),
-  activeExtensions: () => [
-    "lineNumbersRelative",
-    "indentationMarkers",
-    "interact",
-  ],
-  activeTheme: "materialDark",
-});
+  availableExtensions: () => ["lineNumbersRelative", "indentationMarkers", "interact"],
+  activeExtensions: () => ["lineNumbersRelative", "indentationMarkers", "interact"],
+  activeTheme: "materialDark"
+})
 
 const emit = defineEmits<{
-  'update:code': [value: string];
-  'change': [value: string, viewUpdate: ViewUpdate];
-  'update': [viewUpdate: ViewUpdate];
-  'execute': [code: string];
-}>();
+  (e: 'update:code' | 'execute', value: string): void
+  (e: 'change', value: string, viewUpdate: ViewUpdate): void
+  (e: 'update', viewUpdate: ViewUpdate): void
+}>()
 
+const codeExecutionStore = useCodeExecutionStore()
+const codemirror = ref<CodeMirrorRef>()
+
+const { extensions } = useEditorExtensions(props)
+const { activeTheme } = useEditorTheme(props, codemirror)
+const { code, handleChange, handleUpdate, handleStatistics } = useEditorCode(props, emit)
 
 const handleExecute = () => {
-  emit('execute', code.value);
-};
-
-const code = ref(props.initialCode);
-const codemirror = ref<CodeMirrorRef>();
-
-const getLanguageExtension = (lang: string): CodeMirrorExtension => {
-  let extension: LanguageSupport | CodeMirrorExtension;
-  switch (lang) {
-    case "javascript":
-    case "typescript":
-      extension = javascript({ jsx: true, typescript: true });
-      break;
-    case "java":
-      extension = loadLanguage("java") || javascript();
-      break;
-    case "rust":
-      extension = loadLanguage("rust") || javascript();
-      break;
-    case "python":
-      extension = loadLanguage("python") || javascript();
-      break;
-    case "csharp":
-      extension = loadLanguage("csharp") || javascript();
-      break;
-    case "go":
-      extension = loadLanguage("go") || javascript();
-      break;
-    default:
-      extension = javascript();
-  }
-  return extension;
-};
-
-const activeExtensions = computed((): CodeMirrorExtension[] => {
-  const extensions: CodeMirrorExtension[] = [
-    getLanguageExtension(props.language),
-  ];
-  if (props.activeExtensions.includes("lineNumbersRelative"))
-    extensions.push(lineNumbersRelative);
-  if (props.activeExtensions.includes("indentationMarkers"))
-    extensions.push(indentationMarkers());
-  if (props.activeExtensions.includes("interact")) extensions.push(interact());
-  return extensions;
-});
-
-const activeTheme = computed(
-  () => props.availableThemes[props.activeTheme] || materialLight
-);
-
-watch(
-  () => props.activeTheme,
-  () => {
-    if (codemirror.value?.view) {
-      const view = codemirror.value.view;
-      view.dispatch({
-        effects: StateEffect.reconfigure.of(activeTheme.value),
-      });
-    }
-  }
-);
-
-const handleChange = (value: string, viewUpdate: ViewUpdate) => {
-  emit("update:code", value);
-  emit("change", value, viewUpdate);
-};
-
-const handleUpdate = (viewUpdate: ViewUpdate) => {
-  emit("update", viewUpdate);
-};
-
-const handleStatistics = (stats: Statistics) => {
-  console.log("Statistics:", stats);
-};
-
-watch(
-  () => code.value,
-  (newCode) => {
-    emit("update:code", newCode);
-  }
-);
+  emit('execute', code.value)
+}
 
 onMounted(() => {
-
   if (codemirror.value) {
-    console.log("Editor initialized:", codemirror.value.editor);
-  }else {
-    console.log("Editor not initialized");
+    console.log("Editor initialized:", codemirror.value.editor)
   }
-});
+})
 </script>
 
 <template>
@@ -162,7 +57,7 @@ onMounted(() => {
       <NuxtCodeMirror
         ref="codemirror"
         v-model="code"
-        :extensions="activeExtensions"
+        :extensions="extensions"
         :theme="activeTheme"
         :placeholder="placeholder"
         class="w-full h-full"
