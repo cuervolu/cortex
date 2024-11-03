@@ -25,9 +25,9 @@ const openSupport = async() => {
       <Button
           size="sm"
           variant="ghost"
-          class="titlebar-button flex items-center justify-center w-8 h-8 mx-1 p-0 rounded"
+          class="titlebar-button flex items-center justify-center w-8 h-8 mx-1 p-0 rounded hover:bg-slate-50/20"
       >
-        <ChevronDown width="20" height="20" class="text-foreground" />
+        <ChevronDown width="20" height="20" class="text-white" />
       </Button>
     </DropdownMenuTrigger>
 

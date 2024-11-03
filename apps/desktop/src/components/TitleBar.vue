@@ -20,44 +20,43 @@ const emit = defineEmits(['toggle-sidebar']);
 <template>
   <header
       data-tauri-drag-region
-      class="flex justify-between items-center bg-white/20 h-10 px-3"
+      class="flex justify-between items-center bg-popover/20 h-10 px-3"
   >
     <nav class="flex items-center ml-5">
       <img
           data-tauri-drag-region src="~/assets/img/Cortex%20Logo.svg" alt="Cortex Logo"
           class="w-5 h-5 mr-2">
       <Button
-          v-if="props.hasSidebar" size="sm" variant="ghost" class="p-1"
+          v-if="props.hasSidebar" size="sm" variant="ghost" class="p-1 hover:bg-slate-50/20"
           @click="emit('toggle-sidebar')">
         <PanelRightOpen
             width="20"
             height="20"
-            :class="['transition-transform duration-300 text-foreground', { 'rotate-180': !isCollapsed }]"
+            :class="['transition-transform duration-300 text-white', { 'rotate-180': !isCollapsed }]"
         />
       </Button>
     </nav>
-    <h1 class="text-base font-semibold text-foreground tracking-widest" data-tauri-drag-region>
-      Cortex</h1>
-    <div class="flex h-full mr-5">
+    <h1 class="text-base font-semibold text-white tracking-widest" data-tauri-drag-region>Cortex</h1>
+    <div class="flex items-center h-full mr-5">
       <TitlebarMenu/>
-      <Separator orientation="vertical" class="text-foreground"/>
+      <Separator orientation="vertical" class="bg-white/20"/>
       <Button
           size="sm" variant="ghost"
-          class="titlebar-button flex items-center justify-center w-8 h-8 mx-1 p-0 rounded"
+          class="titlebar-button flex items-center justify-center w-8 h-8 mx-1 p-0 rounded hover:bg-slate-50/20"
           @click="appWindow.minimize()">
-        <Minus class="w-4 h-4"/>
+        <Minus class="w-4 h-4 text-white"/>
       </Button>
       <Button
           size="sm" variant="ghost"
-          class="titlebar-button flex items-center justify-center w-8 h-8 mx-1 p-0 rounded"
+          class="titlebar-button flex items-center justify-center w-8 h-8 mx-1 p-0 rounded hover:bg-slate-50/20"
           @click="appWindow.toggleMaximize()">
-        <Maximize width="20" height="20" class="text-foreground"/>
+        <Maximize width="20" height="20" class="text-white"/>
       </Button>
       <Button
           size="sm" variant="ghost"
-          class="titlebar-button flex items-center justify-center w-8 h-8 mx-1 p-0 rounded  hover:bg-red-500"
+          class="titlebar-button flex items-center justify-center w-8 h-8 mx-1 p-0 rounded hover:bg-red-500/80"
           @click="appWindow.close()">
-        <X width="20" height="20" class="text-foreground"/>
+        <X width="20" height="20" class="text-white"/>
       </Button>
     </div>
   </header>
