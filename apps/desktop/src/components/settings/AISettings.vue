@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import {debug} from "@tauri-apps/plugin-log";
+import {debug} from "@tauri-apps/plugin-log"
 import {CheckCircle2, Loader2, Lock, Trash2, Eye, EyeOff} from 'lucide-vue-next'
 import {useAIProviderStore} from '~/stores/ai-provider.store'
 import {useChatStore} from '~/stores/'
+import { AppError } from '@cortex/shared/types'
 
 const apiKey = ref('')
 const showApiKey = ref(false)
@@ -11,7 +12,7 @@ const currentProvider = ref('claude')
 const keystore = useKeystore()
 const providerStore = useAIProviderStore()
 const chatStore = useChatStore()
-const {createAppError} = useErrorHandler()
+const errorHandler = useDesktopErrorHandler()
 
 const isLoading = ref(true)
 const isSaving = ref(false)
@@ -19,14 +20,14 @@ const isRemoving = ref(false)
 
 const validateApiKey = (provider: string, key: string): boolean => {
   if (!key.trim()) {
-    throw createAppError('API key cannot be empty', {
+    throw new AppError('API key cannot be empty', {
       statusCode: 400,
       data: { provider }
     })
   }
 
   if (provider === 'claude' && !key.startsWith('sk-')) {
-    throw createAppError('Invalid API key format. Claude API keys should start with "sk-"', {
+    throw new AppError('Invalid API key format. Claude API keys should start with "sk-"', {
       statusCode: 400,
       data: { provider }
     })
@@ -60,7 +61,7 @@ const handleProviderChange = async (providerName: string) => {
 
     const provider = providerStore.getProvider(providerName)
     if (!provider) {
-      throw createAppError(`Provider ${providerName} not found`, {
+      throw new AppError(`Provider ${providerName} not found`, {
         statusCode: 404,
         data: { providerName }
       })
@@ -74,6 +75,14 @@ const handleProviderChange = async (providerName: string) => {
       await loadCurrentApiKey()
       await chatStore.setProvider(providerName)
     }
+  } catch (error) {
+    await errorHandler.handleError(error, {
+      statusCode: 404,
+      data: {
+        action: 'change_provider',
+        provider: providerName
+      }
+    })
   } finally {
     isLoading.value = false
     isSaving.value = false
@@ -84,13 +93,20 @@ const saveApiKey = async () => {
   const provider = providerStore.getProvider(currentProvider.value)
   if (!provider) return
 
-  validateApiKey(currentProvider.value, apiKey.value)
-
-  isSaving.value = true
   try {
+    validateApiKey(currentProvider.value, apiKey.value)
+    isSaving.value = true
     await chatStore.setProvider(currentProvider.value)
     await keystore.setApiKey(currentProvider.value, apiKey.value)
     await providerStore.setProviderConfigured(currentProvider.value, true)
+  } catch (error) {
+    await errorHandler.handleError(error, {
+      statusCode: 400,
+      data: {
+        action: 'save_api_key',
+        provider: currentProvider.value
+      }
+    })
   } finally {
     isSaving.value = false
   }
@@ -100,11 +116,19 @@ const removeApiKey = async () => {
   const provider = providerStore.getProvider(currentProvider.value)
   if (!provider) return
 
-  isRemoving.value = true
   try {
+    isRemoving.value = true
     await keystore.removeApiKey()
     await providerStore.setProviderConfigured(currentProvider.value, false)
     apiKey.value = ''
+  } catch (error) {
+    await errorHandler.handleError(error, {
+      statusCode: 500,
+      data: {
+        action: 'remove_api_key',
+        provider: currentProvider.value
+      }
+    })
   } finally {
     isRemoving.value = false
   }

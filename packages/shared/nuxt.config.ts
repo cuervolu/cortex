@@ -7,13 +7,7 @@ const currentDir = dirname(fileURLToPath(import.meta.url))
 export default defineNuxtConfig({
 
   compatibilityDate: "2024-09-18",
-  modules: [
-    'nuxt-codemirror',
-    "@nuxt/eslint",
-    "@nuxtjs/tailwindcss",
-    "shadcn-nuxt",
-    '@nuxtjs/mdc'
-  ],
+  modules: ['nuxt-codemirror', "@nuxt/eslint", "@nuxtjs/tailwindcss", "shadcn-nuxt", '@nuxtjs/mdc', '@pinia/nuxt'],
   components: [
     {
       path: join(currentDir, './components/ui'),
@@ -52,5 +46,5 @@ export default defineNuxtConfig({
         priority: 10
       })
     }
-  }
+  },
 })

@@ -12,7 +12,7 @@ const state: KeystoreState = {
 
 export const useKeystore = () => {
   const {data: authData} = useAuth();
-  const {handleError, createAppError} = useErrorHandler();
+  const errorHandler = useDesktopErrorHandler()
 
   const initializeKeystore = async () => {
     if (state.initialized) {
@@ -55,17 +55,17 @@ export const useKeystore = () => {
 
   const setApiKey = async (provider: string, key: string) => {
     if (!authData.value?.id) {
-      throw createAppError('User not authenticated', {
+      throw new AppError('User not authenticated', {
         statusCode: 401,
         data: {
           action: 'set_api_key',
           provider
         }
-      });
+      })
     }
 
     if (!state.initialized) {
-      await initializeKeystore();
+      await initializeKeystore()
     }
 
     try {
@@ -73,19 +73,19 @@ export const useKeystore = () => {
         providerName: provider,
         apiKey: key,
         userId: authData.value.id
-      });
-      state.hasKey = true;
+      })
+      state.hasKey = true
     } catch (error) {
-      throw await handleError(error, {
+      await errorHandler.handleError(error, {
         statusCode: 500,
         data: {
           action: 'set_api_key',
           provider,
           userId: authData.value?.id
         }
-      });
+      })
     }
-  };
+  }
 
   const removeApiKey = async () => {
     if (!state.initialized) {
