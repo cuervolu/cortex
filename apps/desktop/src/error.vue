@@ -76,7 +76,7 @@ const handleError = () => {
               </DialogDescription>
             </DialogHeader>
 
-            <div class="mt-4 text-left">
+            <div class="mt-4 text-left min-w-full">
               <!-- Error Type -->
               <div class="mb-4">
                 <h3 class="font-semibold text-foreground">Error Type:</h3>
@@ -105,10 +105,11 @@ const handleError = () => {
               </div>
 
               <!-- Stack Trace -->
-              <div>
+              <div class="w-full">
                 <h3 class="font-semibold text-foreground">Stack Trace:</h3>
                 <ScrollArea class="h-[200px] w-full rounded-md border p-4">
                   <pre class="text-xs font-mono">{{ additionalInfo.stack }}</pre>
+                  <ScrollBar orientation="horizontal" />
                 </ScrollArea>
               </div>
             </div>
