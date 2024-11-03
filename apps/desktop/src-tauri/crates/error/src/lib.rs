@@ -55,6 +55,9 @@ pub enum AppError {
 
     #[error("Code execution timeout: {0}")]
     CodeExecutionTimeout(String),
+
+    #[error("OAuth error: {0}")]
+    OAuthError(String),
 }
 
 impl serde::Serialize for AppError {
