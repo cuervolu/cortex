@@ -3,12 +3,14 @@ import {ref, onMounted} from "vue";
 import {error as logError, info, warn} from "@tauri-apps/plugin-log";
 import {useUserStore} from '~/stores'
 import LoginForm from "~/components/auth/LoginForm.vue";
+import {useAuthStore} from "~/stores/auth.store";
 
 definePageMeta({
   layout: 'auth-default',
 })
 
 const {signIn, getSession} = useAuth()
+const {loginWithProviderDesktop} = useAuthStore();
 const userStore = useUserStore()
 const error = ref('')
 const loading = ref(false)
@@ -59,8 +61,7 @@ const handleSubmit = async (credentials: { username: string; password: string })
 }
 
 const handleLoginWithProvider = (provider: 'github' | 'google') => {
-  //TODO: Implement login with provider
-  console.log(`Login with provider: ${provider}`)
+  loginWithProviderDesktop(provider)
 }
 </script>
 

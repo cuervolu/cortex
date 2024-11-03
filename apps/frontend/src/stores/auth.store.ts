@@ -1,5 +1,4 @@
-import { defineStore } from 'pinia'
-import { API_ROUTES } from "~/config/api"
+import {API_ROUTES} from "@cortex/shared/config/api";
 
 export const useAuthStore = defineStore('auth', () => {
   const { getSession } = useAuth()

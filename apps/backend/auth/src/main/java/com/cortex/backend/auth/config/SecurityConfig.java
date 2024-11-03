@@ -2,13 +2,17 @@ package com.cortex.backend.auth.config;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
+import com.cortex.backend.auth.internal.ConditionalOAuth2SuccessHandler;
 import com.cortex.backend.auth.internal.CustomOAuth2UserService;
 import com.cortex.backend.auth.internal.CustomOidcUserService;
 import com.cortex.backend.auth.internal.JwtServiceImpl;
 import com.cortex.backend.auth.internal.OAuth2AuthenticationSuccessHandler;
+import com.cortex.backend.auth.internal.PKCEAuthorizationRequestRepository;
+import com.cortex.backend.auth.internal.PKCEAwareOAuth2SuccessHandler;
 import com.cortex.backend.auth.internal.infrastructure.JwtFilter;
 import com.cortex.backend.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -17,11 +21,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -36,6 +37,37 @@ public class SecurityConfig {
   private final CustomOidcUserService customOidcUserService;
   private final CorsConfigurationSource corsConfigurationSource;
   private final UserRepository userRepository;
+
+  @Value("${application.frontend.callback-url}")
+  private String defaultCallbackUrl;
+
+  @Bean
+  public PKCEAuthorizationRequestRepository pkceAuthorizationRequestRepository() {
+    return new PKCEAuthorizationRequestRepository();
+  }
+
+  @Bean
+  public OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler() {
+    return new OAuth2AuthenticationSuccessHandler(jwtService, userRepository);
+  }
+
+  @Bean
+  public PKCEAwareOAuth2SuccessHandler pkceAwareOAuth2SuccessHandler() {
+    return new PKCEAwareOAuth2SuccessHandler(
+        jwtService,
+        userRepository,
+        pkceAuthorizationRequestRepository()
+    );
+  }
+
+  @Bean
+  public ConditionalOAuth2SuccessHandler conditionalOAuth2SuccessHandler() {
+    return new ConditionalOAuth2SuccessHandler(
+        oAuth2AuthenticationSuccessHandler(),
+        pkceAwareOAuth2SuccessHandler(),
+        pkceAuthorizationRequestRepository()
+    );
+  }
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -68,16 +100,14 @@ public class SecurityConfig {
                 .userService(customOAuth2UserService)
                 .oidcUserService(customOidcUserService)
             )
-            .successHandler(oAuth2AuthenticationSuccessHandler())
+            .successHandler(conditionalOAuth2SuccessHandler())
+            .authorizationEndpoint(authorization -> authorization
+                .authorizationRequestRepository(pkceAuthorizationRequestRepository())
+            )
         )
         .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
         .authenticationProvider(authenticationProvider)
         .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
     return http.build();
-  }
-
-  @Bean
-  public AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler() {
-    return new OAuth2AuthenticationSuccessHandler(jwtService, userRepository);
   }
 }

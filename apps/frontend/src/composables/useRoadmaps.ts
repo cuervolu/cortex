@@ -1,11 +1,25 @@
-import { ref, readonly } from 'vue'
-import { API_ROUTES } from '~/config/api'
-import type { PaginatedRoadmaps, RoadmapDetails } from "@cortex/shared/types";
+import {API_ROUTES} from "@cortex/shared/config/api";
+import type {PaginatedRoadmaps, RoadmapDetails} from "@cortex/shared/types"
+
+interface RoadmapsResponse {
+  data: Ref<PaginatedRoadmaps | null>
+  error: Ref<string | null>
+  isLoading: Ref<boolean>
+  refresh: () => Promise<RoadmapsResponse>
+}
+
+interface RoadmapDetailsResponse {
+  data: Ref<RoadmapDetails | null>
+  error: Ref<string | null>
+  isLoading: Ref<boolean>
+  refresh: () => Promise<RoadmapDetailsResponse>
+}
 
 export const useRoadmaps = () => {
   const error = ref<string | null>(null)
   const isLoading = ref(false)
-  const data = ref<PaginatedRoadmaps | null>(null)
+  const roadmapsData = ref<PaginatedRoadmaps | null>(null)
+  const roadmapDetailsData = ref<RoadmapDetails | null>(null)
   const { token } = useAuth()
 
   const getFetchOptions = () => ({
@@ -19,7 +33,7 @@ export const useRoadmaps = () => {
     page?: number
     size?: number
     sort?: string
-  }) => {
+  }): Promise<RoadmapsResponse> => {
     const queryParams = new URLSearchParams()
     if (params?.page !== undefined) queryParams.append('page', params.page.toString())
     if (params?.size !== undefined) queryParams.append('size', params.size.toString())
@@ -32,12 +46,12 @@ export const useRoadmaps = () => {
     error.value = null
 
     try {
-      data.value = await $fetch<PaginatedRoadmaps>(url, {
+      roadmapsData.value = await $fetch<PaginatedRoadmaps>(url, {
         ...getFetchOptions(),
       })
 
       return {
-        data: readonly(data),
+        data: roadmapsData as Ref<PaginatedRoadmaps | null>,
         error: readonly(error),
         isLoading: readonly(isLoading),
         refresh: () => fetchRoadmaps(params)
@@ -45,8 +59,9 @@ export const useRoadmaps = () => {
     } catch (e) {
       console.error('Error fetching roadmaps:', e)
       error.value = e instanceof Error ? e.message : 'Error fetching roadmaps'
+      roadmapsData.value = null
       return {
-        data: readonly(data),
+        data: roadmapsData as Ref<PaginatedRoadmaps | null>,
         error: readonly(error),
         isLoading: readonly(isLoading),
         refresh: () => fetchRoadmaps(params)
@@ -56,18 +71,17 @@ export const useRoadmaps = () => {
     }
   }
 
-  const getRoadmapDetails = async (slug: string) => {
+  const getRoadmapDetails = async (slug: string): Promise<RoadmapDetailsResponse> => {
     isLoading.value = true
     error.value = null
 
     try {
-      const response = await $fetch<RoadmapDetails>(`${API_ROUTES.ROADMAPS}/${slug}`, {
+      roadmapDetailsData.value = await $fetch<RoadmapDetails>(`${API_ROUTES.ROADMAPS}/${slug}`, {
         ...getFetchOptions(),
       })
 
-      data.value = response
       return {
-        data: readonly(ref(response)),
+        data: roadmapDetailsData as Ref<RoadmapDetails | null>,
         error: readonly(error),
         isLoading: readonly(isLoading),
         refresh: () => getRoadmapDetails(slug)
@@ -75,8 +89,9 @@ export const useRoadmaps = () => {
     } catch (e) {
       console.error('Error fetching roadmap details:', e)
       error.value = e instanceof Error ? e.message : 'Error fetching roadmap details'
+      roadmapDetailsData.value = null
       return {
-        data: readonly(ref(null)),
+        data: roadmapDetailsData as Ref<RoadmapDetails | null>,
         error: readonly(error),
         isLoading: readonly(isLoading),
         refresh: () => getRoadmapDetails(slug)

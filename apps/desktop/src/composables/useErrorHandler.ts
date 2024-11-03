@@ -12,7 +12,7 @@ export interface ErrorOptions {
   cause?: Error | unknown
   data?: Record<string, unknown>
   silent?: boolean
-  groupKey?: string // Para agrupar errores similares
+  groupKey?: string
 }
 
 export class AppError extends Error {
@@ -21,7 +21,6 @@ export class AppError extends Error {
   override cause?: Error | unknown
   data?: Record<string, unknown>
   groupKey?: string
-  options: ErrorOptions
 
   constructor(message: string, options: ErrorOptions = {}) {
     super(message)
@@ -31,126 +30,23 @@ export class AppError extends Error {
     this.cause = options.cause
     this.data = options.data
     this.groupKey = options.groupKey || `${this.name}-${this.statusCode}`
-    this.options = options // Guardamos las opciones completas
   }
-}
-interface ErrorGroup {
-  count: number
-  firstSeen: number
-  lastSeen: number
-  message: string
-  errors: AppError[]
 }
 
 export const useErrorHandler = () => {
   const { toast } = useToast()
-  const errorGroups = new Map<string, ErrorGroup>()
-  const notificationQueue = ref<AppError[]>([])
-  const isProcessingQueue = ref(false)
+  const router = useRouter()
+  const isHandlingError = ref(false)
 
-  // Rate limiting configuration
-  const RATE_LIMIT = {
-    toast: 5000,      // 5 seconds between similar toasts
-    system: 300000,   // 5 minutes between similar system notifications
-    log: 1000         // 1 second between similar logs
-  }
-
-  const groupError = (error: AppError): ErrorGroup => {
-    const group = errorGroups.get(error.groupKey!) || {
-      count: 0,
-      firstSeen: Date.now(),
-      lastSeen: Date.now(),
-      message: error.message,
-      errors: []
-    }
-
-    group.count++
-    group.lastSeen = Date.now()
-    group.errors.push(error)
-
-    // Limit the number of stored errors to prevent memory issues
-    if (group.errors.length > 10) {
-      group.errors.shift()
-    }
-
-    errorGroups.set(error.groupKey!, group)
-    return group
-  }
-
-  const shouldNotify = (error: AppError, type: 'toast' | 'system' | 'log'): boolean => {
-    const group = errorGroups.get(error.groupKey!)
-    if (!group) return true
-
-    const timeSinceLastNotification = Date.now() - group.lastSeen
-    return timeSinceLastNotification > RATE_LIMIT[type]
-  }
-
-  const processNotificationQueue = async () => {
-    if (isProcessingQueue.value || notificationQueue.value.length === 0) return
-
-    isProcessingQueue.value = true
-
-    try {
-      const error = notificationQueue.value[0]
-      const group = groupError(error)
-
-      // Log with rate limiting
-      if (shouldNotify(error, 'log')) {
-        const errorDetails = {
-          message: error.message,
-          statusCode: error.statusCode,
-          groupKey: error.groupKey,
-          occurrences: group.count,
-          data: error.data
-        }
-        await logError('Error details: ' + JSON.stringify(errorDetails, null, 2))
-      }
-
-      // Show notifications based on error type and rate limiting
-      if (!error.options?.silent) {
-        if (error.fatal && shouldNotify(error, 'system')) {
-          await showSystemNotification(error, group)
-        } else if (shouldNotify(error, 'toast')) {
-          showToastNotification(error, group)
-        }
-      }
-
-      // Handle fatal errors
-      if (error.fatal) {
-        const router = useRouter()
-        await router.push({
-          path: '/error',
-          query: {
-            groupKey: error.groupKey,
-            count: group.count.toString(),
-            message: error.message,
-            fatal: 'true',
-            from: router.currentRoute.value.fullPath
-          }
-        })
-      }
-
-    } finally {
-      notificationQueue.value.shift()
-      isProcessingQueue.value = false
-
-      // Process next error in queue
-      if (notificationQueue.value.length > 0) {
-        setTimeout(() => processNotificationQueue(), 100)
-      }
-    }
-  }
-
-  const showToastNotification = (error: AppError, group: ErrorGroup) => {
-    const count = group.count > 1 ? ` (${group.count}×)` : ''
+  const showToastNotification = (error: AppError) => {
     toast({
-      title: `Error ${error.statusCode}${count}`,
+      title: `Error ${error.statusCode}`,
       description: error.message,
       variant: 'destructive',
     })
   }
 
-  const showSystemNotification = async (error: AppError, group: ErrorGroup) => {
+  const showSystemNotification = async (error: AppError) => {
     try {
       let permissionGranted = await isPermissionGranted()
       if (!permissionGranted) {
@@ -159,9 +55,8 @@ export const useErrorHandler = () => {
       }
 
       if (permissionGranted) {
-        const count = group.count > 1 ? ` (${group.count}×)` : ''
         sendNotification({
-          title: `Fatal Error ${error.statusCode}${count}`,
+          title: `Fatal Error ${error.statusCode}`,
           body: error.message
         })
       }
@@ -171,24 +66,62 @@ export const useErrorHandler = () => {
   }
 
   const handleError = async (error: unknown, options: ErrorOptions = {}) => {
-    const appError = error instanceof AppError
-        ? error
-        : new AppError(
-            error instanceof Error ? error.message : String(error),
-            options
-        )
+    if (isHandlingError.value) {
+      await logError(`Additional error while handling error: ${error}`)
+      return
+    }
 
-    // Add to notification queue
-    notificationQueue.value.push(appError)
-    await processNotificationQueue()
+    try {
+      isHandlingError.value = true
 
-    if (!options.silent) {
-      throw appError // Re-throw for component error boundaries
+      const appError = error instanceof AppError
+          ? error
+          : new AppError(
+              error instanceof Error ? error.message : String(error),
+              options
+          )
+
+      // Log del error
+      await logError('Error details: ' + JSON.stringify({
+        message: appError.message,
+        statusCode: appError.statusCode,
+        groupKey: appError.groupKey,
+        data: appError.data
+      }, null, 2))
+
+      // Solo mostramos notificaciones si no es silencioso
+      if (!options.silent) {
+        showToastNotification(appError)
+
+        if (appError.fatal) {
+          await showSystemNotification(appError)
+
+          // Solo redirigimos si no estamos ya en la página de error
+          if (!router.currentRoute.value.path.startsWith('/error')) {
+            await router.push({
+              path: '/error',
+              query: {
+                groupKey: appError.groupKey,
+                message: appError.message,
+                fatal: 'true',
+                from: router.currentRoute.value.fullPath
+              }
+            })
+          }
+        }
+      }
+      
+      if (!options.silent) {
+        throw appError
+      }
+    } finally {
+      isHandlingError.value = false
     }
   }
 
   return {
     handleError,
-    createAppError: (message: string, options: ErrorOptions = {}) => new AppError(message, options)
+    createAppError: (message: string, options: ErrorOptions = {}) =>
+        new AppError(message, options)
   }
 }

@@ -99,6 +99,9 @@ pub fn run() {
             auth::commands::get_user,
             auth::commands::clear_user,
             auth::commands::get_token,
+            auth::commands::start_oauth_flow,
+            auth::commands::cancel_oauth_flow,
+            auth::commands::handle_oauth_callback,
             // Education commands
             education::roadmaps::commands::fetch_all_roadmaps,
             education::roadmaps::commands::fetch_roadmap_course,
