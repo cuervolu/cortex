@@ -5,7 +5,7 @@ const isMonthly = ref(true);
 const plans = [
 {
     title: 'Plan Básico',
-    price: '$0',
+    price: '0 CLP',
     period: 'Gratis',
     features: [
       { text: 'Acceso a cursos básicos' },
@@ -19,9 +19,9 @@ const plans = [
   },
   {
     title: 'Plan Estándar',
-    price: '$30',
+    price: '25.000 CLP',
     period: 'por editor/mes',
-    subPeriod: 'facturado mensualmente',
+    subPeriod: 'factura mensual',
     features: [
       { text: 'Acceso a todos los cursos' },
       { text: 'Mentorías limitadas' },
@@ -35,10 +35,10 @@ const plans = [
     tag: 'Más Popular',
   },
   {
-    title: 'Plan Pro',
-    price: '$60',
+    title: 'Plan empresarial',
+    price: '50.000 CLP',
     period: 'por editor/mes',
-    subPeriod: 'facturado mensualmente',
+    subPeriod: 'factura mensual',
     features: [
       { text: 'Acceso completo a todos los cursos y recursos exclusivos' },
       { text: 'Mentorías ilimitadas' },
@@ -47,7 +47,8 @@ const plans = [
       { text: 'Acceso a contenido avanzado y herramientas premium' },
       { text: 'Soporte prioritario' },
     ],
-    buttonText: 'Elegir Plan',
+    buttonText: 'Contactanos',
+    highlighted: true,
   },
 ];
 </script>
