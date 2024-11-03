@@ -8,6 +8,12 @@ import {
   Settings,
 } from 'lucide-vue-next'
 
+interface Props {
+  isAuth: boolean;
+}
+
+const {isAuth} = defineProps<Props>();
+
 const appVersion = await getVersion();
 
 const openGithub = async() => {
@@ -27,7 +33,7 @@ const openSupport = async() => {
           variant="ghost"
           class="titlebar-button flex items-center justify-center w-8 h-8 mx-1 p-0 rounded hover:bg-slate-50/20"
       >
-        <ChevronDown width="20" height="20" class="text-white" />
+        <ChevronDown width="20" height="20" :class="isAuth ? 'text-foreground' : 'text-white'" />
       </Button>
     </DropdownMenuTrigger>
 

@@ -48,6 +48,7 @@
     "oauth:allow-cancel",
     "oauth:allow-start",
     "updater:allow-download-and-install",
-    "updater:allow-check"
+    "updater:allow-check",
+    "os:default"
   ]
 }
