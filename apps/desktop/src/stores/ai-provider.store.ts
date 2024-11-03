@@ -1,8 +1,9 @@
 import {debug} from "@tauri-apps/plugin-log"
 import type {AIProvider} from '~/types'
+import { AppError } from '@cortex/shared/types'
 
 export const useAIProviderStore = defineStore('ai-provider', () => {
-  const {handleError, createAppError} = useErrorHandler()
+  const errorHandler = useDesktopErrorHandler()
 
   const providers = reactive<Record<string, AIProvider>>({
     claude: {
@@ -20,7 +21,7 @@ export const useAIProviderStore = defineStore('ai-provider', () => {
   const checkProviderConfiguration = async (providerName: string) => {
     const provider = providers[providerName]
     if (!provider) {
-      throw createAppError(`Provider ${providerName} not found`, {
+      throw new AppError(`Provider ${providerName} not found`, {
         statusCode: 404,
         data: {providerName}
       })
@@ -39,13 +40,12 @@ export const useAIProviderStore = defineStore('ai-provider', () => {
 
       } catch (error) {
         provider.isConfigured = false
-        await handleError(error, {
+        await errorHandler.handleError(error, {
           statusCode: 401,
           data: {
             provider: providerName,
             requiresApiKey: provider.requiresApiKey
-          },
-          cause: error
+          }
         })
       }
     }
@@ -54,7 +54,7 @@ export const useAIProviderStore = defineStore('ai-provider', () => {
   const setProviderConfigured = async (providerName: string, isConfigured: boolean) => {
     try {
       if (!providers[providerName]) {
-        throw createAppError(`Cannot configure unknown provider: ${providerName}`, {
+        throw new AppError(`Cannot configure unknown provider: ${providerName}`, {
           statusCode: 404,
           data: {providerName}
         })
@@ -64,7 +64,7 @@ export const useAIProviderStore = defineStore('ai-provider', () => {
       await debug(`Provider ${providerName} configuration status set to: ${isConfigured}`)
 
     } catch (error) {
-      await handleError(error, {
+      await errorHandler.handleError(error, {
         statusCode: 500,
         data: {
           provider: providerName,
@@ -78,7 +78,7 @@ export const useAIProviderStore = defineStore('ai-provider', () => {
     try {
       const provider = providers[name]
       if (!provider) {
-        throw createAppError(`Provider ${name} not found`, {
+        throw new AppError(`Provider ${name} not found`, {
           statusCode: 404,
           data: {requestedProvider: name, availableProviders: Object.keys(providers)}
         })
@@ -86,7 +86,7 @@ export const useAIProviderStore = defineStore('ai-provider', () => {
       return provider
 
     } catch (error) {
-      handleError(error, {
+      errorHandler.handleError(error, {
         statusCode: 404,
         data: {requestedProvider: name}
       })

@@ -10,7 +10,7 @@ import RoadmapSidebar from "~/components/roadmap/RoadmapSidebar.vue"
 const route = useRoute()
 const slug = route.params.slug as string
 const { roadmap, loading, fetchRoadmap } = useRoadmaps()
-const { handleError } = useErrorHandler()
+const { handleError } = useDesktopErrorHandler()
 
 onMounted(async () => {
   try {
@@ -19,7 +19,6 @@ onMounted(async () => {
     await handleError(err, {
       statusCode: 404,
       data: { slug },
-      cause: err
     })
   }
 })

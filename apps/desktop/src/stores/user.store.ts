@@ -13,7 +13,7 @@ let store: Store
 
 function createUserStore() {
   return defineStore('user', () => {
-    const {handleError} = useErrorHandler()
+    const errorHandler = useDesktopErrorHandler()
     const user = ref<User | null>(null)
     const token = ref<string | null>(null)
 
@@ -33,11 +33,10 @@ function createUserStore() {
           await debug('User and token restored from store')
         }
       } catch (error) {
-        await handleError(error, {
+        await errorHandler.handleError(error, {
           statusCode: 500,
           data: {action: 'init_store'},
-          fatal: true, // Fatal error, we can't continue without the store
-          notify: true
+          fatal: true,
         })
       }
     }
@@ -53,7 +52,7 @@ function createUserStore() {
           await debug('User context updated with new token')
         }
       } catch (error) {
-        await handleError(error, {
+        await errorHandler.handleError(error, {
           statusCode: 500,
           data: {action: 'set_token'}
         })
@@ -71,7 +70,7 @@ function createUserStore() {
           await debug('User context updated in backend')
         }
       } catch (error) {
-        await handleError(error, {
+        await errorHandler.handleError(error, {
           statusCode: 500,
           data: {action: 'set_user', userId: userData.id}
         })
@@ -96,7 +95,7 @@ function createUserStore() {
         }
         return user.value
       } catch (error) {
-        await handleError(error, {
+        await errorHandler.handleError(error, {
           statusCode: 401,
           data: {action: 'get_user'}
         })
@@ -122,7 +121,7 @@ function createUserStore() {
         }
         return token.value
       } catch (error) {
-        await handleError(error, {
+        await errorHandler.handleError(error, {
           statusCode: 401,
           data: {action: 'get_token'}
         })
@@ -139,7 +138,7 @@ function createUserStore() {
         await invoke('clear_user')
         await debug('User data cleared successfully')
       } catch (error) {
-        await handleError(error, {
+        await errorHandler.handleError(error, {
           statusCode: 500,
           data: {action: 'clear_user'}
         })
@@ -151,7 +150,7 @@ function createUserStore() {
         const authToken = useCookie('auth.token')
         return authToken.value
       } catch (error) {
-        handleError(error, {
+        errorHandler.handleError(error, {
           statusCode: 401,
           data: {action: 'get_token_from_cookie'}
         })

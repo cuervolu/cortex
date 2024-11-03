@@ -208,6 +208,9 @@ importers:
       '@codemirror/view':
         specifier: 6.34.1
         version: 6.34.1
+      '@pinia/nuxt':
+        specifier: ^0.6.1
+        version: 0.6.1(magicast@0.3.5)(rollup@4.24.3)(typescript@5.6.3)(vue@3.5.12(typescript@5.6.3))
       '@replit/codemirror-indentation-markers':
         specifier: ^6.5.3
         version: 6.5.3(@codemirror/language@6.10.3)(@codemirror/state@6.4.1)(@codemirror/view@6.34.1)
@@ -241,6 +244,9 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      nuxt:
+        specifier: ^3.13.2
+        version: 3.13.2(@parcel/watcher@2.4.1)(@types/node@22.8.6)(eslint@9.14.0(jiti@2.4.0))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.24.3)(terser@5.36.0)(typescript@5.6.3)(vite@5.4.10(@types/node@22.8.6)(terser@5.36.0))
       radix-vue:
         specifier: ^1.9.8
         version: 1.9.8(vue@3.5.12(typescript@5.6.3))
@@ -259,6 +265,9 @@ importers:
       vaul-vue:
         specifier: ^0.2.0
         version: 0.2.0(radix-vue@1.9.8(vue@3.5.12(typescript@5.6.3)))(vue@3.5.12(typescript@5.6.3))
+      vue:
+        specifier: ^3.5.12
+        version: 3.5.12(typescript@5.6.3)
       vue-sonner:
         specifier: ^1.2.5
         version: 1.2.5
@@ -1520,6 +1529,9 @@ packages:
 
   '@pinia/nuxt@0.5.5':
     resolution: {integrity: sha512-wjxS7YqIesh4OLK+qE3ZjhdOJ5pYZQ+VlEmZNtTwzQn1Kavei/khovx7mzXVXNA/mvSPXVhb9xBzhyS3XMURtw==}
+
+  '@pinia/nuxt@0.6.1':
+    resolution: {integrity: sha512-eqPaOmPbKQANNVOvMMnJfdHij5alzirYzTeZ5eGcFIet8n/gF+vWOWVJkf0BZXIyaTq8hT79IS1HlZXTIhn+PQ==}
 
   '@pkgjs/parseargs@0.11.0':
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
@@ -8929,6 +8941,19 @@ snapshots:
       '@parcel/watcher-win32-x64': 2.4.1
 
   '@pinia/nuxt@0.5.5(magicast@0.3.5)(rollup@4.24.3)(typescript@5.6.3)(vue@3.5.12(typescript@5.6.3))':
+    dependencies:
+      '@nuxt/kit': 3.13.2(magicast@0.3.5)(rollup@4.24.3)
+      pinia: 2.2.5(typescript@5.6.3)(vue@3.5.12(typescript@5.6.3))
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - magicast
+      - rollup
+      - supports-color
+      - typescript
+      - vue
+      - webpack-sources
+
+  '@pinia/nuxt@0.6.1(magicast@0.3.5)(rollup@4.24.3)(typescript@5.6.3)(vue@3.5.12(typescript@5.6.3))':
     dependencies:
       '@nuxt/kit': 3.13.2(magicast@0.3.5)(rollup@4.24.3)
       pinia: 2.2.5(typescript@5.6.3)(vue@3.5.12(typescript@5.6.3))

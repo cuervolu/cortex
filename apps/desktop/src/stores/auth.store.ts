@@ -2,7 +2,8 @@ import {invoke} from '@tauri-apps/api/core'
 import {listen} from '@tauri-apps/api/event'
 import {open} from '@tauri-apps/plugin-shell'
 import {debug, info} from '@tauri-apps/plugin-log'
-import {API_ROUTES} from "@cortex/shared/config/api";
+import {API_ROUTES} from "@cortex/shared/config/api"
+import { AppError } from '@cortex/shared/types'
 
 interface OAuthConfig {
   provider: string
@@ -16,8 +17,8 @@ export const useAuthStore = defineStore('auth', () => {
   const router = useRouter()
   const {getSession} = useAuth()
   const {$syncAuthState} = useNuxtApp()
-  const {handleError} = useErrorHandler()
-  
+  const errorHandler = useDesktopErrorHandler()
+
   const isAuthCompleted = ref(false)
 
   const cleanup = async (port?: number, unlisten?: () => void) => {
@@ -29,7 +30,6 @@ export const useAuthStore = defineStore('auth', () => {
         await invoke('cancel_oauth_flow', {port})
       }
     } catch (error) {
-      // Ignorar errores de limpieza
       await debug(`Cleanup error (can be ignored): ${error}`)
     }
   }
@@ -40,7 +40,10 @@ export const useAuthStore = defineStore('auth', () => {
       const urlParams = new URLSearchParams(new URL(url).search)
       return urlParams.get('token')
     } catch (error) {
-      throw new Error(`Failed to parse callback URL: ${error}`)
+      throw new AppError(`Failed to parse callback URL: ${error}`, {
+        statusCode: 400,
+        data: { url }
+      })
     }
   }
 
@@ -71,32 +74,30 @@ export const useAuthStore = defineStore('auth', () => {
           const token = extractTokenFromUrl(callbackUrl)
 
           if (!token) {
-            throw new Error('No token received in callback URL')
+            throw new AppError('No token received in callback URL', {
+              statusCode: 401,
+              data: { callbackUrl }
+            })
           }
 
           await userStore.setToken({token})
           await info('Token stored successfully')
-
           await $syncAuthState()
-          const session = await getSession()
 
+          const session = await getSession()
           if (session) {
             await userStore.setUser(session)
             await info('User session updated')
-
-            // Marcar como completado antes de la limpieza
             isAuthCompleted.value = true
-
-            // Realizar limpieza antes de la redirección
             await cleanup(port, unlisten)
-
-            // Redireccionar después de la limpieza
             await router.push('/')
           } else {
-            throw new Error('Failed to get user session after authentication')
+            throw new AppError('Failed to get user session after authentication', {
+              statusCode: 401
+            })
           }
         } catch (error) {
-          await handleError(error, {
+          await errorHandler.handleError(error, {
             statusCode: 401,
             data: {
               action: 'oauth_callback',
@@ -104,14 +105,12 @@ export const useAuthStore = defineStore('auth', () => {
               url: event.payload
             }
           })
-          // Limpiar en caso de error
           await cleanup(port, unlisten)
         }
       })
     } catch (error) {
-      // Limpiar en caso de error en la configuración inicial
       await cleanup(port, unlisten)
-      await handleError(error, {
+      await errorHandler.handleError(error, {
         statusCode: 401,
         data: {
           action: 'start_oauth_flow',

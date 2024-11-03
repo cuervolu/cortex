@@ -7,10 +7,15 @@ interface AIModel {
   description: string
 }
 
-const {modelValue, isOpen} = defineProps<{
-  modelValue: string
-  isOpen: boolean
-}>()
+interface Props {
+  modelValue?: string
+  isOpen?: boolean
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  modelValue: '',
+  isOpen: false
+})
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: string): void

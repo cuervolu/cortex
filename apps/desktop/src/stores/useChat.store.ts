@@ -2,6 +2,7 @@ import {invoke} from '@tauri-apps/api/core'
 import {listen} from '@tauri-apps/api/event'
 import type {ChatState, ExerciseContext} from '~/types'
 import {debug, info} from "@tauri-apps/plugin-log";
+import {AppError} from "@cortex/shared/types";
 
 export const useChatStore = defineStore('chat', () => {
   const state = reactive<ChatState>({
@@ -17,7 +18,7 @@ export const useChatStore = defineStore('chat', () => {
   })
 
   const aiProviderStore = useAIProviderStore();
-  const {handleError, createAppError} = useErrorHandler()
+  const errorHandler = useDesktopErrorHandler()
   let unlistenStream: (() => void) | null = null
   let unlistenStreamEnd: (() => void) | null = null
   let lastChunk: string = ''
@@ -56,7 +57,7 @@ export const useChatStore = defineStore('chat', () => {
 
       await info(`Set up listeners for ${providerName}: ${streamEvent}, ${streamEndEvent}`)
     } catch (error) {
-      await handleError(error, {
+      await errorHandler.handleError(error, {
         statusCode: 500,
         data: {provider: providerName},
         fatal: false
@@ -79,15 +80,15 @@ export const useChatStore = defineStore('chat', () => {
 
   const setProvider = async (providerName: string) => {
     if (!providerName) {
-      throw createAppError('Invalid provider name', {
+      throw new AppError('Invalid provider name', {
         statusCode: 400,
-        silent: true // Evitar múltiples notificaciones para errores de validación
+        silent: true
       })
     }
 
     const provider = aiProviderStore.getProvider(providerName)
     if (!provider) {
-      throw createAppError(`Unknown provider: ${providerName}`, {
+      throw new AppError(`Unknown provider: ${providerName}`, {
         statusCode: 404,
         data: {providerName},
         silent: true
@@ -100,7 +101,7 @@ export const useChatStore = defineStore('chat', () => {
       try {
         await aiProviderStore.checkProviderConfiguration(providerName)
         if (!provider.isConfigured) {
-          throw createAppError('Provider not configured', {
+          throw new AppError('Provider not configured', {
             statusCode: 401,
             data: {provider: providerName}
           })
@@ -109,9 +110,8 @@ export const useChatStore = defineStore('chat', () => {
       } catch (error) {
         await debug(`Error configuring provider: ${error}`)
         await aiProviderStore.setProviderConfigured(providerName, false)
-        throw createAppError('Provider requires API key configuration', {
+        throw new AppError('Provider requires API key configuration', {
           statusCode: 401,
-          cause: error,
           silent: true
         })
       }
@@ -129,37 +129,36 @@ export const useChatStore = defineStore('chat', () => {
   const sendMessage = async (exerciseId: string, content: string) => {
     try {
       if (state.provider.requiresApiKey) {
-        const provider = aiProviderStore.getProvider(state.provider.name);
+        const provider = aiProviderStore.getProvider(state.provider.name)
         if (!provider?.isConfigured) {
-          throw createAppError(`${state.provider.name} requires API key configuration`, {
+          throw new AppError(`${state.provider.name} requires API key configuration`, {
             statusCode: 401,
             silent: true
-          });
+          })
         }
       }
 
-      state.isSending = true;
-      state.isStreaming = true;
-      state.error = null;
-      state.currentStreamingMessage = '';
+      state.isSending = true
+      state.isStreaming = true
+      state.error = null
+      state.currentStreamingMessage = ''
 
       state.messages.push({
         sender: 'user',
         content,
         timestamp: new Date().toISOString()
-      });
+      })
 
       await invoke('send_message', {
         exerciseId,
         message: content
-      });
+      })
     } catch (error) {
-      state.isStreaming = false;
-      state.isSending = false;
-      throw error; 
+      state.isStreaming = false
+      state.isSending = false
+      throw error
     }
-  };
-
+  }
 
 
   const startSession = async (context: ExerciseContext) => {
@@ -169,9 +168,9 @@ export const useChatStore = defineStore('chat', () => {
       state.currentStreamingMessage = ''
       state.error = null
     } catch (error) {
-      await handleError(error, {
+      await errorHandler.handleError(error, {
         statusCode: 500,
-        data: {exerciseId: context.exercise_id},
+        data: {exerciseId: context.exercise_id}
       })
     }
   }
@@ -183,12 +182,13 @@ export const useChatStore = defineStore('chat', () => {
       state.currentStreamingMessage = ''
       removeListeners()
     } catch (error) {
-      await handleError(error, {
+      await errorHandler.handleError(error, {
         statusCode: 500,
         data: {exerciseId}
       })
     }
   }
+
 
   const clearChat = () => {
     state.messages = []

@@ -41,10 +41,10 @@ const handleError = () => {
 
       <!-- Main Error Message -->
       <h1 class="text-4xl font-bold text-primary mb-4">
-        Oops! Something went wrong
+        Oops! Algo salió mal.
       </h1>
       <p class="text-xl text-gray-700 mb-8">
-        Don't worry! Even computers make mistakes sometimes. Let's try going back to the home page.
+        No te preocupes. Incluso los ordenadores cometen errores a veces. Intentemos volver a la página de inicio.
       </p>
 
       <!-- Action Button -->
@@ -53,7 +53,7 @@ const handleError = () => {
           @click="handleError"
       >
         <Home class="mr-2 h-5 w-5"/>
-        Go Back Home
+        Volver a la página de inicio
       </Button>
 
       <!-- Developer Details Dialog -->
@@ -64,7 +64,7 @@ const handleError = () => {
                 variant="link"
                 class="text-sm text-gray-500 hover:text-gray-700"
             >
-              Details (for developers)
+              Ver detalles técnicos (solo para desarrolladores)
             </Button>
           </DialogTrigger>
 
@@ -79,7 +79,7 @@ const handleError = () => {
             <div class="mt-4 text-left">
               <!-- Error Type -->
               <div class="mb-4">
-                <h3 class="font-semibold text-primary">Error Type:</h3>
+                <h3 class="font-semibold text-foreground">Error Type:</h3>
                 <p class="text-sm">
                   {{ additionalInfo.name }}
                   <Badge
@@ -94,19 +94,19 @@ const handleError = () => {
 
               <!-- Status Code -->
               <div class="mb-4">
-                <h3 class="font-semibold text-primary">Status Code:</h3>
+                <h3 class="font-semibold text-foreground">Status Code:</h3>
                 <p class="text-sm">{{ additionalInfo.statusCode }}</p>
               </div>
 
               <!-- Error Message -->
               <div class="mb-4">
-                <h3 class="font-semibold text-primary">Error Message:</h3>
+                <h3 class="font-semibold text-foreground">Error Message:</h3>
                 <p class="text-sm">{{ additionalInfo.message }}</p>
               </div>
 
               <!-- Stack Trace -->
               <div>
-                <h3 class="font-semibold text-primary">Stack Trace:</h3>
+                <h3 class="font-semibold text-foreground">Stack Trace:</h3>
                 <ScrollArea class="h-[200px] w-full rounded-md border p-4">
                   <pre class="text-xs font-mono">{{ additionalInfo.stack }}</pre>
                 </ScrollArea>

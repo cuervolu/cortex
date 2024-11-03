@@ -15,7 +15,7 @@ export function useAIChat() {
   const chatStore = useChatStore()
   const keystore = useKeystore()
   const providerStore = useAIProviderStore()
-  const { handleError } = useErrorHandler()
+  const errorHandler = useDesktopErrorHandler()
   const { toast } = useToast()
   const { data: authData } = useAuth()
 
@@ -76,7 +76,7 @@ export function useAIChat() {
       await chatStore.startSession(context)
     } catch (error) {
       await logError(`Error initializing chat: ${error}`)
-      await handleError(error)
+      await errorHandler.handleError(error)
     }
   }
 
@@ -109,7 +109,7 @@ export function useAIChat() {
       chatStore.clearChat()
 
     } catch (error) {
-      await handleError(error, {
+      await errorHandler.handleError(error, {
         statusCode: 401,
         silent: true,
         data: {

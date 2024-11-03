@@ -15,6 +15,7 @@ import LoadingOverlay from "~/components/LoadingOverlay.vue"
 import InstructionsTab from "~/components/exercise/InstructionsTab.vue";
 import HintsTab from "~/components/exercise/HintsTab.vue";
 import {DesktopCodeExecutionService} from "~/services/desktop-code-execution.service";
+import {AppError} from "@cortex/shared/types";
 
 const {
   isSettingsOpen,
@@ -49,7 +50,10 @@ const {availableExtensions, availableThemes, activeExtensions, editorTheme} = us
 const {data: authData} = useAuth()
 const codeExecutionStore = useCodeExecutionStore();
 
+const errorHandler = useDesktopErrorHandler()
+
 const {executeCode} = useCodeExecution(new DesktopCodeExecutionService());
+
 const handleSendMessage = async (message: string) => {
   if (!exercise.value || !isMounted.value) return
 
@@ -72,8 +76,7 @@ const handleSendMessage = async (message: string) => {
     await chatStore.sendMessage(context.exercise_id, message)
   } catch (error) {
     if (!isMounted.value) return
-    const {handleError} = useErrorHandler()
-    await handleError(error)
+    await errorHandler.handleError(error)
   }
 }
 
@@ -135,8 +138,7 @@ onMounted(async () => {
     await initializeChat(exercise.value, editorCode)
   } catch (error) {
     await logError(`Error during component mount: ${error}`)
-    const {handleError} = useErrorHandler()
-    await handleError(error)
+    await errorHandler.handleError(error)
   } finally {
     if (isMounted.value) {
       isLoading.value = false
@@ -186,37 +188,35 @@ watch(() => codeExecutionStore.activeTab, (newTab) => {
 
 const handleCodeExecution = async (code: string) => {
   if (!exercise.value) {
-    const { handleError } = useErrorHandler();
-    await handleError(new Error('No exercise loaded'), {
+    await errorHandler.handleError(new AppError('No exercise loaded', {
       statusCode: 400,
       data: {
         action: 'execute_code',
         message: 'Attempted to execute code without an active exercise'
       }
-    });
-    return;
+    }))
+    return
   }
 
   try {
-    await debug(`Executing code for exercise: ${exercise.value.id}`);
-    currentTab.value = 'results';
+    await debug(`Executing code for exercise: ${exercise.value.id}`)
+    currentTab.value = 'results'
     await executeCode({
       code,
       language: currentLanguage.value,
       exercise_id: exercise.value.id
-    });
+    })
   } catch (error) {
-    const { handleError } = useErrorHandler();
-    await handleError(error, {
+    await errorHandler.handleError(error, {
       statusCode: 500,
       data: {
         action: 'execute_code',
         exerciseId: exercise.value.id,
         language: currentLanguage.value
       }
-    });
+    })
   }
-};
+}
 </script>
 
 <template>
