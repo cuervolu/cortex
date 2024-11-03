@@ -17,6 +17,7 @@ function toggleSidebar() {
           class="z-50"
           :has-sidebar="true"
           :is-collapsed="isCollapsed"
+          :is-auth="false"
           @toggle-sidebar="toggleSidebar"
       />
       <div class="flex-1 flex gap-2.5 p-5 overflow-hidden">

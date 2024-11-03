@@ -11,7 +11,7 @@ const handleScroll = (event) => {
 
   <div class="relative min-h-screen flex flex-col">
     <!-- TitleBar -->
-    <TitleBar class="w-full sticky top-0 z-50" :has-sidebar="false" :class="{ 'shadow-md': isScrolled }" />
+    <TitleBar class="w-full sticky top-0 z-50" :has-sidebar="false" :class="{ 'shadow-md': isScrolled }" :is-auth="true" />
 
     <!-- Scrollable content -->
     <div class="flex-1 overflow-auto" @scroll="handleScroll">
