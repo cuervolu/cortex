@@ -1,17 +1,27 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-
 const isOpen = ref(false)
 const loading = ref(false)
 const email = ref('')
 
 const handleSubmit = async (e: Event) => {
   e.preventDefault()
-  loading.value = true
-  // Agrega aquí tu lógica de reseteo de contraseña
-  await new Promise(resolve => setTimeout(resolve, 1000)) // Simula llamada API
-  loading.value = false
-  isOpen.value = false
+  try {
+    loading.value = true
+    
+    const response = await FORGOT_PASSWORD({
+      email: email.value
+    })
+
+    if (response.ok) {
+      isOpen.value = false
+      alert('Se ha enviado un correo con las instrucciones para resetear tu contraseña')
+    }
+    
+  } catch (error) {
+    console.error('Error al enviar el correo:', error)
+  } finally {
+    loading.value = false
+  }
 }
 </script>
 
