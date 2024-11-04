@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useAuthStore } from "~/stores"
+import {AppError} from "@cortex/shared/types";
 
 definePageMeta({
   auth: {
@@ -17,17 +18,18 @@ onMounted(async () => {
   const token = urlParams.get('token')
 
   try {
-    if (token) {
-      const redirectTo = await authStore.handleOAuthCallback(token)
-      message.value = 'Autenticación exitosa. Redirigiendo...'
-      setTimeout(() => router.push(redirectTo), 1500) 
-    } else {
-      throw new Error('No se recibió token de autenticación')
+
+    if(!token) {
+      throw new AppError('Token no encontrado')
     }
-  } catch (error) {
-    console.error('Error en la autenticación:', error)
+    const redirectTo = await authStore.handleOAuthCallback(token!)
+    message.value = 'Autenticación exitosa. Redirigiendo...'
+    await nextTick()
+    await router.replace(redirectTo)
+  } catch (err) {
     message.value = 'Error en la autenticación. Redirigiendo al login...'
-    setTimeout(() => router.push('/auth/login'), 1500)
+    await nextTick()
+    await router.replace('/auth/login')
   }
 })
 </script>
