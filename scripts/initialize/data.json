@@ -182,71 +182,119 @@
       "is_published": false
     },
     {
-      "title": "La Forja del Desarrollador Blockchain",
-      "description": "Adéntrate en el ardiente mundo de la tecnología blockchain y las criptomonedas. Aprende a forjar contratos inteligentes, crear aplicaciones descentralizadas (DApps) y dominar los protocolos de consenso. Al completar tu entrenamiento en La Forja, emergerás como un Maestro Herrero Blockchain, capaz de construir el futuro descentralizado.",
-      "tags": [
-        {
-          "name": "Blockchain"
+        "title": "Aventura en las Islas Java",
+        "description": "Explora un archipiélago de conocimiento avanzado en Java, donde cada isla representa un aspecto especializado del desarrollo empresarial. Desde la creación de aplicaciones distribuidas con Spring Boot hasta la optimización de bases de datos y microservicios, esta aventura te convertirá en un verdadero maestro del ecosistema Java.",
+        "tags": [
+          {
+            "name": "Java"
+          },
+          {
+            "name": "Spring Boot"
+          },
+          {
+            "name": "Microservicios"
+          }
+        ],
+        "course_ids": [
+          8
+        ],
+        "is_published": true
         },
         {
-          "name": "Smart Contracts"
+          "title": "Ciudad Veloz: Microservicios con Go",
+          "description": "Construye una ciudad moderna usando la velocidad y eficiencia de Go. Aprende a diseñar y desarrollar microservicios escalables, APIs de alto rendimiento y sistemas distribuidos robustos. Domina las mejores prácticas de la arquitectura de software moderna mientras construyes los rascacielos del futuro.",
+          "tags": [
+            {
+              "name": "Go"
+            },
+            {
+              "name": "Microservicios"
+            },
+            {
+              "name": "Arquitectura de Software"
+            }
+          ],
+          "course_ids": [
+            9
+          ],
+          "is_published": true
         },
         {
-          "name": "Ethereum"
+          "title": "Academia de Magos TypeScript: Hechizos Avanzados",
+          "description": "Profundiza en los misterios más oscuros de TypeScript en esta academia de nivel avanzado. Aprende a crear tipos genéricos poderosos, domina la magia de los decoradores y descubre los secretos de la programación funcional. Gradúate como un Archimago de TypeScript capaz de construir aplicaciones empresariales robustas y seguras.",
+          "tags": [
+            {
+              "name": "TypeScript"
+            },
+            {
+              "name": "Programación Funcional"
+            },
+            {
+              "name": "Patrones de Diseño"
+            }
+          ],
+          "course_ids": [
+            10
+          ],
+          "is_published": true
         },
         {
-          "name": "DApps"
+          "title": "La Forja del Sistema: Rust Avanzado",
+          "description": "Adéntrate en las profundidades de la programación de sistemas con Rust. Desde el desarrollo de drivers y sistemas embebidos hasta la creación de herramientas de línea de comandos de alto rendimiento, esta forja te convertirá en un maestro herrero del código seguro y eficiente.",
+          "tags": [
+            {
+              "name": "Rust"
+            },
+            {
+              "name": "Sistemas Embebidos"
+            },
+            {
+              "name": "Programación de Bajo Nivel"
+            }
+          ],
+          "course_ids": [
+            11
+          ],
+          "is_published": true
+        },
+        {
+          "title": "La Academia de Arquitectos JavaScript",
+          "description": "Únete a la élite de los arquitectos de software en esta academia especializada en patrones y arquitecturas modernas de JavaScript. Aprende a diseñar y construir aplicaciones escalables usando los últimos frameworks y técnicas de desarrollo. Domina React, Vue.js y Node.js mientras construyes el futuro de la web.",
+          "tags": [
+            {
+              "name": "JavaScript"
+            },
+            {
+              "name": "Arquitectura Frontend"
+            },
+            {
+              "name": "React"
+            }
+          ],
+          "course_ids": [
+            12
+          ],
+          "is_published": true
+        },
+        {
+          "title": "La Ciudadela de la IA: Python Avanzado",
+          "description": "Asciende a las alturas de la inteligencia artificial en esta ciudadela del conocimiento avanzado en Python. Domina las redes neuronales profundas, el procesamiento del lenguaje natural y la visión por computadora. Conviértete en un maestro de la IA capaz de construir sistemas inteligentes que cambien el mundo.",
+          "tags": [
+            {
+              "name": "Python"
+            },
+            {
+              "name": "Deep Learning"
+            },
+            {
+              "name": "Inteligencia Artificial"
+            }
+          ],
+          "course_ids": [
+            13
+          ],
+          "is_published": true
         }
-      ],
-      "course_ids": [
-        8
-      ],
-      "is_published": false
-    },
-    {
-      "title": "La Odisea del Arquitecto en la Nube",
-      "description": "Embárcate en un viaje épico a través de los vastos reinos de la computación en la nube. Aprenderás a diseñar y construir majestuosas estructuras en el cielo digital, dominar los vientos de la escalabilidad y conjurar los rayos del procesamiento distribuido. Al final de tu odisea, te convertirás en un verdadero Arquitecto de las Nubes, capaz de crear y gestionar infraestructuras que se extienden más allá del horizonte.",
-      "tags": [
-        {
-          "name": "Cloud Computing"
-        },
-        {
-          "name": "AWS"
-        },
-        {
-          "name": "Azure"
-        },
-        {
-          "name": "DevOps"
-        }
-      ],
-      "course_ids": [
-        9  
-      ],
-      "is_published": false
-    },
-    {
-      "title": "El Camino del Guardián de la Ciberseguridad",
-      "description": "Conviértete en un valiente defensor del reino digital en El Camino del Guardián de la Ciberseguridad. Aprenderás las artes del hacking ético, dominarás las técnicas de encriptación y forjarás poderosos escudos contra las fuerzas del mal en el ciberespacio. Al completar tu entrenamiento, te alzarás como un Guardián de élite, protegiendo los reinos digitales de las amenazas que acechan en las sombras.",
-      "tags": [
-        {
-          "name": "Ciberseguridad"
-        },
-        {
-          "name": "Hacking Ético"
-        },
-        {
-          "name": "Criptografía"
-        },
-        {
-          "name": "Seguridad de Redes"
-        }
-      ],
-      "course_ids": [
-        10
-      ],
-      "is_published": false
-    }
   ],
   "courses": [
     {
@@ -330,8 +378,8 @@
       "is_published": true
     },
     {
-      "name": "JavaScript: El Grimorio del DOM",
-      "description": "Domina los hechizos fundamentales para manipular el DOM y crear páginas web interactivas.",
+      "name": "Grimorio del DOM: JavaScript Básico",
+      "description": "Comienza tu viaje como aprendiz de mago del DOM. En este curso fundamental, aprenderás los hechizos básicos de JavaScript, desde la manipulación de elementos del DOM hasta los primeros encantamientos de eventos. Descubre cómo dar vida a tus páginas web con magia interactiva.",
       "tags": [
         {
           "name": "JavaScript"
@@ -340,184 +388,186 @@
           "name": "DOM"
         },
         {
-          "name": "Web Development"
-        },
-        {
-          "name": "Front-end"
+          "name": "Principiante"
         }
       ],
-      "is_published": false
+      "is_published": true
     },
     {
-      "name": "Alquimia Asíncrona con JavaScript",
-      "description": "Aprende a crear pociones asíncronas y a dominar el flujo del tiempo en tus aplicaciones web.",
+      "name": "La Brújula del Científico de Datos",
+      "description": "Embárcate en tu primera expedición al mundo de la ciencia de datos con Python. Aprende a navegar por datasets, crear visualizaciones básicas y descubrir patrones ocultos en los datos. Una aventura introductoria perfecta para aspirantes a científicos de datos.",
+      "tags": [
+        {
+          "name": "Python"
+        },
+        {
+          "name": "Data Science"
+        },
+        {
+          "name": "Visualización"
+        }
+      ],
+      "is_published": true
+    },
+    {
+      "name": "Maestría en Spring Boot: El Viaje del Arquitecto Java",
+      "description": "Domina el arte de construir aplicaciones empresariales robustas con Spring Boot. Desde la creación de APIs RESTful hasta la implementación de seguridad y microservicios, este curso te convertirá en un arquitecto Java consumado.",
+      "tags": [
+        {
+          "name": "Java"
+        },
+        {
+          "name": "Spring Boot"
+        },
+        {
+          "name": "Arquitectura"
+        }
+      ],
+      "is_published": true
+    },
+    {
+      "name": "Ingeniería de Microservicios con Go",
+      "description": "Construye sistemas distribuidos escalables y de alto rendimiento con Go. Aprende patrones de microservicios, manejo de concurrencia avanzada y técnicas de optimización para crear aplicaciones empresariales modernas.",
+      "tags": [
+        {
+          "name": "Go"
+        },
+        {
+          "name": "Microservicios"
+        },
+        {
+          "name": "Sistemas Distribuidos"
+        }
+      ],
+      "is_published": true
+    },
+    {
+      "name": "Artes Oscuras de TypeScript",
+      "description": "Sumérgete en los aspectos más avanzados de TypeScript. Domina tipos genéricos complejos, programación funcional avanzada y patrones de diseño modernos para construir aplicaciones empresariales robustas.",
+      "tags": [
+        {
+          "name": "TypeScript"
+        },
+        {
+          "name": "Avanzado"
+        },
+        {
+          "name": "Patrones de Diseño"
+        }
+      ],
+      "is_published": true
+    },
+    {
+      "name": "Desarrollo de Sistemas Embebidos con Rust",
+      "description": "Aprende a crear software de bajo nivel seguro y eficiente con Rust. Desde drivers hasta sistemas en tiempo real, dominarás las técnicas avanzadas de programación de sistemas.",
+      "tags": [
+        {
+          "name": "Rust"
+        },
+        {
+          "name": "Sistemas Embebidos"
+        },
+        {
+          "name": "Bajo Nivel"
+        }
+      ],
+      "is_published": true
+    },
+    {
+      "name": "Arquitectura Frontend Moderna con React",
+      "description": "Conviértete en un arquitecto frontend experto. Aprende a diseñar y construir aplicaciones React escalables, implementar patrones avanzados de estado y crear experiencias de usuario excepcionales.",
       "tags": [
         {
           "name": "JavaScript"
         },
         {
-          "name": "Asynchronous Programming"
+          "name": "React"
         },
         {
-          "name": "Web Development"
-        },
-        {
-          "name": "Full-stack"
+          "name": "Arquitectura"
         }
       ],
-      "is_published": false
+      "is_published": true
     },
     {
-      "name": "Expedición a las Cavernas de Datos",
-      "description": "Explora las profundidades de Python para la ciencia de datos y descubre tesoros ocultos en la información.",
+      "name": "Deep Learning y Redes Neuronales con Python",
+      "description": "Explora las profundidades de la inteligencia artificial con Python. Construye y entrena redes neuronales complejas, implementa modelos de procesamiento del lenguaje natural y desarrolla sistemas de visión por computadora.",
       "tags": [
         {
           "name": "Python"
         },
         {
-          "name": "Data Science"
+          "name": "Deep Learning"
         },
         {
-          "name": "Data Analysis"
-        },
-        {
-          "name": "Visualization"
+          "name": "IA"
         }
       ],
-      "is_published": false
+      "is_published": true
     },
     {
-      "name": "La Academia de Magos del Machine Learning",
-      "description": "Aprende los encantamientos del aprendizaje automático y predice el futuro con algoritmos mágicos.",
+      "name": "Optimización y Despliegue en Java",
+      "description": "Lleva tus aplicaciones Java al siguiente nivel. Aprende técnicas avanzadas de optimización, implementación de CI/CD y estrategias de despliegue en la nube para aplicaciones empresariales.",
       "tags": [
         {
-          "name": "Python"
-        },
-        {
-          "name": "Machine Learning"
-        },
-        {
-          "name": "AI"
-        },
-        {
-          "name": "Data Science"
-        }
-      ],
-      "is_published": false
-    },
-    {
-      "name": "Fundición de Bloques: Introducción a Blockchain",
-      "description": "Descubre los secretos de la tecnología blockchain y aprende a forjar tus primeros bloques.",
-      "tags": [
-        {
-          "name": "Blockchain"
-        },
-        {
-          "name": "Cryptocurrency"
-        },
-        {
-          "name": "Decentralized Systems"
-        },
-        {
-          "name": "Cryptography"
-        }
-      ],
-      "is_published": false
-    },
-    {
-      "name": "La Fragua de los Contratos Inteligentes",
-      "description": "Domina el arte de crear contratos inteligentes y aplicaciones descentralizadas en Ethereum.",
-      "tags": [
-        {
-          "name": "Blockchain"
-        },
-        {
-          "name": "Smart Contracts"
-        },
-        {
-          "name": "Ethereum"
-        },
-        {
-          "name": "DApps"
-        }
-      ],
-      "is_published": false
-    },
-    {
-      "name": "Navegando los Cielos Digitales: Fundamentos de la Nube",
-      "description": "Embarca en tu primer vuelo a través de los conceptos básicos de la computación en la nube.",
-      "tags": [
-        {
-          "name": "Cloud Computing"
-        },
-        {
-          "name": "AWS"
-        },
-        {
-          "name": "Azure"
-        },
-        {
-          "name": "Fundamentals"
-        }
-      ],
-      "is_published": false
-    },
-    {
-      "name": "Construcción de Castillos en el Cielo: Arquitectura Cloud Avanzada",
-      "description": "Aprende a diseñar y construir infraestructuras escalables y resilientes en la nube.",
-      "tags": [
-        {
-          "name": "Cloud Architecture"
+          "name": "Java"
         },
         {
           "name": "DevOps"
         },
         {
-          "name": "Scalability"
-        },
-        {
-          "name": "Advanced"
+          "name": "Optimización"
         }
       ],
-      "is_published": false
+      "is_published": true
     },
     {
-      "name": "La Academia de Guardianes Digitales",
-      "description": "Iníciate en las artes de la ciberseguridad y aprende a proteger los reinos digitales.",
+      "name": "Seguridad y Testing en Go",
+      "description": "Domina las mejores prácticas de seguridad y testing en Go. Implementa pruebas automatizadas robustas y protege tus aplicaciones contra vulnerabilidades comunes.",
       "tags": [
         {
-          "name": "Cybersecurity"
+          "name": "Go"
         },
         {
-          "name": "Network Security"
+          "name": "Seguridad"
         },
         {
-          "name": "Information Security"
-        },
-        {
-          "name": "Beginner"
+          "name": "Testing"
         }
       ],
-      "is_published": false
+      "is_published": true
     },
     {
-      "name": "El Arsenal del Hacker Ético",
-      "description": "Domina las herramientas y técnicas utilizadas por los hackers éticos para defender contra las amenazas cibernéticas.",
+      "name": "TypeScript en el Ecosistema Node.js",
+      "description": "Construye aplicaciones backend robustas con TypeScript y Node.js. Aprende a crear APIs seguras, implementar autenticación y manejar bases de datos con tipado fuerte.",
       "tags": [
         {
-          "name": "Ethical Hacking"
+          "name": "TypeScript"
         },
         {
-          "name": "Penetration Testing"
+          "name": "Node.js"
         },
         {
-          "name": "Cybersecurity"
-        },
-        {
-          "name": "Advanced"
+          "name": "Backend"
         }
       ],
-      "is_published": false
+      "is_published": true
+    },
+    {
+      "name": "Programación de Videojuegos con Rust",
+      "description": "Crea motores de juegos eficientes y seguros con Rust. Aprende gráficos por computadora, física de juegos y optimización de rendimiento.",
+      "tags": [
+        {
+          "name": "Rust"
+        },
+        {
+          "name": "Videojuegos"
+        },
+        {
+          "name": "Gráficos"
+        }
+      ],
+      "is_published": true
     }
   ],
   "modules": [
@@ -553,63 +603,63 @@
     },
     {
       "course_id": 6,
-      "name": "El Libro de los Elementos",
-      "description": "Aprende a invocar y manipular los elementos básicos del DOM con JavaScript.",
-      "is_published": false
+      "name": "El Primer Hechizo del DOM",
+      "description": "Comienza tu viaje en la magia del DOM aprendiendo los encantamientos básicos para seleccionar y modificar elementos HTML. Descubre cómo dar tus primeros pasos en el control de la web.",
+      "is_published": true
     },
     {
       "course_id": 7,
-      "name": "La Danza de las Promesas",
-      "description": "Domina el arte de las promesas y los hechizos async/await en JavaScript.",
-      "is_published": false
+      "name": "El Campamento Base del Científico de Datos",
+      "description": "Establece tu primer campamento en el mundo de la ciencia de datos. Aprende a configurar tu entorno Python y dar tus primeros pasos con pandas y numpy.",
+      "is_published": true
     },
     {
       "course_id": 8,
-      "name": "El Bestiario de los Datos",
-      "description": "Conoce y doma las diversas criaturas de datos que habitan en el mundo de Python.",
-      "is_published": false
+      "name": "Fundamentos de Spring Boot",
+      "description": "Construye los cimientos de tu conocimiento en Spring Boot. Aprende la estructura básica de una aplicación y cómo configurar tu primer proyecto.",
+      "is_published": true
     },
     {
       "course_id": 9,
-      "name": "Los Pergaminos de la Predicción",
-      "description": "Descifra los antiguos pergaminos del aprendizaje supervisado y no supervisado.",
-      "is_published": false
+      "name": "Arquitectura de Microservicios",
+      "description": "Descubre los fundamentos de la arquitectura de microservicios en Go. Aprende patrones de diseño y mejores prácticas para sistemas distribuidos.",
+      "is_published": true
     },
     {
       "course_id": 10,
-      "name": "La Cadena de los Bloques Eternos",
-      "description": "Comprende la estructura y el funcionamiento de la cadena de bloques.",
-      "is_published": false
+      "name": "Grimorios de Tipos Avanzados",
+      "description": "Descubre los secretos de los tipos genéricos y las transformaciones de tipo en TypeScript. Aprende a crear tipos complejos y seguros.",
+      "is_published": true
     },
     {
       "course_id": 11,
-      "name": "La Forja de Ethereum",
-      "description": "Aprende a crear y desplegar contratos inteligentes en la red Ethereum.",
-      "is_published": false
+      "name": "Fundamentos de Sistemas Embebidos",
+      "description": "Construye las bases para programar sistemas embebidos con Rust. Aprende sobre manejo de memoria segura y programación bare metal.",
+      "is_published": true
     },
     {
       "course_id": 12,
-      "name": "El Atlas de las Nubes",
-      "description": "Explora los diferentes servicios y regiones de los principales proveedores de nube.",
-      "is_published": false
+      "name": "Patrones de Diseño React",
+      "description": "Explora patrones avanzados de diseño en React para crear componentes reutilizables y mantenibles.",
+      "is_published": true
     },
     {
       "course_id": 13,
-      "name": "La Torre de la Orquestación",
-      "description": "Domina las herramientas de orquestación y automatización para arquitecturas cloud avanzadas.",
-      "is_published": false
+      "name": "Fundamentos de Deep Learning",
+      "description": "Construye tu primera red neuronal desde cero y comprende los conceptos fundamentales del aprendizaje profundo.",
+      "is_published": true
     },
     {
       "course_id": 14,
-      "name": "El Escudo del Guardián",
-      "description": "Aprende las bases de la protección de sistemas y redes contra amenazas cibernéticas.",
-      "is_published": false
+      "name": "Optimización de JVM",
+      "description": "Aprende técnicas avanzadas para optimizar el rendimiento de tus aplicaciones Java en la JVM.",
+      "is_published": true
     },
     {
       "course_id": 15,
-      "name": "El Laboratorio del Hacker",
-      "description": "Configura y utiliza un entorno de pruebas éticas para identificar vulnerabilidades.",
-      "is_published": false
+      "name": "Testing Avanzado en Go",
+      "description": "Implementa estrategias completas de testing incluyendo pruebas unitarias, de integración y de rendimiento.",
+      "is_published": true
     }
   ],
   "lessons": [
