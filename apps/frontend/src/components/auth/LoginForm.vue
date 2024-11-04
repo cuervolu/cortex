@@ -5,7 +5,7 @@ import { useForm } from 'vee-validate'
 import { Loader2 } from 'lucide-vue-next'
 import GoogleIcon from "~/components/icons/GoogleIcon.vue";
 import GithubIcon from "~/components/icons/GithubIcon.vue";
-
+import PasswordResetDialog from '~/components/auth/PasswordResetDialog.vue'
 interface Props {
   loading?: boolean
 }
@@ -96,9 +96,7 @@ const handleLogin = (provider: 'github' | 'google') => {
       </form>
     </CardContent>
     <CardFooter class="flex justify-center items-center w-full p-0">
-      <a href="#" class="self-stretch text-[#5e4a6e] dark:text-[#BEBEBE] text-[16.85px] font-medium">
-        Olvidaste tu contraseña?
-        </a>
+      <PasswordResetDialog />
     </CardFooter>
   </Card>
 </template>

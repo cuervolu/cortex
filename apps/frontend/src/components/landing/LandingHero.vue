@@ -7,11 +7,12 @@ import PythonIcon from "~/components/icons/PythonIcon.vue";
 import KotlinIcon from "~/components/icons/KotlinIcon.vue";
 import CSharpIcon from "~/components/icons/CSharpIcon.vue";
 import JavaIcon from "~/components/icons/JavaIcon.vue";
+import { ref } from 'vue'
 </script>
 
 <template>
   <section class="relative py-20 px-4 text-center min-h-screen overflow-hidden text-foreground">
-    <div class="max-w-3xl mx-auto bg-muted rounded-lg shadow-lg p-8 relative z-2 bg-cyan-50">
+    <div class="max-w-3xl bg-cyan-50 mx-auto bg-muted rounded-lg shadow-lg p-8 relative z-2">
       <h1 class="text-5xl mb-4">
         Un enfoque <span class="font-bold">único</span> para aprender Ciencias de la Computación
       </h1>
