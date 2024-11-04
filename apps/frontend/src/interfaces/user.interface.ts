@@ -70,12 +70,12 @@ export interface AchievementType {
 }
 
 export interface UpdateProfileRequest {
-  first_name?: string
-  last_name?: string
+  firstName?: string
+  lastName?: string
   username?: string
   email?: string
-  date_of_birth?: Date
-  country_code?: string
+  dateOfBirth?: Date
+  countryCode?: string
   gender?: Gender
   password?: string
   confirm_password?: string

@@ -35,10 +35,10 @@ const emit = defineEmits<{
 const requiredFields = computed(() => {
   const fields: (keyof UpdateProfileRequest)[] = [
     'username',
-    'first_name',
-    'last_name',
-    'date_of_birth',
-    'country_code',
+    'firstName',
+    'lastName',
+    'dateOfBirth',
+    'countryCode',
     'gender'
   ]
 
@@ -52,10 +52,10 @@ const requiredFields = computed(() => {
 
 const formSchema = toTypedSchema(z.object({
   username: z.string().min(3).max(50).optional(),
-  first_name: z.string().min(2).max(50).optional(),
-  last_name: z.string().min(2).max(50).optional(),
-  date_of_birth: z.date().optional(),
-  country_code: z.string().min(2).max(3).optional(),
+  firstName: z.string().min(2).max(50).optional(),
+  lastName: z.string().min(2).max(50).optional(),
+  dateOfBirth: z.date().optional(),
+  countryCode: z.string().min(2).max(3).optional(),
   gender: z.enum(['MALE', 'FEMALE', 'OTHER', 'NON_BINARY', 'PREFER_NOT_TO_SAY'] as const).optional(),
   password: props.needsPassword
       ? z.string()
@@ -81,10 +81,10 @@ const form = useForm({
   validationSchema: formSchema,
   initialValues: {
     username: props.initialData.username,
-    first_name: props.initialData.first_name,
-    last_name: props.initialData.last_name,
-    date_of_birth: props.initialData.date_of_birth ? new Date(props.initialData.date_of_birth) : undefined,
-    country_code: props.initialData.country_code,
+    firstName: props.initialData.firstName,
+    lastName: props.initialData.lastName,
+    dateOfBirth: props.initialData.dateOfBirth ? new Date(props.initialData.dateOfBirth) : undefined,
+    countryCode: props.initialData.countryCode,
     gender: props.initialData.gender,
   }
 })
@@ -109,10 +109,10 @@ const genderOptions = [
 const getFieldLabel = (field: string) => {
   const labels: Record<string, string> = {
     username: 'Nombre de usuario',
-    first_name: 'Nombre',
-    last_name: 'Apellidos',
-    date_of_birth: 'Fecha de nacimiento',
-    country_code: 'País',
+    firstName: 'Nombre',
+    lastName: 'Apellidos',
+    dateOfBirth: 'Fecha de nacimiento',
+    countryCode: 'País',
     gender: 'Género',
     password: 'Contraseña',
     confirm_password: 'Confirmar contraseña'
@@ -187,7 +187,7 @@ const fieldGroups = computed(() => {
                     {{ getFieldLabel(field) }}
                   </FormLabel>
                   <FormControl>
-                    <template v-if="field === 'date_of_birth'">
+                    <template v-if="field === 'dateOfBirth'">
                       <Calendar
                           v-bind="componentField"
                           class="w-full rounded-md border"/>
@@ -207,7 +207,7 @@ const fieldGroups = computed(() => {
                         </SelectContent>
                       </Select>
                     </template>
-                    <template v-else-if="field === 'country_code'">
+                    <template v-else-if="field === 'countryCode'">
                       <Select v-bind="componentField">
                         <SelectTrigger :class="{'border-red-500': errors.length}">
                           <SelectValue placeholder="Select country"/>
