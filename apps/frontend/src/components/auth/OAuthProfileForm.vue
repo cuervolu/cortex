@@ -131,20 +131,20 @@ const fieldGroups = computed(() => {
 
   // Personal info group
   groups.push({
-    title: 'Personal Information',
-    fields: fields.filter(f => ['first_name', 'last_name', 'username'].includes(f))
+    title: 'Información Personal',
+    fields: fields.filter(f => ['firstName', 'lastName', 'username'].includes(f))
   })
 
   // Additional info group  
   groups.push({
-    title: 'Additional Information',
-    fields: fields.filter(f => ['date_of_birth', 'country_code', 'gender'].includes(f))
+    title: 'Información Adicional',
+    fields: fields.filter(f => ['dateOfBirth', 'countryCode', 'gender'].includes(f))
   })
 
   // Password group (if needed)
   if (props.needsPassword) {
     groups.push({
-      title: 'Set Password',
+      title: 'Contraseña',
       fields: fields.filter(f => ['password', 'confirm_password'].includes(f))
     })
   }
@@ -174,8 +174,9 @@ const fieldGroups = computed(() => {
               v-for="group in fieldGroups" :key="group.title"
               class="bg-white bg-opacity-50 rounded-lg p-4 space-y-4">
             <h3 class="text-lg font-semibold text-purple-900 mb-4">{{ group.title }}</h3>
-            <div class="grid gap-4"
-                 :class="group.fields.length > 2 ? 'grid-cols-1' : 'grid-cols-2'">
+            <div
+                class="grid gap-4"
+                :class="group.fields.length > 2 ? 'grid-cols-1' : 'grid-cols-2'">
               <FormField
                   v-for="field in group.fields"
                   v-slot="{ componentField, errors }"
@@ -230,6 +231,7 @@ const fieldGroups = computed(() => {
                           :type="field.includes('password') ? 'password' : 'text'"
                           :placeholder="getFieldLabel(field)"
                           v-bind="componentField"
+                          autocomplete="new-password"
                           :class="{'border-red-500': errors.length}"
                       />
                     </template>

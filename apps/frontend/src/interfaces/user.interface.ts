@@ -3,6 +3,8 @@
  *
  * **/
 
+import {parseISO} from "date-fns";
+
 /**
  * Represents a User entity.
  * It contains basic user information like username, email, roles, and providers.
@@ -108,16 +110,30 @@ export const transformSessionToProfileRequest = (sessionData: any): UpdateProfil
     throw new Error('No session data provided')
   }
 
-  const transformedData: UpdateProfileRequest = {
-    username: sessionData.username || '',
-    first_name: sessionData.first_name || '',
-    last_name: sessionData.last_name || '',
-    email: sessionData.email || '',
-    date_of_birth: sessionData.date_of_birth ? new Date(sessionData.date_of_birth) : new Date(),
-    country_code: sessionData.country_code || '',
-    gender: sessionData.gender || 'PREFER_NOT_TO_SAY',
+
+  let dateOfBirth: Date | undefined
+
+  if (sessionData.date_of_birth) {
+    try {
+      if (typeof sessionData.date_of_birth === 'string') {
+        dateOfBirth = parseISO(sessionData.date_of_birth)
+      }
+      else if (sessionData.date_of_birth instanceof Date) {
+        dateOfBirth = sessionData.date_of_birth
+      }
+    } catch (error) {
+      console.error('Error parsing date of birth:', error)
+      dateOfBirth = undefined
+    }
   }
 
-  console.log('Transformed session data:', transformedData)
-  return transformedData
+  return {
+    username: sessionData.username || '',
+    firstName: sessionData.first_name,
+    lastName: sessionData.last_name,
+    email: sessionData.email || '',
+    dateOfBirth: dateOfBirth,
+    countryCode: sessionData.country_code,
+    gender: sessionData.gender || 'PREFER_NOT_TO_SAY',
+  }
 }

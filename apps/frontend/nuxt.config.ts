@@ -17,7 +17,8 @@ export default defineNuxtConfig({
     },
   },
   plugins: [
-    '~/plugins/websocket.ts'
+    '~/plugins/websocket.ts',
+    '~/plugins/error.ts',
   ],
   extends: [
     "@cortex/shared"
