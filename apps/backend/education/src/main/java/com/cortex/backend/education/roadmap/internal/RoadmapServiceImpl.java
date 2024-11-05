@@ -28,6 +28,8 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -71,10 +73,12 @@ public class RoadmapServiceImpl implements RoadmapService {
 
   @Override
   @Transactional(readOnly = true)
+  @Cacheable(value = "roadmaps", key = "#slug")
   public Optional<RoadmapDetails> getRoadmapBySlug(String slug) {
     return roadmapRepository.findBySlug(slug)
         .map(roadmapMapper::toRoadmapDetails);
   }
+
 
   @Override
   @Transactional
@@ -86,6 +90,7 @@ public class RoadmapServiceImpl implements RoadmapService {
     return roadmapMapper.toRoadmapResponse(savedRoadmap);
   }
 
+  @CacheEvict(value = "roadmaps", key = "#id")
   @Override
   @Transactional
   public RoadmapResponse updateRoadmap(Long id, RoadmapUpdateRequest request) {
