@@ -1,14 +1,19 @@
 package com.cortex.backend.config;
 
 import com.cortex.backend.auth.config.ApplicationAuditAware;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.time.Duration;
 import org.springframework.boot.autoconfigure.cache.RedisCacheManagerBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
-import org.springframework.data.redis.serializer.RedisSerializationContext.SerializationPair;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -19,6 +24,19 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class BeansConfig {
+
+  private static final Duration ROLES_CACHE_TTL = Duration.ofDays(1);
+  private static final Duration COUNTRIES_CACHE_TTL = Duration.ofDays(7);
+  private static final Duration ROADMAPS_CACHE_TTL = Duration.ofHours(24);
+  private static final Duration DEFAULT_CACHE_TTL = Duration.ofMinutes(60);
+
+  @Bean
+  public ObjectMapper objectMapper() {
+    return JsonMapper.builder()
+        .addModule(new JavaTimeModule())
+        .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+        .build();
+  }
 
   @Bean
   public AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService) {
@@ -44,22 +62,35 @@ public class BeansConfig {
     return new BCryptPasswordEncoder();
   }
 
-
   @Bean
-  public RedisCacheConfiguration cacheConfiguration() {
+  public RedisCacheConfiguration cacheConfiguration(ObjectMapper objectMapper) {
+    ObjectMapper redisObjectMapper = objectMapper.copy()
+        .activateDefaultTyping(
+            objectMapper.getPolymorphicTypeValidator(),
+            ObjectMapper.DefaultTyping.NON_FINAL,
+            JsonTypeInfo.As.PROPERTY
+        );
+
     return RedisCacheConfiguration.defaultCacheConfig()
-        .entryTtl(Duration.ofMinutes(60))
+        .entryTtl(DEFAULT_CACHE_TTL)
         .disableCachingNullValues()
         .serializeValuesWith(
-            SerializationPair.fromSerializer(new Jackson2JsonRedisSerializer<>(Object.class)));
+            RedisSerializationContext.SerializationPair.fromSerializer(
+                new GenericJackson2JsonRedisSerializer(redisObjectMapper)
+            )
+        );
   }
-
   @Bean
-  public RedisCacheManagerBuilderCustomizer redisCacheManagerBuilderCustomizer() {
+  public RedisCacheManagerBuilderCustomizer redisCacheManagerBuilderCustomizer(
+      RedisCacheConfiguration cacheConfiguration) {
     return builder -> builder
         .withCacheConfiguration("roles",
-            RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofDays(1)))
+            cacheConfiguration.entryTtl(ROLES_CACHE_TTL))
         .withCacheConfiguration("countries",
-            RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofDays(7)));
+            cacheConfiguration.entryTtl(COUNTRIES_CACHE_TTL))
+        .withCacheConfiguration("roadmaps",
+            cacheConfiguration
+                .entryTtl(ROADMAPS_CACHE_TTL)
+                .disableCachingNullValues());
   }
 }
