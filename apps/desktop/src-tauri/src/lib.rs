@@ -8,43 +8,49 @@ use tauri_plugin_log::fern::colors::ColoredLevelConfig;
 use tauri_plugin_log::RotationStrategy;
 
 fn setup_logger(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> {
-
-    let cortex_log_level = if cfg!(debug_assertions) {
-        log::LevelFilter::Trace
+    // Set base log level based on environment
+    let base_log_level = if cfg!(debug_assertions) {
+        log::LevelFilter::Debug
     } else {
         log::LevelFilter::Info
     };
-    
-    // create the log plugin as usual, but call split() instead of build()
-    let (tauri_plugin_log, _max_level, logger) = tauri_plugin_log::Builder::new()
+
+    // Create builder with environment-specific configuration
+    let builder = tauri_plugin_log::Builder::new()
         .max_file_size(1024 * 1024 * 10) // 10 MB
-        .rotation_strategy(RotationStrategy::KeepAll) // keep all logs in the log directory
+        .rotation_strategy(RotationStrategy::KeepAll)
         .timezone_strategy(tauri_plugin_log::TimezoneStrategy::UseLocal)
         .with_colors(ColoredLevelConfig::default())
+        // Set default level based on environment
+        .level(base_log_level)
+        // Configure specific module levels
         .level_for("tauri", log::LevelFilter::Warn)
         .level_for("wry", log::LevelFilter::Warn)
         .level_for("hyper", log::LevelFilter::Warn)
         .level_for("hyper::proto", log::LevelFilter::Warn)
         .level_for("hyper_util::client::legacy", log::LevelFilter::Warn)
-        .level_for(" devtools_core", log::LevelFilter::Warn)
+        .level_for("devtools_core", log::LevelFilter::Warn)
         .level_for("tracing", log::LevelFilter::Warn)
-        .level_for("cortex_lib", cortex_log_level)
-        .split(app.handle())?;
+        // Set application specific level
+        .level_for("cortex_lib", if cfg!(debug_assertions) {
+            log::LevelFilter::Trace
+        } else {
+            log::LevelFilter::Info
+        });
 
-    // on debug builds, set up the DevTools plugin and pipe the logger from tauri-plugin-log
-    #[cfg(debug_assertions)]
-    {
+    #[cfg(debug_assertions)] {
+        // For debug builds, setup DevTools with the logger
+        let (plugin, _max_level, logger) = builder.split(app.handle())?;
         let mut devtools_builder = tauri_plugin_devtools::Builder::default();
         devtools_builder.attach_logger(logger);
         app.handle().plugin(devtools_builder.init())?;
-    }
-    // on release builds, only attach the logger from tauri-plugin-log
-    #[cfg(not(debug_assertions))]
-    {
-        tauri_plugin_log::attach_logger(_max_level, logger);
+        app.handle().plugin(plugin)?;
     }
 
-    app.handle().plugin(tauri_plugin_log)?;
+    #[cfg(not(debug_assertions))] {
+        // For release builds, just build and set up the logger
+        app.handle().plugin(builder.build())?;
+    }
 
     Ok(())
 }
