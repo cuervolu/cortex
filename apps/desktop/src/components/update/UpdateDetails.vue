@@ -4,7 +4,6 @@ import { parseMarkdown } from '@nuxtjs/mdc/runtime'
 import { format, isValid, parseISO } from 'date-fns'
 import { es } from 'date-fns/locale'
 
-// Props del componente
 const props = defineProps<{
   version: string
   date: string
@@ -45,20 +44,25 @@ const devChangelog = `
 `
 
 const formattedDate = computed(() => {
-  if (!props.date) return 'Fecha no disponible'
+  if (!props.date) return ''
 
   try {
-    const date = parseISO(props.date)
-    
-    if (!isValid(date)) return 'Fecha no disponible'
-    
+    let date = parseISO(props.date)
+    if (!isValid(date)) {
+      date = new Date(props.date)
+    }
+    if (!isValid(date)) {
+      return ''
+    }
+
     return format(date, "d 'de' MMM 'de' yyyy", {
       locale: es
     })
   } catch {
-    return 'Fecha no disponible'
+    return ''
   }
 })
+
 const { data: notesAst } = await useAsyncData(
     `changelog-${props.version}`,
     () => parseMarkdown(isDev ? devChangelog : (props.notes || '::alert{type="info"}\nNo hay notas de versión disponibles\n::'))
@@ -76,7 +80,7 @@ const { data: notesAst } = await useAsyncData(
         <div class="text-white text-[17px]">Nueva versión disponible</div>
         <div class="flex gap-2 text-white text-[17px]">
           <span>{{ version }}</span>
-          <span>{{ formattedDate }}</span>
+          <span v-if="formattedDate">{{ formattedDate }}</span>
         </div>
       </div>
     </div>
@@ -103,87 +107,3 @@ const { data: notesAst } = await useAsyncData(
     </div>
   </div>
 </template>
-
-<style scoped>
-:deep(.prose) {
-  color: white;
-  max-width: none;
-}
-
-:deep(.prose h1) {
-  color: white;
-  font-size: 1.8rem;
-  margin-top: 0;
-  margin-bottom: 1rem;
-}
-
-:deep(.prose h2) {
-  color: white;
-  font-size: 1.4rem;
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding-bottom: 0.5rem;
-}
-
-:deep(.prose h3) {
-  color: white;
-  font-size: 1.2rem;
-  margin-top: 1.5rem;
-  margin-bottom: 0.75rem;
-}
-
-:deep(.prose ul) {
-  margin-top: 0.5rem;
-  margin-bottom: 1.5rem;
-  list-style-type: none;
-  padding-left: 1rem;
-}
-
-:deep(.prose li) {
-  margin-top: 0.25rem;
-  margin-bottom: 0.25rem;
-  position: relative;
-}
-
-:deep(.prose li::before) {
-  content: "•";
-  position: absolute;
-  left: -1rem;
-  color: rgba(255, 255, 255, 0.5);
-}
-
-:deep(.prose code) {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 0.2em 0.4em;
-  border-radius: 0.25rem;
-  font-size: 0.875em;
-}
-
-:deep(.prose pre) {
-  background: rgba(0, 0, 0, 0.2);
-  padding: 1rem;
-  border-radius: 0.5rem;
-  margin: 1rem 0;
-}
-
-:deep(.prose a) {
-  color: #d9d9d9;
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 2px;
-}
-
-:deep(.prose strong) {
-  color: white;
-  font-weight: 600;
-}
-
-:deep(.prose blockquote) {
-  border-left: 4px solid rgba(255, 255, 255, 0.2);
-  padding-left: 1rem;
-  color: rgba(255, 255, 255, 0.7);
-  font-style: italic;
-  margin: 1rem 0;
-}
-</style>
