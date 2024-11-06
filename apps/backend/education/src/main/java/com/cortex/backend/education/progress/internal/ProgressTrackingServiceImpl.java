@@ -2,15 +2,17 @@ package com.cortex.backend.education.progress.internal;
 
 import com.cortex.backend.core.domain.EntityType;
 import com.cortex.backend.core.domain.UserProgress;
-import com.cortex.backend.education.progress.api.LessonCompletedEvent;
-import com.cortex.backend.education.progress.api.ProgressTrackingService;
-import com.cortex.backend.education.progress.api.UserProgressService;
 import com.cortex.backend.education.achievement.api.AchievementService;
+import com.cortex.backend.education.course.api.CourseService;
 import com.cortex.backend.education.lesson.api.LessonService;
 import com.cortex.backend.education.module.api.ModuleService;
-import com.cortex.backend.education.course.api.CourseService;
+import com.cortex.backend.education.progress.api.LessonCompletedEvent;
+import com.cortex.backend.education.progress.api.ProgressTrackingService;
+import com.cortex.backend.education.progress.api.ProgressUpdatedEvent;
+import com.cortex.backend.education.progress.api.UserProgressService;
 import com.cortex.backend.education.roadmap.api.RoadmapService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +23,7 @@ public class ProgressTrackingServiceImpl implements ProgressTrackingService {
 
   private final UserProgressService userProgressService;
   private final AchievementService achievementService;
+  private final ApplicationEventPublisher eventPublisher;
   private final LessonService lessonService;
   private final ModuleService moduleService;
   private final CourseService courseService;
@@ -32,6 +35,8 @@ public class ProgressTrackingServiceImpl implements ProgressTrackingService {
     UserProgress progress = userProgressService.saveProgress(userId, entityId, entityType);
     checkAndUpdateParentProgress(userId, entityId, entityType);
     checkAndAwardAchievements(userId, entityType);
+    eventPublisher.publishEvent(new ProgressUpdatedEvent(userId, entityId, entityType));
+
     return progress;
   }
 
@@ -80,7 +85,7 @@ public class ProgressTrackingServiceImpl implements ProgressTrackingService {
   @EventListener
   @Transactional
   public void handleLessonCompletedEvent(LessonCompletedEvent event) {
-    trackProgress(event.getUserId(), event.getLessonId(), EntityType.LESSON);
+    trackProgress(event.userId(), event.lessonId(), EntityType.LESSON);
   }
 
   private void checkAndAwardAchievements(Long userId, EntityType entityType) {

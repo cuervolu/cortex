@@ -1,7 +1,7 @@
 package com.cortex.backend.education.achievement.internal;
 
-import com.cortex.backend.education.achievement.api.dto.UserAchievementRequest;
 import com.cortex.backend.core.domain.UserAchievement;
+import com.cortex.backend.education.achievement.api.dto.UserAchievementRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

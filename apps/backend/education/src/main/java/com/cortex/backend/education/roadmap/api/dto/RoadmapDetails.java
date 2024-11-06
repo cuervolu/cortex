@@ -1,7 +1,6 @@
 package com.cortex.backend.education.roadmap.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;

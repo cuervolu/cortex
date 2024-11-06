@@ -1,6 +1,5 @@
 package com.cortex.backend.education.achievement.api;
 
-import com.cortex.backend.core.domain.Achievement;
 import com.cortex.backend.core.domain.User;
 import com.cortex.backend.core.domain.UserAchievement;
 import com.cortex.backend.education.achievement.api.dto.AchievementRequest;
@@ -9,7 +8,6 @@ import com.cortex.backend.education.achievement.api.dto.UserAchievementRequest;
 import com.cortex.backend.education.achievement.internal.AchievementMapper;
 import com.cortex.backend.education.achievement.internal.UserAchievementMapper;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

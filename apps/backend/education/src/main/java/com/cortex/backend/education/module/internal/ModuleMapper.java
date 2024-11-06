@@ -1,9 +1,9 @@
 package com.cortex.backend.education.module.internal;
 
 import com.cortex.backend.core.domain.Lesson;
-import com.cortex.backend.education.module.api.dto.ModuleResponse;
-import com.cortex.backend.core.domain.ModuleEntity;
 import com.cortex.backend.core.domain.Media;
+import com.cortex.backend.core.domain.ModuleEntity;
+import com.cortex.backend.education.module.api.dto.ModuleResponse;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.mapstruct.Mapper;

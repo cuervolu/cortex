@@ -10,13 +10,12 @@ import com.cortex.backend.education.achievement.api.AchievementTypeRepository;
 import com.cortex.backend.education.achievement.api.dto.AchievementRequest;
 import com.cortex.backend.education.achievement.api.dto.AchievementResponse;
 import com.cortex.backend.education.progress.api.UserAchievementRepository;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

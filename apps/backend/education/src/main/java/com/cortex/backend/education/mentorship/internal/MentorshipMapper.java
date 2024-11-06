@@ -1,10 +1,10 @@
 package com.cortex.backend.education.mentorship.internal;
 
-import com.cortex.backend.education.mentorship.api.dto.MentorResponse;
-import com.cortex.backend.education.mentorship.api.dto.MentorshipResponse;
-import com.cortex.backend.education.mentorship.api.dto.MentorshipRequestResponse;
 import com.cortex.backend.core.domain.Mentorship;
 import com.cortex.backend.core.domain.MentorshipRequest;
+import com.cortex.backend.education.mentorship.api.dto.MentorResponse;
+import com.cortex.backend.education.mentorship.api.dto.MentorshipRequestResponse;
+import com.cortex.backend.education.mentorship.api.dto.MentorshipResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.NullValuePropertyMappingStrategy;

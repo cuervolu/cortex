@@ -4,12 +4,11 @@ import com.cortex.backend.core.domain.EntityType;
 import com.cortex.backend.core.domain.ProgressStatus;
 import com.cortex.backend.core.domain.UserProgress;
 import com.cortex.backend.core.domain.UserProgressKey;
+import java.time.LocalDate;
+import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-
-import java.time.LocalDate;
-import java.util.List;
 
 @Repository
 public interface UserProgressRepository extends CrudRepository<UserProgress, UserProgressKey> {

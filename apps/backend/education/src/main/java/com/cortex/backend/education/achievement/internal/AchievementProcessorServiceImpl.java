@@ -1,14 +1,16 @@
 package com.cortex.backend.education.achievement.internal;
 
-import com.cortex.backend.core.domain.*;
+import com.cortex.backend.core.domain.Achievement;
+import com.cortex.backend.core.domain.EntityType;
+import com.cortex.backend.core.domain.UserProgress;
 import com.cortex.backend.education.achievement.api.AchievementProcessorService;
 import com.cortex.backend.education.achievement.api.AchievementService;
 import com.cortex.backend.education.achievement.api.dto.AchievementResponse;
-import com.cortex.backend.education.lesson.api.dto.LessonResponse;
-import com.cortex.backend.education.progress.api.UserProgressService;
-import com.cortex.backend.education.lesson.api.LessonService;
-import com.cortex.backend.education.module.api.ModuleService;
 import com.cortex.backend.education.course.api.CourseService;
+import com.cortex.backend.education.lesson.api.LessonService;
+import com.cortex.backend.education.lesson.api.dto.LessonResponse;
+import com.cortex.backend.education.module.api.ModuleService;
+import com.cortex.backend.education.progress.api.UserProgressService;
 import com.cortex.backend.education.roadmap.api.RoadmapService;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;

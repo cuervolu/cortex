@@ -18,8 +18,8 @@ public class ExerciseConfig {
   private int points;
   private String creator;
 
-  @JsonProperty("lesson_id")
-  private Long lessonId;
+  @JsonProperty("lesson_slug")
+  private String lessonSlug;
 
   @JsonProperty("display_order")
   private Integer displayOrder;
