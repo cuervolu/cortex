@@ -181,4 +181,4 @@ trait JugueteMagico {
 
 ¡Hasta la próxima aventura, valientes programadores!
 
-![Yipi](https://res.cloudinary.com/dukgkrpft/image/upload/v1729378761/lessons/felicidades-yipi/jczrx7hhw88cvrfnminae.jpg)
+![Yipi](https://res.cloudinary.com/dukgkrpft/image/upload/v1729378761/lessons/felicidades-yipi/jczrx7hhw88cvrfnmiae.jpg)
