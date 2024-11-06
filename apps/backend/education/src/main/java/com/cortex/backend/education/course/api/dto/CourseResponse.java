@@ -28,6 +28,9 @@ public class CourseResponse {
   
   @JsonProperty("module_ids")
   private Set<Long> moduleIds;
+
+  @JsonProperty("display_order")
+  private Integer displayOrder;
   
   @JsonProperty("created_at")
   private LocalDateTime createdAt;

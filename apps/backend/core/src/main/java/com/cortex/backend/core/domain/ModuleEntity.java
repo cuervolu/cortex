@@ -4,6 +4,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -16,7 +17,14 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Entity
-@Table(name = "module")
+@Table(name = "module", indexes = {
+    @Index(name = "idx_module_name", columnList = "name"),
+    @Index(name = "idx_module_slug", columnList = "slug"),
+    @Index(name = "idx_module_is_published", columnList = "is_published"),
+    @Index(name = "idx_module_course", columnList = "course_id"),
+    @Index(name = "idx_module_course_order", columnList = "course_id,display_order"),
+    @Index(name = "idx_module_created_at", columnList = "created_at")
+})
 @Getter
 @Setter
 @SuperBuilder
@@ -46,4 +54,7 @@ public class ModuleEntity extends BaseEntity {
 
   @OneToMany(mappedBy = "moduleEntity", cascade = CascadeType.ALL, orphanRemoval = true)
   private Set<Lesson> lessons;
+
+  @Column(name = "display_order", nullable = false)
+  private Integer displayOrder = 0;
 }

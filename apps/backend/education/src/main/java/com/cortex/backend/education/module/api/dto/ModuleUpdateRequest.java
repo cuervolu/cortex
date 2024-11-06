@@ -25,5 +25,8 @@ public class ModuleUpdateRequest {
 
   @JsonProperty("is_published")
   private Boolean isPublished;
+
+  @JsonProperty("display_order")
+  private Integer displayOrder;
   
 }

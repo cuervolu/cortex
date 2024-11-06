@@ -1,5 +1,6 @@
 package com.cortex.backend.education.roadmap.api.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serial;
 import java.io.Serializable;
 import lombok.AllArgsConstructor;
@@ -22,4 +23,7 @@ public class RoadmapExerciseDTO implements Serializable {
   private String slug;
   private Integer points;
   private boolean completed;
+
+  @JsonProperty("display_order")
+  private Integer displayOrder;
 }

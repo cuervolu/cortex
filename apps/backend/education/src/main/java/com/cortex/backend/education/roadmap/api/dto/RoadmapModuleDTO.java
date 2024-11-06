@@ -27,4 +27,7 @@ public class RoadmapModuleDTO implements Serializable {
     @JsonProperty("lesson_count")
     private int lessonCount;
     private List<RoadmapLessonDTO> lessons;
+
+    @JsonProperty("display_order")
+    private Integer displayOrder;
 }

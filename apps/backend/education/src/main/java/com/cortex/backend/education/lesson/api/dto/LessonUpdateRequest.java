@@ -27,4 +27,7 @@ public class LessonUpdateRequest {
 
   @Positive(message = "Credits must be a positive number")
   private Integer credits;
+
+  @JsonProperty("display_order")
+  private Integer displayOrder;
 }

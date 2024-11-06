@@ -25,4 +25,7 @@ public class CourseRequest {
   
   @JsonProperty("is_published")
   private boolean isPublished;
+
+  @JsonProperty("display_order")
+  private Integer displayOrder;
 }
