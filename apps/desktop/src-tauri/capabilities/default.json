@@ -31,6 +31,7 @@
     "notification:default",
     "process:default",
     "shell:default",
+    "shell:allow-open",
     "store:default",
     "store:allow-get-store",
     "store:allow-reload",
