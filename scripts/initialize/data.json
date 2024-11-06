@@ -157,7 +157,7 @@
       "course_ids": [
         6
       ],
-      "is_published": false
+      "is_published": true
     },
     {
       "title": "El Viaje del Explorador de Datos: Aventuras en Python y Machine Learning",
@@ -179,7 +179,7 @@
       "course_ids": [
         7
       ],
-      "is_published": false
+      "is_published": true
     },
     {
         "title": "Aventura en las Islas Java",
@@ -312,6 +312,7 @@
         }
       ],
       "is_published": true
+      
     },
     {
       "name": "Comenzando con Java",
@@ -426,20 +427,20 @@
       "is_published": true
     },
     {
-      "name": "Ingeniería de Microservicios con Go",
-      "description": "Construye sistemas distribuidos escalables y de alto rendimiento con Go. Aprende patrones de microservicios, manejo de concurrencia avanzada y técnicas de optimización para crear aplicaciones empresariales modernas.",
-      "tags": [
-        {
+      "name": "Aprende a Programar con Go",
+        "description": "Introduce a los niños al mundo de la programación de una manera sencilla y divertida utilizando el lenguaje Go. Explora conceptos básicos como variables, condicionales y bucles a través de ejemplos y actividades adaptadas a su edad.",
+        "tags": [
+          {
           "name": "Go"
-        },
-        {
-          "name": "Microservicios"
-        },
-        {
-          "name": "Sistemas Distribuidos"
-        }
-      ],
-      "is_published": true
+          },
+          {
+          "name": "Programación para Niños"
+          },
+          {
+          "name": "Aprendizaje Interactivo"
+          }
+          ],
+          "is_published": true
     },
     {
       "name": "Artes Oscuras de TypeScript",
@@ -668,133 +669,152 @@
       "name": "¿Qué es un programa?",
       "content_file": "leccion_1_que_es_un_programa.md",
       "credits": 10,
-      "is_published": true
+      "is_published": true,
+      "display_order": 1
     },
     {
       "module_id": 1,
       "name": "Pensando como un Programador",
       "content_file": "leccion_2_pensando_como_programador.md",
       "credits": 15,
-      "is_published": true
+      "is_published": true,
+      "display_order": 2
     },
     {
       "module_id": 1,
       "name": "El Gran Desfile de los Lenguajes de Programación",
       "content_file": "leccion_3_lenguajes_programacion.md",
       "credits": 20,
-      "is_published": true
+      "is_published": true,
+      "display_order": 3
     },
     {
       "module_id": 1,
       "name": "Python: La Serpiente Amistosa del Código",
       "content_file": "leccion_4_python_la_serpiente_amistosa_del_codigo.md",
       "credits": 25,
-      "is_published": true
+      "is_published": true,
+      "display_order": 4
     },
     {
       "module_id": 1,
       "name": "El Zoo de los Datos y la Ciudad de la Memoria",
       "content_file": "leccion_5_el_zoo_de_los_datos_y_la_ciudad_de_la_memoria.md",
       "credits": 30,
-      "is_published": true
+      "is_published": true,
+      "display_order": 5
     },
     {
       "module_id": 1,
       "name": "¡Conviértete en un Mago del Código con tu Propio Juego de Preguntas y Respuestas!",
       "content_file": "leccion_6_¡conviertete_en_un_mago_del_codigo_con_tu_propio_juego_de_preguntas_y_respuestas.md",
       "credits": 35,
-      "is_published": true
+      "is_published": true,
+      "display_order": 6
     },
     {
       "module_id": 2,
       "name": "¿Qué es Java y por qué es tan popular?",
       "content_file": "leccion_1_¿que_es_java_y_por_que_es_tan_popular.md",
       "credits": 25,
-      "is_published": true
+      "is_published": true,
+      "display_order": 1
     },
     {
       "module_id": 2,
       "name": "Tu Primera Taza de Java",
       "content_file": "leccion_2_tu_primera_taza_de_java.md",
       "credits": 20,
-      "is_published": true
+      "is_published": true,
+      "display_order": 2
     },
     {
       "module_id":2,
       "name": " Los Granos del Lenguaje",
       "content_file": "leccion_3_los_granos_del_lenguaje.md",
       "credits": 30,
-      "is_published": true
+      "is_published": true,
+      "display_order": 3
     },
     {
       "module_id": 2,
       "name": "El Café de la Programación",
       "content_file": "leccion-1-Preparando-la-Cafetera.md",
       "credits": 35,
-      "is_published": true
+      "is_published": true,
+      "display_order": 4
     },
     {
       "module_id": 2,
       "name": "Tu primer proyecto java",
       "content_file": "leccion-2-Java-para-Ninos.md",
       "credits": 40,
-      "is_published": true
+      "is_published": true,
+      "display_order": 5
     },
     {
       "module_id": 3,
       "name": "Jugando con python",
       "content_file": "leccion-1-Curso-Python-para-niños.md",
       "credits": 40,
-      "is_published": true
+      "is_published": true,
+      "display_order": 1
     },
     {
       "module_id": 3,
       "name": "Explorando el mundo de python",
       "content_file": "leccion-2-Aventuras-y-Maravillas-de-python-.md",
       "credits": 40,
-      "is_published": true
+      "is_published": true,
+      "display_order": 2
     },
     {
       "module_id": 4,
       "name": "La cocina de TypeScript",
       "content_file": "leccion-1-Cocinando-con-TypeScript.md",
       "credits": 40,
-      "is_published": true
+      "is_published": true,
+      "display_order": 3
     },
     {
       "module_id": 4,
       "name": "Masterizando la cocina de TypeScript",
       "content_file": "leccion-2-Recetas-de-TypeScript.md",
       "credits": 40,
-      "is_published": true
+      "is_published": true,
+      "display_order": 4
     },
     {
       "module_id": 5,
       "name": "Aventuras galacticas en Rust",
       "content_file": "leccion-1-Los-super-heroes-rust.md",
       "credits": 40,
-      "is_published": true
+      "is_published": true,
+      "display_order": 1
     },
     {
       "module_id": 5,
       "name": "Super heroes de rust",
       "content_file": "leccion-2-Aventuras-con-rust.md",
       "credits": 40,
-      "is_published": true
+      "is_published": true,
+      "display_order": 2
     },
     {
       "module_id": 6,
       "name": "Explorando el cosmos con go",
       "content_file": "leccion-1-go-la-ardilla-amigable.md",
       "credits": 40,
-      "is_published": true
+      "is_published": true,
+      "display_order": 3
     },
     {
       "module_id": 6,
       "name": "Aprendiendo del espacio junto a go",
       "content_file": "leccion-2-Aventuras-espaciales-en-go.md",
       "credits": 40,
-      "is_published": true
+      "is_published": true,
+      "display_order": 4
     }
   ]
 }
