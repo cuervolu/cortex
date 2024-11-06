@@ -34,4 +34,7 @@ public class ExerciseDetailsResponse {
   private String language;
   
   private String slug;
+
+  @JsonProperty("display_order")
+  private Integer displayOrder;
 }

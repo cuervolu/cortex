@@ -36,4 +36,7 @@ public class LessonResponse {
 
   @JsonProperty("updated_at")
   private LocalDateTime updatedAt;
+
+  @JsonProperty("display_order")
+  private Integer displayOrder;
 }

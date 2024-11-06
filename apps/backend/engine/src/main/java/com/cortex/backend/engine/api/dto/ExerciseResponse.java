@@ -37,5 +37,8 @@ public class ExerciseResponse {
   private String hints;
 
   @JsonProperty("solution_responses")
-  private Set<SolutionResponse> solutionResponses; 
+  private Set<SolutionResponse> solutionResponses;
+
+  @JsonProperty("display_order")
+  private Integer displayOrder;
 }

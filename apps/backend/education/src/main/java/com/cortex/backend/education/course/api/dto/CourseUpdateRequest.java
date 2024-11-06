@@ -1,6 +1,7 @@
 package com.cortex.backend.education.course.api.dto;
 
 import com.cortex.backend.education.tags.api.dto.TagDTO;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.Size;
 import java.util.Set;
@@ -26,4 +27,7 @@ public class CourseUpdateRequest {
   
   @Column(name = "is_published")
   private Boolean isPublished;
+
+  @JsonProperty("display_order")
+  private Integer displayOrder;
 }

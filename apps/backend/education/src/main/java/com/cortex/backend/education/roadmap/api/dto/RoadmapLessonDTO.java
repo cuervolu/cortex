@@ -25,4 +25,7 @@ public class RoadmapLessonDTO implements Serializable {
 
   @JsonProperty("exercises")
   private List<RoadmapExerciseDTO> exercises;
+
+  @JsonProperty("display_order")
+  private Integer displayOrder;
 }

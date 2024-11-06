@@ -87,14 +87,15 @@ public interface RoadmapMapper {
   default List<RoadmapModuleDTO> modulesToDetailedResponses(Set<ModuleEntity> modules, Long userId, UserProgressService userProgressService) {
     return modules != null ? modules.stream()
         .filter(ModuleEntity::getIsPublished)
-        .map(module -> new RoadmapModuleDTO(
-            module.getId(),
-            module.getName(),
-            module.getDescription(),
-            module.getSlug(),
-            module.getLessons().size(),
-            lessonsToDetailedResponses(module.getLessons(), userId, userProgressService)
-        ))
+        .map(module -> RoadmapModuleDTO.builder()
+            .id(module.getId())
+            .name(module.getName())
+            .description(module.getDescription())
+            .slug(module.getSlug())
+            .lessonCount(module.getLessons().size())
+            .lessons(lessonsToDetailedResponses(module.getLessons(), userId, userProgressService))
+            .displayOrder(module.getDisplayOrder())
+            .build())
         .toList() : null;
   }
 
@@ -102,13 +103,14 @@ public interface RoadmapMapper {
   default List<RoadmapLessonDTO> lessonsToDetailedResponses(Set<Lesson> lessons, @Context Long userId, @Context UserProgressService userProgressService) {
     return lessons != null ? lessons.stream()
         .filter(Lesson::getIsPublished)
-        .map(lesson -> new RoadmapLessonDTO(
-            lesson.getId(),
-            lesson.getName(),
-            lesson.getSlug(),
-            lesson.getCredits(),
-            exercisesToDetailedResponses(lesson.getExercises(), userId, userProgressService)
-        ))
+        .map(lesson -> RoadmapLessonDTO.builder()
+            .id(lesson.getId())
+            .name(lesson.getName())
+            .slug(lesson.getSlug())
+            .credits(lesson.getCredits())
+            .exercises(exercisesToDetailedResponses(lesson.getExercises(), userId, userProgressService))
+            .displayOrder(lesson.getDisplayOrder())
+            .build())
         .toList() : null;
   }
 
@@ -121,6 +123,7 @@ public interface RoadmapMapper {
             .slug(exercise.getSlug())
             .points(exercise.getPoints())
             .completed(userProgressService.isEntityCompleted(userId, exercise.getId(), EntityType.EXERCISE))
+            .displayOrder(exercise.getDisplayOrder())
             .build())
         .toList() : null;
   }
