@@ -1,5 +1,5 @@
 import { isPermissionGranted, requestPermission, sendNotification } from '@tauri-apps/plugin-notification'
-import { error as logError, debug } from "@tauri-apps/plugin-log"
+import {error as logError, debug, error} from "@tauri-apps/plugin-log"
 import type { ErrorHandler, ErrorOptions } from '@cortex/shared/types'
 import { AppError } from '@cortex/shared/types'
 import { useToast } from "@cortex/shared/components/ui/toast"
@@ -55,16 +55,17 @@ export const useDesktopErrorHandler = (): ErrorHandler => {
       // Only for fatal errors
       await showSystemNotification(
           appError.message,
-          `Error ${appError.statusCode}`
+          `¡Oops! Error ${appError.statusCode}`
       )
-      
-      throw createError({
-        statusCode: appError.statusCode,
-        message: appError.message,
-        fatal: true,
-        data: appError.data,
-        stack: appError.stack,
-      })
+      await error(`Fatal error occurred: ${appError.message}, ${appError.stack}`)
+      return
+      // throw createError({
+      //   statusCode: appError.statusCode,
+      //   message: appError.message,
+      //   fatal: true,
+      //   data: appError.data,
+      //   stack: appError.stack,
+      // })
     }
   }
 
