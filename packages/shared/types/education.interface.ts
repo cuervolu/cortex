@@ -99,9 +99,45 @@ export interface Course {
   updated_at: string | null;
 }
 
-export interface RoadmapDetails extends Omit<Roadmap, 'course_slugs'> {
-  courses: Course[];
+export interface RoadmapLesson {
+  id: number;
+  name: string;
+  slug: string;
+  credits: number;
 }
+
+export interface RoadmapModule {
+  id: number;
+  name: string;
+  description: string;
+  slug: string;
+  lesson_count: number;
+  lessons: RoadmapLesson[];
+}
+
+export interface RoadmapCourse {
+  id: number;
+  name: string;
+  description: string;
+  slug: string;
+  image_url: string | null;
+  tag_names: string[];
+  modules: RoadmapModule[];
+}
+
+export interface RoadmapDetails {
+  id: number;
+  title: string;
+  description: string;
+  slug: string;
+  image_url: string | null;
+  tag_names: string[];
+  is_published: boolean;
+  courses: RoadmapCourse[];
+  created_at: string;
+  updated_at: string | null;
+}
+
 
 
 export type PaginatedExercises = PaginatedResponse<Exercise>;

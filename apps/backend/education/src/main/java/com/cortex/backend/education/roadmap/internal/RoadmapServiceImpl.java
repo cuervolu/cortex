@@ -72,11 +72,11 @@ public class RoadmapServiceImpl implements RoadmapService {
   }
 
   @Override
+  @Cacheable(value = "roadmaps", key = "#slug + '_' + #userId")
   @Transactional(readOnly = true)
-  @Cacheable(value = "roadmaps", key = "#slug")
-  public Optional<RoadmapDetails> getRoadmapBySlug(String slug) {
-    return roadmapRepository.findBySlug(slug)
-        .map(roadmapMapper::toRoadmapDetails);
+  public Optional<RoadmapDetails> getRoadmapBySlug(String slug, Long userId) {
+    return roadmapRepository.findBySlugWithDetails(slug)
+        .map(roadmap -> roadmapMapper.toRoadmapDetails(roadmap, userId, userProgressService));
   }
 
 

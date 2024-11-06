@@ -1,12 +1,12 @@
 package com.cortex.backend.education.roadmap.api;
 
 import com.cortex.backend.core.common.PageResponse;
+import com.cortex.backend.core.domain.User;
 import com.cortex.backend.education.course.api.dto.CourseResponse;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapDetails;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapRequest;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapResponse;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapUpdateRequest;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,12 +14,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.io.IOException;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -55,8 +55,11 @@ public class RoadmapController {
   @ApiResponse(responseCode = "200", description = "Successful operation",
       content = @Content(schema = @Schema(implementation = RoadmapResponse.class)))
   @ApiResponse(responseCode = "404", description = "Roadmap not found")
-  public ResponseEntity<RoadmapDetails> getRoadmapBySlug(@PathVariable String slug) {
-    return roadmapService.getRoadmapBySlug(slug)
+  public ResponseEntity<RoadmapDetails> getRoadmapBySlug(
+      @PathVariable String slug,
+      Authentication authentication) {
+    User user = (User) authentication.getPrincipal();
+    return roadmapService.getRoadmapBySlug(slug, user.getId())
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }
