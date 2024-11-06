@@ -176,7 +176,7 @@ func main() {
 
 ## Conclusión
 
-¡Fantástico trabajo, pequeños constructores espaciales! Han aprendido a crear sus propias naves y darles superpoderes usando estructuras y métodos. En nuestra próxima aventura, aprenderemos sobre el manejo de errores y cómo mantener nuestras naves seguras en el vasto espacio. 
+¡Fantástico trabajo, pequeños constructores espaciales! Han aprendido a crear sus propias naves y darles superpoderes usando estructuras y métodos. En nuestra próxima aventura, aprenderemos sobre el manejo de errores y cómo mantener nuestras naves seguras en el vasto espacio.
 
 ¡Hasta la próxima aventura espacial, valientes Gophers! 🚀
 

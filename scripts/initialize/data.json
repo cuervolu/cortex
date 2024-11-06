@@ -138,28 +138,6 @@
       "is_published": true
     },
     {
-      "title": "La Senda del Mago del DOM: Dominio de JavaScript",
-      "description": "Embárcate en un viaje épico a través de La Senda del Mago del DOM. Descubrirás los secretos arcanos de JavaScript, desde la manipulación mística del DOM hasta la creación de poderosos hechizos asíncronos. Dominarás el arte de tejer aplicaciones web interactivas, conjurar APIs RESTful y forjar artefactos mágicos con frameworks modernos. Al final de tu travesía, te alzarás como un verdadero Archimago del desarrollo web front-end y full-stack.",
-      "tags": [
-        {
-          "name": "JavaScript"
-        },
-        {
-          "name": "Desarrollo Web"
-        },
-        {
-          "name": "Front-end"
-        },
-        {
-          "name": "Full-stack"
-        }
-      ],
-      "course_ids": [
-        6
-      ],
-      "is_published": true
-    },
-    {
       "title": "El Viaje del Explorador de Datos: Aventuras en Python y Machine Learning",
       "description": "Únete a una expedición fascinante a través del mundo de la ciencia de datos y el aprendizaje automático. Descubre los secretos ocultos en los datos, domina las artes de la visualización y desata el poder de los algoritmos de IA. Al final de tu viaje, te convertirás en un verdadero Explorador de Datos, capaz de revelar conocimientos asombrosos y predecir el futuro con tus habilidades de Machine Learning.",
       "tags": [
@@ -177,124 +155,29 @@
         }
       ],
       "course_ids": [
-        7
+        6
       ],
       "is_published": true
     },
     {
-        "title": "Aventura en las Islas Java",
-        "description": "Explora un archipiélago de conocimiento avanzado en Java, donde cada isla representa un aspecto especializado del desarrollo empresarial. Desde la creación de aplicaciones distribuidas con Spring Boot hasta la optimización de bases de datos y microservicios, esta aventura te convertirá en un verdadero maestro del ecosistema Java.",
-        "tags": [
-          {
-            "name": "Java"
-          },
-          {
-            "name": "Spring Boot"
-          },
-          {
-            "name": "Microservicios"
-          }
-        ],
-        "course_ids": [
-          8
-        ],
-        "is_published": true
+      "title": "Aventura en las Islas Java",
+      "description": "Explora un archipiélago de conocimiento avanzado en Java, donde cada isla representa un aspecto especializado del desarrollo empresarial. Desde la creación de aplicaciones distribuidas con Spring Boot hasta la optimización de bases de datos y microservicios, esta aventura te convertirá en un verdadero maestro del ecosistema Java.",
+      "tags": [
+        {
+          "name": "Java"
         },
         {
-          "title": "Ciudad Veloz: Microservicios con Go",
-          "description": "Construye una ciudad moderna usando la velocidad y eficiencia de Go. Aprende a diseñar y desarrollar microservicios escalables, APIs de alto rendimiento y sistemas distribuidos robustos. Domina las mejores prácticas de la arquitectura de software moderna mientras construyes los rascacielos del futuro.",
-          "tags": [
-            {
-              "name": "Go"
-            },
-            {
-              "name": "Microservicios"
-            },
-            {
-              "name": "Arquitectura de Software"
-            }
-          ],
-          "course_ids": [
-            9
-          ],
-          "is_published": true
+          "name": "Spring Boot"
         },
         {
-          "title": "Academia de Magos TypeScript: Hechizos Avanzados",
-          "description": "Profundiza en los misterios más oscuros de TypeScript en esta academia de nivel avanzado. Aprende a crear tipos genéricos poderosos, domina la magia de los decoradores y descubre los secretos de la programación funcional. Gradúate como un Archimago de TypeScript capaz de construir aplicaciones empresariales robustas y seguras.",
-          "tags": [
-            {
-              "name": "TypeScript"
-            },
-            {
-              "name": "Programación Funcional"
-            },
-            {
-              "name": "Patrones de Diseño"
-            }
-          ],
-          "course_ids": [
-            10
-          ],
-          "is_published": true
-        },
-        {
-          "title": "La Forja del Sistema: Rust Avanzado",
-          "description": "Adéntrate en las profundidades de la programación de sistemas con Rust. Desde el desarrollo de drivers y sistemas embebidos hasta la creación de herramientas de línea de comandos de alto rendimiento, esta forja te convertirá en un maestro herrero del código seguro y eficiente.",
-          "tags": [
-            {
-              "name": "Rust"
-            },
-            {
-              "name": "Sistemas Embebidos"
-            },
-            {
-              "name": "Programación de Bajo Nivel"
-            }
-          ],
-          "course_ids": [
-            11
-          ],
-          "is_published": true
-        },
-        {
-          "title": "La Academia de Arquitectos JavaScript",
-          "description": "Únete a la élite de los arquitectos de software en esta academia especializada en patrones y arquitecturas modernas de JavaScript. Aprende a diseñar y construir aplicaciones escalables usando los últimos frameworks y técnicas de desarrollo. Domina React, Vue.js y Node.js mientras construyes el futuro de la web.",
-          "tags": [
-            {
-              "name": "JavaScript"
-            },
-            {
-              "name": "Arquitectura Frontend"
-            },
-            {
-              "name": "React"
-            }
-          ],
-          "course_ids": [
-            12
-          ],
-          "is_published": true
-        },
-        {
-          "title": "La Ciudadela de la IA: Python Avanzado",
-          "description": "Asciende a las alturas de la inteligencia artificial en esta ciudadela del conocimiento avanzado en Python. Domina las redes neuronales profundas, el procesamiento del lenguaje natural y la visión por computadora. Conviértete en un maestro de la IA capaz de construir sistemas inteligentes que cambien el mundo.",
-          "tags": [
-            {
-              "name": "Python"
-            },
-            {
-              "name": "Deep Learning"
-            },
-            {
-              "name": "Inteligencia Artificial"
-            }
-          ],
-          "course_ids": [
-            13
-          ],
-          "is_published": true
+          "name": "Principiante"
         }
+      ],
+      "course_ids": [
+        7
+      ],
+      "is_published": true
+      }
   ],
   "courses": [
     {
@@ -379,22 +262,6 @@
       "is_published": true
     },
     {
-      "name": "Grimorio del DOM: JavaScript Básico",
-      "description": "Comienza tu viaje como aprendiz de mago del DOM. En este curso fundamental, aprenderás los hechizos básicos de JavaScript, desde la manipulación de elementos del DOM hasta los primeros encantamientos de eventos. Descubre cómo dar vida a tus páginas web con magia interactiva.",
-      "tags": [
-        {
-          "name": "JavaScript"
-        },
-        {
-          "name": "DOM"
-        },
-        {
-          "name": "Principiante"
-        }
-      ],
-      "is_published": true
-    },
-    {
       "name": "La Brújula del Científico de Datos",
       "description": "Embárcate en tu primera expedición al mundo de la ciencia de datos con Python. Aprende a navegar por datasets, crear visualizaciones básicas y descubrir patrones ocultos en los datos. Una aventura introductoria perfecta para aspirantes a científicos de datos.",
       "tags": [
@@ -422,150 +289,6 @@
         },
         {
           "name": "Arquitectura"
-        }
-      ],
-      "is_published": true
-    },
-    {
-      "name": "Aprende a Programar con Go",
-        "description": "Introduce a los niños al mundo de la programación de una manera sencilla y divertida utilizando el lenguaje Go. Explora conceptos básicos como variables, condicionales y bucles a través de ejemplos y actividades adaptadas a su edad.",
-        "tags": [
-          {
-          "name": "Go"
-          },
-          {
-          "name": "Programación para Niños"
-          },
-          {
-          "name": "Aprendizaje Interactivo"
-          }
-          ],
-          "is_published": true
-    },
-    {
-      "name": "Artes Oscuras de TypeScript",
-      "description": "Sumérgete en los aspectos más avanzados de TypeScript. Domina tipos genéricos complejos, programación funcional avanzada y patrones de diseño modernos para construir aplicaciones empresariales robustas.",
-      "tags": [
-        {
-          "name": "TypeScript"
-        },
-        {
-          "name": "Avanzado"
-        },
-        {
-          "name": "Patrones de Diseño"
-        }
-      ],
-      "is_published": true
-    },
-    {
-      "name": "Desarrollo de Sistemas Embebidos con Rust",
-      "description": "Aprende a crear software de bajo nivel seguro y eficiente con Rust. Desde drivers hasta sistemas en tiempo real, dominarás las técnicas avanzadas de programación de sistemas.",
-      "tags": [
-        {
-          "name": "Rust"
-        },
-        {
-          "name": "Sistemas Embebidos"
-        },
-        {
-          "name": "Bajo Nivel"
-        }
-      ],
-      "is_published": true
-    },
-    {
-      "name": "Arquitectura Frontend Moderna con React",
-      "description": "Conviértete en un arquitecto frontend experto. Aprende a diseñar y construir aplicaciones React escalables, implementar patrones avanzados de estado y crear experiencias de usuario excepcionales.",
-      "tags": [
-        {
-          "name": "JavaScript"
-        },
-        {
-          "name": "React"
-        },
-        {
-          "name": "Arquitectura"
-        }
-      ],
-      "is_published": true
-    },
-    {
-      "name": "Deep Learning y Redes Neuronales con Python",
-      "description": "Explora las profundidades de la inteligencia artificial con Python. Construye y entrena redes neuronales complejas, implementa modelos de procesamiento del lenguaje natural y desarrolla sistemas de visión por computadora.",
-      "tags": [
-        {
-          "name": "Python"
-        },
-        {
-          "name": "Deep Learning"
-        },
-        {
-          "name": "IA"
-        }
-      ],
-      "is_published": true
-    },
-    {
-      "name": "Optimización y Despliegue en Java",
-      "description": "Lleva tus aplicaciones Java al siguiente nivel. Aprende técnicas avanzadas de optimización, implementación de CI/CD y estrategias de despliegue en la nube para aplicaciones empresariales.",
-      "tags": [
-        {
-          "name": "Java"
-        },
-        {
-          "name": "DevOps"
-        },
-        {
-          "name": "Optimización"
-        }
-      ],
-      "is_published": true
-    },
-    {
-      "name": "Seguridad y Testing en Go",
-      "description": "Domina las mejores prácticas de seguridad y testing en Go. Implementa pruebas automatizadas robustas y protege tus aplicaciones contra vulnerabilidades comunes.",
-      "tags": [
-        {
-          "name": "Go"
-        },
-        {
-          "name": "Seguridad"
-        },
-        {
-          "name": "Testing"
-        }
-      ],
-      "is_published": true
-    },
-    {
-      "name": "TypeScript en el Ecosistema Node.js",
-      "description": "Construye aplicaciones backend robustas con TypeScript y Node.js. Aprende a crear APIs seguras, implementar autenticación y manejar bases de datos con tipado fuerte.",
-      "tags": [
-        {
-          "name": "TypeScript"
-        },
-        {
-          "name": "Node.js"
-        },
-        {
-          "name": "Backend"
-        }
-      ],
-      "is_published": true
-    },
-    {
-      "name": "Programación de Videojuegos con Rust",
-      "description": "Crea motores de juegos eficientes y seguros con Rust. Aprende gráficos por computadora, física de juegos y optimización de rendimiento.",
-      "tags": [
-        {
-          "name": "Rust"
-        },
-        {
-          "name": "Videojuegos"
-        },
-        {
-          "name": "Gráficos"
         }
       ],
       "is_published": true
@@ -604,62 +327,14 @@
     },
     {
       "course_id": 6,
-      "name": "El Primer Hechizo del DOM",
-      "description": "Comienza tu viaje en la magia del DOM aprendiendo los encantamientos básicos para seleccionar y modificar elementos HTML. Descubre cómo dar tus primeros pasos en el control de la web.",
+      "name": "Curso de Aventuras de Python",
+      "description": "¡Embárcate en una emocionante aventura y aprende programación en Python!",
       "is_published": true
     },
     {
-      "course_id": 7,
-      "name": "El Campamento Base del Científico de Datos",
-      "description": "Establece tu primer campamento en el mundo de la ciencia de datos. Aprende a configurar tu entorno Python y dar tus primeros pasos con pandas y numpy.",
-      "is_published": true
-    },
-    {
-      "course_id": 8,
-      "name": "Fundamentos de Spring Boot",
-      "description": "Construye los cimientos de tu conocimiento en Spring Boot. Aprende la estructura básica de una aplicación y cómo configurar tu primer proyecto.",
-      "is_published": true
-    },
-    {
-      "course_id": 9,
-      "name": "Arquitectura de Microservicios",
-      "description": "Descubre los fundamentos de la arquitectura de microservicios en Go. Aprende patrones de diseño y mejores prácticas para sistemas distribuidos.",
-      "is_published": true
-    },
-    {
-      "course_id": 10,
-      "name": "Grimorios de Tipos Avanzados",
-      "description": "Descubre los secretos de los tipos genéricos y las transformaciones de tipo en TypeScript. Aprende a crear tipos complejos y seguros.",
-      "is_published": true
-    },
-    {
-      "course_id": 11,
-      "name": "Fundamentos de Sistemas Embebidos",
-      "description": "Construye las bases para programar sistemas embebidos con Rust. Aprende sobre manejo de memoria segura y programación bare metal.",
-      "is_published": true
-    },
-    {
-      "course_id": 12,
-      "name": "Patrones de Diseño React",
-      "description": "Explora patrones avanzados de diseño en React para crear componentes reutilizables y mantenibles.",
-      "is_published": true
-    },
-    {
-      "course_id": 13,
-      "name": "Fundamentos de Deep Learning",
-      "description": "Construye tu primera red neuronal desde cero y comprende los conceptos fundamentales del aprendizaje profundo.",
-      "is_published": true
-    },
-    {
-      "course_id": 14,
-      "name": "Optimización de JVM",
-      "description": "Aprende técnicas avanzadas para optimizar el rendimiento de tus aplicaciones Java en la JVM.",
-      "is_published": true
-    },
-    {
-      "course_id": 15,
-      "name": "Testing Avanzado en Go",
-      "description": "Implementa estrategias completas de testing incluyendo pruebas unitarias, de integración y de rendimiento.",
+      "course_id": 7, 
+      "name": "Curso de Parques y Héroes de Java",
+      "description": "¡Diseña parques de atracciones y conviértete en un héroe con Java!",
       "is_published": true
     }
   ],
@@ -737,36 +412,44 @@
       "display_order": 3
     },
     {
-      "module_id": 2,
-      "name": "El Café de la Programación",
-      "content_file": "leccion-1-Preparando-la-Cafetera.md",
-      "credits": 35,
-      "is_published": true,
-      "display_order": 4
-    },
-    {
-      "module_id": 2,
-      "name": "Tu primer proyecto java",
-      "content_file": "leccion-2-Java-para-Ninos.md",
-      "credits": 40,
-      "is_published": true,
-      "display_order": 5
-    },
-    {
       "module_id": 3,
-      "name": "Jugando con python",
-      "content_file": "leccion-1-Curso-Python-para-niños.md",
+      "name": "Explorando el cosmos con go",
+      "content_file": "leccion-1-go-la-ardilla-amigable.md",
       "credits": 40,
       "is_published": true,
       "display_order": 1
     },
     {
       "module_id": 3,
-      "name": "Explorando el mundo de python",
-      "content_file": "leccion-2-Aventuras-y-Maravillas-de-python-.md",
+      "name": "Aprendiendo del espacio junto a go",
+      "content_file": "leccion-2-Aventuras-espaciales-en-go.md",
       "credits": 40,
       "is_published": true,
       "display_order": 2
+    }
+    {
+      "module_id": 3,
+      "name": "Aventurandonos en el espacio con go",
+      "content_file": "leccion-3-aventuras-espaciales-en-go.md",
+      "credits": 40,
+      "is_published": true,
+      "display_order": 3
+    },
+    {
+      "module_id": 3,
+      "name": "Descubriendo nuevos horizontes en go",
+      "content_file": "leccion-4-explorando-nuevos-horizontes-en-go.md",
+      "credits": 40,
+      "is_published": true,
+      "display_order": 4
+    },
+    {
+      "module_id": 3,
+      "name": "Las dimensiones desconocidas de go",
+      "content_file": "leccion-5-nuevas-dimensiones-en-go.md",
+      "credits": 40,
+      "is_published": true,
+      "display_order": 5
     },
     {
       "module_id": 4,
@@ -774,7 +457,7 @@
       "content_file": "leccion-1-Cocinando-con-TypeScript.md",
       "credits": 40,
       "is_published": true,
-      "display_order": 3
+      "display_order": 1
     },
     {
       "module_id": 4,
@@ -782,7 +465,31 @@
       "content_file": "leccion-2-Recetas-de-TypeScript.md",
       "credits": 40,
       "is_published": true,
+      "display_order": 2
+    },
+    {
+      "module_id": 4,
+      "name": "Preparando la cocina de TypeScript",
+      "content_file": "leccion-3-typescript-en-accion-proyectos-practicos.md",
+      "credits": 40,
+      "is_published": true,
+      "display_order": 3
+    },
+    {
+      "module_id": 4,
+      "name": "Cocinando con TypeScript",
+      "content_file": "leccion-4-creando-platos-deliciosos-en-typescript.md",
+      "credits": 40,
+      "is_published": true,
       "display_order": 4
+    },
+    {
+      "module_id": 4,
+      "name": "La sazon de TypeScript",
+      "content_file": "leccion-5-decoradores-typescript-sazona-tus-aplicaciones.md",
+      "credits": 40,
+      "is_published": true,
+      "display_order": 5
     },
     {
       "module_id": 5,
@@ -801,20 +508,108 @@
       "display_order": 2
     },
     {
+      "module_id": 5,
+      "name": "Los guardias de rust",
+      "content_file": "leccion-3-los-guardianes-del-codigo-rust.md",
+      "credits": 40,
+      "is_published": true,
+      "display_order": 3
+    },
+    {
+      "module_id": 5,
+      "name": "Defiende el reino rust",
+      "content_file": "leccion-4-los-defensores-del-reino-rust.md",
+      "credits": 40,
+      "is_published": true,
+      "display_order": 4
+    },
+    {
+      "module_id": 5,
+      "name": "Aprende la magia de rust",
+      "content_file": "leccion-5-la-gran-biblioteca-de-los-magos-rust.md",
+      "credits": 40,
+      "is_published": true,
+      "display_order": 5
+    },
+    {
       "module_id": 6,
-      "name": "Explorando el cosmos con go",
-      "content_file": "leccion-1-go-la-ardilla-amigable.md",
+      "name": "Inicios de python",
+      "content_file": "leccion-1-Curso-Python-para-niños.md",
+      "credits": 40,
+      "is_published": true,
+      "display_order": 1
+    },
+    {
+      "module_id": 6,
+      "name": "Explorando un mundo desconocido",
+      "content_file": "leccion-2-Aventuras-y-Maravillas-de-python.md",
+      "credits": 40,
+      "is_published": true,
+      "display_order": 2
+    },
+    {
+      "module_id": 6,
+      "name": "Los magos poderosos",
+      "content_file": "leccion-3-mas-alla-de-la-magia-de-python.md",
       "credits": 40,
       "is_published": true,
       "display_order": 3
     },
     {
       "module_id": 6,
-      "name": "Aprendiendo del espacio junto a go",
-      "content_file": "leccion-2-Aventuras-espaciales-en-go.md",
+      "name": "Aprende en la biblioteca magica",
+      "content_file": "leccion-4-aventuras-con-bibliotecas-magicas-en-python.md",
       "credits": 40,
       "is_published": true,
       "display_order": 4
+    },
+    {
+      "module_id": 6,
+      "name": "Realizando tu primer hechizo",
+      "content_file": "leccion-5-modulos-magicos-con-python.md",
+      "credits": 40,
+      "is_published": true,
+      "display_order": 5
+    },
+    {
+      "module_id": 7,
+      "name": "El Café de la Programación",
+      "content_file": "leccion-1-Preparando-la-Cafetera.md",
+      "credits": 35,
+      "is_published": true,
+      "display_order": 1
+    },
+    {
+      "module_id": 7,
+      "name": "Tu primer proyecto java",
+      "content_file": "leccion-2-Java-para-Ninos.md",
+      "credits": 40,
+      "is_published": true,
+      "display_order": 2
+    },
+    {
+      "module_id": 7,
+      "name": "Aventuras y juegos de java",
+      "content_file": "leccion-3-¡aventuras-con-arrays-y-juegos-con-java.md",
+      "credits": 40,
+      "is_published": true,
+      "display_order": 3
+    },
+    {
+      "module_id": 7,
+      "name": "Super heroes de java",
+      "content_file": "leccion-4-¡superheroes-y-metodos-de-java.md",
+      "credits": 40,
+      "is_published": true,
+      "display_order": 4
+    },
+    {
+      "module_id": 7,
+      "name": "El parque virtual de java",
+      "content_file": "leccion-5-¡el-parque-de-diversiones-virtual-el-potencial-de-java.md",
+      "credits": 40,
+      "is_published": true,
+      "display_order": 5
     }
   ]
 }
