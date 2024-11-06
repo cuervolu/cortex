@@ -20,4 +20,7 @@ public class ExerciseConfig {
 
   @JsonProperty("lesson_id")
   private Long lessonId;
+
+  @JsonProperty("display_order")
+  private Integer displayOrder;
 }

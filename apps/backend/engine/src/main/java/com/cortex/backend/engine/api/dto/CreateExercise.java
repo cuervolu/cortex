@@ -43,4 +43,7 @@ public class CreateExercise {
   private LocalDateTime lastGithubSync = LocalDateTime.now();
 
   private String hints;
+
+  @JsonProperty("display_order")
+  private Integer displayOrder;
 }

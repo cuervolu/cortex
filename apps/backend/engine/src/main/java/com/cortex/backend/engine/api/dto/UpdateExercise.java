@@ -37,4 +37,7 @@ public class UpdateExercise {
   private String instructions;
 
   private String hints;
+
+  @JsonProperty("display_order")
+  private Integer displayOrder;
 }
