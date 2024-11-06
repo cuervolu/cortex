@@ -1,19 +1,45 @@
 name: 'Create Draft Release for Tauri App'
 on:
   workflow_dispatch:
+
 permissions:
   contents: write
   issues: read
   pull-requests: read
+
 jobs:
+  create-changelog:
+    runs-on: ubuntu-latest
+    outputs:
+      changelog: ${{ steps.changelog.outputs.clean_changelog }}
+      version: ${{ steps.changelog.outputs.version }}
+      tag: ${{ steps.changelog.outputs.tag }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate Changelog
+        id: changelog
+        uses: TriPSs/conventional-changelog-action@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          output-file: "false"  # Do not write the changelog to a file
+          skip-version-file: "true" # Do not update the version file
+          skip-commit: "true"  # Do not commit changes
+          skip-tag: "true"     # Do not create a tag, Tauri will do it
+          git-push: "false"    # Do not push changes to the repository
+
   build-tauri:
+    needs: create-changelog  # Wait for the changelog to be generated
     strategy:
       fail-fast: false
       matrix:
         include:
-          - platform: 'macos-latest' # for Arm based macs (M1 and above).
+          - platform: 'macos-latest'
             args: '--target aarch64-apple-darwin'
-          - platform: 'macos-latest' # for Intel based macs.
+          - platform: 'macos-latest'
             args: '--target x86_64-apple-darwin'
           - platform: 'ubuntu-22.04'
             args: ''
@@ -23,30 +49,35 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
       - name: Install dependencies (ubuntu only)
         if: matrix.platform == 'ubuntu-22.04'
         run: |
           sudo apt-get update
           sudo apt-get install -y build-essential libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf libssl-dev libxdo-dev curl wget file
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 'lts/*'
           cache: 'pnpm'
-      - name: install Rust stable
-        uses: dtolnay/rust-toolchain@stable # Set this to dtolnay/rust-toolchain@nightly
+
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
         with:
-          # Those targets are only used on macOS runners so it's in an `if` to slightly speed up windows and linux builds.
           targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
 
       - name: Rust cache
         uses: swatinem/rust-cache@v2
         with:
           workspaces: './apps/desktop/src-tauri -> target'
+
       - name: Install dependencies
         run: pnpm install
+
       - name: Install LLVM and LLD (macOS)
         if: matrix.platform == 'macos-latest'
         run: |
@@ -55,6 +86,7 @@ jobs:
           echo 'export PATH="/opt/homebrew/opt/llvm/bin:$PATH"' >> $GITHUB_ENV
           echo "LDFLAGS=-L/opt/homebrew/opt/llvm/lib" >> $GITHUB_ENV
           echo "CPPFLAGS=-I/opt/homebrew/opt/llvm/include" >> $GITHUB_ENV
+
       - name: Build Tauri app
         uses: tauri-apps/tauri-action@v0.5.15
         env:
@@ -65,7 +97,9 @@ jobs:
           projectPath: 'apps/desktop'
           tagName: cortex-v__VERSION__
           releaseName: 'Cortex v__VERSION__'
-          releaseBody: 'See the assets to download this version and install.'
+          releaseBody: |
+            # Changelog
+            ${{ needs.create-changelog.outputs.changelog }}
           releaseDraft: true
           prerelease: false
           args: ${{ matrix.args }}
