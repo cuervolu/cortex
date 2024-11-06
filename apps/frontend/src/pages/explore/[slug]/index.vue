@@ -12,24 +12,46 @@ import Card from "@cortex/shared/components/ui/card/Card.vue";
 import CardContent from "@cortex/shared/components/ui/card/CardContent.vue";
 import ModuleIcon from "~/components/icons/ModuleIcon.vue";
 
-// get slug
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 
+import type { RoadmapDetails } from "@cortex/shared/types";
+
 const route = useRoute();
-const slug = ref(route.params.slug);
-
 const { getRoadmapDetails } = useRoadmaps();
-const roadmap = ref(null);
 
-onMounted(async () => {
-    roadmap.value = await getRoadmapDetails(slug.value);
+const roadmapData = ref<RoadmapDetails | null>(null);
+const error = ref<string | null>(null);
+const isLoading = ref(false);
+
+// Función para cargar los datos del roadmap
+const loadRoadmapDetails = async () => {
+    const slug = route.params.slug as string;
+    if (!slug) return;
+
+    const response = await getRoadmapDetails(slug);
+    roadmapData.value = response.data.value;
+    error.value = response.error.value;
+    isLoading.value = response.isLoading.value;
+};
+
+// Cargar los datos cuando el componente se monta
+onMounted(() => {
+    loadRoadmapDetails();
 });
+
+// Opcional: Si necesitas recargar cuando cambie el slug
+watch(
+    () => route.params.slug,
+    () => {
+        loadRoadmapDetails();
+    }
+);
 
 </script>
 
 <template>
-    <section v-if="!roadmap">Cargando detalles del roadmap...</section>
+    <section v-if="!roadmapData">Cargando detalles del roadmap...</section>
     <section v-else class="w-full self-stretch px-10 justify-start items-start gap-[30px] inline-flex">
         <div class="md:w-full lg:w-4/6 flex flex-col gap-7">
             <Breadcrumb class="py-5">
@@ -52,21 +74,21 @@ onMounted(async () => {
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
                         <BreadcrumbLink>
-                            <NuxtLink to="/roadmaps">
+                            <NuxtLink to="/explore">
                                 Explore Roadmaps
                             </NuxtLink>
                         </BreadcrumbLink>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
-                        <BreadcrumbPage>{{ roadmap.data.title }}</BreadcrumbPage>
+                        <BreadcrumbPage>{{ roadmapData?.title }}</BreadcrumbPage>
                     </BreadcrumbItem>
                 </BreadcrumbList>
             </Breadcrumb>
             <div class="flex flex-col gap-7">
                 <div class="flex justify-between items-center gap-5">
                     <div class="inline-flex justify-start items-center gap-4">
-                        <h1 class="font-bold text-4xl" >{{ roadmap.data.title }}</h1>
+                        <h1 class="font-bold text-4xl" >{{ roadmapData?.title }}</h1>
                         <BadgeCheck :size="36" class="fill-[#689F39] stroke-[#FAF9F7] flex-shrink-0"/>
                     </div>
                     <Badge class="text-md px-3 py-1 text-nowrap">35 Credits</Badge>
@@ -97,7 +119,7 @@ onMounted(async () => {
             </div>
             <Card class="rounded-3xl border-2 overflow-hidden">
                 <CardHeader class="p-0">
-                    <img :src="roadmap.data.image_url" alt="Roadmap Image" class="relative h-[360px] object-cover"/>
+                    <img :src="roadmapData?.image_url" alt="Roadmap Image" class="relative h-[360px] object-cover"/>
                 </CardHeader>
                 <CardFooter class="border-t-2 justify-between items-center px-4 py-5">
                     <div class="flex justify-start items-center gap-2">
@@ -188,7 +210,7 @@ onMounted(async () => {
                     <div class="flex">
                         <span class="font-bold text-lg w-3/5">Descripcion</span>
                         <div class="flex-col flex justify-between gap-3 text-sm w-3/4">
-                            <span>¡Prepárate para una emocionante aventura en la pista de carreras del código con Go Kart Racing! Enfréntate a desafíos llenos de acción mientras aprendes los fundamentos de Go y TypeScript a través de una divertida búsqueda del tesoro y poderosos hechizos de programación. Con lecciones dinámicas y ejercicios prácticos, ¡este roadmap te llevará a la victoria en el mundo del desarrollo!</span>
+                            <span>{{ roadmapData?.description }}</span>
                             <div class="flex flex-col gap-2">
                                 <span class="font-bold">¿Que vas a aprender?</span>
                                 <ul class="list-disc list-inside">
@@ -282,13 +304,13 @@ onMounted(async () => {
                 <div class="flex items-center">
                     <h2 class="text-xl font-extrabold">Cursos Roadmap</h2>
                     <Dot :size=24 :stroke-width="3"/>
-                    <h2 class="text-xl font-semibold">{{ roadmap.data.courses.length }}</h2>
+                    <h2 class="text-xl font-semibold">{{ roadmapData?.courses.length }}</h2>
                 </div>
                 <EllipsisVertical :size=24 class="stroke-muted" />
             </div>
             <Accordion type="multiple" collapsible>
                 <AccordionItem
-                    v-for="(course, index) in roadmap.data.courses"
+                    v-for="(course, index) in roadmapData?.courses"
                     :key="index"
                     :value="`item-${index + 1}`"
                 >
@@ -318,11 +340,11 @@ onMounted(async () => {
                 </AccordionItem>
             </Accordion>
             <div class="py-5 px-3 flex flex-col border-b gap-4">
-                <h2 class="font-bold text-lg">Topics</h2>
+                <h2 class="font-bold text-lg">Tópicos</h2>
                 <div class="flex flex-wrap gap-2">
-                    <Badge v-for="tag in roadmap.data.tag_names" :key="tag">{{ tag }}</Badge>
+                    <Badge v-for="tag in roadmapData?.tag_names" :key="tag">{{ tag }}</Badge>
                 </div>
-                <span class="font-bold text-sm text-end">See All Topics</span>
+                <span class="font-bold text-sm text-end">Ver todos los tópicos</span>
             </div>
         </div>
     </section>

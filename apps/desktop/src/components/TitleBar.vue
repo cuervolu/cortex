@@ -31,8 +31,8 @@ const emit = defineEmits(['toggle-sidebar']);
     class="flex justify-between items-center h-10 px-3"
     :class="[
       currentPlatform !== 'windows' && !isAuth 
-        ? 'bg-popover/20' 
-        : 'bg-popover/80'
+        ? 'bg-popover/80' 
+        : 'bg-popover/20'
     ]"
   >
     <nav class="flex items-center ml-5">

@@ -22,7 +22,7 @@ export const useAuthStore = defineStore('auth', () => {
         }
       }
 
-      return '/roadmaps'
+      return '/explore'
     } catch (error) {
       console.error('OAuth callback error:', error)
       throw error
