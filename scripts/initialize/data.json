@@ -161,7 +161,7 @@
       "is_published": true
     },
     {
-      "title": "Aventura en el Reino de las Interfaces",
+      "title": "Aventura en el Reino de los GUI",
       "description": "Explora un mundo mágico de desarrollo de interfaces gráficas con Java Swing, donde cada región representa un aspecto especializado del desarrollo de aplicaciones de escritorio. Desde la creación de ventanas y diálogos hasta la implementación de temas personalizados y efectos visuales, esta aventura te convertirá en un verdadero maestro de Java Swing.",
       "tags": [
         {
@@ -175,9 +175,9 @@
         }
       ],
       "course_ids": [
-        7
+        8
       ],
-      "is_published": true
+      "is_published": false
     }
   ],
   "courses": [
@@ -298,8 +298,8 @@
           "name": "UI/UX"
         }
       ],
-      "is_published": true,
-      "display_order": 2
+      "is_published": false,
+      "display_order": 1
     }
   ],
   "modules": [
@@ -307,43 +307,50 @@
       "course_id": 1,
       "name": "Bienvenidos al mundo de la programación",
       "description": "¡Vamos a explorar el fascinante mundo de los programas de computadora.",
-      "is_published": true
+      "is_published": true,
+      "display_order": 1
     },
     {
       "course_id": 2,
       "name": "Preparando la Cafetera",
       "description": "Vamos a explorar Java, un lenguaje de programación tan rico y fuerte como el mejor café espresso. Prepara tu taza favorita y acompáñanos en este viaje por el mundo de Java.",
-      "is_published": true
+      "is_published": true,
+      "display_order": 1
     },
     {
       "course_id": 3,
       "name": "Pistas de Carreras de Go",
       "description": "¡Diseña y codifica pistas de carreras para aprender programación en Go!",
-      "is_published": true
+      "is_published": true,
+      "display_order": 1
     },
     {
       "course_id": 4,
       "name": "La Escuela de Magos de TypeScript",
       "description": "¡Asiste a una mágica escuela de magos y aprende hechizos de TypeScript!",
-      "is_published": true
+      "is_published": true,
+      "display_order": 1
     },
     {
       "course_id": 5,
       "name": "Piezas de Robot de Rust",
       "description": "¡Ensambla piezas de robot y aprende programación en Rust en el proceso!",
-      "is_published": true
+      "is_published": true,
+      "display_order": 1
     },
     {
       "course_id": 6,
       "name": "Curso de Aventuras de Python",
       "description": "¡Embárcate en una emocionante aventura y aprende programación en Python!",
-      "is_published": true
+      "is_published": true,
+      "display_order": 1
     },
     {
       "course_id": 7, 
       "name": "Curso de Parques y Héroes de Java",
       "description": "¡Diseña parques de atracciones y conviértete en un héroe con Java!",
-      "is_published": true
+      "is_published": true,
+      "display_order": 2
     }
   ],
   "lessons": [
@@ -373,27 +380,11 @@
     },
     {
       "module_id": 1,
-      "name": "Python: La Serpiente Amistosa del Código",
-      "content_file": "leccion_4_python_la_serpiente_amistosa_del_codigo.md",
-      "credits": 25,
-      "is_published": true,
-      "display_order": 4
-    },
-    {
-      "module_id": 1,
-      "name": "El Zoo de los Datos y la Ciudad de la Memoria",
-      "content_file": "leccion_5_el_zoo_de_los_datos_y_la_ciudad_de_la_memoria.md",
-      "credits": 30,
-      "is_published": true,
-      "display_order": 5
-    },
-    {
-      "module_id": 1,
       "name": "¡Conviértete en un Mago del Código con tu Propio Juego de Preguntas y Respuestas!",
       "content_file": "leccion_6_¡conviertete_en_un_mago_del_codigo_con_tu_propio_juego_de_preguntas_y_respuestas.md",
       "credits": 35,
       "is_published": true,
-      "display_order": 6
+      "display_order": 4
     },
     {
       "module_id": 2,
@@ -469,7 +460,7 @@
     },
     {
       "module_id": 4,
-      "name": "Masterizando la cocina de TypeScript",
+      "name": "Preparando la cocina de TypeScript",
       "content_file": "leccion-2-Recetas-de-TypeScript.md",
       "credits": 40,
       "is_published": true,
@@ -477,7 +468,7 @@
     },
     {
       "module_id": 4,
-      "name": "Preparando la cocina de TypeScript",
+      "name": "Ajustando la temperatura de TypeScript",
       "content_file": "leccion-3-typescript-en-accion-proyectos-practicos.md",
       "credits": 40,
       "is_published": true,
@@ -501,35 +492,19 @@
     },
     {
       "module_id": 5,
-      "name": "Aventuras galacticas en Rust",
-      "content_file": "leccion-1-Los-super-heroes-rust.md",
+      "name": "Super heroes de rust",
+      "content_file": "leccion-2-Aventuras-con-rust.md",
       "credits": 40,
       "is_published": true,
       "display_order": 1
     },
     {
       "module_id": 5,
-      "name": "Super heroes de rust",
-      "content_file": "leccion-2-Aventuras-con-rust.md",
-      "credits": 40,
+      "name": "El Zoo de los Datos y la Ciudad de la Memoria",
+      "content_file": "leccion_5_el_zoo_de_los_datos_y_la_ciudad_de_la_memoria.md",
+      "credits": 30,
       "is_published": true,
       "display_order": 2
-    },
-    {
-      "module_id": 5,
-      "name": "Los guardias de rust",
-      "content_file": "leccion-3-los-guardianes-del-codigo-rust.md",
-      "credits": 40,
-      "is_published": true,
-      "display_order": 3
-    },
-    {
-      "module_id": 5,
-      "name": "Defiende el reino rust",
-      "content_file": "leccion-4-los-defensores-del-reino-rust.md",
-      "credits": 40,
-      "is_published": true,
-      "display_order": 4
     },
     {
       "module_id": 5,
@@ -537,13 +512,37 @@
       "content_file": "leccion-5-la-gran-biblioteca-de-los-magos-rust.md",
       "credits": 40,
       "is_published": true,
+      "display_order": 3
+    },
+    {
+      "module_id": 5,
+      "name": "Aventuras galacticas en Rust",
+      "content_file": "leccion-1-Los-super-heroes-rust.md",
+      "credits": 40,
+      "is_published": true,
+      "display_order": 4
+    },
+    {
+      "module_id": 5,
+      "name": "Los guardias de rust",
+      "content_file": "leccion-3-los-guardianes-del-codigo-rust.md",
+      "credits": 40,
+      "is_published": true,
       "display_order": 5
     },
     {
-      "module_id": 6,
-      "name": "Inicios de python",
-      "content_file": "leccion-1-Curso-Python-para-niños.md",
+      "module_id": 5,
+      "name": "Defiende el reino rust",
+      "content_file": "leccion-4-los-defensores-del-reino-rust.md",
       "credits": 40,
+      "is_published": true,
+      "display_order": 6
+    },
+    {
+      "module_id": 6,
+      "name": "Python: La Serpiente Amistosa del Código",
+      "content_file": "leccion_4_python_la_serpiente_amistosa_del_codigo.md",
+      "credits": 25,
       "is_published": true,
       "display_order": 1
     },
