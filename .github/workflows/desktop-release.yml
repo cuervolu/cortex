@@ -25,11 +25,13 @@ jobs:
         uses: TriPSs/conventional-changelog-action@v5
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          output-file: "false"  # Do not write the changelog to a file
-          skip-version-file: "true" # Do not update the version file
-          skip-commit: "true"  # Do not commit changes
-          skip-tag: "true"     # Do not create a tag, Tauri will do it
-          git-push: "false"    # Do not push changes to the repository
+          output-file: "false"
+          skip-version-file: "true"
+          skip-commit: "true"
+          skip-tag: "true"
+          git-push: "false"
+          git-path: "apps/desktop"
+          tag-prefix: "cortex-v"
 
   build-tauri:
     needs: create-changelog  # Wait for the changelog to be generated
