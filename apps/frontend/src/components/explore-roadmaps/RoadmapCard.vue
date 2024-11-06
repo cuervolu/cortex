@@ -7,8 +7,8 @@ defineProps<{
 </script>
 
 <template>
-  <NuxtLink :to="`/roadmaps/${roadmap.slug}`" class="grow shrink basis-0 w-screen min-w-[382px]">
-    <Card class="p-[11px] rounded-[18px] flex-col justify-start items-start gap-2.5 inline-flex">
+  <NuxtLink :to="`/explore/${roadmap.slug}`" class="grow shrink basis-0 w-screen min-w-[382px]">
+    <Card class="p-[11px] rounded-[18px] flex-col justify-start items-start gap-2.5 inline-flex w-full">
       <CardHeader class="w-full p-2.5">
         <img
           class="rounded-[16px] min-h-[200px] max-h-[200px] object-cover"
