@@ -37,6 +37,7 @@ export interface Exercise {
   github_path: string;
   last_github_sync: string;
   solution_responses: SolutionResponse[];
+  completed: boolean;
 }
 
 export interface Lesson {
@@ -104,6 +105,7 @@ export interface RoadmapLesson {
   name: string;
   slug: string;
   credits: number;
+  exercises: Exercise[];
 }
 
 export interface RoadmapModule {
@@ -138,7 +140,9 @@ export interface RoadmapDetails {
   updated_at: string | null;
 }
 
-
+export interface CourseDetails extends Omit<Course, 'module_ids'> {
+  modules: Module[];
+}
 
 export type PaginatedExercises = PaginatedResponse<Exercise>;
 export type PaginatedLessons = PaginatedResponse<Lesson>;
