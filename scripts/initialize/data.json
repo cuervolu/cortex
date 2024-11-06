@@ -76,7 +76,8 @@
         }
       ],
       "course_ids": [
-        2
+        2,
+        7
       ],
       "is_published": true
     },
@@ -433,7 +434,7 @@
       "credits": 40,
       "is_published": true,
       "display_order": 2
-    }
+    },
     {
       "module_id": 3,
       "name": "Aventurandonos en el espacio con go",
