@@ -16,7 +16,7 @@ public interface RoadmapService {
 
   PageResponse<RoadmapResponse> getAllRoadmaps(int page, int size);
 
-  Optional<RoadmapDetails> getRoadmapBySlug(String slug);
+  Optional<RoadmapDetails> getRoadmapBySlug(String slug, Long userId);
 
   RoadmapResponse createRoadmap(RoadmapRequest request);
 

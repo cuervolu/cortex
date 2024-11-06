@@ -128,16 +128,53 @@ pub struct Course {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
+pub struct RoadmapLesson {
+    pub id: u64,
+    pub name: String,
+    pub slug: String,
+    pub credits: u32,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct RoadmapModule {
+    pub id: u64,
+    pub name: String,
+    pub description: String,
+    pub slug: String,
+    #[serde(rename = "lesson_count")]
+    pub lesson_count: u32,
+    pub lessons: Vec<RoadmapLesson>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct RoadmapCourse {
+    pub id: u64,
+    pub name: String,
+    pub description: String,
+    pub slug: String,
+    #[serde(rename = "image_url")]
+    pub image_url: Option<String>,
+    #[serde(rename = "tag_names")]
+    pub tag_names: Vec<String>,
+    pub modules: Vec<RoadmapModule>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
 pub struct RoadmapDetails {
     pub id: u64,
     pub title: String,
     pub description: String,
     pub slug: String,
-    pub courses: Vec<Course>,
+    #[serde(rename = "image_url")]
     pub image_url: Option<String>,
+    #[serde(rename = "tag_names")]
     pub tag_names: Vec<String>,
+    #[serde(rename = "is_published")]
     pub is_published: bool,
+    pub courses: Vec<RoadmapCourse>,
+    #[serde(rename = "created_at")]
     pub created_at: String,
+    #[serde(rename = "updated_at")]
     pub updated_at: Option<String>,
 }
 
