@@ -1,12 +1,12 @@
 package com.cortex.backend.education.course.internal;
 
-import com.cortex.backend.education.course.api.dto.CourseRequest;
-import com.cortex.backend.education.course.api.dto.CourseResponse;
 import com.cortex.backend.core.domain.Course;
-import com.cortex.backend.core.domain.Tag;
+import com.cortex.backend.core.domain.Media;
 import com.cortex.backend.core.domain.ModuleEntity;
 import com.cortex.backend.core.domain.Roadmap;
-import com.cortex.backend.core.domain.Media;
+import com.cortex.backend.core.domain.Tag;
+import com.cortex.backend.education.course.api.dto.CourseRequest;
+import com.cortex.backend.education.course.api.dto.CourseResponse;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;

@@ -24,7 +24,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -152,7 +151,7 @@ public class ExerciseServiceImpl implements ExerciseService {
           .slug(slug)
           .points(config.getPoints())
           .lastGithubSync(LocalDateTime.now())
-          .lesson(getLessonById(config.getLessonId()))
+          .lesson(getLessonBySlug(config.getLessonSlug()))
           .build();
       exerciseRepository.save(newExercise);
       log.info("New exercise created with ID: {} and slug: {}", newExercise.getId(),
@@ -179,7 +178,7 @@ public class ExerciseServiceImpl implements ExerciseService {
       existingExercise.setSlug(slug);
       existingExercise.setPoints(config.getPoints());
       existingExercise.setLastGithubSync(LocalDateTime.now());
-      existingExercise.setLesson(getLessonById(config.getLessonId()));
+      existingExercise.setLesson(getLessonBySlug(config.getLessonSlug()));
       exerciseRepository.save(existingExercise);
       log.info("Exercise updated with ID: {} and slug: {}", existingExercise.getId(),
           existingExercise.getSlug());
@@ -259,9 +258,9 @@ public class ExerciseServiceImpl implements ExerciseService {
     return lessonRepository.count() > 0;
   }
 
-  private Lesson getLessonById(Long lessonId) {
-    return lessonRepository.findById(lessonId)
-        .orElseThrow(() -> new IllegalArgumentException("Lesson not found with id: " + lessonId));
+  private Lesson getLessonBySlug(String lessonSlug) {
+    return lessonRepository.findBySlug(lessonSlug)
+        .orElseThrow(() -> new IllegalArgumentException("Lesson not found with id: " + lessonSlug));
   }
 
   private String determineLanguage(String githubPath) {

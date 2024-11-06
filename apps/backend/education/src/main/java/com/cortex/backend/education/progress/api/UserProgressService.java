@@ -1,8 +1,7 @@
 package com.cortex.backend.education.progress.api;
 
-import com.cortex.backend.core.domain.UserProgress;
 import com.cortex.backend.core.domain.EntityType;
-
+import com.cortex.backend.core.domain.UserProgress;
 import java.util.List;
 
 public interface UserProgressService {

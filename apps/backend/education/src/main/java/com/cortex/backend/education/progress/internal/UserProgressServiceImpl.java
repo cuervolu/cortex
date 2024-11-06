@@ -1,20 +1,18 @@
 package com.cortex.backend.education.progress.internal;
 
-import com.cortex.backend.core.domain.Lesson;
-import com.cortex.backend.core.domain.UserProgress;
-import com.cortex.backend.core.domain.UserProgressKey;
 import com.cortex.backend.core.domain.EntityType;
 import com.cortex.backend.core.domain.ProgressStatus;
+import com.cortex.backend.core.domain.UserProgress;
+import com.cortex.backend.core.domain.UserProgressKey;
 import com.cortex.backend.education.lesson.api.LessonRepository;
 import com.cortex.backend.education.progress.api.UserProgressRepository;
 import com.cortex.backend.education.progress.api.UserProgressService;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

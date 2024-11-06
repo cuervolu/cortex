@@ -4,10 +4,16 @@ import com.cortex.backend.core.common.PageResponse;
 import com.cortex.backend.core.common.SlugUtils;
 import com.cortex.backend.core.domain.Course;
 import com.cortex.backend.core.domain.EntityType;
-import com.cortex.backend.education.course.api.CourseRepository;
+import com.cortex.backend.core.domain.Media;
+import com.cortex.backend.core.domain.Roadmap;
 import com.cortex.backend.core.domain.Tag;
+import com.cortex.backend.education.course.api.CourseRepository;
+import com.cortex.backend.education.course.api.CourseService;
 import com.cortex.backend.education.course.api.dto.CourseResponse;
 import com.cortex.backend.education.course.internal.CourseMapper;
+import com.cortex.backend.education.lesson.api.LessonService;
+import com.cortex.backend.education.module.api.ModuleService;
+import com.cortex.backend.education.progress.api.ProgressUpdatedEvent;
 import com.cortex.backend.education.progress.api.UserProgressService;
 import com.cortex.backend.education.roadmap.api.RoadmapRepository;
 import com.cortex.backend.education.roadmap.api.RoadmapService;
@@ -15,21 +21,22 @@ import com.cortex.backend.education.roadmap.api.dto.RoadmapDetails;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapRequest;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapResponse;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapUpdateRequest;
-import com.cortex.backend.core.domain.Roadmap;
 import com.cortex.backend.education.tags.internal.TagService;
 import com.cortex.backend.media.api.MediaService;
-import com.cortex.backend.core.domain.Media;
 import jakarta.persistence.EntityNotFoundException;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.event.EventListener;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -51,6 +58,10 @@ public class RoadmapServiceImpl implements RoadmapService {
   private final CourseRepository courseRepository;
   private final UserProgressService userProgressService;
   private final CourseMapper courseMapper;
+  private final CourseService courseService;
+  private final ModuleService moduleService;
+  private final LessonService lessonService;
+  private final CacheManager cacheManager;
 
   private static final String ROADMAP_IMAGE_UPLOAD_PATH = "roadmaps";
   private static final String ROADMAP_NOT_FOUND_MESSAGE = "Roadmap not found";
@@ -78,7 +89,6 @@ public class RoadmapServiceImpl implements RoadmapService {
     return roadmapRepository.findBySlugWithDetails(slug)
         .map(roadmap -> roadmapMapper.toRoadmapDetails(roadmap, userId, userProgressService));
   }
-
 
   @Override
   @Transactional
@@ -111,7 +121,6 @@ public class RoadmapServiceImpl implements RoadmapService {
       existingRoadmap.setPublished(request.getIsPublished());
     }
 
-
     setRoadmapRelations(existingRoadmap, request);
     Roadmap updatedRoadmap = roadmapRepository.save(existingRoadmap);
     return roadmapMapper.toRoadmapResponse(updatedRoadmap);
@@ -125,6 +134,7 @@ public class RoadmapServiceImpl implements RoadmapService {
             .filter(course -> roadmap.getCourses().contains(course))
             .map(courseMapper::toCourseResponse));
   }
+
   @Override
   @Transactional
   public void deleteRoadmap(Long id) {
@@ -204,4 +214,38 @@ public class RoadmapServiceImpl implements RoadmapService {
 
     return totalCourses == completedCourses;
   }
+
+  @EventListener
+  public void handleProgressUpdated(ProgressUpdatedEvent event) {
+    try {
+      Long roadmapId = findRelatedRoadmapId(event.entityId(), event.entityType());
+      if (roadmapId != null) {
+        roadmapRepository.findById(roadmapId).ifPresent(roadmap -> {
+          Objects.requireNonNull(cacheManager.getCache("roadmaps")).evict(roadmap.getSlug());
+          log.debug("Invalidated cache for roadmap: {}", roadmap.getSlug());
+        });
+      }
+    } catch (Exception e) {
+      log.error("Error handling progress update event", e);
+    }
+  }
+
+  private Long findRelatedRoadmapId(Long entityId, EntityType entityType) {
+    return switch (entityType) {
+      case ROADMAP -> entityId;
+      case COURSE -> courseService.getRoadmapIdForCourse(entityId);
+      case MODULE -> {
+        Long courseId = moduleService.getCourseIdForModule(entityId);
+        yield courseService.getRoadmapIdForCourse(courseId);
+      }
+      case LESSON -> {
+        Long moduleId = lessonService.getModuleIdForLesson(entityId);
+        Long courseId = moduleService.getCourseIdForModule(moduleId);
+        yield courseService.getRoadmapIdForCourse(courseId);
+      }
+      default -> null;
+    };
+  }
+
+
 }

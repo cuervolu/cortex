@@ -96,8 +96,6 @@ public class GithubSyncService {
     try {
       if (pullLatestChanges(localPath)) {
         updateExercisesFromLocalRepo(localPath);
-      } else {
-        log.info("No new changes in the repository. Skipping update.");
       }
     } catch (Exception e) {
       log.error("Failed to sync exercises", e);
@@ -162,8 +160,6 @@ public class GithubSyncService {
         lastSyncedCommit = newCommitId;
         return true;
       }
-
-      log.info("No new changes detected in the remote repository.");
       return false;
     } catch (IOException e) {
       log.error("IO error occurred while pulling changes. Attempting to re-clone.", e);
@@ -284,7 +280,7 @@ public class GithubSyncService {
       ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
       config = mapper.readValue(configYaml, ExerciseConfig.class);
       log.info("Parsed config: title={}, points={}, creator={}, lessonId={}", config.getTitle(),
-          config.getPoints(), config.getCreator(), config.getLessonId());
+          config.getPoints(), config.getCreator(), config.getLessonSlug());
     } catch (Exception e) {
       log.error("Error parsing config.yml for exercise {}: {}", exerciseName, e.getMessage());
       config = new ExerciseConfig();

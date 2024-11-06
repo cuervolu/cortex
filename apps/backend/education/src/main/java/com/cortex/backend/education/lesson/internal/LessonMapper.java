@@ -1,8 +1,8 @@
 package com.cortex.backend.education.lesson.internal;
 
-import com.cortex.backend.education.lesson.api.dto.LessonResponse;
-import com.cortex.backend.core.domain.Lesson;
 import com.cortex.backend.core.domain.Exercise;
+import com.cortex.backend.core.domain.Lesson;
+import com.cortex.backend.education.lesson.api.dto.LessonResponse;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.mapstruct.Mapper;

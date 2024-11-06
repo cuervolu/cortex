@@ -4,7 +4,6 @@ import com.cortex.backend.core.common.PageResponse;
 import com.cortex.backend.education.lesson.api.dto.LessonRequest;
 import com.cortex.backend.education.lesson.api.dto.LessonResponse;
 import com.cortex.backend.education.lesson.api.dto.LessonUpdateRequest;
-import java.util.List;
 import java.util.Optional;
 
 public interface LessonService {

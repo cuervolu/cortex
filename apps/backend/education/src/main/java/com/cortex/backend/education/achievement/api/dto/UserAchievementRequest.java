@@ -3,7 +3,6 @@ package com.cortex.backend.education.achievement.api.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
-
 import java.time.LocalDateTime;
 
 public record UserAchievementRequest(

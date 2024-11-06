@@ -1,10 +1,10 @@
 package com.cortex.backend.education.achievement.internal;
 
+import com.cortex.backend.core.domain.Achievement;
+import com.cortex.backend.core.domain.AchievementType;
 import com.cortex.backend.education.achievement.api.dto.AchievementRequest;
 import com.cortex.backend.education.achievement.api.dto.AchievementResponse;
 import com.cortex.backend.education.achievement.api.dto.AchievementResponse.AchievementTypeResponse;
-import com.cortex.backend.core.domain.Achievement;
-import com.cortex.backend.core.domain.AchievementType;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

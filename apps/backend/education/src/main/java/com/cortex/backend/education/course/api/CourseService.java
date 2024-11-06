@@ -6,7 +6,6 @@ import com.cortex.backend.education.course.api.dto.CourseResponse;
 import com.cortex.backend.education.course.api.dto.CourseUpdateRequest;
 import com.cortex.backend.education.module.api.dto.ModuleResponse;
 import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
 import org.springframework.web.multipart.MultipartFile;
 

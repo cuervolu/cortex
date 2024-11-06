@@ -2,13 +2,13 @@ package com.cortex.backend.education.lesson.internal;
 
 import com.cortex.backend.core.common.PageResponse;
 import com.cortex.backend.core.common.SlugUtils;
+import com.cortex.backend.core.domain.Lesson;
+import com.cortex.backend.core.domain.ModuleEntity;
 import com.cortex.backend.education.lesson.api.LessonRepository;
 import com.cortex.backend.education.lesson.api.LessonService;
 import com.cortex.backend.education.lesson.api.dto.LessonRequest;
 import com.cortex.backend.education.lesson.api.dto.LessonResponse;
 import com.cortex.backend.education.lesson.api.dto.LessonUpdateRequest;
-import com.cortex.backend.core.domain.Lesson;
-import com.cortex.backend.core.domain.ModuleEntity;
 import com.cortex.backend.education.module.api.ModuleRepository;
 import com.cortex.backend.education.progress.api.LessonCompletedEvent;
 import jakarta.persistence.EntityNotFoundException;

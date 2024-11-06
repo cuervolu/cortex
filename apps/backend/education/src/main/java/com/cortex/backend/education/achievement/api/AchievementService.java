@@ -1,8 +1,6 @@
 package com.cortex.backend.education.achievement.api;
 
-import com.cortex.backend.core.domain.Achievement;
 import com.cortex.backend.core.domain.UserAchievement;
-
 import com.cortex.backend.education.achievement.api.dto.AchievementRequest;
 import com.cortex.backend.education.achievement.api.dto.AchievementResponse;
 import java.util.List;
