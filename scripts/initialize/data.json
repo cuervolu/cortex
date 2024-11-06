@@ -160,14 +160,14 @@
       "is_published": true
     },
     {
-      "title": "Aventura en las Islas Java",
-      "description": "Explora un archipiélago de conocimiento avanzado en Java, donde cada isla representa un aspecto especializado del desarrollo empresarial. Desde la creación de aplicaciones distribuidas con Spring Boot hasta la optimización de bases de datos y microservicios, esta aventura te convertirá en un verdadero maestro del ecosistema Java.",
+      "title": "Aventura en el Reino de las Interfaces",
+      "description": "Explora un mundo mágico de desarrollo de interfaces gráficas con Java Swing, donde cada región representa un aspecto especializado del desarrollo de aplicaciones de escritorio. Desde la creación de ventanas y diálogos hasta la implementación de temas personalizados y efectos visuales, esta aventura te convertirá en un verdadero maestro de Java Swing.",
       "tags": [
         {
           "name": "Java"
         },
         {
-          "name": "Spring Boot"
+          "name": "Swing"
         },
         {
           "name": "Principiante"
@@ -177,7 +177,7 @@
         7
       ],
       "is_published": true
-      }
+    }
   ],
   "courses": [
     {
@@ -194,7 +194,8 @@
           "name": "Principiante"
         }
       ],
-      "is_published": true
+      "is_published": true,
+      "display_order": 1
       
     },
     {
@@ -211,7 +212,8 @@
           "name": "Principiante"
         }
       ],
-      "is_published": true
+      "is_published": true,
+      "display_order": 1
     },
     {
       "name": "La Búsqueda del Tesoro Go",
@@ -227,7 +229,8 @@
           "name": "Rendimiento"
         }
       ],
-      "is_published": true
+      "is_published": true,
+      "display_order": 1
     },
     {
       "name": "Los Hechizos Mágicos de TypeScript",
@@ -243,7 +246,8 @@
           "name": "Desarrollo Web"
         }
       ],
-      "is_published": true
+      "is_published": true,
+      "display_order": 1
     },
     {
       "name": "La Fábrica de Robots Rust",
@@ -259,7 +263,8 @@
           "name": "Seguridad de Memoria"
         }
       ],
-      "is_published": true
+      "is_published": true,
+      "display_order": 1
     },
     {
       "name": "La Brújula del Científico de Datos",
@@ -275,23 +280,25 @@
           "name": "Visualización"
         }
       ],
-      "is_published": true
+      "is_published": true,
+      "display_order": 1
     },
     {
-      "name": "Maestría en Spring Boot: El Viaje del Arquitecto Java",
-      "description": "Domina el arte de construir aplicaciones empresariales robustas con Spring Boot. Desde la creación de APIs RESTful hasta la implementación de seguridad y microservicios, este curso te convertirá en un arquitecto Java consumado.",
+      "name": "Maestría en Java Swing: El Arte de las Interfaces Gráficas",
+      "description": "Domina el arte de construir aplicaciones de escritorio profesionales con Java Swing. Desde la creación de componentes personalizados hasta la implementación de patrones de diseño y animaciones, este curso te convertirá en un experto en interfaces gráficas.",
       "tags": [
         {
           "name": "Java"
         },
         {
-          "name": "Spring Boot"
+          "name": "Swing"
         },
         {
-          "name": "Arquitectura"
+          "name": "UI/UX"
         }
       ],
-      "is_published": true
+      "is_published": true,
+      "display_order": 2
     }
   ],
   "modules": [
