@@ -223,10 +223,10 @@ Instrucciones: Crea tu propia biblioteca mágica con:
 
 ¡Felicitaciones, valientes Rust Rangers! Han completado su entrenamiento en la Academia de Magia Rust. Ahora son capaces de:
 
-- Organizar código en módulos mágicos
-- Usar crates poderosos
-- Crear pruebas para sus hechizos
-- Compartir su magia con otros programadores
+* Organizar código en módulos mágicos
+* Usar crates poderosos
+* Crear pruebas para sus hechizos
+* Compartir su magia con otros programadores
 
 ## Conclusión Final
 

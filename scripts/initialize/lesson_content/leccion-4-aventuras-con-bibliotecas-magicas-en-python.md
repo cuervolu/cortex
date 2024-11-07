@@ -1,7 +1,7 @@
 
 # Lección 4: Aventuras con Bibliotecas Mágicas 📚✨
 
-¡Hola, intrépidos aventureros! Hoy nos embarcaremos en un nuevo viaje hacia el fascinante mundo de las bibliotecas en Python. Las bibliotecas son como hechizos poderosos que ya han sido creados por otros magos, y nos permiten hacer cosas asombrosas sin tener que escribir todo desde cero. 
+¡Hola, intrépidos aventureros! Hoy nos embarcaremos en un nuevo viaje hacia el fascinante mundo de las bibliotecas en Python. Las bibliotecas son como hechizos poderosos que ya han sido creados por otros magos, y nos permiten hacer cosas asombrosas sin tener que escribir todo desde cero.
 
 ## Nuevos Conceptos Mágicos
 

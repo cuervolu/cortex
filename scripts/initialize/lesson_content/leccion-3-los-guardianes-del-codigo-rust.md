@@ -167,6 +167,7 @@ Instrucciones: Diseña un trait para dar superpoderes a tus juguetes favoritos. 
 3. ¿Cómo interactuarían entre ellos?
 
 Ejemplo:
+
 ```rust
 trait JugueteMagico {
     fn activar_magia(&self);
