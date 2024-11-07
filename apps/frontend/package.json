@@ -12,7 +12,9 @@
   },
   "dependencies": {
     "@cortex/shared": "workspace:^",
+    "@neoconfetti/vue": "^2.2.1",
     "@nuxtjs/seo": "2.0.0-rc.23",
+    "@pinia/colada-nuxt": "^0.0.3",
     "countries-list": "^3.1.1",
     "date-fns": "^4.1.0",
     "nuxt-seo-experiments": "^4.0.1",

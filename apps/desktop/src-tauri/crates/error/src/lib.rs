@@ -58,6 +58,18 @@ pub enum AppError {
 
     #[error("OAuth error: {0}")]
     OAuthError(String),
+
+    #[error("API error: {0}")]
+    ApiError(String),
+    
+    #[error("Validation error: {0}")]
+    ValidationError(String),
+
+    #[error("User cancelled operation: {0}")]
+    UserCancelled(String),
+    
+    #[error("File error: {0}")]
+    FileError(String),
 }
 
 impl serde::Serialize for AppError {

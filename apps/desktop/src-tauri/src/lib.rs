@@ -109,19 +109,37 @@ pub fn run() {
             auth::commands::cancel_oauth_flow,
             auth::commands::handle_oauth_callback,
             // Education commands
+            // Roadmaps
             education::roadmaps::commands::fetch_all_roadmaps,
             education::roadmaps::commands::fetch_roadmap_course,
             education::roadmaps::commands::get_roadmap,
+            education::roadmaps::commands::create_new_roadmap,
+            education::roadmaps::commands::update_roadmap_command,
+            education::roadmaps::commands::upload_roadmap_image_command,
+            education::roadmaps::commands::delete_roadmap_command,
+            
+            // Courses
+            education::courses::commands::fetch_all_courses,
+            education::courses::commands::get_course,
+            education::courses::commands::create_new_course,
+            education::courses::commands::update_course_command,
+            education::courses::commands::delete_course_command,
+            education::courses::commands::upload_course_image_command,
+            
+            // Modules
+            education::modules::commands::fetch_all_modules,
+            education::modules::commands::get_module,
+            
+            // Lessons
+            education::lessons::commands::fetch_all_lessons,
+            education::lessons::commands::get_lesson,
+            
+            // Exercises
             education::exercises::commands::get_exercises,
             education::exercises::commands::get_exercise_details,
             education::exercises::commands::execute_code,
             education::exercises::commands::get_code_execution_result,
-            education::courses::commands::get_courses,
-            education::courses::commands::get_course_details,
-            education::lessons::commands::fetch_all_lessons,
-            education::lessons::commands::get_lesson,
-            education::modules::commands::fetch_all_modules,
-            education::modules::commands::get_module,
+            
             // AI Chat commands
             ai_chat::commands::start_exercise_session,
             ai_chat::commands::send_message,

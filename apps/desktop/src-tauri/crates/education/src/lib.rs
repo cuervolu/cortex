@@ -226,7 +226,114 @@ pub struct CodeExecutionResult {
     pub test_case_results: Vec<TestCaseResult>,
 }
 
+#[derive(Debug, Serialize, Deserialize)]
+pub struct TagDTO {
+    pub name: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub description: Option<String>,
+}
 
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct RoadmapCreateRequest {
+    pub title: String,
+    pub description: String,
+    pub tags: Option<Vec<TagDTO>>,
+    #[serde(rename = "course_ids")]
+    pub course_ids: Option<Vec<u64>>,
+    #[serde(rename = "is_published")]
+    pub is_published: bool,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct CourseCreateRequest {
+    pub name: String,
+    pub description: String,
+    pub tags: Option<Vec<TagDTO>>,
+    #[serde(rename = "is_published")]
+    pub is_published: bool,
+    #[serde(rename = "display_order")]
+    pub display_order: Option<i32>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ModuleCreateRequest {
+    #[serde(rename = "course_id")]
+    pub course_id: u64,
+    pub name: String,
+    pub description: String,
+    #[serde(rename = "is_published")]
+    pub is_published: bool,
+    #[serde(rename = "display_order")]
+    pub display_order: Option<i32>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct LessonCreateRequest {
+    #[serde(rename = "module_id")]
+    pub module_id: u64,
+    pub name: String,
+    pub content: String,
+    pub credits: i32,
+    #[serde(rename = "is_published")]
+    pub is_published: bool,
+    #[serde(rename = "display_order")]
+    pub display_order: Option<i32>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct RoadmapUpdateRequest {
+    pub title: Option<String>,
+    pub description: Option<String>,
+    pub tags: Option<Vec<TagDTO>>,
+    #[serde(rename = "course_ids")]
+    pub course_ids: Option<Vec<u64>>,
+    #[serde(rename = "is_published")]
+    pub is_published: Option<bool>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct CourseUpdateRequest {
+    pub name: Option<String>,
+    pub description: Option<String>,
+    pub tags: Option<Vec<TagDTO>>,
+    #[serde(rename = "is_published")]
+    pub is_published: Option<bool>,
+    #[serde(rename = "display_order")]
+    pub display_order: Option<i32>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ModuleUpdateRequest {
+    #[serde(rename = "course_id")]
+    pub course_id: Option<u64>,
+    pub name: Option<String>,
+    pub description: Option<String>,
+    #[serde(rename = "is_published")]
+    pub is_published: Option<bool>,
+    #[serde(rename = "display_order")]
+    pub display_order: Option<i32>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct LessonUpdateRequest {
+    #[serde(rename = "module_id")]
+    pub module_id: Option<u64>,
+    pub name: Option<String>,
+    pub content: Option<String>,
+    pub credits: Option<i32>,
+    #[serde(rename = "is_published")]
+    pub is_published: Option<bool>,
+    #[serde(rename = "display_order")]
+    pub display_order: Option<i32>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ImageUploadRequest {
+    pub image: Vec<u8>,
+    #[serde(rename = "alt_text")]
+    pub alt_text: Option<String>,
+}
 
 // Paginated Responses
 pub type PaginatedExercises = PaginatedResponse<Exercise>;

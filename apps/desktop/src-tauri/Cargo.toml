@@ -29,9 +29,9 @@ thiserror = { workspace = true }
 log = { workspace = true }
 tauri-plugin-shell =  {workspace = true}
 tauri-plugin-store = {workspace = true}
+tauri-plugin-dialog = {workspace = true}
 tauri-plugin-devtools = "2.0.0"
-tauri-plugin-fs = "2.0.3"
-tauri-plugin-dialog = "2.0.3"
+tauri-plugin-fs = {workspace = true}
 tauri-plugin-log = { version = "2.0.2", features = ["colored"] }
 tauri-plugin-os = "2"
 tauri-plugin-process = "2.0.1"
