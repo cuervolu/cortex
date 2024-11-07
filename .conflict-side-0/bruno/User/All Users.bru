@@ -1,0 +1,15 @@
+meta {
+  name: All Users
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{BASEURL}}/api/v1/user/all
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

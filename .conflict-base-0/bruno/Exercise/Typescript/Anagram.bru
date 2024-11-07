@@ -1,0 +1,27 @@
+meta {
+  name: Anagram
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{BASEURL}}/api/v1/engine/execute
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "code": "ZXhwb3J0IGZ1bmN0aW9uIGFuYWdyYW1zKHdvcmQ6IHN0cmluZywgY2FuZGlkYXRlczogc3RyaW5nW10pOiBzdHJpbmdbXSB7CiAgLy8gQ29udmVydGltb3MgbGEgcGFsYWJyYSBvcmlnaW5hbCBhIG1pbsO6c2N1bGFzIHkgb3JkZW5hbW9zIHN1cyBsZXRyYXMKICBjb25zdCBzb3J0ZWRXb3JkID0gd29yZC50b0xvd2VyQ2FzZSgpLnNwbGl0KCcnKS5zb3J0KCkuam9pbignJyk7CiAgCiAgcmV0dXJuIGNhbmRpZGF0ZXMuZmlsdGVyKGNhbmRpZGF0ZSA9PiB7CiAgICBjb25zdCBzb3J0ZWRDYW5kaWRhdGUgPSBjYW5kaWRhdGUudG9Mb3dlckNhc2UoKS5zcGxpdCgnJykuc29ydCgpLmpvaW4oJycpOwogICAgLy8gUmV0b3JuYW1vcyBzb2xvIGFxdWVsbG9zIGNhbmRpZGF0b3MgcXVlIHNvbiBhbmFncmFtYXMgeSBxdWUgbm8gc29uIGlndWFsZXMgYSBsYSBwYWxhYnJhIG9yaWdpbmFsCiAgICByZXR1cm4gc29ydGVkQ2FuZGlkYXRlID09PSBzb3J0ZWRXb3JkICYmIGNhbmRpZGF0ZS50b0xvd2VyQ2FzZSgpICE9PSB3b3JkLnRvTG93ZXJDYXNlKCk7CiAgfSk7Cn0K",
+    "language": "typescript",
+    "exercise_id": 11
+  }
+}

@@ -1,0 +1,9 @@
+${AnsiColor.GREEN} 
+ ██████╗ ██████╗ ██████╗ ████████╗███████╗██╗  ██╗
+██╔════╝██╔═══██╗██╔══██╗╚══██╔══╝██╔════╝╚██╗██╔╝
+██║     ██║   ██║██████╔╝   ██║   █████╗   ╚███╔╝ 
+██║     ██║   ██║██╔══██╗   ██║   ██╔══╝   ██╔██╗ 
+╚██████╗╚██████╔╝██║  ██║   ██║   ███████╗██╔╝ ██╗
+ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝  ╚═╝                                                                            
+${AnsiColor.BRIGHT_BLUE}:: Cortex 🏫  :: Running Spring Boot ${spring-boot.version} :: Startup profile(s) ${spring.profiles.active} ::
+:: https://www.cortex.com::${AnsiColor.DEFAULT}

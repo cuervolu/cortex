@@ -1,0 +1,24 @@
+meta {
+  name: Create Lesson
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{BASEURL}}/api/v1/education/lesson
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "moduleId": 2,
+    "name": "Introduction to Python Programming",
+    "content": "# Introduction to Python Programming\n\nPython is a versatile and beginner-friendly programming language. In this lesson, we'll cover the basics of Python programming.\n\n## Getting Started\n\nTo begin, make sure you have Python installed on your computer. You can download it from [python.org](https://www.python.org).\n\n## Your First Python Program\n\nLet's start with a simple 'Hello, World!' program:\n\n```python\nprint('Hello, World!')\n```\n\nWhen you run this code, it will output:\n\n```\nHello, World!\n```\n\n## Variables and Data Types\n\nPython uses variables to store data. Here are some examples:\n\n```python\n# Integer\nage = 25\n\n# Float\npi = 3.14159\n\n# String\nname = 'Alice'\n\n# Boolean\nis_student = True\n```\n\n## Basic Operations\n\nPython supports various operations:\n\n```python\n# Addition\nsum = 5 + 3  # sum is now 8\n\n# Subtraction\ndifference = 10 - 4  # difference is now 6\n\n# Multiplication\nproduct = 3 * 7  # product is now 21\n\n# Division\nquotient = 20 / 4  # quotient is now 5.0 (note: result is always a float)\n```\n\n## Conclusion\n\nThis lesson covered the very basics of Python programming. In the next lesson, we'll explore more complex concepts like conditionals and loops.",
+    "credits": 10
+  }
+}

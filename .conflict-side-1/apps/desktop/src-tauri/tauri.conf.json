@@ -1,0 +1,112 @@
+{
+  "productName": "Cortex",
+  "version": "0.1.5",
+  "identifier": "com.cortex.app",
+  "build": {
+    "frontendDist": "../dist",
+    "devUrl": "http://localhost:3000",
+    "beforeDevCommand": "pnpm nuxt:dev",
+    "beforeBuildCommand": "pnpm generate"
+  },
+  "app": {
+    "windows": [
+      {
+        "label": "splashscreen",
+        "url": "/splashscreen",
+        "width": 350,
+        "height": 400,
+        "resizable": false,
+        "maximizable": false,
+        "minimizable": false,
+        "center": true,
+        "decorations": false,
+        "shadow": true,
+        "transparent": true,
+        "alwaysOnTop": true,
+        "focus": true
+      },
+      {
+        "label": "main",
+        "title": "Cortex",
+        "width": 1100,
+        "height": 650,
+        "resizable": true,
+        "fullscreen": false,
+        "center": true,
+        "minHeight": 600,
+        "minWidth": 800,
+        "decorations": false,
+        "transparent": true,
+        "shadow": true,
+        "visible": false,
+        "windowEffects": {
+          "effects": [
+            "acrylic"
+          ]
+        }
+      }
+    ],
+    "security": {
+      "csp": {
+        "default-src": "'self' blob: data: filesystem: ws: wss: http: https: tauri: 'unsafe-inline' asset: https://asset.localhost",
+        "script-src": "'self' 'unsafe-eval'",
+        "connect-src": "'self' ipc: http://ipc.localhost tauri: asset: https://asset.localhost http://localhost:8088",
+        "img-src": [
+          "'self'",
+          "asset:",
+          "http://asset.localhost",
+          "blob:",
+          "data:",
+          "https://*.picsum.photos",
+          "https://picsum.photos",
+          "https://fastly.picsum.photos",
+          "http://*.cloudinary.com",
+          "https://*.cloudinary.com",
+          "http://res.cloudinary.com",
+          "https://res.cloudinary.com"
+        ],
+        "style-src": "'unsafe-inline' 'self'"
+      },
+      "assetProtocol": {
+        "enable": true,
+        "scope": [
+          "$APPDATA/**",
+          "$APPDATA/images/**",
+          "$LOCALAPPDATA/**",
+          "$LOCALAPPDATA/images/**",
+          "$HOME/.local/share/com.cortex.app/**"
+        ]
+      }
+    }
+  },
+  "plugins": {
+    "updater": {
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDk5MzJDRTE5RkM3OUQxQjYKUldTMjBYbjhHYzR5bVRRbWhEYXBlV25yOWJmQ3YxQlRmaUY5Kzc1YnVsZmpnNE53QWhXOXRndGEK",
+      "endpoints": [
+        "https://github.com/cuervolu/cortex/releases/latest/download/latest.json"
+      ],
+      "windows": {
+        "installMode": "passive"
+      }
+    }
+  },
+  "bundle": {
+    "publisher": "Bytech SpA",
+    "copyright": "Copyright © 2024",
+    "category": "Education",
+    "shortDescription": "Start learning today. Knowledge has no limits, and neither does your potential.",
+    "longDescription": "Premium version of the Cortex web app. Start learning today. Knowledge has no limits, and neither does your potential.",
+    "createUpdaterArtifacts": true,
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "homepage": "https://github.com/cuervolu/cortex"
+  },
+  "$schema": "https://schema.tauri.app/config/2"
+}

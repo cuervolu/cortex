@@ -1,0 +1,27 @@
+{
+  "name": "@cortex/frontend",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "clean": "nuxi cleanup"
+  },
+  "dependencies": {
+    "@cortex/shared": "workspace:^",
+    "@neoconfetti/vue": "^2.2.1",
+    "@nuxtjs/seo": "2.0.0-rc.23",
+    "@pinia/colada-nuxt": "^0.0.3",
+    "countries-list": "^3.1.1",
+    "date-fns": "^4.1.0",
+    "nuxt-seo-experiments": "^4.0.1",
+    "sockjs-client": "^1.6.1",
+    "webstomp-client": "^1.2.6"
+  },
+  "devDependencies": {
+    "@types/sockjs-client": "^1.5.4"
+  }
+}

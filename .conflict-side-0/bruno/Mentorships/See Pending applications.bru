@@ -1,0 +1,19 @@
+meta {
+  name: See Pending applications
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{BASEURL}}/api/v1/mentorship/pending?request-type=MENTOR_APPLICATION
+  body: none
+  auth: bearer
+}
+
+params:query {
+  request-type: MENTOR_APPLICATION
+}
+
+auth:bearer {
+  token: {{token}}
+}

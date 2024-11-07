@@ -1,0 +1,21 @@
+meta {
+  name: Create Mentoship
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{BASEURL}}/api/v1/mentorship/create
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "mentee_id": 4
+  }
+}

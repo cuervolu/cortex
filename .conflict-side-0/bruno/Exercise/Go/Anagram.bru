@@ -1,0 +1,27 @@
+meta {
+  name: Anagram
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{BASEURL}}/api/v1/engine/execute
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "code": "cGFja2FnZSBhbmFncmFtCgppbXBvcnQgKAoJInNvcnQiCgkic3RyaW5ncyIKKQoKLy8gQW5hZ3JhbXMgZmluZHMgYWxsIGFuYWdyYW1zIG9mIGEgZ2l2ZW4gd29yZCBmcm9tIGEgbGlzdCBvZiBjYW5kaWRhdGVzCmZ1bmMgQW5hZ3JhbXMod29yZCBzdHJpbmcsIGNhbmRpZGF0ZXMgW11zdHJpbmcpIFtdc3RyaW5nIHsKCXZhciByZXN1bHQgW11zdHJpbmcKCW5vcm1hbGl6ZWRXb3JkIDo9IHNvcnRTdHJpbmcod29yZCkgLy8gT3JkZW5hbW9zIGxhcyBsZXRyYXMgZGUgbGEgcGFsYWJyYSBvcmlnaW5hbAoKCWZvciBfLCBjYW5kaWRhdGUgOj0gcmFuZ2UgY2FuZGlkYXRlcyB7CgkJLy8gU2kgbGEgcGFsYWJyYSBlcyBsYSBtaXNtYSAoY2FzZS1pbnNlbnNpdGl2ZSksIGxhIGlnbm9yYW1vcwoJCWlmIHN0cmluZ3MuRXF1YWxGb2xkKGNhbmRpZGF0ZSwgd29yZCkgewoJCQljb250aW51ZQoJCX0KCQkvLyBDb21wYXJhbW9zIGVsIGNhbmRpZGF0byBvcmRlbmFkbyBjb24gbGEgcGFsYWJyYSBvcmlnaW5hbCBvcmRlbmFkYQoJCWlmIHNvcnRTdHJpbmcoY2FuZGlkYXRlKSA9PSBub3JtYWxpemVkV29yZCB7CgkJCXJlc3VsdCA9IGFwcGVuZChyZXN1bHQsIGNhbmRpZGF0ZSkKCQl9Cgl9CglyZXR1cm4gcmVzdWx0Cn0KCi8vIEhlbHBlciBmdW5jdGlvbiB0byBzb3J0IGNoYXJhY3RlcnMgaW4gYSBzdHJpbmcKZnVuYyBzb3J0U3RyaW5nKHMgc3RyaW5nKSBzdHJpbmcgewoJY2hhcnMgOj0gc3RyaW5ncy5TcGxpdChzdHJpbmdzLlRvTG93ZXIocyksICIiKSAvLyBDb252ZXJ0aW1vcyBhIG1pbsO6c2N1bGFzIHkgZGl2aWRpbW9zIGVuIGNhcmFjdGVyZXMKCXNvcnQuU3RyaW5ncyhjaGFycykgLy8gT3JkZW5hbW9zIGxvcyBjYXJhY3RlcmVzIGFsZmFiw6l0aWNhbWVudGUKCXJldHVybiBzdHJpbmdzLkpvaW4oY2hhcnMsICIiKSAvLyBVbmltb3MgbG9zIGNhcmFjdGVyZXMgZW4gdW5hIG51ZXZhIHBhbGFicmEKfQo=",
+    "language": "go",
+    "exercise_id": 21
+  }
+}
