@@ -1,4 +1,4 @@
-# Lección 3: TypeScript en Acción - Proyectos Prácticos
+# Lección 3: Ajustando la temperatura de TypeScript
 
 ¡Bienvenidos de vuelta, jóvenes cocineros de código! En nuestras lecciones anteriores, hemos explorado los ingredientes y las técnicas básicas de TypeScript. Ahora es el momento de poner todo en práctica y cocinar algunos proyectos reales.
 
