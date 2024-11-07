@@ -54,7 +54,9 @@ export default defineNuxtConfig({
     'nuxt-codemirror',
     '@nuxtjs/mdc',
     '@sidebase/nuxt-auth',
-    '@nuxt/image'
+    '@nuxt/image',
+    'nuxt-tiptap-editor',
+    '@pinia/colada-nuxt'
   ],
   mdc: {
     components: {
@@ -104,6 +106,12 @@ export default defineNuxtConfig({
         weights: ['400', '500', '600', '700', '800', '900'],
       },
     ],
+  },
+  tiptap: {
+    prefix: 'Tiptap', //prefix for Tiptap imports, composables not included
+    lowlight: {
+      theme: 'github-dark',
+    },
   },
   auth: {
     baseURL: process.env.NUXT_PUBLIC_API_BASE_URL || 'http://localhost:8088/api/v1/',
