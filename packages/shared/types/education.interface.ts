@@ -144,6 +144,119 @@ export interface CourseDetails extends Omit<Course, 'module_ids'> {
   modules: Module[];
 }
 
+
+export interface TagDTO {
+  name: string;
+  description?: string;
+}
+
+export interface RoadmapCreateRequest {
+  title: string;
+  description: string;
+  tags?: TagDTO[];
+  course_ids?: number[];
+  is_published: boolean;
+}
+
+export interface CourseCreateRequest {
+  name: string;
+  description: string;
+  tags?: TagDTO[];
+  is_published: boolean;
+  display_order?: number;
+}
+
+export interface ModuleCreateRequest {
+  course_id: number;
+  name: string;
+  description: string;
+  is_published: boolean;
+  display_order?: number;
+}
+
+export interface LessonCreateRequest {
+  module_id: number;
+  name: string;
+  content: string;
+  credits: number;
+  is_published: boolean;
+  display_order?: number;
+}
+
+export interface RoadmapUpdateRequest {
+  title?: string;
+  description?: string;
+  tags?: TagDTO[];
+  course_ids?: number[];
+  is_published?: boolean;
+}
+
+export interface CourseUpdateRequest {
+  name?: string;
+  description?: string;
+  tags?: TagDTO[];
+  is_published?: boolean;
+  display_order?: number;
+}
+
+export interface ModuleUpdateRequest {
+  course_id?: number;
+  name?: string;
+  description?: string;
+  is_published?: boolean;
+  display_order?: number;
+}
+
+export interface LessonUpdateRequest {
+  module_id?: number;
+  name?: string;
+  content?: string;
+  credits?: number;
+  is_published?: boolean;
+  display_order?: number;
+}
+
+export interface ImageUploadRequest {
+  image: Uint8Array;
+  alt_text?: string;
+}
+
+export interface CodeExecutionRequest {
+  code: string;
+  language: string;
+  exercise_id: number;
+}
+
+export interface CodeExecutionSubmissionResponse {
+  task_id: string;
+  status: string;
+  message: string;
+  submission_time: string;
+}
+
+export interface TestCaseResult {
+  passed: boolean;
+  input?: string;
+  expected_output?: string;
+  actual_output?: string;
+  message: string;
+}
+
+export interface CodeExecutionResult {
+  success: boolean;
+  stdout: string;
+  stderr: string;
+  execution_time: number;
+  language: string;
+  exercise_id: number;
+  memory_used: number;
+  test_case_results: TestCaseResult[];
+}
+
+
+
+
+
 export type PaginatedExercises = PaginatedResponse<Exercise>;
 export type PaginatedLessons = PaginatedResponse<Lesson>;
 export type PaginatedRoadmaps = PaginatedResponse<Roadmap>;

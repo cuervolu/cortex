@@ -6,3 +6,8 @@ edition = "2021"
 [dependencies]
 serde = { workspace = true }
 reqwest = { workspace = true }
+tauri-plugin-dialog = {workspace = true}
+tauri-plugin-fs = {workspace = true}
+tauri = {workspace = true}
+infer = "0.16.0"
+error = {path = "../error"}
