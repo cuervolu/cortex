@@ -8,7 +8,7 @@
 
 ![defensores](https://res.cloudinary.com/dukgkrpft/image/upload/v1729455003/lessons/aventuras-con-rust/rdcbqcqfupbo1hejo80a.webp)
 
-### Box<T>: El Cofre Mágico 📦
+### Box<T\>: El Cofre Mágico 📦
 
 Imagina que `Box` es como un cofre mágico que puede guardar tesoros de cualquier tamaño en un espacio pequeño. ¡Es perfecto para cuando tienes datos muy grandes o que no sabes cuán grandes serán!
 
@@ -24,7 +24,7 @@ struct ArbolMagico {
 }
 ```
 
-### Rc<T>: El Medallón Compartido 🎖️
+### Rc\<T\>: El Medallón Compartido 🎖️
 
 `Rc` es como un medallón mágico que pueden usar varios héroes al mismo tiempo. ¡Cada héroe tiene una copia del medallón, y cuando el último héroe lo suelta, el medallón desaparece!
 
@@ -41,7 +41,7 @@ let heroe2 = Rc::clone(&mensaje_compartido);
 
 ## El Arte de Manejar Errores: Result y Option 🛡️
 
-### Option<T>: El Cristal de la Posibilidad
+### Option\<T\>: El Cristal de la Posibilidad
 
 `Option` es como un cristal mágico que puede contener algo o estar vacío. ¡Es perfecto para cuando no estamos seguros si encontraremos un tesoro!
 

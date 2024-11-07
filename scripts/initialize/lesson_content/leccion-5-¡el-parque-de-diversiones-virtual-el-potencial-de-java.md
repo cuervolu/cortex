@@ -213,6 +213,7 @@ public class SistemaParque {
 ## Retos Extra: ¡Mejora tu Parque! 🌟
 
 ¿Puedes hacer que tu parque sea aún más divertido? Aquí hay algunas ideas:
+
 1. Agrega más tipos de atracciones
 2. Crea un sistema de tickets
 3. Implementa horarios para las atracciones
@@ -222,6 +223,7 @@ public class SistemaParque {
 ## Conclusión 🎉
 
 ¡Felicitaciones! Has aprendido conceptos avanzados de Java:
+
 - Herencia
 - Interfaces
 - ArrayList
