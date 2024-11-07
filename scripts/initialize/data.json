@@ -632,6 +632,14 @@
       "credits": 100,
       "is_published": false,
       "display_order": 1
+    },
+    {
+      "module_id": 8,
+      "name": "Componentes Básicos de Swing",
+      "content_file": "leccion_2_componentes_basicos_de_swing.md",
+      "credits": 110,
+      "is_published": false,
+      "display_order": 2
     }
   ]
 }
