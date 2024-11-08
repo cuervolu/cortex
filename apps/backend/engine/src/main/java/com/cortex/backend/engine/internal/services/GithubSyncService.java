@@ -2,12 +2,18 @@ package com.cortex.backend.engine.internal.services;
 
 import com.cortex.backend.core.common.SlugUtils;
 import com.cortex.backend.core.common.exception.GitSyncException;
+import com.cortex.backend.core.common.exception.InvalidConfigurationException;
+import com.cortex.backend.core.common.exception.InvalidPrerequisiteException;
+import com.cortex.backend.core.domain.ExerciseDifficulty;
 import com.cortex.backend.engine.api.ExerciseRepository;
 import com.cortex.backend.engine.api.ExerciseService;
+import com.cortex.backend.engine.config.ExerciseConfigProcessor;
 import com.cortex.backend.engine.internal.ExerciseConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jgit.api.CreateBranchCommand.SetupUpstreamMode;
@@ -37,6 +43,7 @@ public class GithubSyncService {
 
   private final ExerciseService exerciseService;
   private final ExerciseRepository exerciseRepository;
+  private final ExerciseConfigProcessor configProcessor;
   private final SlugUtils slugUtils;
 
   @Value("${github.exercises.repo-url}")
@@ -48,8 +55,6 @@ public class GithubSyncService {
   @Value("${github.exercises.branch}")
   private String branch;
 
-
-  private String lastSyncedCommit;
 
   private static final String ORIGIN = "origin/";
 
@@ -157,7 +162,6 @@ public class GithubSyncService {
         RevCommit latestCommit = git.log().setMaxCount(1).call().iterator().next();
         String newCommitId = latestCommit.getName();
         log.info("New changes detected. Latest commit: {}", newCommitId);
-        lastSyncedCommit = newCommitId;
         return true;
       }
       return false;
@@ -206,7 +210,11 @@ public class GithubSyncService {
 
     int updatedCount = processLanguageDirectories(exercisesDir);
     log.info("Updated or created {} exercises", updatedCount);
+
+    log.info("Processing pending prerequisites...");
+    configProcessor.processAllPendingPrerequisites();
   }
+
 
   private boolean isInvalidDirectory(File directory) {
     return !directory.exists() || !directory.isDirectory();
@@ -260,43 +268,78 @@ public class GithubSyncService {
     String githubPath =
         "exercises" + File.separatorChar + language + File.separatorChar + "practice"
             + File.separatorChar + exerciseName;
-    String instructions = readFileContent(exerciseDir, ".docs/instructions.md");
-    String hints = readFileContent(exerciseDir, ".docs/hints.md");
-    String configYaml = readFileContent(exerciseDir, ".docs/config.yml");
 
-    log.info("Updating exercise: {} ({})", exerciseName, githubPath);
-    log.debug("Instructions length: {}, Hints length: {}", instructions.length(), hints.length());
+    try {
+      String instructions = readFileContent(exerciseDir, ".docs/instructions.md");
+      String hints = readFileContent(exerciseDir, ".docs/hints.md");
+      String configYaml = readFileContent(exerciseDir, ".docs/config.yml");
 
-    if (instructions.isEmpty() && hints.isEmpty()) {
-      log.warn("Skipping exercise {} as both instructions and hints are empty", exerciseName);
+      if (instructions.isEmpty()) {
+        log.warn("Skipping exercise {} as instructions are empty", exerciseName);
+        return false;
+      }
+
+      String slug = slugUtils.generateExerciseSlug(exerciseName, language,
+          s -> exerciseRepository.findBySlug(s).isPresent());
+
+      ExerciseConfig config = parseExerciseConfig(configYaml, exerciseName);
+      if (config == null) {
+        return false;
+      }
+
+      configProcessor.validateConfig(config, exerciseName);
+
+      Set<Long> prerequisites = config.getPrerequisites() != null ?
+          configProcessor.resolvePrerequisites(config.getPrerequisites(), slug) :
+          new HashSet<>();
+
+      Set<String> tags = configProcessor.processAndValidateTags(config.getTags());
+
+      exerciseService.updateOrCreateExercise(
+          exerciseName,
+          githubPath,
+          instructions,
+          hints,
+          slug,
+          language,
+          config,
+          prerequisites,
+          tags
+      );
+
+      return true;
+    } catch (InvalidConfigurationException e) {
+      log.error("Configuration error in exercise {}: {}", exerciseName, e.getMessage());
+      return false;
+    } catch (Exception e) {
+      log.error("Error processing exercise {}: {}", exerciseName, e.getMessage());
       return false;
     }
+  }
 
-    String slug = slugUtils.generateExerciseSlug(exerciseName, language,
-        s -> exerciseRepository.findBySlug(s).isPresent());
 
-    ExerciseConfig config;
+  private ExerciseConfig parseExerciseConfig(String configYaml, String exerciseName) {
     try {
       ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-      config = mapper.readValue(configYaml, ExerciseConfig.class);
-      log.info("Parsed config: title={}, points={}, creator={}, lessonId={}", config.getTitle(),
-          config.getPoints(), config.getCreator(), config.getLessonSlug());
+      return mapper.readValue(configYaml, ExerciseConfig.class);
     } catch (Exception e) {
       log.error("Error parsing config.yml for exercise {}: {}", exerciseName, e.getMessage());
-      config = new ExerciseConfig();
+      return null;
     }
-
-    exerciseService.updateOrCreateExercise(exerciseName, githubPath, instructions, hints, slug,
-        language, config);
-    return true;
   }
 
   private String readFileContent(File exerciseDir, String relativePath) {
     try {
       Path filePath = exerciseDir.toPath().resolve(relativePath);
-      return Files.exists(filePath) ? Files.readString(filePath) : "";
+      if (!Files.exists(filePath)) {
+        log.warn("File not found: {} in exercise directory: {}",
+            relativePath, exerciseDir.getName());
+        return "";
+      }
+      return Files.readString(filePath);
     } catch (Exception e) {
-      log.error("Error reading file: {}", relativePath, e);
+      log.error("Error reading file: {} in exercise: {}",
+          relativePath, exerciseDir.getName(), e);
       return "";
     }
   }

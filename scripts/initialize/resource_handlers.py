@@ -119,20 +119,39 @@ def upload_image(
 
 
 def create_resource(
-    resource_type: str,
-    token: str,
-    data: Dict[str, Any],
-    image_folder: str = None
+    resource_type: str, token: str, data: Dict[str, Any], image_folder: str = None
 ) -> Dict[str, Any]:
+    api_data = data.copy()
+
+    if resource_type == "lesson":
+        if "content_file" in api_data:
+            del api_data["content_file"]
+
+        required_fields = {
+            "module_id",
+            "name",
+            "content",
+            "credits",
+            "is_published",
+            "display_order",
+        }
+
+        missing_fields = required_fields - set(api_data.keys())
+        if missing_fields:
+            log.error(f"Missing required fields for lesson: {missing_fields}")
+            raise ValueError(f"Missing required fields: {missing_fields}")
+
     key = "title" if resource_type == "roadmap" else "name"
-    resource_name = data.get(key, "Unnamed")
+    resource_name = api_data.get(key, "Unnamed")
     log.info(f"Creating {resource_type}: {resource_name}")
 
     try:
-        response = api_request("POST", f"education/{resource_type}", token, data)
+        response = api_request("POST", f"education/{resource_type}", token, api_data)
         if response is None:
-            log.warning(f"{resource_type.capitalize()} '{resource_name}' may already exist")
-            return data
+            log.warning(
+                f"{resource_type.capitalize()} '{resource_name}' may already exist"
+            )
+            return api_data
 
         if image_folder and "id" in response:
             possible_extensions = [".png", ".jpg", ".jpeg", ".webp"]
@@ -165,7 +184,7 @@ def create_resource(
         return response
     except Exception as e:
         log.error(f"Failed to create {resource_type} '{resource_name}': {str(e)}")
-        log.debug(f"Data used for creation: {data}")
+        log.debug(f"Data used for creation: {api_data}")
         raise
 
 

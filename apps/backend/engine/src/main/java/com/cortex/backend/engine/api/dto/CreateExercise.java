@@ -1,10 +1,12 @@
 package com.cortex.backend.engine.api.dto;
 
+import com.cortex.backend.core.domain.ExerciseDifficulty;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Min;
 import java.time.LocalDateTime;
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,7 +20,6 @@ import org.hibernate.validator.constraints.URL;
 @NoArgsConstructor
 @Builder
 public class CreateExercise {
-  @NotNull(message = "Lesson ID is required")
   @JsonProperty("lesson_id")
   private Long lessonId;
 
@@ -39,11 +40,17 @@ public class CreateExercise {
   @NotNull(message = "Instructions are required")
   @NotBlank(message = "Instructions must not be blank")
   private String instructions;
-  
-  private LocalDateTime lastGithubSync = LocalDateTime.now();
 
+  private LocalDateTime lastGithubSync = LocalDateTime.now();
   private String hints;
+  private Set<String> tags;
+  private Set<Long> prerequisites;
 
   @JsonProperty("display_order")
   private Integer displayOrder;
+
+  private ExerciseDifficulty difficulty;
+
+  @JsonProperty("estimated_time_minutes")
+  private Integer estimatedTimeMinutes;
 }

@@ -1,5 +1,7 @@
 package com.cortex.backend.engine.api.dto;
 
+import com.cortex.backend.core.domain.ExerciseDifficulty;
+import com.cortex.backend.core.domain.ExerciseStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
 import java.util.Set; 
@@ -21,7 +23,6 @@ public class ExerciseResponse {
   private Long lessonId;
 
   private String slug;
-
   private String title;
 
   @JsonProperty("github_path")
@@ -31,9 +32,7 @@ public class ExerciseResponse {
   private LocalDateTime lastGithubSync;
 
   private Integer points;
-
   private String instructions;
-
   private String hints;
 
   @JsonProperty("solution_responses")
@@ -41,4 +40,21 @@ public class ExerciseResponse {
 
   @JsonProperty("display_order")
   private Integer displayOrder;
+
+  private ExerciseStatus status;
+  private Set<String> tags;
+  private Set<Long> prerequisites;
+  private ExerciseDifficulty difficulty;
+
+  @JsonProperty("estimated_time_minutes")
+  private Integer estimatedTimeMinutes;
+
+  @JsonProperty("pending_lesson_slug")
+  private String pendingLessonSlug;
+
+  @JsonProperty("pending_creator")
+  private String pendingCreator;
+
+  @JsonProperty("review_notes")
+  private String reviewNotes;
 }

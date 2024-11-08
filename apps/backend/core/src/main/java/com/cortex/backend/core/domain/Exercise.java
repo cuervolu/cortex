@@ -1,6 +1,7 @@
 package com.cortex.backend.core.domain;
 
 import jakarta.persistence.*;
+import java.util.HashSet;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -15,7 +16,10 @@ import java.util.Set;
     @Index(name = "idx_exercise_lesson_order", columnList = "lesson_id,display_order"),
     @Index(name = "idx_exercise_points", columnList = "points"),
     @Index(name = "idx_exercise_last_sync", columnList = "last_github_sync"),
-    @Index(name = "idx_exercise_created_at", columnList = "created_at")
+    @Index(name = "idx_exercise_created_at", columnList = "created_at"),
+    @Index(name = "idx_exercise_status", columnList = "status"),
+    @Index(name = "idx_exercise_pending_lesson", columnList = "pending_lesson_slug"),
+    @Index(name = "idx_exercise_pending_creator", columnList = "pending_creator")
 })
 @Getter
 @Setter
@@ -25,7 +29,7 @@ import java.util.Set;
 public class Exercise extends BaseEntity {
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "lesson_id", nullable = false)
+  @JoinColumn(name = "lesson_id")
   private Lesson lesson;
 
   @Column(nullable = false)
@@ -54,4 +58,42 @@ public class Exercise extends BaseEntity {
 
   @Column(name = "display_order", nullable = false)
   private Integer displayOrder = 0;
+
+  @Enumerated(EnumType.STRING)
+  @Column(name = "status")
+  private ExerciseStatus status = ExerciseStatus.DRAFT;
+
+  @ElementCollection
+  @CollectionTable(
+      name = "exercise_prerequisites",
+      joinColumns = @JoinColumn(name = "exercise_id"),
+      indexes = @Index(name = "idx_prerequisite_exercise", columnList = "exercise_id,prerequisiteExercises")
+  )
+  private Set<Long> prerequisiteExercises = new HashSet<>();
+
+  @ElementCollection
+  @CollectionTable(
+      name = "exercise_tags",
+      joinColumns = @JoinColumn(name = "exercise_id"),
+      indexes = @Index(name = "idx_exercise_tag", columnList = "exercise_id,tags")
+  )
+  private Set<String> tags = new HashSet<>();
+
+  @Column(name = "pending_lesson_slug")
+  private String pendingLessonSlug;
+
+  @Column(name = "pending_creator")
+  private String pendingCreator;
+
+  @Column(name = "difficulty")
+  @Enumerated(EnumType.STRING)
+  private ExerciseDifficulty difficulty = ExerciseDifficulty.BEGINNER;
+
+  @Column(name = "estimated_time_minutes")
+  private Integer estimatedTimeMinutes;
+
+  @Column(name = "review_notes", columnDefinition = "TEXT")
+  private String reviewNotes;
+
+
 }
