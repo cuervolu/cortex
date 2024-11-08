@@ -1,14 +1,28 @@
 <script lang="ts" setup>
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
+
 interface Props {
   name: string;
   icon: Component;
   route: string;
-  isSelected: boolean;
+  isSelected?: boolean;
   isCollapsed: boolean;
 }
 
-defineProps<Props>();
+const props = defineProps<Props>();
 defineEmits(['click']);
+
+const link = useRoute();
+
+const isActive = computed(() => {
+  if (props.route === '/') {
+    return link.path === '/';
+  }
+  return link.path.startsWith(props.route);
+});
+
+const isButtonSelected = computed(() => props.isSelected || isActive.value);
 </script>
 
 <template>
@@ -20,7 +34,7 @@ defineEmits(['click']);
     <button
         :class="[
         'min-w-[50px] p-[5px] rounded-[27px] justify-start items-center gap-2.5 flex w-full transition-all duration-300',
-        isSelected ? 'navigation-button-selected' : '',
+        isButtonSelected ? 'navigation-button-selected' : '',
         !isCollapsed ? 'self-stretch' : ''
       ]"
         @click="navigate(); $emit('click')"
@@ -32,7 +46,7 @@ defineEmits(['click']);
       </div>
       <div
           v-if="!isCollapsed"
-          :class="['text-base font-semibold', isSelected ? 'text-[#f4f8f7]' : 'text-[#f4f8f7]/60']"
+          :class="['text-base font-semibold', isButtonSelected ? 'text-[#f4f8f7]' : 'text-[#f4f8f7]/60']"
       >
         {{ name }}
       </div>
@@ -44,7 +58,6 @@ defineEmits(['click']);
 .navigation-button-selected {
   background: linear-gradient(95deg, rgba(255, 255, 255, 0.11) 17.86%, rgba(255, 255, 255, 0.07) 92.41%);
 }
-
 .navigation-button-icon-background {
   background: linear-gradient(148deg, rgba(255, 255, 255, 0.30) -12.12%, rgba(255, 255, 255, 0.10) 124.25%);
 }

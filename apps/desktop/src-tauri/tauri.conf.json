@@ -13,7 +13,7 @@
       {
         "label": "splashscreen",
         "url": "/splashscreen",
-        "width": 350,
+        "width": 580,
         "height": 400,
         "resizable": false,
         "maximizable": false,
