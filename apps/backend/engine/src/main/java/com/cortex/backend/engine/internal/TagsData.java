@@ -1,5 +1,6 @@
 package com.cortex.backend.engine.internal;
 
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,10 +12,7 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExerciseConfig {
-  private String title;
-  private MetaData meta;
-  private ContentData content;
-  private Prerequisites prerequisites;
-  private TagsData tags;
+public class TagsData {
+  private Set<String> concepts;
+  private Set<String> techniques;
 }

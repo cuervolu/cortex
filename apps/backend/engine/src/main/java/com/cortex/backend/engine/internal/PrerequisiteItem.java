@@ -11,10 +11,8 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExerciseConfig {
-  private String title;
-  private MetaData meta;
-  private ContentData content;
-  private Prerequisites prerequisites;
-  private TagsData tags;
+public class PrerequisiteItem {
+  private String name;
+  private String slug;
+  private String reason;
 }

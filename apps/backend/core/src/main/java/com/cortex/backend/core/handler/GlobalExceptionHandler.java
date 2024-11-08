@@ -16,7 +16,9 @@ import static com.cortex.backend.core.common.BusinessErrorCodes.FILE_SIZE_EXCEED
 import static com.cortex.backend.core.common.BusinessErrorCodes.GITHUB_SYNC_FAILED;
 import static com.cortex.backend.core.common.BusinessErrorCodes.HASH_GENERATION_FAILED;
 import static com.cortex.backend.core.common.BusinessErrorCodes.INCORRECT_CURRENT_PASSWORD;
+import static com.cortex.backend.core.common.BusinessErrorCodes.INVALID_CONFIGURATION;
 import static com.cortex.backend.core.common.BusinessErrorCodes.INVALID_FILE_TYPE;
+import static com.cortex.backend.core.common.BusinessErrorCodes.INVALID_PREREQUISITE;
 import static com.cortex.backend.core.common.BusinessErrorCodes.INVALID_TOKEN;
 import static com.cortex.backend.core.common.BusinessErrorCodes.INVALID_URI;
 import static com.cortex.backend.core.common.BusinessErrorCodes.NEW_PASSWORD_DOES_NOT_MATCH;
@@ -44,7 +46,9 @@ import com.cortex.backend.core.common.exception.FileSizeExceededException;
 import com.cortex.backend.core.common.exception.GitSyncException;
 import com.cortex.backend.core.common.exception.HashGenerationException;
 import com.cortex.backend.core.common.exception.IncorrectCurrentPasswordException;
+import com.cortex.backend.core.common.exception.InvalidConfigurationException;
 import com.cortex.backend.core.common.exception.InvalidFileTypeException;
+import com.cortex.backend.core.common.exception.InvalidPrerequisiteException;
 import com.cortex.backend.core.common.exception.InvalidTokenException;
 import com.cortex.backend.core.common.exception.InvalidURIException;
 import com.cortex.backend.core.common.exception.NewPasswordDoesNotMatchException;
@@ -419,7 +423,29 @@ public class GlobalExceptionHandler {
                 .build());
   }
 
+@ExceptionHandler(InvalidPrerequisiteException.class)
+  public ResponseEntity<ExceptionResponse> handleInvalidPrerequisiteException(
+      InvalidPrerequisiteException exp) {
+    return ResponseEntity.status(INVALID_PREREQUISITE.getHttpStatus())
+        .body(
+            ExceptionResponse.builder()
+                .code(INVALID_PREREQUISITE.getCode())
+                .description(INVALID_PREREQUISITE.getDescription())
+                .error(exp.getMessage())
+                .build());
+  }
 
+  @ExceptionHandler(InvalidConfigurationException.class)
+  public ResponseEntity<ExceptionResponse> handleInvalidConfigurationException(
+      InvalidConfigurationException exp) {
+    return ResponseEntity.status(INVALID_CONFIGURATION.getHttpStatus())
+        .body(
+            ExceptionResponse.builder()
+                .code(INVALID_CONFIGURATION.getCode())
+                .description(INVALID_CONFIGURATION.getDescription())
+                .error(exp.getMessage())
+                .build());
+  }
 
 
 

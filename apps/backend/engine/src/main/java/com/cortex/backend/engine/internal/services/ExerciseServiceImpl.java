@@ -5,15 +5,20 @@ import com.cortex.backend.core.common.PageResponse;
 import com.cortex.backend.core.common.exception.ExerciseCreationException;
 import com.cortex.backend.core.common.exception.ExerciseReadException;
 import com.cortex.backend.core.domain.Exercise;
+import com.cortex.backend.core.domain.ExerciseDifficulty;
+import com.cortex.backend.core.domain.ExerciseStatus;
 import com.cortex.backend.core.domain.Lesson;
 import com.cortex.backend.education.lesson.api.LessonRepository;
 import com.cortex.backend.engine.api.ExerciseRepository;
 import com.cortex.backend.engine.api.ExerciseService;
+import com.cortex.backend.engine.api.dto.BulkStatusUpdateRequest;
 import com.cortex.backend.engine.api.dto.CreateExercise;
 import com.cortex.backend.engine.api.dto.ExerciseDetailsResponse;
 import com.cortex.backend.engine.api.dto.ExerciseResponse;
+import com.cortex.backend.engine.api.dto.ExerciseStats;
 import com.cortex.backend.engine.api.dto.UpdateExercise;
 import com.cortex.backend.engine.internal.CodeFileReader;
+import com.cortex.backend.engine.internal.ContentData;
 import com.cortex.backend.engine.internal.ExerciseConfig;
 import com.cortex.backend.engine.internal.mappers.ExerciseMapper;
 import com.cortex.backend.user.api.UserService;
@@ -23,6 +28,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +39,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -116,72 +125,62 @@ public class ExerciseServiceImpl implements ExerciseService {
 
   @Override
   @Transactional
-  public void updateOrCreateExercise(String exerciseName, String githubPath, String instructions,
-      String hints, String slug, String language, ExerciseConfig config) {
+  public void updateOrCreateExercise(
+      String exerciseName,
+      String githubPath,
+      String instructions,
+      String hints,
+      String slug,
+      String language,
+      ExerciseConfig config,
+      Set<Long> prerequisites,
+      Set<String> tags) {
+
     log.info("Updating or creating exercise: {}", exerciseName);
     try {
-      Exercise existingExercise = exerciseRepository.findByGithubPath(githubPath).orElse(null);
-      if (existingExercise == null) {
-        createNewExercise(exerciseName, githubPath, instructions, hints, slug, config);
+      Optional<UserResponse> user = userService.getUserByUsername(
+          config.getContent().getCreator().toLowerCase());
+      Optional<Lesson> lesson = lessonRepository.findBySlug(
+          config.getContent().getLessonSlug());
+
+      Exercise exercise = exerciseRepository.findByGithubPath(githubPath)
+          .orElse(Exercise.builder()
+              .slug(slug)
+              .githubPath(githubPath)
+              .lastGithubSync(LocalDateTime.now())
+              .build());
+
+      ContentData content = config.getContent();
+      exercise.setTitle(config.getTitle());
+      exercise.setPoints(content.getPoints());
+      exercise.setInstructions(instructions);
+      exercise.setHints(hints);
+      exercise.setDisplayOrder(content.getDisplayOrder());
+      exercise.setTags(tags);
+      exercise.setPrerequisiteExercises(prerequisites);
+      exercise.setDifficulty(
+          ExerciseDifficulty.valueOf(content.getDifficulty().toUpperCase())
+      );
+      exercise.setEstimatedTimeMinutes(content.getEstimatedTimeMinutes());
+
+      if (user.isEmpty() || lesson.isEmpty()) {
+        exercise.setStatus(ExerciseStatus.PENDING_REVIEW);
+        exercise.setPendingCreator(content.getCreator());
+        exercise.setPendingLessonSlug(content.getLessonSlug());
+        // TODO: Implement notification system for administrators
       } else {
-        updateExistingExercise(existingExercise, exerciseName, instructions, hints, slug, config);
+        exercise.setStatus(ExerciseStatus.PUBLISHED);
+        exercise.setLesson(lesson.get());
+        exercise.setPendingCreator(null);
+        exercise.setPendingLessonSlug(null);
+        ApplicationAuditAware.setCurrentAuditor(user.get().getId());
       }
+
+      exerciseRepository.save(exercise);
+
     } catch (Exception e) {
-      log.error("Error updating or creating exercise: {}", exerciseName, e);
+      log.error("Error processing exercise: {}", exerciseName, e);
       throw new ExerciseCreationException("Failed to update or create exercise", e);
-    }
-  }
-
-  private void createNewExercise(String exerciseName, String githubPath, String instructions,
-      String hints, String slug, ExerciseConfig config) {
-    log.info("Creating new exercise: {}", exerciseName);
-    Optional<UserResponse> user = userService.getUserByUsername(config.getCreator().toLowerCase());
-    if (user.isEmpty()) {
-      log.error("User not found with username: {}", config.getCreator());
-      throw new EntityNotFoundException("User not found with username: " + config.getCreator());
-    }
-
-    try {
-      ApplicationAuditAware.setCurrentAuditor(user.get().getId());
-      Exercise newExercise = Exercise.builder()
-          .title(config.getTitle())
-          .githubPath(githubPath)
-          .instructions(instructions)
-          .hints(hints)
-          .slug(slug)
-          .points(config.getPoints())
-          .lastGithubSync(LocalDateTime.now())
-          .lesson(getLessonBySlug(config.getLessonSlug()))
-          .build();
-      exerciseRepository.save(newExercise);
-      log.info("New exercise created with ID: {} and slug: {}", newExercise.getId(),
-          newExercise.getSlug());
-    } finally {
-      ApplicationAuditAware.clearCurrentAuditor();
-    }
-  }
-
-  private void updateExistingExercise(Exercise existingExercise, String exerciseName,
-      String instructions, String hints, String slug, ExerciseConfig config) {
-    Optional<UserResponse> user = userService.getUserByUsername(config.getCreator().toLowerCase());
-    if (user.isEmpty()) {
-      log.error("User not found with username: {}", config.getCreator());
-      throw new EntityNotFoundException("User not found with username: " + config.getCreator());
-    }
-
-    try {
-      ApplicationAuditAware.setCurrentAuditor(user.get().getId());
-      log.info("Updating existing exercise: {}", exerciseName);
-      existingExercise.setTitle(config.getTitle());
-      existingExercise.setInstructions(instructions);
-      existingExercise.setHints(hints);
-      existingExercise.setSlug(slug);
-      existingExercise.setPoints(config.getPoints());
-      existingExercise.setLastGithubSync(LocalDateTime.now());
-      existingExercise.setLesson(getLessonBySlug(config.getLessonSlug()));
-      exerciseRepository.save(existingExercise);
-      log.info("Exercise updated with ID: {} and slug: {}", existingExercise.getId(),
-          existingExercise.getSlug());
     } finally {
       ApplicationAuditAware.clearCurrentAuditor();
     }
@@ -257,6 +256,178 @@ public class ExerciseServiceImpl implements ExerciseService {
   public boolean areLessonsAvailable() {
     return lessonRepository.count() > 0;
   }
+
+
+  @Override
+  @Transactional(readOnly = true)
+  public PageResponse<ExerciseResponse> getAllExercises(int page, int size,
+      ExerciseStatus status, String difficulty, List<String> tags) {
+    Pageable pageable = PageRequest.of(page, size, Sort.by("displayOrder").ascending());
+
+    Specification<Exercise> spec = Specification.where(null);
+
+    if (status != null) {
+      spec = spec.and((root, query, cb) ->
+          cb.equal(root.get("status"), status));
+    } else {
+      // Por defecto, solo mostrar ejercicios publicados
+      spec = spec.and((root, query, cb) ->
+          cb.equal(root.get("status"), ExerciseStatus.PUBLISHED));
+    }
+
+    if (difficulty != null) {
+      spec = spec.and((root, query, cb) ->
+          cb.equal(root.get("difficulty"), ExerciseDifficulty.valueOf(difficulty.toUpperCase())));
+    }
+
+    if (tags != null && !tags.isEmpty()) {
+      spec = spec.and((root, query, cb) ->
+          root.join("tags").in(tags));
+    }
+
+    Page<Exercise> exercises = exerciseRepository.findAll(spec, pageable);
+    List<ExerciseResponse> response = exercises.stream()
+        .map(exerciseMapper::exerciseToExerciseResponse)
+        .toList();
+
+    return new PageResponse<>(
+        response,
+        exercises.getNumber(),
+        exercises.getSize(),
+        exercises.getTotalElements(),
+        exercises.getTotalPages(),
+        exercises.isFirst(),
+        exercises.isLast()
+    );
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public PageResponse<ExerciseResponse> getExercisesByStatus(int page, int size, ExerciseStatus status) {
+    Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+    Page<Exercise> exercises = exerciseRepository.findByStatus(status, pageable);
+
+    List<ExerciseResponse> response = exercises.stream()
+        .map(exerciseMapper::exerciseToExerciseResponse)
+        .toList();
+
+    return new PageResponse<>(response, exercises.getNumber(), exercises.getSize(),
+        exercises.getTotalElements(), exercises.getTotalPages(),
+        exercises.isFirst(), exercises.isLast());
+  }
+
+  @Override
+  @Transactional
+  public ExerciseResponse updateExerciseStatus(Long id, ExerciseStatus status, String reviewNotes) {
+    Exercise exercise = exerciseRepository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("Exercise not found"));
+
+    if (status == ExerciseStatus.PUBLISHED && exercise.getLesson() == null) {
+      throw new IllegalStateException("Cannot publish exercise without assigned lesson");
+    }
+
+    exercise.setStatus(status);
+    if (reviewNotes != null) {
+      exercise.setReviewNotes(reviewNotes);
+    }
+
+    Exercise savedExercise = exerciseRepository.save(exercise);
+    return exerciseMapper.exerciseToExerciseResponse(savedExercise);
+  }
+
+  @Override
+  @Transactional
+  public ExerciseResponse assignLessonToExercise(Long id, Long lessonId) {
+    Exercise exercise = exerciseRepository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("Exercise not found"));
+
+    Lesson lesson = lessonRepository.findById(lessonId)
+        .orElseThrow(() -> new EntityNotFoundException("Lesson not found"));
+
+    exercise.setLesson(lesson);
+    exercise.setPendingLessonSlug(null);
+
+    if (exercise.getStatus() == ExerciseStatus.PENDING_REVIEW &&
+        exercise.getPendingCreator() == null) {
+      exercise.setStatus(ExerciseStatus.PUBLISHED);
+    }
+
+    Exercise savedExercise = exerciseRepository.save(exercise);
+    return exerciseMapper.exerciseToExerciseResponse(savedExercise);
+  }
+
+  @Override
+  @Transactional
+  public void updateExerciseOrder(Long id, Integer newOrder) {
+    Exercise exercise = exerciseRepository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("Exercise not found"));
+
+    Integer oldOrder = exercise.getDisplayOrder();
+    Long lessonId = exercise.getLesson().getId();
+
+    if (newOrder > oldOrder) {
+      exerciseRepository.decrementOrdersInRange(lessonId, oldOrder + 1, newOrder);
+    } else {
+      exerciseRepository.incrementOrdersInRange(lessonId, newOrder, oldOrder - 1);
+    }
+
+    exercise.setDisplayOrder(newOrder);
+    exerciseRepository.save(exercise);
+  }
+
+  @Override
+  @Transactional
+  public void deprecateExercise(Long id) {
+    Exercise exercise = exerciseRepository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("Exercise not found"));
+
+    exercise.setStatus(ExerciseStatus.DEPRECATED);
+    exerciseRepository.save(exercise);
+  }
+
+//  @Override
+//  public void forceSyncExercises() {
+//    log.info("Starting forced synchronization of exercises");
+//    githubSyncService.syncExercises();
+//  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public ExerciseStats getExerciseStatistics() {
+    return ExerciseStats.builder()
+        .totalExercises(exerciseRepository.count())
+        .publishedExercises(exerciseRepository.countByStatus(ExerciseStatus.PUBLISHED))
+        .pendingReviewExercises(exerciseRepository.countByStatus(ExerciseStatus.PENDING_REVIEW))
+        .deprecatedExercises(exerciseRepository.countByStatus(ExerciseStatus.DEPRECATED))
+        .exercisesByDifficulty(exerciseRepository.countByDifficulty())
+        .exercisesByTag(exerciseRepository.countByTags())
+        .averagePoints(exerciseRepository.getAveragePoints())
+        .averageCompletionRate(exerciseRepository.getAverageCompletionRate())
+        .build();
+  }
+
+  @Override
+  @Transactional
+  public void bulkUpdateExerciseStatus(BulkStatusUpdateRequest request) {
+    List<Exercise> exercises = exerciseRepository.findAllById(request.getExerciseIds());
+
+    for (Exercise exercise : exercises) {
+      if (request.getNewStatus() == ExerciseStatus.PUBLISHED &&
+          exercise.getLesson() == null) {
+        log.warn("Skipping exercise {} - cannot publish without lesson", exercise.getId());
+        continue;
+      }
+
+      exercise.setStatus(request.getNewStatus());
+      if (request.getReviewNotes() != null) {
+        exercise.setReviewNotes(request.getReviewNotes());
+      }
+    }
+
+    exerciseRepository.saveAll(exercises);
+  }
+
+
 
   private Lesson getLessonBySlug(String lessonSlug) {
     return lessonRepository.findBySlug(lessonSlug)
