@@ -36,5 +36,6 @@ public class LessonRequest {
   private boolean isPublished;
 
   @JsonProperty("display_order")
+  @Positive(message = "Display order must be a positive number")
   private Integer displayOrder;
 }
