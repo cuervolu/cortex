@@ -56,7 +56,6 @@ export default defineNuxtConfig({
     '@sidebase/nuxt-auth',
     '@nuxt/image',
     'nuxt-tiptap-editor',
-    '@pinia/colada-nuxt'
   ],
   mdc: {
     components: {

@@ -36,7 +36,6 @@ export default defineNuxtConfig({
     '@nuxtjs/seo',
     'nuxt-seo-experiments',
     '@sidebase/nuxt-auth',
-    '@pinia/colada-nuxt'
   ],
   srcDir: 'src',
   pinia: {
