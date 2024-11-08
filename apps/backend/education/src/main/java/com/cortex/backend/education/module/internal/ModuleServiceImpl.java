@@ -81,11 +81,8 @@ public class ModuleServiceImpl implements ModuleService {
   @Override
   @Transactional
   public ModuleResponse createModule(ModuleRequest request) {
-    ModuleEntity module = new ModuleEntity();
-    module.setName(request.getName());
-    module.setDescription(request.getDescription());
+    ModuleEntity module = moduleMapper.toModule(request);
     module.setSlug(generateUniqueSlug(request.getName()));
-    module.setIsPublished(request.isPublished());
     setCourse(module, request.getCourseId());
 
     ModuleEntity savedModule = moduleRepository.save(module);

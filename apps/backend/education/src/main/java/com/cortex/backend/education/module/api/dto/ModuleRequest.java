@@ -3,6 +3,7 @@ package com.cortex.backend.education.module.api.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,5 +32,6 @@ public class ModuleRequest {
   private boolean isPublished;
 
   @JsonProperty("display_order")
+  @Positive(message = "Display order must be a positive number")
   private Integer displayOrder;
 }
