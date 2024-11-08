@@ -35,8 +35,8 @@ const handleEditorUpdate = (content: string) => {
 </script>
 
 <template>
-  <form class="w-full max-w-4xl mx-auto p-6 space-y-6" @submit.prevent="handleSubmit">
-    <div class="space-y-4">
+  <form class="w-full gap-5 mx-auto space-y-6 flex" @submit.prevent="handleSubmit">
+    <div class="w-full min-w-[300px] space-y-4">
       <!-- Título -->
       <div>
         <label class="block text-sm font-medium mb-2">Título</label>
@@ -85,15 +85,34 @@ const handleEditorUpdate = (content: string) => {
             @update:content="handleEditorUpdate"
         />
       </div>
+    </div>
 
-      <!-- Publicar -->
-      <div class="flex items-center space-x-2">
-        <Switch v-model="isPublished"/>
-        <label class="text-sm font-medium">Publicar roadmap</label>
+    <!-- Picture -->
+    <div clas="flex flex-col max-w-2/5">
+      <div class="flex flex-col gap-3">
+        <label class="block text-sm font-medium">Imagen Roadmap</label>
+        <!-- Image Preview -->
+        <img 
+          src="https://placehold.co/600x400" 
+          alt="Roadmap preview" 
+          class="w-full h-auto object-cover rounded-xl"
+        >
+        <div class="grid w-full max-w-sm items-center gap-1.5">
+          <Label for="picture">Imagen</Label>
+          <Input id="picture" type="file" />
+        </div>
       </div>
 
-      <div class="pt-4">
-        <Button type="submit" class="w-full">Crear Roadmap</Button>
+      <div class="flex flex-col pt-4 gap-4">
+        <!-- Publicar -->
+        <div class="flex items-center space-x-2">
+          <Switch v-model="isPublished"/>
+          <label class="text-sm font-medium">Publicar roadmap</label>
+        </div>
+
+        <div>
+          <Button type="submit" class="w-full">Crear Roadmap</Button>
+        </div>
       </div>
     </div>
   </form>
