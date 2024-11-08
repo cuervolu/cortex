@@ -60,6 +60,15 @@ const userUsername = computed(() => userStore.user?.username ? `${userStore.user
           <div class="text-white text-lg font-medium leading-[35px]">Crear Roadmap</div>
         </Button>
       </NuxtLink>
+
+      <NuxtLink to="/roadmaps/asign-courses " class="w-full">
+        <Button
+          class="w-full h-[61px] px-5 py-[13px] bg-primary rounded-[14px] justify-center items-center gap-2.5 flex"
+          size="lg">
+          <BookOpen class="mr-2 h-5 w-5" />
+          <div class="text-white text-lg font-medium leading-[35px]">Asignar Cursos</div>
+        </Button>
+      </NuxtLink>
       
       
     </div>

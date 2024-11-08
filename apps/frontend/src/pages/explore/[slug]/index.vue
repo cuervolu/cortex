@@ -48,6 +48,18 @@ watch(
     }
 );
 
+// Cantidad de Creditos por roadmap
+const credits = computed(() => {
+    if (!roadmapData.value) return 0;
+    return roadmapData.value.courses.reduce((totalCredits: number, course: { modules: { lessons: { credits: number; }[]; }[]; }) => {
+        return totalCredits + course.modules.reduce((moduleCredits: number, module: { lessons: { credits: number; }[]; }) => {
+            return moduleCredits + module.lessons.reduce((lessonCredits: number, lesson: { credits: number; }) => {
+                return lessonCredits + lesson.credits;
+            }, 0);
+        }, 0);
+    }, 0);
+});
+
 </script>
 
 <template>
@@ -91,7 +103,7 @@ watch(
                         <h1 class="font-bold text-4xl" >{{ roadmapData?.title }}</h1>
                         <BadgeCheck :size="36" class="fill-[#689F39] stroke-[#FAF9F7] flex-shrink-0"/>
                     </div>
-                    <Badge class="text-md px-3 py-1 text-nowrap">35 Credits</Badge>
+                    <Badge class="text-md px-3 py-1 text-nowrap">{{ credits }} Credits</Badge>
                 </div>
                 <div class="flex gap-8">
                     <div>
@@ -318,26 +330,32 @@ watch(
                         <div class="flex flex-col justify-start">
                             <span class="text-lg font-bold text-start">{{ index + 1 }}. {{ course.name }}</span>
                             <div class="flex">
-                                <span>1 modulo</span>
+                                <span>{{ course.modules.length }} modulo</span>
                                 <Dot/>
                                 <span>50 min Total</span>
                             </div>
                         </div>
                     </AccordionTrigger>
                     <AccordionContent class="border-t py-4 px-6 ">
-                        <div class="flex justify-between items-center">
+                        <div v-for="(module, moduleIndex) in course.modules" class="flex justify-between items-center">
                             <div class="flex flex-col gap-1">
-                                <span class="font-bold text-base">1.1 Go´s Racing Tracks</span>
+                                <span class="font-bold text-base">{{ index + 1 }}.{{ moduleIndex + 1 }} {{ module.name }}</span>
                                 <div class="flex">
-                                    <span>1 lección</span>
+                                    <span>{{ module.lesson_count }} lección</span>
                                     <Dot/>
-                                    <span>5 ejercicios</span>
+                                    <span>{{ module.lessons.reduce((total, lesson) => total + lesson.exercises.length, 0) }} ejercicios</span>
                                 </div>
                             </div>
                             <ModuleIcon :width="28" class="fill-current"/>
                         </div>
+                        <div v-if="course.modules.length === 0" class="flex justify-center items-center px-6">
+                            <span class="font-bold text-lg">No hay módulos disponibles</span>
+                        </div>
                     </AccordionContent>
                 </AccordionItem>
+                <div v-if="roadmapData?.courses.length === 0" class="flex justify-center items-center px-6">
+                    <span class="font-bold text-lg">No hay cursos disponibles</span>
+                </div>
             </Accordion>
             <div class="py-5 px-3 flex flex-col border-b gap-4">
                 <h2 class="font-bold text-lg">Tópicos</h2>
