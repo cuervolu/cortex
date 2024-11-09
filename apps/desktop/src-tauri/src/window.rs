@@ -37,7 +37,7 @@ impl WindowManager {
                     .effect(Effect::Acrylic)
                     .state(EffectState::Active)
                     .radius(5.0)
-                    .color(Color::new(0, 0, 0, 125)) 
+                    .color(Color(0, 0, 0, 125)) 
                     .build()
             )?;
         }

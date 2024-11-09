@@ -4,7 +4,7 @@ use ai_chat::keystore::manager::KeystoreManager;
 use ai_chat::session::manager::AISessionManager;
 use common::state::AppState;
 use std::sync::Arc;
-use std::sync::Mutex;g
+use std::sync::Mutex;
 use tauri::Manager;
 use tauri_plugin_log::fern::colors::ColoredLevelConfig;
 use tauri_plugin_log::RotationStrategy;
