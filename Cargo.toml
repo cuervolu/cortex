@@ -21,15 +21,12 @@ tauri-plugin-store = "2.1.0"
 tauri-plugin-dialog = "2.0.3"
 tauri-plugin-fs = "2.0.3"
 reqwest = { version = "0.12.9", features = ["json", "multipart"] }
-thiserror = "2.0.0"
+thiserror = "2.0.1"
 anyhow = "1.0.93"
-tokio = { version = "1.41.0", features = ["full"] }
+tokio = { version = "1.41.1", features = ["full"] }
+
 [profile.dev]
 incremental = true # Compile your binary in smaller steps.
-
-[patch.crates-io]
-wry = { git = "https://github.com/tauri-apps/wry", branch = "fix/linux/drag-drop" }
-
 
 [profile.release]
 codegen-units = 1 # Allows LLVM to perform better optimization.
