@@ -17,23 +17,21 @@ definePageMeta({
   layout: false
 })
 
-async function initApp() {
+const initApp = async () => {
   try {
-    setTimeout(() => {
-      debug('Timeout');
-    }, 10000); // 10 seconds
-    // // Close splashscreen and show main window
-    // await invoke('close_splashscreen_show_main');
+    await debug('Starting application initialization')
+
+    // Simular tiempo de carga
+    await new Promise(resolve => setTimeout(resolve, 3000))
+
+    // await invoke('close_splashscreen_show_main')
+
+    await debug('Application initialization completed')
   } catch (error) {
-    await logError(`Error during initialization: ${error}`);
-    throw new AppError('Error during initialization', {
-      data: {
-        error: error
-      },
-    });
+    await logError(`Error during initialization: ${error}`)
+    throw new Error('Error during initialization', { cause: error })
   }
 }
-
 onMounted(() => {
   currentImage.value = splashImages[Math.floor(Math.random() * splashImages.length)];
   initApp();
