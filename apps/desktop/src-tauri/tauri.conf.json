@@ -11,21 +11,6 @@
   "app": {
     "windows": [
       {
-        "label": "splashscreen",
-        "url": "/splashscreen",
-        "width": 580,
-        "height": 400,
-        "resizable": false,
-        "maximizable": false,
-        "minimizable": false,
-        "center": true,
-        "decorations": false,
-        "shadow": true,
-        "transparent": true,
-        "alwaysOnTop": true,
-        "focus": true
-      },
-      {
         "label": "main",
         "title": "Cortex",
         "width": 1100,
@@ -44,6 +29,25 @@
             "acrylic"
           ]
         }
+      },
+      {
+        "label": "splashscreen",
+        "url": "/splashscreen",
+        "width": 580,
+        "height": 400,
+        "minWidth": 580,
+        "minHeight": 400,
+        "maxWidth": 580,
+        "maxHeight": 400,
+        "resizable": false,
+        "maximizable": false,
+        "minimizable": false,
+        "center": true,
+        "decorations": false,
+        "shadow": true,
+        "transparent": true,
+        "alwaysOnTop": true,
+        "focus": true
       }
     ],
     "security": {

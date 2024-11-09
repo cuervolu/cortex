@@ -96,7 +96,7 @@ const form = computed((): RoadmapCreateRequest => {
     title: title.value,
     description: description.value,
     tags: tagsDTO.value,
-    course_ids: selectedCourses.value,
+    course_ids: undefined,
     is_published: isPublished.value
   };
 });
@@ -213,13 +213,14 @@ const handleDrop = (e: DragEvent) => {
 
     <div class="max-w-4xl mx-auto space-y-8">
       <!-- Title - Notion Style -->
-      <input
+      <Input
           v-model="title"
           type="text"
           placeholder="Título del Roadmap"
-          class="w-full text-4xl font-bold bg-transparent border-none outline-none placeholder:text-muted-foreground/50 focus:ring-0"
+          class="w-full text-4xl font-bold bg-transparent border-none outline-none placeholder:text-muted-foreground/50
+          focus:ring-0 border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
           required
-      >
+      />
 
       <!-- Tags Section -->
       <div class="space-y-2">
