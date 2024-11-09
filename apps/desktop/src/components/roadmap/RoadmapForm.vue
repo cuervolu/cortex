@@ -5,6 +5,7 @@ import { listen, type Event, TauriEvent } from '@tauri-apps/api/event';
 import { debug } from "@tauri-apps/plugin-log";
 import { ImagePlus } from 'lucide-vue-next';
 
+import { AppError, type RoadmapCreateRequest, type TagDTO } from "@cortex/shared/types";
 
 type DropEventPayload = {
   paths: string[];
@@ -13,8 +14,6 @@ type DropEventPayload = {
     y: number;
   };
 };
-
-import { AppError, type RoadmapCreateRequest, type TagDTO } from "@cortex/shared/types";
 
 const emit = defineEmits(['submit']);
 
@@ -136,7 +135,6 @@ const handleEditorUpdate = (content: string) => {
   description.value = content;
 };
 
-// Estos manejadores son solo para prevenir el comportamiento por defecto del navegador
 const handleDragOver = (e: DragEvent) => {
   e.preventDefault();
   e.stopPropagation();
