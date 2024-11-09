@@ -6,6 +6,7 @@ import { debug } from "@tauri-apps/plugin-log";
 import { ImagePlus } from 'lucide-vue-next';
 
 import { AppError, type RoadmapCreateRequest, type TagDTO } from "@cortex/shared/types";
+import RoadmapIcon from "~/components/icons/RoadmapIcon.vue";
 
 type DropEventPayload = {
   paths: string[];
