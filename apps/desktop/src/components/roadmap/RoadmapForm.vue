@@ -148,36 +148,94 @@ const handleDrop = (e: DragEvent) => {
 
 <template>
   <form
-      class="w-full gap-5 mx-auto space-y-6 flex"
+      class="w-full mx-auto space-y-6"
       @submit.prevent="handleSubmit"
       @dragover="handleDragOver"
       @drop="handleDrop"
   >
-    <div class="w-full min-w-[300px] space-y-4">
-      <!-- Título -->
-      <div>
-        <label class="block text-sm font-medium mb-2">Título</label>
-        <Input v-model="title" placeholder="Ingrese el título del roadmap" required/>
+    <!-- Hero Image Section -->
+    <div
+        class="w-full h-48 relative overflow-hidden rounded-lg group cursor-pointer transition-all"
+        @click="handleImageUpload"
+    >
+      <!-- Preview Image or Placeholder -->
+      <div
+          class="w-full h-full rounded-md border-2 border-dashed transition-all duration-200"
+          :class="{
+          'border-muted-foreground/50 hover:border-muted-foreground': !isDragging && !previewImage,
+          'border-primary bg-primary/5': isDragging,
+          'border-none': previewImage
+        }"
+      >
+        <img
+            v-if="previewImage"
+            :src="previewImage"
+            alt="Roadmap cover"
+            class="w-full h-full object-cover"
+        >
+        <div
+            v-else
+            class="absolute inset-0 flex flex-col items-center justify-center gap-2 text-muted-foreground"
+            :class="{ 'text-primary': isDragging }"
+        >
+          <ImagePlus class="w-8 h-8" />
+          <p class="text-sm font-medium text-center">
+            {{ isDragging ? 'Suelta la imagen aquí' : 'Arrastra y suelta o da click para agregar una portada' }}
+          </p>
+        </div>
       </div>
 
-      <!-- Tags -->
-      <div>
-        <label class="block text-sm font-medium mb-2">Tags</label>
+      <!-- Floating Edit Button - Appears on Hover when image exists -->
+      <div
+          v-if="previewImage"
+          class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity"
+      >
+        <Button
+            variant="secondary"
+            size="sm"
+            class="absolute right-4 top-4"
+            @click.stop="handleImageUpload"
+        >
+          <ImagePlus class="w-4 h-4 mr-2" />
+          Cambiar portada
+        </Button>
+      </div>
+
+      <!-- Fixed Icon Badge -->
+      <div class="absolute left-8 bottom-8">
+        <div class="w-12 h-12 bg-white/90 backdrop-blur-sm rounded-lg shadow-lg p-2 transition-all duration-200">
+          <RoadmapIcon class="w-8 h-8" fill="#28282B" />
+        </div>
+      </div>
+    </div>
+
+
+    <div class="max-w-4xl mx-auto space-y-8">
+      <!-- Title - Notion Style -->
+      <input
+          v-model="title"
+          type="text"
+          placeholder="Título del Roadmap"
+          class="w-full text-4xl font-bold bg-transparent border-none outline-none placeholder:text-muted-foreground/50 focus:ring-0"
+          required
+      >
+
+      <!-- Tags Section -->
+      <div class="space-y-2">
         <TagsInput v-model="tags">
           <TagsInputItem v-for="tag in tags" :key="tag" :value="tag">
-            <TagsInputItemText/>
-            <TagsInputItemDelete/>
+            <TagsInputItemText />
+            <TagsInputItemDelete />
           </TagsInputItem>
-          <TagsInputInput placeholder="Agregar tag..."/>
+          <TagsInputInput placeholder="Agregar tags..." />
         </TagsInput>
       </div>
 
-      <!-- Cursos -->
-      <div>
-        <label class="block text-sm font-medium mb-2">Cursos</label>
+      <!-- Courses Section -->
+      <div class="space-y-2">
         <Select v-model="selectedCourses" multiple>
           <SelectTrigger class="w-full">
-            <SelectValue placeholder="Seleccionar cursos"/>
+            <SelectValue placeholder="Seleccionar cursos" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
@@ -194,70 +252,24 @@ const handleDrop = (e: DragEvent) => {
         </Select>
       </div>
 
-      <!-- Editor de Descripción -->
-      <div>
-        <label class="block text-sm font-medium mb-2">Descripción</label>
+      <!-- Description Editor -->
+      <div class="min-h-[200px]">
         <TiptapEditor
             :initial-content="description"
             @update:content="handleEditorUpdate"
         />
       </div>
-    </div>
 
-    <!-- Picture -->
-    <div class="flex flex-col max-w-2/5">
-      <div class="flex flex-col gap-3">
-        <Label class="block text-sm font-medium">Imagen Roadmap</Label>
-
-        <!-- Upload Area -->
-        <AspectRatio
-            :ratio="16 / 9"
-            class="cursor-pointer"
-            @click="handleImageUpload"
-        >
-          <div
-              class="w-full h-full rounded-md border-2 border-dashed transition-all duration-200 relative"
-              :class="{
-              'border-muted-foreground/50 hover:border-muted-foreground': !isDragging && !previewImage,
-              'border-primary bg-primary/5': isDragging,
-              'border-none': previewImage
-            }"
-          >
-            <!-- Preview Image -->
-            <img
-                v-if="previewImage"
-                :src="previewImage"
-                alt="Roadmap preview"
-                class="rounded-md object-cover w-full h-full"
-            >
-
-            <!-- Upload Placeholder -->
-            <div
-                v-else
-                class="absolute inset-0 flex flex-col items-center justify-center gap-2 text-muted-foreground transition-colors"
-                :class="{
-                'text-primary': isDragging
-              }"
-            >
-              <ImagePlus class="w-8 h-8" />
-              <p class="text-sm font-medium text-center">
-                {{ isDragging ? 'Suelta la imagen aquí' : 'Arrastra y suelta o da click para seleccionar una imagen' }}
-              </p>
-            </div>
-          </div>
-        </AspectRatio>
-      </div>
-
-      <div class="flex flex-col pt-4 gap-4">
-        <!-- Publicar -->
+      <!-- Footer Actions -->
+      <div class="flex items-center justify-between pt-4 border-t">
         <div class="flex items-center space-x-2">
-          <Switch v-model="isPublished"/>
-          <label class="text-sm font-medium">Publicar roadmap</label>
+          <Switch v-model="isPublished" />
+          <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+            Publicar roadmap
+          </label>
         </div>
 
-        <div>
-          <Button type="submit" class="w-full">Crear Roadmap</Button>
-        </div>
+        <Button type="submit">Crear Roadmap</Button>
       </div>
     </div>
   </form>
