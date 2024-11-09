@@ -1,39 +1,98 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import { invoke } from '@tauri-apps/api/core';
-import { error as logError } from "@tauri-apps/plugin-log";
+import {invoke} from '@tauri-apps/api/core';
+import {open} from '@tauri-apps/plugin-shell';
+import {debug, error as logError} from "@tauri-apps/plugin-log";
+import {Github, Twitter} from 'lucide-vue-next'
+import {AppError} from "@cortex/shared/types";
+import DarkLogo from '~/assets/img/icon1_dark.svg'
+import CortexLogo from '~/assets/img/icon1.svg'
+import SplashImg from '~/assets/img/splash_2.webp'
+import WaifuImg from '~/assets/img/splash_1.webp'
+
+const splashImages = [SplashImg, WaifuImg];
+const currentImage = ref(splashImages[0]);
 
 definePageMeta({
   auth: false,
   layout: false
 })
 
-const progress = ref(0);
-const statusMessage = ref('Initializing...');
-
 async function initApp() {
   try {
-    // Close splashscreen and show main window
-    await invoke('close_splashscreen_show_main');
+    setTimeout(() => {
+      debug('Timeout');
+    }, 10000); // 10 seconds
+    // // Close splashscreen and show main window
+    // await invoke('close_splashscreen_show_main');
   } catch (error) {
     await logError(`Error during initialization: ${error}`);
-    statusMessage.value = 'Error during initialization. Please restart the app.';
+    throw new AppError('Error during initialization', {
+      data: {
+        error: error
+      },
+    });
   }
 }
 
 onMounted(() => {
+  currentImage.value = splashImages[Math.floor(Math.random() * splashImages.length)];
   initApp();
 });
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-center h-screen bg-gray-900">
-    <div class="text-center">
-      <img src="https://media2.giphy.com/media/mcsPU3SkKrYDdW3aAU/200w.gif?cid=6c09b952avkmj5tw6ix2obahm2ty3669lbtnlump2sx2fl4z&ep=v1_gifs_search&rid=200w.gif&ct=g" alt="Cortex Logo" class="mx-auto w-32 h-32 mb-4">
-      <h1 class="text-2xl font-bold text-white mb-2">Cortex</h1>
-      <p class="text-gray-400 mb-4">{{ statusMessage }}</p>
-      <div class="w-64 mb-4">
-        <Progress :model-value="progress" />
+  <div class="w-[580px] h-[400px] grid grid-cols-[245px_335px] overflow-hidden rounded-xl">
+    <!-- Left Column -->
+    <div class="bg-[#4A1D96] flex flex-col items-center justify-between p-6 text-white relative">
+      <!-- Logo -->
+      <div class="w-16 h-16 mb-4">
+        <img
+            :src="DarkLogo"
+            alt="Brain Logo"
+            width="64"
+            height="64"
+            class="w-full h-full"
+        >
+      </div>
+      <!-- Loading Text -->
+      <div class="text-center space-y-3 mb-8">
+        <h1 class="text-xl font-medium max-w-[200px]">
+          Espera un momento, estamos cargando tu aventura...
+        </h1>
+        <p class="text-lg opacity-80 animate-pulse uppercase">Conectando</p>
+      </div>
+      <!-- Footer -->
+      <div class="text-center space-y-2">
+        <p class="text-xs opacity-80">
+          Problemas de conexión? Háznoslo saber!
+        </p>
+        <div class="flex gap-3 justify-center">
+          <button
+              class="flex items-center gap-1.5 hover:opacity-80 transition-opacity text-sm"
+              @click="open('https://twitter.com/elonmusk')"
+          >
+            <Twitter class="w-4 h-4"/>
+            <span>Twitter</span>
+          </button>
+          <button
+              class="flex items-center gap-1.5 hover:opacity-80 transition-opacity text-sm"
+              @click="open('https://github.com/cuervolu/cortex')"
+          >
+            <Github class="w-4 h-4"/>
+            <span>Github</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- Right Column - Illustration -->
+    <div class="bg-gradient-to-b from-[#E5F0FF] to-[#C7E1FF]">
+      <div class="w-full h-full relative">
+        <!-- Main Image -->
+        <img
+            :src="currentImage"
+            alt="Path Illustration"
+            class="w-full h-full object-contain"
+        >
       </div>
     </div>
   </div>
