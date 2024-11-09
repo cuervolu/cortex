@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { convertFileSrc } from '@tauri-apps/api/core';
-import { open } from '@tauri-apps/plugin-dialog';
-import { listen, type Event, TauriEvent } from '@tauri-apps/api/event';
-import { debug } from "@tauri-apps/plugin-log";
-import { ImagePlus } from 'lucide-vue-next';
-
-import { AppError, type RoadmapCreateRequest, type TagDTO } from "@cortex/shared/types";
+import {convertFileSrc} from '@tauri-apps/api/core';
+import {open} from '@tauri-apps/plugin-dialog';
+import {listen, type Event, TauriEvent} from '@tauri-apps/api/event';
+import {debug} from "@tauri-apps/plugin-log";
+import {ImagePlus} from 'lucide-vue-next';
+import {AppError, type RoadmapCreateRequest, type TagDTO} from "@cortex/shared/types";
 import RoadmapIcon from "~/components/icons/RoadmapIcon.vue";
 
 type DropEventPayload = {
@@ -21,9 +20,7 @@ const emit = defineEmits(['submit']);
 const title = ref('');
 const description = ref('');
 const tags = ref<string[]>([]);
-const selectedCourses = ref<number[]>([]);
 const isPublished = ref(false);
-const courses = ref<Array<{ id: number; name: string }>>([]);
 const previewImage = ref<string | null>(null);
 const isDragging = ref(false);
 
@@ -179,9 +176,11 @@ const handleDrop = (e: DragEvent) => {
             class="absolute inset-0 flex flex-col items-center justify-center gap-2 text-muted-foreground"
             :class="{ 'text-primary': isDragging }"
         >
-          <ImagePlus class="w-8 h-8" />
+          <ImagePlus class="w-8 h-8"/>
           <p class="text-sm font-medium text-center">
-            {{ isDragging ? 'Suelta la imagen aquí' : 'Arrastra y suelta o da click para agregar una portada' }}
+            {{
+              isDragging ? 'Suelta la imagen aquí' : 'Arrastra y suelta o da click para agregar una portada'
+            }}
           </p>
         </div>
       </div>
@@ -197,15 +196,16 @@ const handleDrop = (e: DragEvent) => {
             class="absolute right-4 top-4"
             @click.stop="handleImageUpload"
         >
-          <ImagePlus class="w-4 h-4 mr-2" />
+          <ImagePlus class="w-4 h-4 mr-2"/>
           Cambiar portada
         </Button>
       </div>
 
       <!-- Fixed Icon Badge -->
       <div class="absolute left-8 bottom-8">
-        <div class="w-12 h-12 bg-white/90 backdrop-blur-sm rounded-lg shadow-lg p-2 transition-all duration-200">
-          <RoadmapIcon class="w-8 h-8" fill="#28282B" />
+        <div
+            class="w-12 h-12 bg-white/90 backdrop-blur-sm rounded-lg shadow-lg p-2 transition-all duration-200">
+          <RoadmapIcon class="w-8 h-8" fill="#28282B"/>
         </div>
       </div>
     </div>
@@ -225,34 +225,12 @@ const handleDrop = (e: DragEvent) => {
       <div class="space-y-2">
         <TagsInput v-model="tags">
           <TagsInputItem v-for="tag in tags" :key="tag" :value="tag">
-            <TagsInputItemText />
-            <TagsInputItemDelete />
+            <TagsInputItemText/>
+            <TagsInputItemDelete/>
           </TagsInputItem>
-          <TagsInputInput placeholder="Agregar tags..." />
+          <TagsInputInput placeholder="Agregar tags..."/>
         </TagsInput>
       </div>
-
-      <!-- Courses Section -->
-      <div class="space-y-2">
-        <Select v-model="selectedCourses" multiple>
-          <SelectTrigger class="w-full">
-            <SelectValue placeholder="Seleccionar cursos" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Cursos Disponibles</SelectLabel>
-              <SelectItem
-                  v-for="course in courses"
-                  :key="course.id"
-                  :value="course.id"
-              >
-                {{ course.name }}
-              </SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      </div>
-
       <!-- Description Editor -->
       <div class="min-h-[200px]">
         <TiptapEditor
@@ -264,8 +242,9 @@ const handleDrop = (e: DragEvent) => {
       <!-- Footer Actions -->
       <div class="flex items-center justify-between pt-4 border-t">
         <div class="flex items-center space-x-2">
-          <Switch v-model="isPublished" />
-          <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+          <Switch v-model="isPublished"/>
+          <label
+              class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
             Publicar roadmap
           </label>
         </div>
