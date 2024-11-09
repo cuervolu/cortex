@@ -3,6 +3,8 @@ use ai_chat::session::manager::AISessionManager;
 use common::state::AppState;
 use std::sync::Arc;
 use std::sync::Mutex;
+use log::debug;
+use tauri::ipc::private::tracing::field::debug;
 use tauri::Manager;
 use tauri_plugin_log::fern::colors::ColoredLevelConfig;
 use tauri_plugin_log::RotationStrategy;
@@ -57,10 +59,15 @@ fn setup_logger(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> 
 
 #[tauri::command]
 async fn close_splashscreen_show_main(app_handle: tauri::AppHandle) -> Result<(), String> {
+    debug("Closing splashscreen and showing main window");
+    
     let splash_window = app_handle.get_webview_window("splashscreen").unwrap();
     let main_window = app_handle.get_webview_window("main").unwrap();
+    
     splash_window.close().unwrap();
     main_window.show().unwrap();
+    
+    debug!("Splashscreen closed and main window shown");
 
     Ok(())
 }
