@@ -26,3 +26,7 @@ html, body {
 .scrollable-content {
   overflow-y: auto;
 }
+
+html {
+  overscroll-behavior: none;
+}
