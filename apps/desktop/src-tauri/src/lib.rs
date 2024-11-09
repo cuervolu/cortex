@@ -1,5 +1,3 @@
-mod window;
-
 use ai_chat::keystore::manager::KeystoreManager;
 use ai_chat::session::manager::AISessionManager;
 use common::state::AppState;
@@ -8,7 +6,6 @@ use std::sync::Mutex;
 use tauri::Manager;
 use tauri_plugin_log::fern::colors::ColoredLevelConfig;
 use tauri_plugin_log::RotationStrategy;
-use crate::window::WindowManager;
 
 fn setup_logger(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> {
     // Set base log level based on environment
@@ -60,17 +57,20 @@ fn setup_logger(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> 
 
 #[tauri::command]
 async fn close_splashscreen_show_main(app_handle: tauri::AppHandle) -> Result<(), String> {
-    WindowManager::handle_window_transition(&app_handle)
-        .map_err(|e| e.to_string())
-}
+    let splash_window = app_handle.get_webview_window("splashscreen").unwrap();
+    let main_window = app_handle.get_webview_window("main").unwrap();
+    splash_window.close().unwrap();
+    main_window.show().unwrap();
 
+    Ok(())
+}
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     let builder =
         tauri::Builder::default().plugin(tauri_plugin_store::Builder::new().build()).setup(|app| {
             setup_logger(app)?;
-            WindowManager::create_windows(app)?;
+
             // Initialize AppState
             app.manage(AppState {
                 user: Mutex::new(None),
@@ -81,7 +81,7 @@ pub fn run() {
             app.manage(keystore_manager.clone());
 
             let window = app.get_webview_window("main").expect("main window not found");
-            let session_manager = Arc::new(AISessionManager::new(window.clone())?);
+            let session_manager = Arc::new(AISessionManager::new(window)?);
             app.manage(session_manager);
 
             Ok(())

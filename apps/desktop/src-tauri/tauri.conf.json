@@ -9,6 +9,43 @@
     "beforeBuildCommand": "pnpm generate"
   },
   "app": {
+    "windows": [
+      {
+        "label": "main",
+        "title": "Cortex",
+        "width": 1100,
+        "height": 650,
+        "resizable": true,
+        "fullscreen": false,
+        "center": true,
+        "minHeight": 600,
+        "minWidth": 800,
+        "decorations": false,
+        "transparent": true,
+        "shadow": true,
+        "visible": false,
+        "windowEffects": {
+          "effects": [
+            "acrylic"
+          ]
+        }
+      },
+      {
+        "label": "splashscreen",
+        "url": "/splashscreen",
+        "width": 580,
+        "height": 400,
+        "resizable": false,
+        "maximizable": false,
+        "minimizable": false,
+        "center": true,
+        "decorations": false,
+        "shadow": true,
+        "transparent": true,
+        "alwaysOnTop": true,
+        "focus": true
+      }
+    ],
     "security": {
       "csp": {
         "default-src": "'self' blob: data: filesystem: ws: wss: http: https: tauri: 'unsafe-inline' asset: https://asset.localhost",
