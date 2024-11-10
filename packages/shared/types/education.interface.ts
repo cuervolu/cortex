@@ -38,6 +38,7 @@ export interface Exercise {
   last_github_sync: string;
   solution_responses: SolutionResponse[];
   completed: boolean;
+  display_order?: number;
 }
 
 export interface Lesson {
@@ -106,6 +107,7 @@ export interface RoadmapLesson {
   slug: string;
   credits: number;
   exercises: Exercise[];
+  display_order?: number;
 }
 
 export interface RoadmapModule {
@@ -115,6 +117,7 @@ export interface RoadmapModule {
   slug: string;
   lesson_count: number;
   lessons: RoadmapLesson[];
+  display_order?: number;
 }
 
 export interface RoadmapCourse {
@@ -125,6 +128,7 @@ export interface RoadmapCourse {
   image_url: string | null;
   tag_names: string[];
   modules: RoadmapModule[];
+  display_order?: number;
 }
 
 export interface RoadmapDetails {

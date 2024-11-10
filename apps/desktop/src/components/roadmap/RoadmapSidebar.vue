@@ -1,9 +1,13 @@
 <script setup lang="ts">
-import {Tag} from 'lucide-vue-next'
-import type {Course} from "@cortex/shared/types";
+import { Dot, Tag } from 'lucide-vue-next'
+import type { RoadmapCourse } from "@cortex/shared/types";
+import type { RoadmapModule } from "@cortex/shared/types";
+import type { RoadmapLesson } from "@cortex/shared/types";
+import type { Exercise } from "@cortex/shared/types";
+import ModuleIcon from '@cortex/shared/components/icons/ModuleIcon.vue';
 
 interface RoadmapSidebarProps {
-  courses: Course[]
+  courses: RoadmapCourse[]
   tagNames: string[]
 }
 
@@ -11,47 +15,78 @@ defineProps<RoadmapSidebarProps>()
 </script>
 
 <template>
-  <div class="space-y-6">
-    <Card>
-      <div class="p-4">
-        <h2 class="font-semibold">Cursos en este Roadmap</h2>
-      </div>
-      <ScrollArea class="h-[400px]">
-        <div class="p-4">
-          <div class="space-y-4">
-            <div v-for="course in courses" :key="course.id">
-              <div class="flex items-center gap-2">
-                <img
-                    :src="course.image_url || '/placeholder.svg'"
-                    :alt="course.name"
-                    class="h-8 w-8 rounded"
-                >
-                <div>
-                  <h3 class="font-medium">{{ course.name }}</h3>
-                  <p class="text-sm text-muted-foreground">
-                    {{ course.tag_names.join(', ') }}
-                  </p>
-                </div>
-              </div>
-            </div>
+  <div class="py-5 px-6 flex justify-between items-center border-b">
+    <h2 class="text-2xl font-extrabold">Contenido Roadmap</h2>
+    <EllipsisVertical :size=24 class="stroke-muted" />
+  </div>
+  <Accordion type="single" collapsible>
+    <AccordionItem value="item-1">
+      <AccordionTrigger class="py-4 px-6 text-lg font-bold">Roadmap Intro</AccordionTrigger>
+      <AccordionContent class="border-t py-4 px-6 ">
+        <div class="flex justify-between items-center">
+          <div class="flex flex-col gap-1">
+            <span class="font-bold text-base">01: Introducción</span>
+            <span>20 Minutos</span>
+          </div>
+          <CirclePlay :size="26" />
+        </div>
+      </AccordionContent>
+    </AccordionItem>
+  </Accordion>
+  <div class="py-5 px-6 flex justify-between items-center border-b">
+    <div class="flex items-center">
+      <h2 class="text-xl font-extrabold">Cursos Roadmap</h2>
+      <Dot :size=24 :stroke-width="3" />
+      <h2 class="text-xl font-semibold">{{ courses.length }}</h2>
+    </div>
+    <EllipsisVertical :size=24 class="stroke-muted" />
+  </div>
+  <Accordion type="multiple" collapsible>
+    <AccordionItem
+      v-for="(course, index) in [...courses]
+      .sort((a, b) => (a.display_order ?? 0) - (b.display_order ?? 0))"
+      :key="index"
+      :value="`item-${index + 1}`"
+    >
+      <AccordionTrigger class="py-4 px-6">
+        <div class="flex flex-col justify-start">
+          <span class="text-lg font-bold text-start">{{ index + 1 }}. {{ course.name }}</span>
+          <div class="flex">
+            <span>{{ course.modules.length }} modulo</span>
+            <Dot/>
+            <span>50 min Total</span>
           </div>
         </div>
-      </ScrollArea>
-    </Card>
-
-    <div class="space-y-4">
-      <h3 class="font-semibold">Topics</h3>
-      <div class="flex flex-wrap gap-2">
-        <Badge
-            v-for="tag in tagNames"
-            :key="tag"
-            variant="secondary"
-            class="flex items-center gap-1"
-        >
-          <Tag class="h-3 w-3"/>
-          {{ tag }}
-        </Badge>
-      </div>
+      </AccordionTrigger>
+      <AccordionContent class="border-t py-4 px-6">
+        <div v-for="(module, moduleIndex) in course.modules.sort((a, b) => (a.display_order ?? 0) - (b.display_order ?? 0))"
+          :key="moduleIndex"
+          class="flex justify-between items-center">
+          <div class="flex flex-col gap-1">
+            <span class="font-bold text-base">{{ index + 1 }}.{{ moduleIndex + 1 }} {{ module.name }}</span>
+            <div class="flex">
+              <span>{{ module.lesson_count }} lección</span>
+              <Dot />
+              <span>0 ejercicios</span>
+            </div>
+            <pre>{{module.lessons[0]}}</pre>
+          </div>
+          <ModuleIcon :width="28" class="fill-current" />
+        </div>
+        <div v-if="course.modules.length === 0" class="flex justify-center items-center px-6">
+          <span class="font-bold text-lg">No hay módulos disponibles</span>
+        </div>
+      </AccordionContent>
+    </AccordionItem>
+    <div v-if="courses.length === 0" class="flex justify-center items-center px-6">
+      <span class="font-bold text-lg">No hay cursos disponibles</span>
     </div>
+  </Accordion>
+  <div class="py-5 px-3 flex flex-col border-b gap-4">
+    <h2 class="font-bold text-lg">Tópicos</h2>
+    <div class="flex flex-wrap gap-2">
+      <Badge v-for="tag in tagNames" :key="tag">{{ tag }}</Badge>
+    </div>
+    <span class="font-bold text-sm text-end">Ver todos los tópicos</span>
   </div>
 </template>

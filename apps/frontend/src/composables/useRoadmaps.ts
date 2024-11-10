@@ -4,22 +4,22 @@ import type {PaginatedRoadmaps, RoadmapDetails} from "@cortex/shared/types"
 interface RoadmapsResponse {
   data: Ref<PaginatedRoadmaps | null>
   error: Ref<string | null>
-  isLoading: Ref<boolean>
+  loading: Ref<boolean>
   refresh: () => Promise<RoadmapsResponse>
 }
 
 interface RoadmapDetailsResponse {
   data: Ref<RoadmapDetails | null>
   error: Ref<string | null>
-  isLoading: Ref<boolean>
+  loading: Ref<boolean>
   refresh: () => Promise<RoadmapDetailsResponse>
 }
 
 export const useRoadmaps = () => {
   const error = ref<string | null>(null)
-  const isLoading = ref(false)
-  const roadmapsData = ref<PaginatedRoadmaps | null>(null)
-  const roadmapDetailsData = ref<RoadmapDetails | null>(null)
+  const loading = ref(false)
+  const paginatedRoadmaps = ref<PaginatedRoadmaps | null>(null)
+  const roadmap = ref<RoadmapDetails | null>(null)
   const { token } = useAuth()
 
   const getFetchOptions = () => ({
@@ -42,67 +42,70 @@ export const useRoadmaps = () => {
     const url = `${API_ROUTES.ROADMAPS}?${queryParams.toString()}`
     console.log('Fetching roadmaps:', url)
 
-    isLoading.value = true
+    loading.value = true
     error.value = null
 
     try {
-      roadmapsData.value = await $fetch<PaginatedRoadmaps>(url, {
+      paginatedRoadmaps.value = await $fetch<PaginatedRoadmaps>(url, {
         ...getFetchOptions(),
       })
 
       return {
-        data: roadmapsData as Ref<PaginatedRoadmaps | null>,
+        data: paginatedRoadmaps as Ref<PaginatedRoadmaps | null>,
         error: readonly(error),
-        isLoading: readonly(isLoading),
+        loading: readonly(loading),
         refresh: () => fetchRoadmaps(params)
       }
     } catch (e) {
       console.error('Error fetching roadmaps:', e)
       error.value = e instanceof Error ? e.message : 'Error fetching roadmaps'
-      roadmapsData.value = null
+      paginatedRoadmaps.value = null
       return {
-        data: roadmapsData as Ref<PaginatedRoadmaps | null>,
+        data: paginatedRoadmaps as Ref<PaginatedRoadmaps | null>,
         error: readonly(error),
-        isLoading: readonly(isLoading),
+        loading: readonly(loading),
         refresh: () => fetchRoadmaps(params)
       }
     } finally {
-      isLoading.value = false
+      loading.value = false
     }
   }
 
   const getRoadmapDetails = async (slug: string): Promise<RoadmapDetailsResponse> => {
-    isLoading.value = true
+    loading.value = true
     error.value = null
 
     try {
-      roadmapDetailsData.value = await $fetch<RoadmapDetails>(`${API_ROUTES.ROADMAPS}/${slug}`, {
+      roadmap.value = await $fetch<RoadmapDetails>(`${API_ROUTES.ROADMAPS}/${slug}`, {
         ...getFetchOptions(),
       })
 
       return {
-        data: roadmapDetailsData as Ref<RoadmapDetails | null>,
+        data: roadmap as Ref<RoadmapDetails | null>,
         error: readonly(error),
-        isLoading: readonly(isLoading),
+        loading: readonly(loading),
         refresh: () => getRoadmapDetails(slug)
       }
     } catch (e) {
       console.error('Error fetching roadmap details:', e)
       error.value = e instanceof Error ? e.message : 'Error fetching roadmap details'
-      roadmapDetailsData.value = null
+      roadmap.value = null
       return {
-        data: roadmapDetailsData as Ref<RoadmapDetails | null>,
+        data: roadmap as Ref<RoadmapDetails | null>,
         error: readonly(error),
-        isLoading: readonly(isLoading),
+        loading: readonly(loading),
         refresh: () => getRoadmapDetails(slug)
       }
     } finally {
-      isLoading.value = false
+      loading.value = false
     }
   }
 
   return {
     fetchRoadmaps,
     getRoadmapDetails,
+    paginatedRoadmaps,
+    roadmap,
+    loading
   }
 }

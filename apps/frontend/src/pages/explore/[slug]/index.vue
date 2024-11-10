@@ -131,7 +131,7 @@ const credits = computed(() => {
             </div>
             <Card class="rounded-3xl border-2 overflow-hidden">
                 <CardHeader class="p-0">
-                    <img :src="roadmapData?.image_url" alt="Roadmap Image" class="relative h-[360px] object-cover"/>
+                    <img :src="roadmapData?.image_url || 'https://placehold.co/600x400'" alt="Roadmap Image" class="relative h-[360px] object-cover"/>
                 </CardHeader>
                 <CardFooter class="border-t-2 justify-between items-center px-4 py-5">
                     <div class="flex justify-start items-center gap-2">

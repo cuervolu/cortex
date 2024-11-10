@@ -18,7 +18,7 @@ const handleSortChange = (sort: string) => {
 }
 
 const handleRoadmapClick = (roadmap: Roadmap) => {
-  router.push(`/roadmaps/${roadmap.slug}`)
+  router.push(`/explore/${roadmap.slug}`)
 }
 
 onMounted(() => fetchRoadmaps())

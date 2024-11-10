@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Home, ChevronRight } from 'lucide-vue-next'
+import HomeIcon from '@cortex/shared/components/icons/HomeIcon.vue';
 
 interface RoadmapBreadcrumbProps {
   slug: string
@@ -10,12 +10,35 @@ defineProps<RoadmapBreadcrumbProps>()
 </script>
 
 <template>
-  <div class="flex items-center gap-2 p-4 text-sm text-muted-foreground">
-    <Home class="h-4 w-4" />
-    <NuxtLink to="/roadmaps">Roadmaps</NuxtLink>
-    <ChevronRight class="h-4 w-4" />
-    <NuxtLink to="/roadmaps">Explore Roadmaps</NuxtLink>
-    <ChevronRight class="h-4 w-4" />
-    <span>{{ title }}</span>
-  </div>
+  <Breadcrumb class="py-5">
+    <BreadcrumbList>
+      <BreadcrumbItem>
+        <BreadcrumbLink>
+          <NuxtLink to="/">
+            <HomeIcon class="w-[18px] fill-current" />
+          </NuxtLink>
+        </BreadcrumbLink>
+      </BreadcrumbItem>
+      <BreadcrumbSeparator />
+      <BreadcrumbItem>
+        <BreadcrumbLink>
+          <NuxtLink to="/roadmaps">
+            Roadmaps
+          </NuxtLink>
+        </BreadcrumbLink>
+      </BreadcrumbItem>
+      <BreadcrumbSeparator />
+      <BreadcrumbItem>
+        <BreadcrumbLink>
+          <NuxtLink to="/explore">
+            Explore Roadmaps
+          </NuxtLink>
+        </BreadcrumbLink>
+      </BreadcrumbItem>
+      <BreadcrumbSeparator />
+      <BreadcrumbItem>
+        <BreadcrumbPage>{{ title }}</BreadcrumbPage>
+      </BreadcrumbItem>
+    </BreadcrumbList>
+  </Breadcrumb>
 </template>

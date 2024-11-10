@@ -126,7 +126,7 @@ watch(
 
         <Card class="rounded-3xl border-2 overflow-hidden">
             <CardHeader class="p-0">
-                <img :src="courseData?.image_url ?? undefined" alt="Course Image" class="relative h-[360px] object-cover"/>
+                <img :src="courseData?.image_url || 'https://placehold.co/600x400'" alt="Course Image" class="relative h-[360px] object-cover"/>
             </CardHeader>
             <CardFooter class="border-t-2 justify-end items-center px-4 py-5">
                 <div class="flex gap-4">

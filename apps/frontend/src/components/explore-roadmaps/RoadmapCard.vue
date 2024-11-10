@@ -12,7 +12,7 @@ defineProps<{
       <CardHeader class="w-full p-2.5">
         <img
           class="rounded-[16px] min-h-[200px] max-h-[200px] object-cover"
-          :src="roadmap.image_url || '/api/placeholder/400/200'"
+          :src="roadmap.image_url || 'https://placehold.co/600x400'"
           :alt="roadmap.title"
         >
       </CardHeader>
