@@ -1,7 +1,7 @@
 pub mod courses;
-pub mod modules;
 pub mod exercises;
 pub mod lessons;
+pub mod modules;
 pub mod roadmaps;
 
 use serde::{Deserialize, Serialize};
@@ -128,10 +128,22 @@ pub struct Course {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
+pub struct RoadmapExercise {
+    pub id: u64,
+    pub title: String,
+    pub slug: String,
+    pub points: u32,
+    pub completed: bool,
+    #[serde(rename = "display_order")]
+    pub order: u32,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
 pub struct RoadmapLesson {
     pub id: u64,
     pub name: String,
     pub slug: String,
+    pub exercises: Option<Vec<RoadmapExercise>>,
     pub credits: u32,
 }
 
@@ -178,7 +190,6 @@ pub struct RoadmapDetails {
     pub updated_at: Option<String>,
 }
 
-
 // Exercise Submission
 #[derive(Debug, Serialize, Deserialize)]
 pub struct CodeExecutionRequest {
@@ -201,12 +212,12 @@ pub struct CodeExecutionSubmissionResponse {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TestCaseResult {
     pub passed: bool,
-    #[serde(default)] 
+    #[serde(default)]
     pub input: Option<String>,
     #[serde(rename = "expected_output")]
-    pub expected_output: Option<String>,  
+    pub expected_output: Option<String>,
     #[serde(rename = "actual_output")]
-    pub actual_output: Option<String>,   
+    pub actual_output: Option<String>,
     pub message: String,
 }
 
@@ -232,7 +243,6 @@ pub struct TagDTO {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub description: Option<String>,
 }
-
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct RoadmapCreateRequest {
