@@ -3,6 +3,7 @@ import {Image as TiptapImage} from '@tiptap/extension-image';
 import {Underline as TiptapUnderline} from '@tiptap/extension-underline';
 import {TextAlign as TiptapTextAlign} from '@tiptap/extension-text-align';
 import {CharacterCount as TiptapCharacterCount} from '@tiptap/extension-character-count';
+import  { Placeholder as TiptapPlaceholder } from '@tiptap/extension-placeholder';
 import {
   Bold,
   Italic,
@@ -39,16 +40,23 @@ const editor = useEditor(
         TiptapStarterKit.configure({
           codeBlock: false,
         }),
+        TiptapPlaceholder.configure({
+          placeholder: 'Escribe aquí el contenido de tu publicación',
+        }),
         TiptapCodeBlockLowlight.configure({lowlight}),
         TiptapImage,
         TiptapUnderline,
-        TiptapTextAlign,
-        TiptapCharacterCount
+        TiptapTextAlign.configure({
+          types: ['heading', 'paragraph'],
+        }),
+        TiptapCharacterCount,
+        TipTapTypography
       ],
     });
 
 
 onBeforeUnmount(() => {
+  debug('Destroying editor')
   unref(editor)?.destroy()
 })
 
@@ -336,6 +344,14 @@ onBeforeUnmount(() => {
   & :where(h1, h2, h3, h4, h5, h6, p, blockquote, strong, em, code, pre) {
     color: hsl(var(--foreground));
   }
+}
+
+.tiptap p.is-editor-empty:first-child::before {
+  color: hsl(var(--muted-foreground));
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
 }
 
 </style>
