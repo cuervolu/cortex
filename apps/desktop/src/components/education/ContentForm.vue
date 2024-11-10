@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { Component } from 'vue';
-import { Form } from 'vee-validate';
 import { useImageDrop, useEducationalForm } from '~/composables';
 import ContentImageUpload from "~/components/education/ContentImageUpload.vue";
 import ContentTitle from "~/components/education/ContentTitle.vue";
@@ -18,7 +17,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const emit = defineEmits<{
-  (e: 'submit', values: any): void;
+  (e: 'submit', values: never): void;
 }>();
 
 const { previewImage, isDragging, setupDragListeners, handleImageUpload, cleanup } = useImageDrop();
@@ -32,6 +31,10 @@ onUnmounted(cleanup);
 const handleSubmit = form.handleSubmit((formValues) => {
   emit('submit', formValues);
 });
+
+const handleDescriptionUpdate = (content: string) => {
+  form.setFieldValue('description', content);
+};
 </script>
 
 
@@ -54,7 +57,7 @@ const handleSubmit = form.handleSubmit((formValues) => {
 
       <ContentEditor
           v-model="values.description"
-          @update="handleEditorUpdate"
+          @update="handleDescriptionUpdate"
       />
 
       <ContentFooter
