@@ -13,8 +13,8 @@
       {
         "label": "main",
         "title": "Cortex",
-        "width": 1100,
-        "height": 650,
+        "width": 1510,
+        "height": 800,
         "resizable": true,
         "fullscreen": false,
         "center": true,
@@ -33,6 +33,7 @@
       {
         "label": "splashscreen",
         "url": "/splashscreen",
+        "title": "Cortex",
         "width": 580,
         "height": 400,
         "resizable": false,
@@ -65,7 +66,7 @@
           "http://res.cloudinary.com",
           "https://res.cloudinary.com"
         ],
-        "style-src": "'unsafe-inline' 'self'"
+        "style-src": "'unsafe-inline' 'self' https://unpkg.com"
       },
       "assetProtocol": {
         "enable": true,
