@@ -236,7 +236,8 @@ const handleDrop = (e: DragEvent) => {
       <div class="min-h-[200px] w-full">
         <TiptapEditor
             :initial-content="description"
-            @update:content="handleEditorUpdate"
+            placeholder="¿Qué roadmap tienes en mente?"
+            @update="handleEditorUpdate"
         />
       </div>
 
