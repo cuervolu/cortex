@@ -71,11 +71,7 @@ public class LessonServiceImpl implements LessonService {
   @Override
   @Transactional
   public LessonResponse createLesson(LessonRequest request) {
-    Lesson lesson = new Lesson();
-    lesson.setName(request.getName());
-    lesson.setContent(request.getContent());
-    lesson.setCredits(request.getCredits());
-    lesson.setIsPublished(request.isPublished());
+    Lesson lesson = lessonMapper.toLesson(request);
     lesson.setSlug(generateUniqueSlug(request.getName()));
     setLessonModule(lesson, request.getModuleId());
     Lesson savedLesson = lessonRepository.save(lesson);

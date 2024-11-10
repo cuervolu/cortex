@@ -42,8 +42,6 @@
     "store:allow-save",
     "store:allow-delete",
     "store:allow-entries",
-    "window-state:allow-restore-state",
-    "window-state:allow-save-window-state",
     "process:allow-exit",
     "process:allow-restart",
     "oauth:allow-cancel",

@@ -9,11 +9,7 @@ const handleCreateRoadmap = async (roadmapData: RoadmapCreateRequest) => {
 </script>
 
 <template>
-  <div class="p-8">
-    <div class="mb-6">
-      <h1 class="text-2xl font-bold">Crear Nuevo Roadmap</h1>
-    </div>
-
+  <div class="p-8 w-full flex flex-col">
     <RoadmapForm @submit="handleCreateRoadmap"/>
   </div>
 </template>

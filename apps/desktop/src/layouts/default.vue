@@ -1,13 +1,46 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
 import AppSidebar from '~/components/AppSidebar.vue';
 import TitleBar from '~/components/TitleBar.vue';
+import {useUserStore} from "~/stores";
+import {useUpdater} from "~/composables/useUpdater";
+import {error as logError} from "@tauri-apps/plugin-log";
 
 const isCollapsed = ref(false);
 
 function toggleSidebar() {
   isCollapsed.value = !isCollapsed.value;
 }
+
+const userStore = useUserStore()
+
+const {
+  isUpdateAvailable,
+  updateVersion,
+  updateNotes,
+  updateDate,
+  isUpdating,
+  progress,
+  checkForUpdates,
+  installUpdate
+} = useUpdater()
+
+onMounted(async () => {
+  await userStore.initStore()
+  try {
+    await checkForUpdates()
+    const CHECK_INTERVAL = 1000 * 60 * 60
+    setInterval(async () => {
+      try {
+        await checkForUpdates()
+      } catch (error) {
+        await logError(`Failed to check for updates: ${error}`)
+      }
+    }, CHECK_INTERVAL)
+  } catch (error) {
+    await logError(`Failed to check for updates: ${error}`)
+
+  }
+})
 </script>
 
 <template>
@@ -24,6 +57,15 @@ function toggleSidebar() {
         <AppSidebar
             :is-collapsed="isCollapsed"
             @toggle-sidebar="toggleSidebar"
+        />
+        <UpdateModal
+            v-model:open="isUpdateAvailable"
+            :version="updateVersion"
+            :notes="updateNotes"
+            :date="updateDate"
+            :is-updating="isUpdating"
+            :progress="progress"
+            @install="installUpdate"
         />
         <main class="grow shrink basis-0 self-stretch bg-background rounded-[34px] flex-col justify-start items-start gap-2.5 inline-flex overflow-auto scrollable-content">
           <slot />

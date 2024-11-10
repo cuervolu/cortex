@@ -11,25 +11,10 @@
   "app": {
     "windows": [
       {
-        "label": "splashscreen",
-        "url": "/splashscreen",
-        "width": 350,
-        "height": 400,
-        "resizable": false,
-        "maximizable": false,
-        "minimizable": false,
-        "center": true,
-        "decorations": false,
-        "shadow": true,
-        "transparent": true,
-        "alwaysOnTop": true,
-        "focus": true
-      },
-      {
         "label": "main",
         "title": "Cortex",
-        "width": 1100,
-        "height": 650,
+        "width": 1510,
+        "height": 800,
         "resizable": true,
         "fullscreen": false,
         "center": true,
@@ -44,6 +29,22 @@
             "acrylic"
           ]
         }
+      },
+      {
+        "label": "splashscreen",
+        "url": "/splashscreen",
+        "title": "Cortex",
+        "width": 580,
+        "height": 400,
+        "resizable": false,
+        "maximizable": false,
+        "minimizable": false,
+        "center": true,
+        "decorations": false,
+        "shadow": true,
+        "transparent": true,
+        "alwaysOnTop": true,
+        "focus": true
       }
     ],
     "security": {
@@ -65,7 +66,7 @@
           "http://res.cloudinary.com",
           "https://res.cloudinary.com"
         ],
-        "style-src": "'unsafe-inline' 'self'"
+        "style-src": "'unsafe-inline' 'self' https://unpkg.com"
       },
       "assetProtocol": {
         "enable": true,

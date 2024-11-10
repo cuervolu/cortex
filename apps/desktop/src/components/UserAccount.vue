@@ -42,14 +42,14 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="self-stretch h-[128px] p-2.5 flex-col justify-start items-start flex">
-    <div class="w-[121px] h-[25px] text-[#f4f8f7]/80 text-xs font-semibold tracking-tight">Cuenta de usuario
-    </div>
+  <div class="self-stretch h-[128px] p-2.5 flex-col justify-start items-start flex gap-3">
+    <span class="w-full text-[#f4f8f7]/80 text-xs font-semibold tracking-tight">Cuenta de usuario
+    </span>
     <div class="self-stretch justify-between items-center inline-flex">
       <div class="flex items-center">
         <DropdownMenu>
-          <DropdownMenuTrigger class="focus:outline-none">
-            <Avatar class="w-[49px] h-[49px] cursor-pointer hover:opacity-90 transition-opacity">
+          <DropdownMenuTrigger class="focus:outline-none h-12">
+            <Avatar class="cursor-pointer hover:opacity-90 transition-opacity w-12 h-12">
               <AvatarImage :src="userAvatar" :alt="userFullName"/>
               <AvatarFallback>{{ userInitials }}</AvatarFallback>
             </Avatar>
@@ -79,15 +79,9 @@ onMounted(async () => {
           </DropdownMenuContent>
         </DropdownMenu>
 
-        <div
-            v-if="!isCollapsed"
-            class="grow shrink basis-0 p-2.5 flex-col justify-start items-start inline-flex">
-          <div class="self-stretch h-7 text-[#f4f8f7] text-lg font-semibold tracking-tight">
-            {{ userFullName }}
-          </div>
-          <div class="w-[111px] h-[33px] text-[#f4f8f7]/60 text-sm font-normal tracking-tight">
-            {{ userUsername }}
-          </div>
+        <div v-if="!isCollapsed" class="grow shrink basis-0 p-2.5 flex-col justify-start items-start inline-flex">
+          <span class="self-stretch h-7 text-[#f4f8f7] text-lg font-semibold tracking-tight">{{ userFullName }}</span>
+          <span class="w-full text-[#f4f8f7]/60 text-sm font-normal tracking-tight">{{ userUsername }}</span>
         </div>
       </div>
     </div>
