@@ -1,6 +1,7 @@
-import { useForm } from 'vee-validate';
+import { type Path, type PathValue, useForm } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/zod';
 import * as z from 'zod';
+import { PartialDeep } from 'type-fest';
 
 export const createBaseSchema = () => ({
   title: z.string()
@@ -23,9 +24,25 @@ export interface BaseFormValues {
 }
 
 export function useEducationalForm<T extends BaseFormValues>(
-    additionalSchema = {},
-    initialValues?: Partial<T>
-) {
+    additionalSchema: Record<string, never> = {},
+    initialValues?: PartialDeep<T>
+): {
+  form: ReturnType<typeof useForm<T>>;
+  handleEditorUpdate: (content: string) => void;
+} {
+  // Crear los valores iniciales base
+  const baseInitialValues: PartialDeep<BaseFormValues> = {
+    title: '',
+    description: '',
+    tagNames: [],
+    is_published: false
+  };
+
+  const combinedInitialValues: PartialDeep<T> = {
+    ...baseInitialValues,
+    ...(initialValues || {})
+  };
+
   const schema = toTypedSchema(z.object({
     ...createBaseSchema(),
     ...additionalSchema
@@ -33,17 +50,12 @@ export function useEducationalForm<T extends BaseFormValues>(
 
   const form = useForm<T>({
     validationSchema: schema,
-    initialValues: {
-      title: '',
-      description: '',
-      tagNames: [],
-      is_published: false,
-      ...initialValues
-    } as T
+    initialValues: combinedInitialValues
   });
 
   const handleEditorUpdate = (content: string) => {
-    form.setFieldValue('description', content);
+    const path = 'description' as Path<T>;
+    form.setFieldValue(path, content as PathValue<T, typeof path>);
   };
 
   return {

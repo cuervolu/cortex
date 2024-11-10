@@ -1,12 +1,21 @@
 <script setup lang="ts">
-defineProps<{
+import { useField } from 'vee-validate';
+
+const props = defineProps<{
   modelValue: string;
   placeholder?: string;
 }>();
 
-defineEmits<{
+const emit = defineEmits<{
   (e: 'update:modelValue', value: string): void;
 }>();
+
+const { value, handleChange } = useField('description');
+
+const handleUpdate = (content: string) => {
+  handleChange(content);
+  emit('update:modelValue', content);
+};
 </script>
 
 <template>
@@ -16,7 +25,7 @@ defineEmits<{
         <TiptapEditor
             :initial-content="modelValue"
             :placeholder="placeholder"
-            @update="$emit('update:modelValue', $event)"
+            @update="handleUpdate"
         />
       </FormControl>
       <FormMessage />
