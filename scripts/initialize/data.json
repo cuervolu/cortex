@@ -177,7 +177,7 @@
       "course_ids": [
         8
       ],
-      "is_published": false
+      "is_published": true
     }
   ],
   "courses": [
@@ -356,7 +356,7 @@
       "course_id": 7,
       "name": "Los Primeros Pasos en el Reino GUI: Fundamentos de Java Swing",
       "description": "¡Bienvenido al fascinante Reino GUI! En este módulo inicial, descubrirás los secretos básicos para crear ventanas mágicas con Java Swing. Aprenderás desde cómo invocar tu primera ventana hasta cómo organizarla con diferentes componentes, ¡como si estuvieras decorando tu propia habitación digital! Es el comienzo de tu aventura para convertirte en un verdadero Maestro de las Interfaces Gráficas.",
-      "is_published": false,
+      "is_published": true,
       "display_order": 1
     }
   ],
@@ -419,7 +419,7 @@
     },
     {
       "module_id": 3,
-      "name": "Explorando el cosmos con go",
+      "name": "go la ardilla amigable",
       "content_file": "leccion-1-go-la-ardilla-amigable.md",
       "credits": 40,
       "is_published": true,
@@ -427,7 +427,7 @@
     },
     {
       "module_id": 3,
-      "name": "Aprendiendo del espacio junto a go",
+      "name": "aventuras espaciales en go",
       "content_file": "leccion-2-Aventuras-espaciales-en-go.md",
       "credits": 40,
       "is_published": true,

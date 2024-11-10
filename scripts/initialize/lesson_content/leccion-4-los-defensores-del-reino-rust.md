@@ -229,4 +229,4 @@ Instrucciones: Imagina que eres el arquitecto de un castillo mágico. Diseña un
 
 En nuestra próxima aventura, exploraremos los secretos de los módulos y crates de Rust. ¡Hasta entonces, sigan practicando sus nuevos poderes!
 
-![Yipi](https://res.cloudinary.com/dukgkrpft/image/upload/v1729378761/lessons/felicidades-yipi/jczrx7hhw88cvrfnminae.jpg)
+![Yipi](https://res.cloudinary.com/dukgkrpft/image/upload/v1729378761/lessons/felicidades-yipi/jczrx7hhw88cvrfnmiae.jpg)
