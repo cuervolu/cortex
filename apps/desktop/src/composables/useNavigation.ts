@@ -30,7 +30,7 @@ export function useNavigation() {
       {
         name: 'Roadmaps',
         icon: RoadmapIcon,
-        route: '/roadmaps',
+        route: '/explore',
         roles: ['USER', 'ADMIN', 'MODERATOR']
       },
       {

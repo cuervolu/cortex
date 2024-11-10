@@ -8,12 +8,22 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'click', roadmap: Roadmap): void
 }>()
+
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const handleClick = () => {
+  emit('click', props.roadmap)
+  router.push(`/explore/${props.roadmap.slug}`)
+}
+
 </script>
 
 <template>
   <Card
     class="grow shrink basis-0 p-[11px] w-screen min-w-[382px] rounded-[18px] flex-col justify-start items-start gap-2.5 inline-flex cursor-pointer hover:shadow-lg transition-shadow"
-    @click="emit('click', roadmap)"
+    @click="handleClick"
   >
     <CardHeader class="w-full p-2.5">
       <img

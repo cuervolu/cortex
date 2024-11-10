@@ -123,7 +123,7 @@ const calculateCourseProgress = (course: { modules: { lessons: { exercises: { co
 
             <Card class="rounded-3xl border-2 overflow-hidden">
                 <CardHeader class="p-0">
-                    <img :src="roadmapData?.image_url ?? undefined" alt="Roadmap Image" class="relative h-[360px] object-cover"/>
+                    <img :src="roadmapData?.image_url || 'https://placehold.co/600x400'" alt="Roadmap Image" class="relative h-[360px] object-cover"/>
                 </CardHeader>
                 <CardFooter class="border-t-2 justify-end items-center px-4 py-5">
                     <div class="flex gap-4">
@@ -147,10 +147,11 @@ const calculateCourseProgress = (course: { modules: { lessons: { exercises: { co
             </Card>
             
             <Card class="flex flex-col md:flex-row overflow-hidden rounded-2xl"
-                v-for="(course, index) in courses"
-                    :key="index"
-                    :value="`item-${index + 1}`">
-                <img :src="course.image_url ?? undefined" alt="Course Image" class="w-full md:w-[210px] h-[160px] md:h-auto object-cover md:border-b-0 md:border-r sm:border-b border-b"/>  
+                v-for="(course, index) in [...courses]
+                .sort((a, b) => (a.display_order ?? 0) - (b.display_order ?? 0))"
+                :key="index"
+                :value="`item-${index + 1}`">
+                <img :src="course.image_url || 'https://placehold.co/500x400'" alt="Course Image" class="w-full md:w-[210px] h-[160px] md:h-auto object-cover md:border-b-0 md:border-r sm:border-b border-b"/>  
                 
                 <CardContent class="flex flex-col gap-3 p-5 w-full">
                     <span class="text-lg sm:text-xl lg:text-xl xl:text-2xl font-bold text-start truncate">{{ index + 1 }}. {{ course.name }}</span>
@@ -217,7 +218,8 @@ const calculateCourseProgress = (course: { modules: { lessons: { exercises: { co
             </div>
             <Accordion type="multiple" collapsible>
                 <AccordionItem
-                    v-for="(course, index) in courses"
+                    v-for="(course, index) in [...courses]
+                    .sort((a, b) => (a.display_order ?? 0) - (b.display_order ?? 0))"
                     :key="index"
                     :value="`item-${index + 1}`"
                 >
@@ -233,7 +235,8 @@ const calculateCourseProgress = (course: { modules: { lessons: { exercises: { co
                     </AccordionTrigger>
                     <AccordionContent class="py-4 ">
                         <Accordion 
-                            v-for="(module, moduleIndex) in course.modules"
+                            v-for="(module, moduleIndex) in [...course.modules]
+                            .sort((a, b) => (a.display_order ?? 0) - (b.display_order ?? 0))"
                             type="single" collapsible class="w-full border-t">
                             <AccordionItem :value="`module-${moduleIndex + 1}`" class="border-0">
                                 <AccordionTrigger 
@@ -254,7 +257,8 @@ const calculateCourseProgress = (course: { modules: { lessons: { exercises: { co
                                 </AccordionTrigger>
                                 <AccordionContent class="p-0 border-t">
                                     <Accordion 
-                                        v-for="(lesson, lessonIndex) in module.lessons"
+                                        v-for="(lesson, lessonIndex) in [...module.lessons]
+                                        .sort((a, b) => (a.display_order ?? 0) - (b.display_order ?? 0))"
                                         type="single" collapsible class="w-full">
                                         <AccordionItem :value="`lesson-${lessonIndex + 1}`" class="border-0">
                                             <AccordionTrigger 
@@ -275,9 +279,10 @@ const calculateCourseProgress = (course: { modules: { lessons: { exercises: { co
                                             </AccordionTrigger>
                                             <AccordionContent class="p-0 border-b">
                                                 <div 
-                                                    v-for="(exercise, exerciseIndex) in lesson.exercises"
-                                                    :key="exerciseIndex"
-                                                    :class="[
+                                                    v-for="(exercise, exerciseIndex) in [...lesson.exercises]
+                                                        .sort((a, b) => (a.display_order ?? 0) - (b.display_order ?? 0))"
+                                                        :key="exerciseIndex"
+                                                        :class="[
                                                         'flex justify-between items-center py-3 gap-2 px-6',
                                                         exercise.completed ? 'border-l-4 border-primary bg-popover dark:bg-secondary' : 'border-b'
                                                     ]">

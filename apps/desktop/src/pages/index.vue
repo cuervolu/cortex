@@ -14,7 +14,7 @@ const commonActions = [
   {
     name: 'Explorar Roadmaps',
     icon: BookOpen,
-    route: '/roadmaps',
+    route: '/explore',
     variant: 'default'
   },
   {
@@ -35,13 +35,13 @@ const adminActions = [
   {
     name: 'Crear Roadmap',
     icon: Plus,
-    route: { name: 'roadmaps-create' },
+    route: { name: 'admin-roadmaps-create' },
     variant: 'default'
   },
   {
     name: 'Asignar Cursos',
     icon: BookmarkPlus,
-    route: { name: 'roadmaps-asign-courses' },
+    route: { name: 'admin-roadmaps-asign-courses' },
     variant: 'default'
   }
 ]
