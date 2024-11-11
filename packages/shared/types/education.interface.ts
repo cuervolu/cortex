@@ -225,42 +225,6 @@ export interface ImageUploadRequest {
   alt_text?: string;
 }
 
-export interface CodeExecutionRequest {
-  code: string;
-  language: string;
-  exercise_id: number;
-}
-
-export interface CodeExecutionSubmissionResponse {
-  task_id: string;
-  status: string;
-  message: string;
-  submission_time: string;
-}
-
-export interface TestCaseResult {
-  passed: boolean;
-  input?: string;
-  expected_output?: string;
-  actual_output?: string;
-  message: string;
-}
-
-export interface CodeExecutionResult {
-  success: boolean;
-  stdout: string;
-  stderr: string;
-  execution_time: number;
-  language: string;
-  exercise_id: number;
-  memory_used: number;
-  test_case_results: TestCaseResult[];
-}
-
-
-
-
-
 export type PaginatedExercises = PaginatedResponse<Exercise>;
 export type PaginatedLessons = PaginatedResponse<Lesson>;
 export type PaginatedRoadmaps = PaginatedResponse<Roadmap>;
