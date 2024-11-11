@@ -4,9 +4,8 @@ use crate::{
     Course, PaginatedRoadmaps, Roadmap, RoadmapCreateRequest, RoadmapDetails, RoadmapUpdateRequest,
 };
 use common::state::AppState;
-use common::{create_image_part, validate_image_type, API_BASE_URL, CLIENT, MAX_IMAGE_SIZE};
+use common::{API_BASE_URL, CLIENT};
 use error::AppError;
-use reqwest::multipart::Form;
 use tauri::State;
 
 pub async fn fetch_roadmaps(state: State<'_, AppState>) -> Result<PaginatedRoadmaps, AppError> {
@@ -100,57 +99,10 @@ pub async fn create_roadmap(
         .send()
         .await
         .map_err(AppError::RequestError)?;
-    
+
     if !response.status().is_success() {
         let error_msg = response.text().await.unwrap_or_else(|_| "Unknown error".to_string());
         return Err(AppError::ApiError(format!("Failed to create roadmap: {}", error_msg)));
-    }
-
-    response.json::<Roadmap>().await.map_err(AppError::RequestError)
-}
-
-pub async fn upload_roadmap_image(
-    roadmap_id: u64,
-    image_data: Vec<u8>,
-    alt_text: Option<String>,
-    state: State<'_, AppState>,
-) -> Result<Roadmap, AppError> {
-    let token = state
-        .token
-        .lock()
-        .map_err(|_| AppError::ContextLockError)?
-        .clone()
-        .ok_or(AppError::NoTokenError)?;
-
-    let mut form = Form::new();
-
-    if image_data.len() > MAX_IMAGE_SIZE {
-        return Err(AppError::ValidationError(
-            "Image size exceeds maximum allowed size of 5MB".to_string(),
-        ));
-    }
-
-    validate_image_type(&image_data)?;
-
-    // Usar la función de utilidad
-    let (image_part, _) = create_image_part(image_data)?;
-    form = form.part("image", image_part);
-
-    if let Some(alt_text) = alt_text {
-        form = form.text("altText", alt_text);
-    }
-
-    let response = CLIENT
-        .post(format!("{}/education/roadmap/{}/image", API_BASE_URL, roadmap_id))
-        .bearer_auth(token)
-        .multipart(form)
-        .send()
-        .await
-        .map_err(AppError::RequestError)?;
-
-    if !response.status().is_success() {
-        let error_msg = response.text().await.unwrap_or_else(|_| "Unknown error".to_string());
-        return Err(AppError::ApiError(format!("Failed to upload roadmap image: {}", error_msg)));
     }
 
     response.json::<Roadmap>().await.map_err(AppError::RequestError)
@@ -184,10 +136,7 @@ pub async fn update_roadmap(
     response.json::<Roadmap>().await.map_err(AppError::RequestError)
 }
 
-pub async fn delete_roadmap(
-    id: u64,
-    state: State<'_, AppState>,
-) -> Result<(), AppError> {
+pub async fn delete_roadmap(id: u64, state: State<'_, AppState>) -> Result<(), AppError> {
     let token = state
         .token
         .lock()

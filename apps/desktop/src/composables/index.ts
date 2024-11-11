@@ -11,3 +11,4 @@ export * from './useNavigation';
 export * from './useDesktopErrorHandler';
 export * from './useEducationalForm';
 export * from './useImageDrop';
+export * from './useEducationalContent';

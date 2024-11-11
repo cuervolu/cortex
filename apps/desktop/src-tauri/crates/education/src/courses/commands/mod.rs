@@ -1,7 +1,7 @@
 use super::*;
-use common::handle_image_selection;
+use common::{handle_content_image_upload};
 use log::{debug, error};
-use tauri::State;
+use tauri::{AppHandle, State};
 
 #[tauri::command]
 pub async fn fetch_all_courses(state: State<'_, AppState>) -> Result<PaginatedCourses, AppError> {
@@ -82,22 +82,17 @@ pub async fn delete_course_command(id: u64, state: State<'_, AppState>) -> Resul
 #[tauri::command]
 pub async fn upload_course_image_command(
     course_id: u64,
+    image_path: String,
     alt_text: Option<String>,
-    app: tauri::AppHandle,
+    app: AppHandle,
     state: State<'_, AppState>,
 ) -> Result<Course, AppError> {
-    debug!("Opening file dialog for course image upload: {}", course_id);
-
-    let image_data = handle_image_selection(&app, Some("Select course image"))?;
-
-    match upload_course_image(course_id, image_data, alt_text, state).await {
-        Ok(course) => {
-            debug!("Successfully uploaded image for course: {}", course_id);
-            Ok(course)
-        }
-        Err(e) => {
-            error!("Failed to upload course image: {:?}", e);
-            Err(e)
-        }
-    }
+    handle_content_image_upload::<Course>(
+        course_id,
+        image_path,
+        alt_text,
+        "course",
+        &app,
+        state,
+    ).await
 }

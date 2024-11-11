@@ -78,9 +78,9 @@ pub struct Roadmap {
     pub description: String,
     pub slug: String,
     pub image_url: Option<String>,
-    pub tag_names: Vec<String>,
+    pub tag_names: Option<Vec<String>>,  
     pub is_published: bool,
-    pub course_slugs: Vec<String>,
+    pub course_slugs: Option<Vec<String>>,  
     pub created_at: String,
     pub updated_at: Option<String>,
 }

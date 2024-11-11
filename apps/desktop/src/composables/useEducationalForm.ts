@@ -1,7 +1,8 @@
 import { type Path, type PathValue, useForm } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/zod';
 import * as z from 'zod';
-import { PartialDeep } from 'type-fest';
+import type { PartialDeep } from 'type-fest';
+import type {ContentType} from "~/types";
 
 export const createBaseSchema = () => ({
   title: z.string()
@@ -17,31 +18,57 @@ export const createBaseSchema = () => ({
 });
 
 export interface BaseFormValues {
-  title: string;
   description: string;
   tagNames: string[];
   is_published: boolean;
 }
 
-export function useEducationalForm<T extends BaseFormValues>(
+export interface RoadmapFormValues extends BaseFormValues {
+  title: string;
+}
+
+export interface CourseModuleFormValues extends BaseFormValues {
+  name: string;
+}
+
+const createRoadmapSchema = () => ({
+  ...createBaseSchema(),
+  title: z.string()
+  .min(3, 'El título debe tener al menos 3 caracteres')
+  .max(255, 'El título no puede exceder 255 caracteres')
+});
+
+const createCourseModuleSchema = () => ({
+  ...createBaseSchema(),
+  name: z.string()
+  .min(3, 'El nombre debe tener al menos 3 caracteres')
+  .max(255, 'El nombre no puede exceder 255 caracteres')
+});
+
+
+export function useEducationalForm<T extends RoadmapFormValues | CourseModuleFormValues>(
+    contentType: ContentType,
     additionalSchema: Record<string, never> = {},
     initialValues?: PartialDeep<T>
 ): {
   form: ReturnType<typeof useForm<T>>;
   handleEditorUpdate: (content: string) => void;
 } {
-  // Crear los valores iniciales base
   const baseInitialValues: PartialDeep<BaseFormValues> = {
-    title: '',
     description: '',
     tagNames: [],
     is_published: false
   };
 
-  const combinedInitialValues: PartialDeep<T> = {
+  const typeInitialValues = contentType === 'roadmap'
+      ? { title: '' }
+      : { name: '' };
+
+  const combinedInitialValues = {
     ...baseInitialValues,
+    ...typeInitialValues,
     ...(initialValues || {})
-  };
+  } as PartialDeep<T>;
 
   const schema = toTypedSchema(z.object({
     ...createBaseSchema(),
