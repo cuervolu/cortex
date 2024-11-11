@@ -44,20 +44,28 @@ const handleLogout = async () => {
       <DropdownMenuSeparator />
       <DropdownMenuGroup>
         <DropdownMenuItem>
+          <RouterLink to="/profile" class="flex items-center">
           <User class="mr-2 h-4 w-4" />
           <span>Perfil</span>
+        </RouterLink>
         </DropdownMenuItem>
         <DropdownMenuItem>
+          <RouterLink to="/my-roadmaps" class="flex items-center">
           <Map class="mr-2 h-4 w-4" />
           <span>Mis Roadmaps</span>
+        </RouterLink>
         </DropdownMenuItem>
         <DropdownMenuItem>
+          <RouterLink to="/courses" class="flex items-center">
           <BookOpen class="mr-2 h-4 w-4" />
           <span>Mis Cursos</span>
+          </RouterLink>
         </DropdownMenuItem>
         <DropdownMenuItem>
+          <RouterLink to="/config" class="flex items-center ">
           <Settings class="mr-2 h-4 w-4" />
           <span>Configuración</span>
+          </RouterLink>
         </DropdownMenuItem>
       </DropdownMenuGroup>
       <DropdownMenuSeparator />
