@@ -14,6 +14,43 @@ pub mod state;
 pub const API_BASE_URL: &str = "http://localhost:8088/api/v1";
 pub const MAX_IMAGE_SIZE: usize = 5 * 1024 * 1024;
 
+
+#[derive(Debug, Default)]
+pub struct SortQueryParams {
+    pub page: Option<u32>,
+    pub size: Option<u32>,
+    pub sort: Option<Vec<String>>,
+}
+
+impl SortQueryParams {
+    pub fn to_query_string(&self) -> String {
+        let mut params = Vec::new();
+
+        if let Some(page) = self.page {
+            params.push(format!("page={}", page));
+        }
+
+        if let Some(size) = self.size {
+            params.push(format!("size={}", size));
+        }
+
+        if let Some(sort) = &self.sort {
+            for sort_param in sort {
+                params.push(format!("sort={}", sort_param));
+            }
+        }
+
+        if params.is_empty() {
+            String::new()
+        } else {
+            format!("?{}", params.join("&"))
+        }
+    }
+}
+
+
+
+
 pub static CLIENT: LazyLock<Client> =
     LazyLock::new(|| Client::builder().build().expect("Failed to build reqwest client"));
 

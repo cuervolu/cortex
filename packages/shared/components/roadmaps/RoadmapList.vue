@@ -14,6 +14,11 @@ const emit = defineEmits<{
   (e: 'pageChange', page: number): void
   (e: 'roadmapClick', roadmap: Roadmap): void
 }>()
+
+const sortOptions = [
+  { value: 'recent', label: 'Más reciente' },
+  { value: 'oldest', label: 'Más antiguo' },
+]
 </script>
 
 <template>
@@ -23,7 +28,7 @@ const emit = defineEmits<{
         {{ paginatedRoadmaps.total_elements }} Roadmaps
       </h1>
       <Select
-        v-if="props.sortBy !== undefined"
+        v-if="sortBy"
         :model-value="sortBy"
         @update:model-value="value => emit('sortChange', value)"
       >
@@ -33,10 +38,13 @@ const emit = defineEmits<{
         <SelectContent>
           <SelectGroup>
             <SelectLabel>Ordenar</SelectLabel>
-            <SelectItem value="recent">Más reciente</SelectItem>
-            <SelectItem value="oldest">Más antiguo</SelectItem>
-            <SelectItem value="popular">Más popular</SelectItem>
-            <SelectItem value="highestRated">Mejor valorado</SelectItem>
+            <SelectItem
+              v-for="option in sortOptions"
+              :key="option.value"
+              :value="option.value"
+            >
+              {{ option.label }}
+            </SelectItem>
           </SelectGroup>
         </SelectContent>
       </Select>

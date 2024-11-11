@@ -74,7 +74,7 @@ public class RoadmapController {
       @PathVariable String slug,
       Authentication authentication) {
     User user = (User) authentication.getPrincipal();
-    return roadmapService.getRoadmapBySlug(slug, user.getId())
+    return roadmapService.getRoadmapBySlug(slug, user)
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }

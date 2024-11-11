@@ -34,4 +34,14 @@ public interface RoadmapRepository extends CrudRepository<Roadmap, Long> {
     WHERE r.slug = :slug AND r.isPublished = true
     """)
   Optional<Roadmap> findBySlugWithDetails(@Param("slug") String slug);
+
+  @Query("""
+    SELECT DISTINCT r FROM Roadmap r
+    LEFT JOIN FETCH r.courses c
+    LEFT JOIN FETCH c.moduleEntities m
+    LEFT JOIN FETCH m.lessons l
+    LEFT JOIN FETCH l.exercises e
+    WHERE r.slug = :slug
+    """)
+  Optional<Roadmap> findBySlugWithDetailsWithAdminRole(@Param("slug") String slug);
 }

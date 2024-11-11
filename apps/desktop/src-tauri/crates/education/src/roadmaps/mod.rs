@@ -4,11 +4,30 @@ use crate::{
     Course, PaginatedRoadmaps, Roadmap, RoadmapCreateRequest, RoadmapDetails, RoadmapUpdateRequest,
 };
 use common::state::AppState;
-use common::{API_BASE_URL, CLIENT};
+use common::{SortQueryParams, API_BASE_URL, CLIENT};
 use error::AppError;
 use tauri::State;
 
-pub async fn fetch_roadmaps(state: State<'_, AppState>) -> Result<PaginatedRoadmaps, AppError> {
+pub async fn fetch_roadmaps(
+    state: State<'_, AppState>,
+    page: Option<u32>,
+    size: Option<u32>,
+    sort: Option<Vec<String>>,
+    is_admin: bool,
+) -> Result<PaginatedRoadmaps, AppError> {
+    if is_admin {
+        let user = state
+            .user
+            .lock()
+            .map_err(|_| AppError::ContextLockError)?
+            .clone()
+            .ok_or(AppError::NoTokenError)?;
+
+        if !user.roles.iter().any(|role| role == "ADMIN" || role == "MODERATOR") {
+            return Err(AppError::UnauthorizedError);
+        }
+    }
+
     let token = state
         .token
         .lock()
@@ -16,15 +35,30 @@ pub async fn fetch_roadmaps(state: State<'_, AppState>) -> Result<PaginatedRoadm
         .clone()
         .ok_or(AppError::NoTokenError)?;
 
+    let params = SortQueryParams { page, size, sort };
+    let endpoint = if is_admin {
+        format!("{}/education/roadmap/admin", API_BASE_URL)
+    } else {
+        format!("{}/education/roadmap", API_BASE_URL)
+    };
+
+    let url = format!("{}{}", endpoint, params.to_query_string());
+
     let response = CLIENT
-        .get(format!("{}/education/roadmap", API_BASE_URL))
+        .get(&url)
         .bearer_auth(token)
         .send()
         .await
-        .map_err(AppError::RequestError)?
+        .map_err(|e| {
+            log::error!("Failed to fetch roadmaps: {:?}", e);
+            AppError::RequestError(e)
+        })?
         .json::<PaginatedRoadmaps>()
         .await
-        .map_err(AppError::RequestError)?;
+        .map_err(|e| {
+            log::error!("Failed to parse roadmaps response: {:?}", e);
+            AppError::RequestError(e)
+        })?;
 
     Ok(response)
 }
