@@ -8,6 +8,7 @@ import com.cortex.backend.core.domain.EntityType;
 import com.cortex.backend.core.domain.Media;
 import com.cortex.backend.core.domain.Roadmap;
 import com.cortex.backend.core.domain.Tag;
+import com.cortex.backend.core.domain.User;
 import com.cortex.backend.education.course.api.CourseRepository;
 import com.cortex.backend.education.course.api.CourseService;
 import com.cortex.backend.education.course.api.dto.CourseResponse;
@@ -101,11 +102,17 @@ public class RoadmapServiceImpl implements RoadmapService {
   }
 
   @Override
-  @Cacheable(value = "roadmaps", key = "#slug + '_' + #userId")
+  @Cacheable(value = "roadmaps", key = "#slug + '_' + #user.id")
   @Transactional(readOnly = true)
-  public Optional<RoadmapDetails> getRoadmapBySlug(String slug, Long userId) {
+  public Optional<RoadmapDetails> getRoadmapBySlug(String slug, User user) {
+    if (user.hasAnyRole("ADMIN", "MODERATOR")) {
+      return roadmapRepository.findBySlugWithDetailsWithAdminRole(slug)
+          .map(roadmap -> roadmapMapper.toRoadmapDetails(roadmap, user.getId(),
+              userProgressService));
+    }
+
     return roadmapRepository.findBySlugWithDetails(slug)
-        .map(roadmap -> roadmapMapper.toRoadmapDetails(roadmap, userId, userProgressService));
+        .map(roadmap -> roadmapMapper.toRoadmapDetails(roadmap, user.getId(), userProgressService));
   }
 
   @Override

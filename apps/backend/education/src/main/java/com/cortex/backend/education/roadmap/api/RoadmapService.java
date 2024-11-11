@@ -2,6 +2,7 @@ package com.cortex.backend.education.roadmap.api;
 
 
 import com.cortex.backend.core.common.PageResponse;
+import com.cortex.backend.core.domain.User;
 import com.cortex.backend.education.course.api.dto.CourseResponse;
 import com.cortex.backend.education.progress.api.ProgressUpdatedEvent;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapDetails;
@@ -18,7 +19,7 @@ public interface RoadmapService {
 
   PageResponse<RoadmapResponse> getAllRoadmaps(int page, int size, String[] sort) ;
 
-  Optional<RoadmapDetails> getRoadmapBySlug(String slug, Long userId);
+  Optional<RoadmapDetails> getRoadmapBySlug(String slug, User user);
 
   RoadmapResponse createRoadmap(RoadmapRequest request);
 
