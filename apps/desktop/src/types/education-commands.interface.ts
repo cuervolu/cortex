@@ -10,7 +10,7 @@ export const CONTENT_COMMANDS: Record<ContentType, ContentCommandConfig> = {
   roadmap: {
     createCommand: 'create_new_roadmap',
     uploadImageCommand: 'upload_roadmap_image_command',
-    redirectPath: '/roadmaps'
+    redirectPath: '/explore'
   },
   course: {
     createCommand: 'create_new_course',
