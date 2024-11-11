@@ -40,14 +40,29 @@ public class RoadmapController {
   private final RoadmapService roadmapService;
 
   @GetMapping
-  @Operation(summary = "Get all roadmaps", description = "Retrieves a list of all roadmaps")
+  @Operation(summary = "Get all published roadmaps", description = "Retrieves a list of all published roadmaps")
+  @ApiResponse(responseCode = "200", description = "Successful operation",
+      content = @Content(schema = @Schema(implementation = RoadmapResponse.class)))
+  public ResponseEntity<PageResponse<RoadmapResponse>> getAllPublishedRoadmaps(
+      @RequestParam(name = "page", defaultValue = "0") int page,
+      @RequestParam(name = "size", defaultValue = "10") int size,
+      @RequestParam(name = "sort", required = false) String[] sort
+  ) {
+    return ResponseEntity.ok(roadmapService.getAllPublishedRoadmaps(page, size, sort));
+  }
+
+  @GetMapping("/admin")
+  @PreAuthorize("hasAnyRole('MODERATOR', 'ADMIN')")
+  @Operation(summary = "Get all roadmaps (including unpublished)",
+      description = "Retrieves a list of all roadmaps. Requires ADMIN or MODERATOR role")
   @ApiResponse(responseCode = "200", description = "Successful operation",
       content = @Content(schema = @Schema(implementation = RoadmapResponse.class)))
   public ResponseEntity<PageResponse<RoadmapResponse>> getAllRoadmaps(
       @RequestParam(name = "page", defaultValue = "0") int page,
-      @RequestParam(name = "size", defaultValue = "10") int size
+      @RequestParam(name = "size", defaultValue = "10") int size,
+      @RequestParam(name = "sort", required = false) String[] sort
   ) {
-    return ResponseEntity.ok(roadmapService.getAllRoadmaps(page, size));
+    return ResponseEntity.ok(roadmapService.getAllRoadmaps(page, size, sort));
   }
 
   @GetMapping("/{slug}")

@@ -14,7 +14,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface RoadmapService {
 
-  PageResponse<RoadmapResponse> getAllRoadmaps(int page, int size);
+  PageResponse<RoadmapResponse> getAllPublishedRoadmaps(int page, int size, String[] sort);
+
+  PageResponse<RoadmapResponse> getAllRoadmaps(int page, int size, String[] sort) ;
 
   Optional<RoadmapDetails> getRoadmapBySlug(String slug, Long userId);
 

@@ -23,6 +23,8 @@ public interface RoadmapRepository extends CrudRepository<Roadmap, Long> {
       """)
   Page<Roadmap> findAllPublishedRoadmaps(Pageable pageable);
 
+  Page<Roadmap> findAll(Pageable pageable);
+
   @Query("""
     SELECT DISTINCT r FROM Roadmap r
     LEFT JOIN FETCH r.courses c
