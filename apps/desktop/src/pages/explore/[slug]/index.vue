@@ -22,16 +22,13 @@ onMounted(async () => {
   }
 })
 
-// Cantidad de Creditos por roadmap
 const credits = computed(() => {
-    if (!roadmap.value) return 0;
-    return roadmap.value.courses.reduce((totalCredits: number, course: { modules: { lessons: { credits: number; }[]; }[]; }) => {
-        return totalCredits + course.modules.reduce((moduleCredits: number, module: { lessons: { credits: number; }[]; }) => {
-            return moduleCredits + module.lessons.reduce((lessonCredits: number, lesson: { credits: number; }) => {
-                return lessonCredits + lesson.credits;
-            }, 0);
-        }, 0);
-    }, 0);
+  if (!roadmap.value) return 0;
+
+  return roadmap.value.courses
+    .flatMap(course => course.modules)
+    .flatMap(module => module.lessons)
+    .reduce((totalCredits, lesson) => totalCredits + lesson.credits, 0);
 });
 
 </script>

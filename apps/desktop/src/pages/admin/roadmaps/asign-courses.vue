@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import AssignCourseToRoadmap from '~/components/crud/AssignCourseToRoadmap.vue';
+import AssignCourseToRoadmap from '~/components/crud/roadmap/AssignCourseToRoadmap.vue';
 
 </script>
 

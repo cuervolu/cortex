@@ -31,21 +31,6 @@ const commonActions = [
   }
 ]
 
-const adminActions = [
-  {
-    name: 'Crear Roadmap',
-    icon: Plus,
-    route: { name: 'admin-roadmaps-create' },
-    variant: 'default'
-  },
-  {
-    name: 'Asignar Cursos',
-    icon: BookmarkPlus,
-    route: { name: 'admin-roadmaps-asign-courses' },
-    variant: 'default'
-  }
-]
-
 const moderatorActions = [
   {
     name: 'Moderar Contenido',
@@ -90,22 +75,6 @@ const moderatorActions = [
       <div class="self-stretch text-muted-foreground text-base font-light leading-snug">
         ¿Listo para comenzar tu viaje? Elige un roadmap o personaliza tu perfil para obtener
         recomendaciones adaptadas a ti.
-      </div>
-
-      <!-- Acciones de Administrador -->
-      <div v-if="isAdmin" class="self-stretch space-y-4">
-        <div v-for="action in adminActions" :key="action.name" class="w-full">
-          <NuxtLink :to="action.route" class="block w-full">
-            <Button
-                :variant="action.variant"
-                class="w-full h-[61px] px-5 py-[13px] bg-primary rounded-[14px] justify-center items-center gap-2.5 flex"
-                size="lg"
-            >
-              <component :is="action.icon" class="mr-2 h-5 w-5"/>
-              <div class="text-white text-lg font-medium leading-[35px]">{{ action.name }}</div>
-            </Button>
-          </NuxtLink>
-        </div>
       </div>
 
       <!-- Acciones de Moderador -->
