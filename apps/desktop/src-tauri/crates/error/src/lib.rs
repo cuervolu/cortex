@@ -70,6 +70,9 @@ pub enum AppError {
     
     #[error("File error: {0}")]
     FileError(String),
+
+    #[error("Unauthorized access")]
+    UnauthorizedError,
 }
 
 impl serde::Serialize for AppError {
