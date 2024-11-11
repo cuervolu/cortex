@@ -12,9 +12,15 @@ use tauri::{AppHandle, State};
 use common::handle_content_image_upload;
 
 #[tauri::command]
-pub async fn fetch_all_roadmaps(state: State<'_, AppState>) -> Result<PaginatedRoadmaps, AppError> {
+pub async fn fetch_all_roadmaps(
+    state: State<'_, AppState>,
+    page: Option<u32>,
+    size: Option<u32>,
+    sort: Option<Vec<String>>,
+    is_admin: bool,
+) -> Result<PaginatedRoadmaps, AppError> {
     debug!("Fetching all roadmaps");
-    match fetch_roadmaps(state).await {
+    match fetch_roadmaps(state, page, size, sort, is_admin).await {
         Ok(roadmaps) => Ok(roadmaps),
         Err(e) => {
             log::error!("Failed to fetch roadmaps: {:?}", e);
@@ -22,6 +28,7 @@ pub async fn fetch_all_roadmaps(state: State<'_, AppState>) -> Result<PaginatedR
         }
     }
 }
+
 
 #[tauri::command]
 pub async fn get_roadmap(
