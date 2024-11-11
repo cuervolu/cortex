@@ -9,5 +9,6 @@ reqwest = { workspace = true }
 tauri-plugin-dialog = {workspace = true}
 tauri-plugin-fs = {workspace = true}
 tauri = {workspace = true}
+log = {workspace = true}
 infer = "0.16.0"
 error = {path = "../error"}
