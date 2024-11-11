@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Roadmap } from "@cortex/shared/types"
+import { useRouter } from "vue-router"
 
 const props = defineProps<{
   roadmap: Roadmap
@@ -9,10 +10,7 @@ const emit = defineEmits<{
   (e: 'click', roadmap: Roadmap): void
 }>()
 
-import { useRouter } from 'vue-router'
-
 const router = useRouter()
-
 const handleClick = () => {
   emit('click', props.roadmap)
   router.push(`/explore/${props.roadmap.slug}`)
@@ -45,7 +43,10 @@ const handleClick = () => {
         </div>
       </div>
       <h2 class="text-xl font-medium line-clamp-1">{{ roadmap.title }}</h2>
-      <p class="text-sm text-gray-500 line-clamp-2">{{ roadmap.description }}</p>
+      <MDC
+        :value="roadmap.description"
+        class="text-sm text-gray-500 line-clamp-2"
+      />
     </CardContent>
     <Separator/>
     <CardFooter class="w-full p-2.5">
