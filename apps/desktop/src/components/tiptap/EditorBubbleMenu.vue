@@ -38,6 +38,7 @@ const bubbleMenuConfig = {
                 size="icon"
                 class="h-8 w-8"
                 :class="{ 'bg-accent': editor.isActive('bold') }"
+                type="button"
                 @click="editor.chain().focus().toggleBold().run()"
             >
               <Bold class="h-4 w-4" />
@@ -56,6 +57,7 @@ const bubbleMenuConfig = {
                 size="icon"
                 class="h-8 w-8"
                 :class="{ 'bg-accent': editor.isActive('italic') }"
+                type="button"
                 @click="editor.chain().focus().toggleItalic().run()"
             >
               <Italic class="h-4 w-4" />
@@ -74,6 +76,7 @@ const bubbleMenuConfig = {
                 size="icon"
                 class="h-8 w-8"
                 :class="{ 'bg-accent': editor.isActive('underline') }"
+                type="button"
                 @click="editor.chain().focus().toggleUnderline().run()"
             >
               <Underline class="h-4 w-4" />
@@ -92,6 +95,7 @@ const bubbleMenuConfig = {
                 size="icon"
                 class="h-8 w-8"
                 :class="{ 'bg-accent': editor.isActive('strike') }"
+                type="button"
                 @click="editor.chain().focus().toggleStrike().run()"
             >
               <Strikethrough class="h-4 w-4" />
@@ -110,6 +114,7 @@ const bubbleMenuConfig = {
                 size="icon"
                 class="h-8 w-8"
                 :class="{ 'bg-accent': editor.isActive('code') }"
+                type="button"
                 @click="editor.chain().focus().toggleCode().run()"
             >
               <Code class="h-4 w-4" />
