@@ -1,7 +1,6 @@
-import { ref } from 'vue';
+import { convertFileSrc } from '@tauri-apps/api/core';
 import { listen, type Event, TauriEvent } from '@tauri-apps/api/event';
 import { debug } from "@tauri-apps/plugin-log";
-import { convertFileSrc } from '@tauri-apps/api/core';
 import { open } from '@tauri-apps/plugin-dialog';
 import { AppError } from "@cortex/shared/types";
 
@@ -13,6 +12,7 @@ type DropEventPayload = {
 export function useImageDrop() {
   const previewImage = ref<string | null>(null);
   const isDragging = ref(false);
+  const currentImagePath = ref<string | null>(null);
   const unlisteners: (() => void)[] = [];
 
   const setupDragListeners = async () => {
@@ -45,6 +45,7 @@ export function useImageDrop() {
 
       if (isValidImagePath(filePath)) {
         previewImage.value = convertFileSrc(filePath);
+        currentImagePath.value = filePath;
         await debug(`Image loaded: ${filePath}`);
       }
     } catch (e) {
@@ -53,6 +54,7 @@ export function useImageDrop() {
       isDragging.value = false;
     }
   };
+
 
   const handleImageUpload = async (event?: MouseEvent) => {
     if (event) event.preventDefault();
@@ -67,17 +69,20 @@ export function useImageDrop() {
 
       if (selectedPath) {
         previewImage.value = convertFileSrc(selectedPath as string);
+        currentImagePath.value = selectedPath as string;
       }
     } catch (e) {
       throw new AppError('No image selected', { statusCode: 401, data: {e} });
     }
   };
 
+
   const cleanup = () => {
     unlisteners.forEach(unlisten => unlisten());
   };
 
   return {
+    currentImagePath,
     previewImage,
     isDragging,
     setupDragListeners,
