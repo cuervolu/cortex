@@ -1,13 +1,17 @@
 meta {
   name: Get All Roadmaps
   type: http
-  seq: 1
+  seq: 7
 }
 
 get {
-  url: {{BASEURL}}/api/v1/education/roadmap
+  url: {{BASEURL}}/api/v1/education/roadmap/admin?sort=title
   body: none
   auth: bearer
+}
+
+params:query {
+  sort: title
 }
 
 auth:bearer {

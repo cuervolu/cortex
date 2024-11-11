@@ -17,7 +17,6 @@ const fetchExercises = async () => {
   error.value = null
   try {
     const response = await invoke<PaginatedExercises>('get_exercises')
-    console.log('Raw response:', response) // Para depuración
     if (response && Array.isArray(response.content)) {
       exercises.value = response.content
       totalExercises.value = response.total_elements
@@ -31,7 +30,6 @@ const fetchExercises = async () => {
     }
   } catch (err) {
     await logError(`Failed to fetch exercises: ${err}`)
-    console.error('Failed to fetch exercises:', err)
     error.value = err instanceof Error ? err.message : 'An unknown error occurred'
   } finally {
     isLoading.value = false

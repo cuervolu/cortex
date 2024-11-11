@@ -2,6 +2,7 @@ package com.cortex.backend.education.roadmap.internal;
 
 import com.cortex.backend.core.common.PageResponse;
 import com.cortex.backend.core.common.SlugUtils;
+import com.cortex.backend.core.common.SortUtils;
 import com.cortex.backend.core.domain.Course;
 import com.cortex.backend.core.domain.EntityType;
 import com.cortex.backend.core.domain.Media;
@@ -68,9 +69,26 @@ public class RoadmapServiceImpl implements RoadmapService {
 
   @Override
   @Transactional(readOnly = true)
-  public PageResponse<RoadmapResponse> getAllRoadmaps(int page, int size) {
-    Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+  public PageResponse<RoadmapResponse> getAllPublishedRoadmaps(int page, int size, String[] sort) {
+    Sort sorting = SortUtils.parseSort(sort);
+    Pageable pageable = PageRequest.of(page, size, sorting);
     Page<Roadmap> roadmaps = roadmapRepository.findAllPublishedRoadmaps(pageable);
+
+    List<RoadmapResponse> response = roadmaps.stream()
+        .map(roadmapMapper::toRoadmapResponse)
+        .toList();
+
+    return new PageResponse<>(
+        response, roadmaps.getNumber(), roadmaps.getSize(), roadmaps.getTotalElements(),
+        roadmaps.getTotalPages(), roadmaps.isFirst(), roadmaps.isLast()
+    );
+  }
+
+  @Override
+  public PageResponse<RoadmapResponse> getAllRoadmaps(int page, int size, String[] sort) {
+    Sort sorting = SortUtils.parseSort(sort);
+    Pageable pageable = PageRequest.of(page, size, sorting);
+    Page<Roadmap> roadmaps = roadmapRepository.findAll(pageable);
 
     List<RoadmapResponse> response = roadmaps.stream()
         .map(roadmapMapper::toRoadmapResponse)
