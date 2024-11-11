@@ -1,6 +1,6 @@
 import subprocess
 import os
-from typing import List
+from typing import List, Tuple
 
 # Array of Docker images to pull
 images: List[str] = [
@@ -27,41 +27,119 @@ def pull_image(image_name: str) -> None:
         print(f"Image {image_name} already exists locally.")
     else:
         print(f"Pulling image {image_name}...")
-        result = subprocess.run(
-            ["docker", "pull", image_name], capture_output=True, text=True
-        )
+        # Mostrar output en tiempo real para pulls también
+        result = subprocess.run(["docker", "pull", image_name])
         if result.returncode == 0:
             print(f"Successfully pulled {image_name}")
         else:
             print(f"Failed to pull {image_name}")
 
 
+def check_and_update_repo() -> Tuple[bool, str]:
+    """
+    Checks if the cortex-exercises repository is up to date and updates it if necessary.
+    Returns a tuple of (success, message).
+    """
+    try:
+        # Store current directory
+        original_dir = os.getcwd()
+
+        # Change to cortex-exercises directory
+        os.chdir("cortex-exercises")
+
+        print("Checking cortex-exercises repository status...")
+
+        # Fetch the latest changes
+        fetch_result = subprocess.run(["git", "fetch"], capture_output=True, text=True)
+        if fetch_result.returncode != 0:
+            return False, f"Failed to fetch: {fetch_result.stderr}"
+
+        # Check if we're behind the remote
+        status_result = subprocess.run(
+            ["git", "status", "-uno"], capture_output=True, text=True
+        )
+
+        if "Your branch is behind" in status_result.stdout:
+            print("Repository is outdated. Updating...")
+
+            # Check for local changes
+            diff_result = subprocess.run(
+                ["git", "diff", "--quiet"], capture_output=True
+            )
+
+            if diff_result.returncode != 0:
+                return (
+                    False,
+                    "Local changes detected. Please commit or stash them before updating.",
+                )
+
+            # Pull the latest changes
+            pull_result = subprocess.run(
+                ["git", "pull"], capture_output=True, text=True
+            )
+
+            if pull_result.returncode != 0:
+                return False, f"Failed to pull: {pull_result.stderr}"
+
+            print("Repository updated successfully!")
+        else:
+            print("Repository is up to date!")
+
+        return True, "Repository is ready"
+
+    except Exception as e:
+        return False, f"An error occurred: {str(e)}"
+    finally:
+        # Return to original directory
+        os.chdir(original_dir)
+
+
 def build_custom_ts_image() -> None:
     print(f"Building custom TypeScript image: {custom_ts_image}")
 
-    os.chdir(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    # Change to the parent directory of capstone
+    os.chdir(
+        os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    )
 
-    dockerfile_path = "./docker/typescript.Dockerfile"
+    print(f"Current working directory: {os.getcwd()}")
 
-    # Build the Docker image using the specified Dockerfile
+    # Check git repo status
+    success, message = check_and_update_repo()
+    if not success:
+        print(f"Error with repository: {message}")
+        exit(1)
+
+    dockerfile_path = "./capstone/docker/typescript.Dockerfile"
+
+    # Verify paths
+    if not os.path.exists(dockerfile_path):
+        print(f"Error: Dockerfile not found at {dockerfile_path}")
+        exit(1)
+
+    if not os.path.exists("./cortex-exercises"):
+        print("Error: cortex-exercises directory not found")
+        exit(1)
+
+    # Ejecutar el comando docker build sin capture_output para ver el output en tiempo real
     result = subprocess.run(
         [
             "docker",
             "build",
+            "--no-cache",
+            "--progress", "plain",
             "-t",
             custom_ts_image,
             "-f",
             dockerfile_path,
             ".",
-        ],
-        capture_output=True,
-        text=True,
+        ]
     )
+
     if result.returncode == 0:
         print(f"Successfully built {custom_ts_image}")
     else:
         print(f"Failed to build {custom_ts_image}")
-        print(f"Error: {result.stderr}")
         exit(1)
 
 
