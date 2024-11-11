@@ -1,15 +1,15 @@
 use crate::roadmaps::{
     create_roadmap, delete_roadmap, fetch_course_from_roadmap, fetch_roadmaps,
-    fetch_roadmaps_details, update_roadmap, upload_roadmap_image,
+    fetch_roadmaps_details, update_roadmap,
 };
 use crate::{
     Course, PaginatedRoadmaps, Roadmap, RoadmapCreateRequest, RoadmapDetails, RoadmapUpdateRequest,
 };
-use common::handle_image_selection;
 use common::state::AppState;
 use error::AppError;
 use log::{debug, error};
-use tauri::State;
+use tauri::{AppHandle, State};
+use common::handle_content_image_upload;
 
 #[tauri::command]
 pub async fn fetch_all_roadmaps(state: State<'_, AppState>) -> Result<PaginatedRoadmaps, AppError> {
@@ -75,24 +75,19 @@ pub async fn create_new_roadmap(
 #[tauri::command]
 pub async fn upload_roadmap_image_command(
     roadmap_id: u64,
+    image_path: String,
     alt_text: Option<String>,
-    app: tauri::AppHandle,
+    app: AppHandle,
     state: State<'_, AppState>,
 ) -> Result<Roadmap, AppError> {
-    debug!("Opening file dialog for roadmap image upload: {}", roadmap_id);
-
-    let image_data = handle_image_selection(&app, Some("Select roadmap image"))?;
-
-    match upload_roadmap_image(roadmap_id, image_data, alt_text, state).await {
-        Ok(roadmap) => {
-            debug!("Successfully uploaded image for roadmap: {}", roadmap_id);
-            Ok(roadmap)
-        }
-        Err(e) => {
-            error!("Failed to upload roadmap image: {:?}", e);
-            Err(e)
-        }
-    }
+    handle_content_image_upload::<Roadmap>(
+        roadmap_id,
+        image_path,
+        alt_text,
+        "roadmap",
+        &app,
+        state,
+    ).await
 }
 
 #[tauri::command]

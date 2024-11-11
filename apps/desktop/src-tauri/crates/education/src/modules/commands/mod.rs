@@ -1,13 +1,13 @@
 use crate::modules::{
-    create_module, delete_module, fetch_module_details, fetch_modules, update_module,
-    upload_module_image,
+    create_module, delete_module, fetch_module_details, fetch_modules, update_module
 };
 use crate::{Module, ModuleCreateRequest, ModuleUpdateRequest, PaginatedModules};
-use common::handle_image_selection;
 use common::state::AppState;
 use error::AppError;
 use log::{debug, error};
-use tauri::State;
+use tauri::{AppHandle, State};
+use common::handle_content_image_upload;
+
 #[tauri::command]
 pub async fn fetch_all_modules(state: State<'_, AppState>) -> Result<PaginatedModules, AppError> {
     debug!("Fetching all modules");
@@ -90,22 +90,17 @@ pub async fn delete_module_command(id: u64, state: State<'_, AppState>) -> Resul
 #[tauri::command]
 pub async fn upload_module_image_command(
     module_id: u64,
+    image_path: String,
     alt_text: Option<String>,
-    app: tauri::AppHandle,
+    app: AppHandle,
     state: State<'_, AppState>,
 ) -> Result<Module, AppError> {
-    debug!("Opening file dialog for module image upload: {}", module_id);
-
-    let image_data = handle_image_selection(&app, Some("Select module image"))?;
-
-    match upload_module_image(module_id, image_data, alt_text, state).await {
-        Ok(module) => {
-            debug!("Successfully uploaded image for module: {}", module_id);
-            Ok(module)
-        }
-        Err(e) => {
-            error!("Failed to upload module image: {:?}", e);
-            Err(e)
-        }
-    }
+    handle_content_image_upload::<Module>(
+        module_id,
+        image_path,
+        alt_text,
+        "module",
+        &app,
+        state,
+    ).await
 }
