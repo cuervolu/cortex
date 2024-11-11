@@ -186,6 +186,7 @@ const historyGroup = [
               size="sm"
               :pressed="item.isActive()"
               :disabled="item.isEnabled?.() === false"
+              type="button"
               @click="item.action"
           >
             <component :is="item.icon" class="h-4 w-4"/>
@@ -204,6 +205,7 @@ const historyGroup = [
               :value="item.label ? `h${item.label.slice(1)}` : 'p'"
               size="sm"
               :pressed="item.isActive()"
+              type="button"
               @click="item.action"
           >
             <component
@@ -227,6 +229,7 @@ const historyGroup = [
               :value="item.tooltip"
               size="sm"
               :pressed="item.isActive()"
+              type="button"
               @click="item.action"
           >
             <component :is="item.icon" class="h-4 w-4"/>
@@ -245,6 +248,7 @@ const historyGroup = [
               :value="item.tooltip"
               size="sm"
               :pressed="item.isActive()"
+              type="button"
               @click="item.action"
           >
             <component :is="item.icon" class="h-4 w-4"/>
@@ -263,6 +267,7 @@ const historyGroup = [
               :value="item.tooltip"
               size="sm"
               :pressed="item.isActive()"
+              type="button"
               @click="item.action"
           >
             <component :is="item.icon" class="h-4 w-4"/>
@@ -280,6 +285,7 @@ const historyGroup = [
           <Button
               variant="outline"
               size="sm"
+              type="button"
               @click="item.action"
           >
             <component :is="item.icon" class="h-4 w-4"/>
