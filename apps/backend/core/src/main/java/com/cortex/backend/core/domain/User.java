@@ -19,6 +19,7 @@ import jakarta.persistence.Table;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -148,5 +149,11 @@ public class User implements UserDetails, Principal {
     }
 
     this.lastLogin = currentDate;
+  }
+
+  public boolean hasAnyRole(String... roleNames) {
+    return getRoles().stream()
+        .map(Role::getName)
+        .anyMatch(roleName -> Arrays.asList(roleNames).contains(roleName));
   }
 }
