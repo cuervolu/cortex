@@ -1,7 +1,9 @@
-<!-- UserRoadmaps.vue -->
 <script setup lang="ts">
 import { ref } from 'vue';
-import { ChevronRight, Coffee, Languages, Monitor } from 'lucide-vue-next';
+import { Coffee, Languages, Monitor, LogOut, UserCog } from 'lucide-vue-next';
+import { useUserStore } from '~/stores';
+import { error as logError } from "@tauri-apps/plugin-log";
+import UserEdit from './UserEdit.vue'; // Asegúrate de que la ruta sea correcta
 
 const roadmaps = ref([
   {
@@ -20,6 +22,44 @@ const roadmaps = ref([
     badges: ['Advanced', 'Compilers', 'Algoritms', 'C', 'Rust'],
   },
 ]);
+
+// User store and logout functionality
+const userStore = useUserStore();
+const isLoading = ref(false);
+const showEditProfile = ref(false);
+const { clearUser } = useUserStore();
+const { signOut } = useAuth();
+
+const handleSignOut = async () => {
+  if (isLoading.value) return;
+
+  isLoading.value = true;
+  try {
+    await signOut({ callbackUrl: '/auth/login' });
+    await clearUser();
+  } catch (error) {
+    await logError(`Error signing out: ${error}`);
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+const handleProfileUpdate = async (data) => {
+  try {
+    // Aquí implementarías la lógica para actualizar el perfil
+    console.log('Actualizando perfil:', data);
+    showEditProfile.value = false;
+
+    await userStore.getUser();
+  } catch (error) {
+    console.error('Error al actualizar el perfil:', error);
+  }
+};
+
+
+watch(showEditProfile, (newValue) => {
+  console.log('showEditProfile changed:', newValue);
+});
 </script>
 
 <template>
@@ -39,10 +79,46 @@ const roadmaps = ref([
       </CardContent>
     </Card>
     <Button class="w-full" as-child>
-      <NuxtLink to="/home/cuervolu/Proyectos/capstone/apps/desktop/src/pages/roadmaps">
-      Ver todos los roadmaps
+      <NuxtLink to="/my-roadmaps">
+        Ver todos los roadmaps
       </NuxtLink>
-      <ChevronRight class="ml-2 h-4 w-4"/>
     </Button>
+    
+
+    <Button 
+      class="w-full flex items-center justify-center gap-2"
+      variant="outline"
+      @click="showEditProfile = true"
+    >
+      <UserCog class="w-4 h-4"/>
+      <span>Editar Perfil</span>
+    </Button>
+
+
+    <Button 
+      variant="destructive" 
+      class="w-full flex items-center justify-center gap-2"
+      :disabled="isLoading"
+      @click="handleSignOut"
+    >
+      <template v-if="isLoading">
+        <div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"/>
+        <span>Cerrando sesión...</span>
+      </template>
+      <template v-else>
+        <LogOut class="w-4 h-4"/>
+        <span>Cerrar sesión</span>
+      </template>
+    </Button>
+
+
+    <Teleport to="body">
+      <UserEdit
+        v-if="showEditProfile"
+        :profile-data="userStore.user"
+        @close="showEditProfile = false"
+        @save="handleProfileUpdate"
+      />
+    </Teleport>
   </div>
 </template>
