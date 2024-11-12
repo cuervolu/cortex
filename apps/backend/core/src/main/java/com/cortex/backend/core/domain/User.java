@@ -156,4 +156,13 @@ public class User implements UserDetails, Principal {
         .map(Role::getName)
         .anyMatch(roleName -> Arrays.asList(roleNames).contains(roleName));
   }
+
+  public boolean isProfileComplete() {
+    return username != null && !username.isBlank() &&
+        firstName != null && !firstName.isBlank() &&
+        lastName != null && !lastName.isBlank() &&
+        dateOfBirth != null &&
+        countryCode != null && !countryCode.isBlank() &&
+        gender != null;
+  }
 }

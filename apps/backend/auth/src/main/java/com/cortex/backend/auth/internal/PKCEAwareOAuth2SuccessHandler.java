@@ -14,6 +14,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @Slf4j
 public class PKCEAwareOAuth2SuccessHandler extends BaseOAuth2SuccessHandler {
+
   private final PKCEAuthorizationRequestRepository pkceAuthorizationRequestRepository;
 
   public PKCEAwareOAuth2SuccessHandler(
@@ -53,6 +54,17 @@ public class PKCEAwareOAuth2SuccessHandler extends BaseOAuth2SuccessHandler {
     String jwt = jwtService.generateToken(user);
     String refreshToken = jwtService.generateRefreshToken(user);
 
+    if (!user.isProfileComplete()) {
+      log.warn("Incomplete profile for desktop user: {}", user.getUsername());
+      String targetUrl = UriComponentsBuilder.fromUriString(redirectUri)
+          .queryParam("token", jwt)
+          .queryParam("requiresProfile", "true")
+          .build().toUriString();
+
+      log.debug("Redirecting desktop client with incomplete profile flag: {}", targetUrl);
+      response.sendRedirect(targetUrl);
+      return;
+    }
     // Build desktop redirect URL
     String targetUrl = UriComponentsBuilder.fromUriString(redirectUri)
         .queryParam("token", jwt)
