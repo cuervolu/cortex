@@ -19,6 +19,7 @@ const emit = defineEmits<{
 const sortOptions = [
   { value: 'recent', label: 'Más reciente' },
   { value: 'oldest', label: 'Más antiguo' },
+  { value: 'title', label: 'Nombre' },
 ]
 </script>
 
@@ -31,7 +32,7 @@ const sortOptions = [
       <Select
         v-if="sortBy"
         :model-value="sortBy"
-        @update:model-value="value => emit('sortChange', value)"
+        @update:model-value="(value: string) => emit('sortChange', value)"
       >
         <SelectTrigger class="w-[180px]">
           <SelectValue placeholder="Ordenar por:"/>
