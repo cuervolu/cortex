@@ -45,6 +45,7 @@ public class LessonController {
   }
 
   @GetMapping("/admin")
+  @PreAuthorize("hasAnyRole('MODERATOR', 'ADMIN')")
   @Operation(summary = "Get all lessons", description = "Retrieves a list of all lessons")
   @ApiResponse(responseCode = "200", description = "Successful operation",
       content = @Content(schema = @Schema(implementation = LessonResponse.class)))
