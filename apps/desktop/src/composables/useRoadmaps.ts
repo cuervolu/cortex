@@ -1,7 +1,7 @@
-import {invoke} from '@tauri-apps/api/core'
-import {debug, info} from '@tauri-apps/plugin-log'
-import type {PaginatedRoadmaps, RoadmapDetails, SortQueryParams} from '@cortex/shared/types'
-import {AppError} from '@cortex/shared/types'
+import { invoke } from '@tauri-apps/api/core'
+import { debug, info } from '@tauri-apps/plugin-log'
+import type { PaginatedRoadmaps, RoadmapDetails, SortQueryParams } from '@cortex/shared/types'
+import { AppError } from '@cortex/shared/types'
 
 export function useRoadmaps() {
   const paginatedRoadmaps = ref<PaginatedRoadmaps | null>(null)
@@ -10,11 +10,11 @@ export function useRoadmaps() {
   const errorHandler = useDesktopErrorHandler()
 
   const fetchRoadmaps = async ({
-                                 page = 0,
-                                 size = 10,
-                                 sort = ['createdAt:desc'],
-                                 isAdmin = false
-                               }: SortQueryParams = {}) => {
+    page = 0,
+    size = 10,
+    sort = ['createdAt:desc'],
+    isAdmin = false
+  }: SortQueryParams = {}) => {
     try {
       loading.value = true
       await debug(`Fetching roadmaps: page=${page}, size=${size}, sort=${sort.join(',')}, isAdmin=${isAdmin}`)
@@ -29,7 +29,7 @@ export function useRoadmaps() {
       if (!response) {
         throw new AppError('No roadmaps found', {
           statusCode: 404,
-          data: {page, size, sort, isAdmin}
+          data: { page, size, sort, isAdmin }
         })
       }
 
@@ -38,11 +38,11 @@ export function useRoadmaps() {
       return response
     } catch (err) {
       const isInvokeError = err instanceof Error &&
-          err.message.includes('invoke')
+        err.message.includes('invoke')
       await errorHandler.handleError(err, {
         statusCode: isInvokeError ? 500 : 404,
         fatal: isInvokeError,
-        data: {page, size, sort, isAdmin}
+        data: { page, size, sort, isAdmin }
       })
     } finally {
       loading.value = false
@@ -53,11 +53,11 @@ export function useRoadmaps() {
     try {
       loading.value = true
       await debug(`Fetching roadmap: ${slug}`)
-      const response = await invoke<RoadmapDetails>('get_roadmap', {slug})
+      const response = await invoke<RoadmapDetails>('get_roadmap', { slug })
       if (!response) {
         throw new AppError('Roadmap not found', {
           statusCode: 404,
-          data: {slug}
+          data: { slug }
         })
       }
       roadmap.value = response
@@ -65,11 +65,11 @@ export function useRoadmaps() {
       return response
     } catch (err) {
       const isInvokeError = err instanceof Error &&
-          err.message.includes('invoke')
+        err.message.includes('invoke')
       await errorHandler.handleError(err, {
         statusCode: isInvokeError ? 500 : 404,
         fatal: isInvokeError,
-        data: {slug}
+        data: { slug }
       })
     } finally {
       loading.value = false

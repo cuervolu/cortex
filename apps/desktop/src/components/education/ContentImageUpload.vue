@@ -16,7 +16,7 @@ defineEmits<{
 
 <template>
   <div
-      class="w-full h-48 relative overflow-hidden rounded-lg group cursor-pointer transition-all"
+      class="w-full h-60 relative overflow-hidden rounded-lg group cursor-pointer transition-all"
       @click="$emit('upload')"
   >
     <div
@@ -31,7 +31,7 @@ defineEmits<{
           v-if="previewImage"
           :src="previewImage"
           alt="Content cover"
-          class="w-full h-full object-cover"
+          class="w-full h-62 object-cover"
       >
       <div
           v-else

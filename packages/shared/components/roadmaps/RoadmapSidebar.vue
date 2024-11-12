@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Dot, Tag } from 'lucide-vue-next'
+import { Dot, CirclePlay } from 'lucide-vue-next'
 import type { RoadmapCourse } from "@cortex/shared/types";
 import type { RoadmapModule } from "@cortex/shared/types";
 import type { RoadmapLesson } from "@cortex/shared/types";

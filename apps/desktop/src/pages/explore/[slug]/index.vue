@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { useRoadmaps } from '~/composables/useRoadmaps'
 import RoadmapBreadcrumb from "~/components/roadmap/RoadmapBreadcrumb.vue"
-import RoadmapHeader from "~/components/roadmap/RoadmapHeader.vue"
-import RoadmapBanner from "~/components/roadmap/RoadmapBanner.vue"
-import RoadmapOverview from "~/components/roadmap/RoadmapOverview.vue"
-import RoadmapSidebar from "~/components/roadmap/RoadmapSidebar.vue"
+import RoadmapHeader from '@cortex/shared/components/roadmaps/RoadmapHeader.vue'
+import RoadmapBanner from '@cortex/shared/components/roadmaps/RoadmapBanner.vue'
+import RoadmapOverview from '@cortex/shared/components/roadmaps/RoadmapOverview.vue'
+import RoadmapSidebar from '@cortex/shared/components/roadmaps/RoadmapSidebar.vue'
+import RoadmapInscriptionCard from '@cortex/shared/components/roadmaps/RoadmapInscriptionCard.vue'
 
 const route = useRoute()
 const slug = route.params.slug as string
