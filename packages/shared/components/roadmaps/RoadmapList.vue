@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { PaginatedRoadmaps, Roadmap } from "@cortex/shared/types"
-import RoadmapPagination from "./RoadmapPagination.vue"
-import RoadmapCard from "./RoadmapCard.vue"
+import RoadmapPagination from "@cortex/shared/components/roadmaps/RoadmapPagination.vue";
+import RoadmapCardSkeleton from "@cortex/shared/components/roadmaps/RoadmapCardSkeleton.vue";
+import RoadmapCard from "@cortex/shared/components/roadmaps/RoadmapCard.vue";
 
 const props = defineProps<{
   paginatedRoadmaps: PaginatedRoadmaps
@@ -50,7 +51,13 @@ const sortOptions = [
       </Select>
     </header>
 
-    <section class="flex flex-wrap gap-7 items-start mt-2.5 w-full max-md:max-w-full">
+    <section
+        v-if="isLoading"
+        class="flex flex-wrap gap-7 items-start mt-2.5 w-full max-md:max-w-full">
+      <RoadmapCardSkeleton v-for="n in 6" :key="n"/>
+    </section>
+
+    <section v-else class="flex flex-wrap gap-7 items-start mt-2.5 w-full max-md:max-w-full">
       <RoadmapCard
         v-for="roadmap in paginatedRoadmaps.content"
         :key="roadmap.id"

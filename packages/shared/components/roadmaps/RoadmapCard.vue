@@ -10,10 +10,8 @@ const emit = defineEmits<{
   (e: 'click', roadmap: Roadmap): void
 }>()
 
-const router = useRouter()
 const handleClick = () => {
   emit('click', props.roadmap)
-  router.push(`/explore/${props.roadmap.slug}`)
 }
 
 </script>

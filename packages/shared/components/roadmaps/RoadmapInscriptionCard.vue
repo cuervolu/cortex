@@ -15,7 +15,7 @@ import { ArrowRight, Rocket } from 'lucide-vue-next';
                 <div>
                     <h2 class="font-bold text-lg">Comienza tu Aventura</h2>
                     <span class="text-sm">En Cortex, te guiamos en cada paso para que aprendas de forma práctica y
-                        efectiva. ¡Comienza ahora y acelera tu camino hacia el dominio del código!</span>
+                        efectiva. ¡Comienza ahora y acelera tu camino hacia el dominio de la informática!</span>
                 </div>
             </div>
             <Button class="gap-2 rounded-full">

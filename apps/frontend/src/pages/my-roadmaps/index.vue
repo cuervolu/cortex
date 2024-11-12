@@ -1,6 +1,27 @@
 <script setup lang="ts">
-import RoadmapList from "~/components/roadmaps/RoadmapList.vue";
+import RoadmapList from '@cortex/shared/components/roadmaps/RoadmapList.vue'
+import RoadmapCardSkeleton from '@cortex/shared/components/roadmaps/RoadmapCardSkeleton.vue';
+import type { Roadmap } from '@cortex/shared/types';
 import HomeIcon from "~/components/icons/HomeIcon.vue";
+
+const router = useRouter()
+const { paginatedRoadmaps, loading, fetchRoadmaps } = useRoadmaps()
+const sortBy = ref('recent')
+
+const handlePageChange = (page: number) => {
+    fetchRoadmaps({ page: page - 1 })
+}
+
+const handleSortChange = (sort: string) => {
+    sortBy.value = sort
+    fetchRoadmaps({ sort })
+}
+
+const handleRoadmapClick = (roadmap: Roadmap) => {
+    router.push(`/my-roadmaps/${roadmap.slug}`)
+}
+
+onMounted(() => fetchRoadmaps())
 </script>
 
 
@@ -50,7 +71,18 @@ import HomeIcon from "~/components/icons/HomeIcon.vue";
                 class="self-stretch p-5 rounded-3xl mx-10 bg-[#f8efff] dark:bg-[#361C4A] flex-col justify-start items-center gap-[30px] flex">
                 <div class="self-stretch py-[19px] justify-start items-start gap-2.5 inline-flex">
                     <ClientOnly>
-                        <RoadmapList />
+                        <section v-if="loading"
+                            class="flex flex-wrap gap-7 items-start mt-2.5 w-full max-md:max-w-full">
+                            <RoadmapCardSkeleton v-for="i in 6" :key="i" />
+                        </section>
+                        <RoadmapList
+                            v-else-if="paginatedRoadmaps"
+                            :paginated-roadmaps="paginatedRoadmaps"
+                            :is-loading="loading"
+                            :sort-by="sortBy"
+                            @sort-change="handleSortChange"
+                            @page-change="handlePageChange"
+                            @roadmap-click="handleRoadmapClick"/>
                     </ClientOnly>
                 </div>
             </div>

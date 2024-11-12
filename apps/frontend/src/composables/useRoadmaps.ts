@@ -1,111 +1,91 @@
-import {API_ROUTES} from "@cortex/shared/config/api";
-import type {PaginatedRoadmaps, RoadmapDetails} from "@cortex/shared/types"
+import { API_ROUTES } from "@cortex/shared/config/api";
+import type { PaginatedRoadmaps, RoadmapDetails } from "@cortex/shared/types";
+import { AppError } from '@cortex/shared/types';
 
-interface RoadmapsResponse {
-  data: Ref<PaginatedRoadmaps | null>
-  error: Ref<string | null>
-  loading: Ref<boolean>
-  refresh: () => Promise<RoadmapsResponse>
-}
-
-interface RoadmapDetailsResponse {
-  data: Ref<RoadmapDetails | null>
-  error: Ref<string | null>
-  loading: Ref<boolean>
-  refresh: () => Promise<RoadmapDetailsResponse>
-}
-
-export const useRoadmaps = () => {
-  const error = ref<string | null>(null)
-  const loading = ref(false)
-  const paginatedRoadmaps = ref<PaginatedRoadmaps | null>(null)
-  const roadmap = ref<RoadmapDetails | null>(null)
-  const { token } = useAuth()
+export function useRoadmaps() {
+  const paginatedRoadmaps = ref<PaginatedRoadmaps | null>(null);
+  const roadmap = ref<RoadmapDetails | null>(null);
+  const loading = ref(true);
+  const error = ref<Error | null>(null);
+  const { token } = useAuth();
 
   const getFetchOptions = () => ({
     headers: {
       'Authorization': `${token.value}`,
       'Content-Type': 'application/json',
     }
-  })
+  });
 
-  const fetchRoadmaps = async (params?: {
-    page?: number
-    size?: number
-    sort?: string
-  }): Promise<RoadmapsResponse> => {
-    const queryParams = new URLSearchParams()
-    if (params?.page !== undefined) queryParams.append('page', params.page.toString())
-    if (params?.size !== undefined) queryParams.append('size', params.size.toString())
-    if (params?.sort !== undefined) queryParams.append('sort', params.sort)
-
-    const url = `${API_ROUTES.ROADMAPS}?${queryParams.toString()}`
-    console.log('Fetching roadmaps:', url)
-
-    loading.value = true
-    error.value = null
-
+  const fetchRoadmaps = async ({
+    page = 0,
+    size = 10,
+    sort = ['createdAt:desc']
+  } = {}) => {
     try {
-      paginatedRoadmaps.value = await $fetch<PaginatedRoadmaps>(url, {
-        ...getFetchOptions(),
-      })
+      loading.value = true;
+      const queryParams = new URLSearchParams({
+        page: page.toString(),
+        size: size.toString(),
+        sort: sort.join(',')
+      });
 
-      return {
-        data: paginatedRoadmaps as Ref<PaginatedRoadmaps | null>,
-        error: readonly(error),
-        loading: readonly(loading),
-        refresh: () => fetchRoadmaps(params)
+      const url = `${API_ROUTES.ROADMAPS}?${queryParams.toString()}`;
+      console.log('Fetching roadmaps:', url);
+
+      const response = await $fetch<PaginatedRoadmaps>(url, getFetchOptions());
+
+      if (!response) {
+        throw new AppError('No roadmaps found', {
+          statusCode: 404,
+          data: { page, size, sort }
+        });
       }
-    } catch (e) {
-      console.error('Error fetching roadmaps:', e)
-      error.value = e instanceof Error ? e.message : 'Error fetching roadmaps'
-      paginatedRoadmaps.value = null
-      return {
-        data: paginatedRoadmaps as Ref<PaginatedRoadmaps | null>,
-        error: readonly(error),
-        loading: readonly(loading),
-        refresh: () => fetchRoadmaps(params)
-      }
+
+      paginatedRoadmaps.value = response;
+      return response;
+    } catch (err) {
+      console.error('Error fetching roadmaps:', err);
+      error.value = err instanceof Error ? err : new Error('Error fetching roadmaps');
+      throw error.value;
     } finally {
-      loading.value = false
+      loading.value = false;
     }
-  }
+  };
 
-  const getRoadmapDetails = async (slug: string): Promise<RoadmapDetailsResponse> => {
-    loading.value = true
-    error.value = null
-
+  const fetchRoadmap = async (slug: string) => {
     try {
-      roadmap.value = await $fetch<RoadmapDetails>(`${API_ROUTES.ROADMAPS}/${slug}`, {
-        ...getFetchOptions(),
-      })
+      loading.value = true;
+      console.log(`Fetching roadmap: ${slug}`);
 
-      return {
-        data: roadmap as Ref<RoadmapDetails | null>,
-        error: readonly(error),
-        loading: readonly(loading),
-        refresh: () => getRoadmapDetails(slug)
+      const response = await $fetch<RoadmapDetails>(
+        `${API_ROUTES.ROADMAPS}/${slug}`,
+        getFetchOptions()
+      );
+
+      if (!response) {
+        throw new AppError('Roadmap not found', {
+          statusCode: 404,
+          data: { slug }
+        });
       }
-    } catch (e) {
-      console.error('Error fetching roadmap details:', e)
-      error.value = e instanceof Error ? e.message : 'Error fetching roadmap details'
-      roadmap.value = null
-      return {
-        data: roadmap as Ref<RoadmapDetails | null>,
-        error: readonly(error),
-        loading: readonly(loading),
-        refresh: () => getRoadmapDetails(slug)
-      }
+
+      roadmap.value = response;
+      return response;
+    } catch (err) {
+      console.error('Error fetching roadmap:', err);
+      error.value = err instanceof Error ? err : new Error('Error fetching roadmap');
+      throw error.value;
     } finally {
-      loading.value = false
+      loading.value = false;
     }
-  }
+  };
 
   return {
+    paginatedRoadmaps: paginatedRoadmaps,
     fetchRoadmaps,
-    getRoadmapDetails,
-    paginatedRoadmaps,
-    roadmap,
-    loading
-  }
+    roadmap: roadmap,
+    fetchRoadmap,
+    loading: loading,
+    error: error
+  };
 }
