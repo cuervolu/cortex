@@ -1,13 +1,17 @@
 meta {
   name: Get All Lessons
   type: http
-  seq: 1
+  seq: 7
 }
 
 get {
-  url: {{BASEURL}}/api/v1/education/lesson
+  url: {{BASEURL}}/api/v1/education/lesson/admin?sort=name:asc,createdAt:asc
   body: none
   auth: bearer
+}
+
+params:query {
+  sort: name:asc,createdAt:asc
 }
 
 auth:bearer {

@@ -37,4 +37,7 @@ public class CourseResponse {
   
   @JsonProperty("updated_at")
   private LocalDateTime updatedAt;
+
+  @JsonProperty("is_published")
+  private Boolean isPublished;
 }

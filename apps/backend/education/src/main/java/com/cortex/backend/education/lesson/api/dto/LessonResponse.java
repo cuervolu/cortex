@@ -39,4 +39,7 @@ public class LessonResponse {
 
   @JsonProperty("display_order")
   private Integer displayOrder;
+
+  @JsonProperty("is_published")
+  private boolean isPublished;
 }

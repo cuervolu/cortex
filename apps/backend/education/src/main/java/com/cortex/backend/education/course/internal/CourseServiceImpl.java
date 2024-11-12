@@ -2,6 +2,7 @@ package com.cortex.backend.education.course.internal;
 
 import com.cortex.backend.core.common.PageResponse;
 import com.cortex.backend.core.common.SlugUtils;
+import com.cortex.backend.core.common.SortUtils;
 import com.cortex.backend.core.domain.BaseEntity;
 import com.cortex.backend.core.domain.Course;
 import com.cortex.backend.core.domain.EntityType;
@@ -54,9 +55,9 @@ public class CourseServiceImpl implements CourseService {
 
   @Override
   @Transactional(readOnly = true)
-  public PageResponse<CourseResponse> getAllCourses(int page, int size) {
-
-    Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+  public PageResponse<CourseResponse> getAllPublishedCourses(int page, int size, String[] sort) {
+    Sort sorting = SortUtils.parseSort(sort);
+    Pageable pageable = PageRequest.of(page, size, sorting);
 
     Page<Course> courses = courseRepository.findAllPublishedCourses(pageable);
 
@@ -64,6 +65,21 @@ public class CourseServiceImpl implements CourseService {
         .map(courseMapper::toCourseResponse)
         .toList();
 
+    return new PageResponse<>(
+        response, courses.getNumber(), courses.getSize(), courses.getTotalElements(),
+        courses.getTotalPages(), courses.isFirst(), courses.isLast()
+    );
+  }
+
+  @Override
+  public PageResponse<CourseResponse> getAllCourses(int page, int size, String[] sort) {
+    Sort sorting = SortUtils.parseSort(sort);
+    Pageable pageable = PageRequest.of(page, size, sorting);
+    Page<Course> courses = courseRepository.findAll(pageable);
+
+    List<CourseResponse> response = courses.stream()
+        .map(courseMapper::toCourseResponse)
+        .toList();
     return new PageResponse<>(
         response, courses.getNumber(), courses.getSize(), courses.getTotalElements(),
         courses.getTotalPages(), courses.isFirst(), courses.isLast()

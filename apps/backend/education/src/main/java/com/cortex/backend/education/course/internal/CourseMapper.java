@@ -22,6 +22,7 @@ public interface CourseMapper {
   @Mapping(target = "tagNames", source = "tags", qualifiedByName = "tagsToNames")
   @Mapping(target = "moduleIds", source = "moduleEntities", qualifiedByName = "modulesToIds")
   @Mapping(target = "displayOrder", source = "displayOrder")
+  @Mapping(target = "isPublished", source = "isPublished")
   CourseResponse toCourseResponse(Course course);
 
   @Mapping(target = "id", ignore = true)

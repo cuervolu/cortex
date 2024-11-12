@@ -41,9 +41,27 @@ public class ModuleController {
       content = @Content(schema = @Schema(implementation = ModuleResponse.class)))
   public ResponseEntity<PageResponse<ModuleResponse>> getAllModules(
       @RequestParam(name = "page", defaultValue = "0") int page,
-      @RequestParam(name = "size", defaultValue = "10") int size) {
-    return ResponseEntity.ok(moduleService.getAllModules(page, size));
+      @RequestParam(name = "size", defaultValue = "10") int size,
+      @RequestParam(name = "sort", required = false) String[] sort
+  ) {
+    return ResponseEntity.ok(moduleService.getAllPublishedModules(page, size, sort));
   }
+
+
+  @GetMapping("/admin")
+  @PreAuthorize("hasAnyRole('MODERATOR', 'ADMIN')")
+  @Operation(summary = "Get all modules (including unpublished)",
+      description = "Retrieves a list of all modules. Requires ADMIN or MODERATOR role")
+  @ApiResponse(responseCode = "200", description = "Successful operation",
+      content = @Content(schema = @Schema(implementation = ModuleResponse.class)))
+  public ResponseEntity<PageResponse<ModuleResponse>> getAllCourses(
+      @RequestParam(name = "page", defaultValue = "0") int page,
+      @RequestParam(name = "size", defaultValue = "10") int size,
+      @RequestParam(name = "sort", required = false) String[] sort
+  ) {
+    return ResponseEntity.ok(moduleService.getAllModules(page, size, sort));
+  }
+
 
   @GetMapping("/{id}")
   @Operation(summary = "Get a module by ID", description = "Retrieves a module by its ID")

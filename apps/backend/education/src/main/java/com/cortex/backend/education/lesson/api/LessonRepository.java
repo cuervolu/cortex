@@ -33,4 +33,6 @@ public interface LessonRepository extends CrudRepository<Lesson, Long> {
       WHERE lesson.isPublished = true
       """)
   Page<Lesson> findAllPublishedLessons(Pageable pageable);
+
+  Page<Lesson> findAll(Pageable pageable);
 }

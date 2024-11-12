@@ -11,7 +11,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface CourseService {
   
-  PageResponse<CourseResponse> getAllCourses(int page, int size);
+  PageResponse<CourseResponse> getAllPublishedCourses(int page, int size, String[] sort);
+
+  PageResponse<CourseResponse> getAllCourses(int page, int size, String[] sort);
   
   Optional<CourseResponse> getCourseById(Long id);
   

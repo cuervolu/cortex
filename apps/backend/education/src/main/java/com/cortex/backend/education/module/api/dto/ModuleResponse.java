@@ -41,4 +41,7 @@ public class ModuleResponse {
 
   @JsonProperty("display_order")
   private Integer displayOrder;
+
+  @JsonProperty("is_published")
+  private Boolean isPublished;
 }

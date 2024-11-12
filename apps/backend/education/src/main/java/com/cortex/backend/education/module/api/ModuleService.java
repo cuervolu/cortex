@@ -10,7 +10,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface ModuleService {
 
-  PageResponse<ModuleResponse> getAllModules(int page, int size);
+  PageResponse<ModuleResponse> getAllPublishedModules(int page, int size, String[] sort);
+
+  PageResponse<ModuleResponse> getAllModules(int page, int size, String[] sort);
 
   Optional<ModuleResponse> getModuleById(Long id);
 

@@ -28,4 +28,6 @@ public interface CourseRepository extends CrudRepository<Course, Long> {
       WHERE course.isPublished = true
       """)
   Page<Course> findAllPublishedCourses(Pageable pageable);
+
+  Page<Course> findAll(Pageable pageable);
 }
