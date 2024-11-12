@@ -17,6 +17,7 @@ public interface LessonMapper {
   @Mapping(target = "moduleName", source = "moduleEntity.name")
   @Mapping(target = "exerciseIds", source = "exercises", qualifiedByName = "exercisesToIds")
   @Mapping(target = "displayOrder", source = "displayOrder")
+  @Mapping(target = "isPublished", source = "isPublished")
   LessonResponse toLessonResponse(Lesson lesson);
 
   @Mapping(target = "isPublished", source = "published")

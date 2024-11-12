@@ -1,11 +1,11 @@
 meta {
-  name: Get All Modules
+  name: Get All Published Lessons
   type: http
-  seq: 8
+  seq: 1
 }
 
 get {
-  url: {{BASEURL}}/api/v1/education/module/admin?sort=name:asc,createdAt:desc
+  url: {{BASEURL}}/api/v1/education/lesson?sort=name:asc,createdAt:desc
   body: none
   auth: bearer
 }

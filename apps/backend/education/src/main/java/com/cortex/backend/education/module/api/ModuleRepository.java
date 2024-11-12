@@ -30,6 +30,8 @@ public interface ModuleRepository extends
       """)
   Page<ModuleEntity> findAllPublishedModules(Pageable pageable);
 
+  Page<ModuleEntity> findAll(Pageable pageable);
+
   Page<ModuleEntity> findByCourse(Course course, Pageable pageable);
   Optional<ModuleEntity> findBySlugAndCourse(String slug, Course course);
 }

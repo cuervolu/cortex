@@ -2,6 +2,7 @@ package com.cortex.backend.education.module.internal;
 
 import com.cortex.backend.core.common.PageResponse;
 import com.cortex.backend.core.common.SlugUtils;
+import com.cortex.backend.core.common.SortUtils;
 import com.cortex.backend.core.domain.Course;
 import com.cortex.backend.core.domain.EntityType;
 import com.cortex.backend.core.domain.Media;
@@ -48,8 +49,9 @@ public class ModuleServiceImpl implements ModuleService {
 
   @Override
   @Transactional(readOnly = true)
-  public PageResponse<ModuleResponse> getAllModules(int page, int size) {
-    Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+  public PageResponse<ModuleResponse> getAllPublishedModules(int page, int size, String[] sort) {
+    Sort sorting = SortUtils.parseSort(sort);
+    Pageable pageable = PageRequest.of(page, size, sorting);
 
     Page<ModuleEntity> modules = moduleRepository.findAllPublishedModules(pageable);
 
@@ -62,6 +64,23 @@ public class ModuleServiceImpl implements ModuleService {
         modules.getTotalPages(), modules.isFirst(), modules.isLast()
     );
 
+  }
+
+  @Override
+  public PageResponse<ModuleResponse> getAllModules(int page, int size, String[] sort) {
+    Sort sorting = SortUtils.parseSort(sort);
+    Pageable pageable = PageRequest.of(page, size, sorting);
+
+    Page<ModuleEntity> modules = moduleRepository.findAll(pageable);
+
+    List<ModuleResponse> response = modules.stream()
+        .map(moduleMapper::toModuleResponse)
+        .toList();
+
+    return new PageResponse<>(
+        response, modules.getNumber(), modules.getSize(), modules.getTotalElements(),
+        modules.getTotalPages(), modules.isFirst(), modules.isLast()
+    );
   }
 
   @Override

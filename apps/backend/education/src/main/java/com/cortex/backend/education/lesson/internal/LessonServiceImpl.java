@@ -2,6 +2,7 @@ package com.cortex.backend.education.lesson.internal;
 
 import com.cortex.backend.core.common.PageResponse;
 import com.cortex.backend.core.common.SlugUtils;
+import com.cortex.backend.core.common.SortUtils;
 import com.cortex.backend.core.domain.Lesson;
 import com.cortex.backend.core.domain.ModuleEntity;
 import com.cortex.backend.education.lesson.api.LessonRepository;
@@ -39,8 +40,9 @@ public class LessonServiceImpl implements LessonService {
 
   @Override
   @Transactional(readOnly = true)
-  public PageResponse<LessonResponse> getAllLessons(int page, int size) {
-    Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+  public PageResponse<LessonResponse> getAllPublishedLessons(int page, int size, String[] sort) {
+    Sort sortBy = SortUtils.parseSort(sort);
+    Pageable pageable = PageRequest.of(page, size, sortBy);
 
     Page<Lesson> lessons = lessonRepository.findAllPublishedLessons(pageable);
 
@@ -51,6 +53,23 @@ public class LessonServiceImpl implements LessonService {
     return new PageResponse<>(response, lessons.getNumber(), lessons.getSize(),
         lessons.getTotalElements(), lessons.getTotalPages(), lessons.isFirst(), lessons.isLast());
 
+
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public PageResponse<LessonResponse> getAllLessons(int page, int size, String[] sort) {
+    Sort sortBy = SortUtils.parseSort(sort);
+    Pageable pageable = PageRequest.of(page, size, sortBy);
+
+    Page<Lesson> lessons = lessonRepository.findAll(pageable);
+
+    List<LessonResponse> response = lessons.stream()
+        .map(lessonMapper::toLessonResponse)
+        .toList();
+
+    return new PageResponse<>(response, lessons.getNumber(), lessons.getSize(),
+        lessons.getTotalElements(), lessons.getTotalPages(), lessons.isFirst(), lessons.isLast());
 
   }
 

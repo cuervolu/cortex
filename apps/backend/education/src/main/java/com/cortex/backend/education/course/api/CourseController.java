@@ -40,11 +40,26 @@ public class CourseController {
   @Operation(summary = "Get all courses", description = "Retrieves a list of all courses")
   @ApiResponse(responseCode = "200", description = "Successful operation",
       content = @Content(schema = @Schema(implementation = CourseResponse.class)))
+  public ResponseEntity<PageResponse<CourseResponse>> getAllPublishedCourses(
+      @RequestParam(name = "page", defaultValue = "0") int page,
+      @RequestParam(name = "size", defaultValue = "10") int size,
+      @RequestParam(name = "sort", required = false) String[] sort
+  ) {
+    return ResponseEntity.ok(courseService.getAllPublishedCourses(page, size, sort));
+  }
+
+  @GetMapping("/admin")
+  @PreAuthorize("hasAnyRole('MODERATOR', 'ADMIN')")
+  @Operation(summary = "Get all courses (including unpublished)",
+      description = "Retrieves a list of all courses. Requires ADMIN or MODERATOR role")
+  @ApiResponse(responseCode = "200", description = "Successful operation",
+      content = @Content(schema = @Schema(implementation = CourseResponse.class)))
   public ResponseEntity<PageResponse<CourseResponse>> getAllCourses(
       @RequestParam(name = "page", defaultValue = "0") int page,
-      @RequestParam(name = "size", defaultValue = "10") int size
+      @RequestParam(name = "size", defaultValue = "10") int size,
+      @RequestParam(name = "sort", required = false) String[] sort
   ) {
-    return ResponseEntity.ok(courseService.getAllCourses(page, size));
+    return ResponseEntity.ok(courseService.getAllCourses(page, size, sort));
   }
 
   @GetMapping("/{id}")

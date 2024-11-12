@@ -33,14 +33,27 @@ public class LessonController {
   private final LessonService lessonService;
 
   @GetMapping
+  @Operation(summary = "Get all published lessons", description = "Retrieves a list of all published lessons")
+  @ApiResponse(responseCode = "200", description = "Successful operation",
+      content = @Content(schema = @Schema(implementation = LessonResponse.class)))
+  public ResponseEntity<PageResponse<LessonResponse>> getAllPublishedLessons(
+      @RequestParam(name = "page", defaultValue = "0") int page,
+      @RequestParam(name = "size", defaultValue = "10") int size,
+      @RequestParam(name = "sort", required = false) String[] sort
+  ) {
+    return ResponseEntity.ok(lessonService.getAllPublishedLessons(page, size, sort));
+  }
+
+  @GetMapping("/admin")
   @Operation(summary = "Get all lessons", description = "Retrieves a list of all lessons")
   @ApiResponse(responseCode = "200", description = "Successful operation",
       content = @Content(schema = @Schema(implementation = LessonResponse.class)))
   public ResponseEntity<PageResponse<LessonResponse>> getAllLessons(
       @RequestParam(name = "page", defaultValue = "0") int page,
-      @RequestParam(name = "size", defaultValue = "10") int size
+      @RequestParam(name = "size", defaultValue = "10") int size,
+      @RequestParam(name = "sort", required = false) String[] sort
   ) {
-    return ResponseEntity.ok(lessonService.getAllLessons(page, size));
+    return ResponseEntity.ok(lessonService.getAllLessons(page, size, sort));
   }
 
   @GetMapping("/{id}")

@@ -19,6 +19,7 @@ public interface ModuleMapper {
   @Mapping(target = "imageUrl", source = "image", qualifiedByName = "mediaToUrl")
   @Mapping(target = "lessonIds", source = "lessons", qualifiedByName = "lessonsToIds")
   @Mapping(target = "displayOrder", source = "displayOrder")
+  @Mapping(target = "isPublished", source = "isPublished")
   ModuleResponse toModuleResponse(ModuleEntity module);
 
   @Mapping(target = "isPublished", source = "published")
