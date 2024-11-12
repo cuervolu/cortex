@@ -1,12 +1,12 @@
 import { API_ROUTES } from "@cortex/shared/config/api";
-import type { PaginatedRoadmaps, RoadmapDetails } from "@cortex/shared/types";
+import type { PaginatedRoadmaps, RoadmapDetails, SortQueryParams } from '@cortex/shared/types'
 import { AppError } from '@cortex/shared/types';
 
 export function useRoadmaps() {
   const paginatedRoadmaps = ref<PaginatedRoadmaps | null>(null);
   const roadmap = ref<RoadmapDetails | null>(null);
   const loading = ref(true);
-  const error = ref<Error | null>(null);
+  const errorHandler = useWebErrorHandler()
   const { token } = useAuth();
 
   const getFetchOptions = () => ({
@@ -19,8 +19,9 @@ export function useRoadmaps() {
   const fetchRoadmaps = async ({
     page = 0,
     size = 10,
-    sort = ['createdAt:desc']
-  } = {}) => {
+    sort = ['createdAt:desc'],
+    isAdmin = false
+  }: SortQueryParams = {}) => {
     try {
       loading.value = true;
       const queryParams = new URLSearchParams({
@@ -37,16 +38,18 @@ export function useRoadmaps() {
       if (!response) {
         throw new AppError('No roadmaps found', {
           statusCode: 404,
-          data: { page, size, sort }
+          data: { page, size, sort, isAdmin }
         });
       }
 
       paginatedRoadmaps.value = response;
       return response;
     } catch (err) {
-      console.error('Error fetching roadmaps:', err);
-      error.value = err instanceof Error ? err : new Error('Error fetching roadmaps');
-      throw error.value;
+      await errorHandler.handleError(err, {
+        statusCode: err instanceof AppError ? err.statusCode : 500,
+        fatal: false,
+        data: { page, size, sort, isAdmin }
+      });
     } finally {
       loading.value = false;
     }
@@ -72,20 +75,21 @@ export function useRoadmaps() {
       roadmap.value = response;
       return response;
     } catch (err) {
-      console.error('Error fetching roadmap:', err);
-      error.value = err instanceof Error ? err : new Error('Error fetching roadmap');
-      throw error.value;
+      await errorHandler.handleError(err, {
+        statusCode: err instanceof AppError ? err.statusCode : 500,
+        fatal: false,
+        data: { slug }
+      });
     } finally {
       loading.value = false;
     }
   };
 
   return {
-    paginatedRoadmaps: paginatedRoadmaps,
+    paginatedRoadmaps,
     fetchRoadmaps,
-    roadmap: roadmap,
+    roadmap,
     fetchRoadmap,
-    loading: loading,
-    error: error
+    loading
   };
 }

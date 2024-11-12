@@ -19,6 +19,8 @@ const getSortParam = (sort: string): string[] => {
       return ['createdAt:desc']
     case 'oldest':
       return ['createdAt:asc']
+    case 'title':
+      return ['title:asc']
     default:
       return ['createdAt:desc']
   }

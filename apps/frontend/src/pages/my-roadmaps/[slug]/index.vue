@@ -14,14 +14,18 @@ import { useRoute } from "vue-router";
 
 const route = useRoute()
 const slug = route.params.slug as string
+const { handleError } = useWebErrorHandler()
 
-const { roadmap, fetchRoadmap, loading, error } = useRoadmaps()
+const { roadmap, fetchRoadmap, loading } = useRoadmaps()
 
 onMounted(async () => {
     try {
         await fetchRoadmap(slug)
     } catch (err) {
-        error.value   
+        await handleError(err, {
+            statusCode: 404,
+            data: { slug },
+        })
     }
 })
 
