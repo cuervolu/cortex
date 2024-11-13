@@ -21,8 +21,7 @@ impl KeystoreManager {
         if *initialized {
             return Ok(());
         }
-        
-        // Usamos el user_id como identificador
+
         let keystore = SecureKeystore::new(&user_id.to_string())?;
         let mut store = self.keystore.write().await;
         *store = Some(keystore);
@@ -50,10 +49,18 @@ impl KeystoreManager {
         }
     }
 
-    pub async fn remove_api_key(&self) -> Result<(), AppError> {
+    pub async fn remove_provider_key(&self, provider_name: &str) -> Result<(), AppError> {
         let store = self.keystore.read().await;
         match store.as_ref() {
-            Some(keystore) => keystore.remove_api_key().await,
+            Some(keystore) => keystore.remove_api_key(provider_name).await,
+            None => Err(AppError::KeystoreError("Keystore not initialized. Please log in first.".into()))
+        }
+    }
+
+    pub async fn remove_all_keys(&self) -> Result<(), AppError> {
+        let store = self.keystore.read().await;
+        match store.as_ref() {
+            Some(keystore) => keystore.remove_all_keys().await,
             None => Err(AppError::KeystoreError("Keystore not initialized. Please log in first.".into()))
         }
     }
