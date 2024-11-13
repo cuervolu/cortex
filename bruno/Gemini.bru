@@ -1,0 +1,33 @@
+meta {
+  name: Gemini
+  type: http
+  seq: 2
+}
+
+post {
+  url: https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key={{GEMINI_API_KEY}}
+  body: json
+  auth: none
+}
+
+params:query {
+  key: {{GEMINI_API_KEY}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "contents": [
+      {
+        "parts": [
+          {
+            "text": "¿Conoces la IA de Claude? xd"
+          }
+        ]
+      }
+    ]
+  }
+}
