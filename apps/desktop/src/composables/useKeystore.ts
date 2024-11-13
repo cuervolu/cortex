@@ -4,11 +4,13 @@ import {AppError} from "@cortex/shared/types";
 
 interface KeystoreState {
   initialized: boolean
+  initializing: boolean
   providers: Set<string>
 }
 
 const state: KeystoreState = {
   initialized: false,
+  initializing: false,
   providers: new Set()
 }
 
@@ -17,11 +19,12 @@ export const useKeystore = () => {
   const errorHandler = useDesktopErrorHandler()
 
   const initializeKeystore = async () => {
-    if (state.initialized || !authData.value?.id) {
+    if (state.initialized || !authData.value?.id || state.initializing) {
       return
     }
 
     try {
+      state.initializing = true
       await invoke('set_provider_api_key', {
         providerName: 'init',
         apiKey: null,
@@ -29,6 +32,22 @@ export const useKeystore = () => {
       })
       state.initialized = true
       await debug('Keystore initialized successfully')
+
+      // Precarga las API keys existentes
+      const providers = ['claude', 'gemini']
+      for (const provider of providers) {
+        try {
+          const key = await invoke<string>('get_provider_api_key', {
+            providerName: provider
+          })
+          if (key) {
+            state.providers.add(provider)
+          }
+        } catch (e) {
+          // No key found is an expected case, don't treat as error
+          continue
+        }
+      }
     } catch (error) {
       // Silently initialize state but log the error
       state.initialized = true
@@ -37,6 +56,8 @@ export const useKeystore = () => {
         data: { action: 'initialize_keystore' },
         silent: true
       })
+    } finally {
+      state.initializing = false
     }
   }
 
@@ -49,7 +70,9 @@ export const useKeystore = () => {
       const key = await invoke<string>('get_provider_api_key', {
         providerName: provider
       })
-      state.providers.add(provider)
+      if (key) {
+        state.providers.add(provider)
+      }
       await debug(`API key retrieved for provider: ${provider}`)
       return key
     } catch (error) {

@@ -16,8 +16,8 @@ export function useAIChat() {
   const keystore = useKeystore()
   const providerStore = useAIProviderStore()
   const errorHandler = useDesktopErrorHandler()
-  const { toast } = useToast()
-  const { data: authData } = useAuth()
+  const {toast} = useToast()
+  const {data: authData} = useAuth()
 
   const verifyApiKey = async (providerName: string): Promise<boolean> => {
     if (!authData.value?.id) return false
@@ -27,15 +27,18 @@ export function useAIChat() {
       apiKeyStatus.error = null
 
       await keystore.initializeKeystore()
-      const apiKey = await keystore.getApiKey(providerName)
 
-      if (!apiKey) {
-        apiKeyStatus.error = `No API key configured for ${providerName}`
-        return false
+      const apiKey = await keystore.getApiKey(providerName)
+      const hasKey = !!apiKey
+
+      if (hasKey) {
+        await providerStore.setProviderConfigured(providerName, true)
+        return true
       }
 
-      await providerStore.setProviderConfigured(providerName, true)
-      return true
+      apiKeyStatus.error = `No API key configured for ${providerName}`
+      await providerStore.setProviderConfigured(providerName, false)
+      return false
     } catch (error) {
       apiKeyStatus.error = error instanceof Error ? error.message : 'Failed to verify API key'
       await providerStore.setProviderConfigured(providerName, false)
@@ -49,18 +52,18 @@ export function useAIChat() {
     if (!exercise || !authData.value?.id) return
 
     try {
-      const provider = providerStore.getProvider(selectedModel.value)
+      let provider = providerStore.getProvider(selectedModel.value)
       if (!provider) throw new Error('Invalid provider')
-
-      await chatStore.setProvider(selectedModel.value)
 
       if (provider.requiresApiKey) {
         const hasValidKey = await verifyApiKey(selectedModel.value)
         if (!hasValidKey) {
           selectedModel.value = 'ollama'
-          throw new Error(`${provider.name} requires API key configuration`)
+          provider = providerStore.getProvider('ollama')
         }
       }
+
+      await chatStore.setProvider(selectedModel.value)
 
       const context = createExerciseContext({
         exercise_id: exercise.id.toString(),
@@ -75,10 +78,17 @@ export function useAIChat() {
 
       await chatStore.startSession(context)
     } catch (error) {
-      await logError(`Error initializing chat: ${error}`)
-      await errorHandler.handleError(error)
+      await errorHandler.handleError(error, {
+        statusCode: 401,
+        silent: true,
+        data: {
+          action: 'initialize_chat',
+          provider: selectedModel.value
+        }
+      })
     }
   }
+
 
   const handleModelChange = async (model: { value: string, label: string }) => {
     if (!authData.value?.id || isChangingProvider.value) return
