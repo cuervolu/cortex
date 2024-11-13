@@ -6,8 +6,8 @@ pub mod manager;
 
 #[derive(Debug, Serialize, Deserialize, Default)]
 pub struct Usage {
-    input_tokens: u32,
-    output_tokens: u32,
+    pub(crate) input_tokens: u32,
+    pub(crate) output_tokens: u32,
 }
 
 #[derive(Debug, Serialize, Deserialize, Default)]
