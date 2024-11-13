@@ -3,6 +3,7 @@ use crate::session::session::ExerciseSession;
 use crate::session::AIResponse;
 use async_trait::async_trait;
 use error::AppError;
+use futures::StreamExt;
 use log::{debug, error};
 use reqwest::header::{self};
 use serde::{Deserialize, Serialize};
@@ -12,49 +13,51 @@ use tauri::{Emitter, WebviewWindow};
 use tokio::sync::RwLock;
 
 const GEMINI_API_URL: &str =
-    "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
-
-#[derive(Debug, Serialize)]
-struct SystemInstruction {
-    parts: TextPart,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-struct Contents {
-    parts: TextPart,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-struct TextPart {
-    text: String,
-}
+    "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:streamGenerateContent";
 
 #[derive(Debug, Serialize)]
 struct GeminiRequest {
-    system_instruction: SystemInstruction,
-    contents: Contents,
+    model: String,
+    contents: Vec<Content>,
 }
 
 #[derive(Debug, Deserialize)]
-struct GeminiResponse {
+struct StreamResponse {
     candidates: Vec<Candidate>,
     #[serde(rename = "usageMetadata")]
-    usage_metadata: UsageMetadata,
+    usage_metadata: Option<UsageMetadata>,
+    #[serde(rename = "modelVersion")]
+    model_version: Option<String>,
 }
 
 #[derive(Debug, Deserialize)]
 struct Candidate {
     content: Content,
-    #[serde(rename = "finishReason")]
-    finish_reason: String,
+    index: i32,
+    #[serde(rename = "safetyRatings")]
+    safety_ratings: Vec<SafetyRating>,
+    #[serde(rename = "finishReason", default)]
+    finish_reason: Option<String>,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 struct Content {
-    parts: Vec<TextPart>,
+    parts: Vec<Part>,
+    role: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct Part {
+    text: String,
 }
 
 #[derive(Debug, Deserialize)]
+struct SafetyRating {
+    category: String,
+    probability: String,
+}
+
+#[derive(Debug, Deserialize, Clone)]
 struct UsageMetadata {
     #[serde(rename = "promptTokenCount")]
     prompt_token_count: u32,
@@ -110,92 +113,110 @@ impl GeminiProvider {
             prompt.push_str(&format!("- **Pistas disponibles**: {}\n", hints));
         }
 
-        prompt.push_str(&format!("\n**Estudiante**: {}\n", context.username));
-
-        if let Some(content) = &context.editor_content {
-            prompt.push_str("\n**Código actual del estudiante**");
-            if let Some(lang) = &context.editor_language {
-                prompt.push_str(&format!(" en {}:\n", lang));
-            } else {
-                prompt.push_str(":\n");
-            }
-            prompt.push_str(&format!(
-                "```{}\n{}\n```\n",
-                context.editor_language.as_deref().unwrap_or(""),
-                content
-            ));
-        }
-
-        prompt.push_str(
-            "\n**Recordatorios**:\n\
-            - Guía sin resolver directamente\n\
-            - Fomenta el pensamiento independiente\n\
-            - Celebra los logros\n\
-            - Mantén un tono motivador\n\
-            - Usa Markdown para formatear tus respuestas\n",
-        );
         prompt
     }
 
-    async fn send_request(
+    async fn process_stream(
         &self,
-        request: GeminiRequest,
-        api_key: &str,
-    ) -> Result<GeminiResponse, AppError> {
-        let client = reqwest::Client::new();
-        let url = format!("{}?key={}", GEMINI_API_URL, api_key);
+        response: reqwest::Response,
+    ) -> Result<(String, Option<UsageMetadata>), AppError> {
+        let mut stream = response.bytes_stream();
+        let mut full_response = String::new();
+        let mut final_usage: Option<UsageMetadata> = None;
+        let mut buffer = String::new();
 
-        let response = client
-            .post(&url)
-            .header(header::CONTENT_TYPE, "application/json")
-            .json(&request)
-            .send()
-            .await
-            .map_err(|e| {
-                error!("Failed to send request to Gemini: {}", e);
-                AppError::RequestError(e)
-            })?;
+        while let Some(chunk_result) = stream.next().await {
+            match chunk_result {
+                Ok(chunk) => {
+                    if let Ok(text) = String::from_utf8(chunk.to_vec()) {
+                        buffer.push_str(&text);
 
-        if !response.status().is_success() {
-            let error_text = response.text().await.unwrap_or_else(|_| "Unknown error".to_string());
-            error!("Gemini API error: {}", error_text);
-            return Err(AppError::AIServiceError(error_text));
-        }
+                        while let Some((json_str, rest)) = Self::extract_json_object(&buffer) {
+                            let new_buffer = rest;
 
-        response.json::<GeminiResponse>().await.map_err(|e| {
-            error!("Failed to parse Gemini response: {}", e);
-            AppError::RequestError(e)
-        })
-    }
+                            match serde_json::from_str::<StreamResponse>(json_str) {
+                                Ok(response) => {
+                                    if let Some(usage) = response.usage_metadata {
+                                        final_usage = Some(usage);
+                                    }
 
-    async fn process_response(&self, response: GeminiResponse) -> Result<String, AppError> {
-        if let Some(candidate) = response.candidates.first() {
-            if let Some(part) = candidate.content.parts.first() {
-                self.window.emit("gemini-stream", &part.text).map_err(|e| {
-                    error!("Failed to emit stream: {}", e);
-                    AppError::TauriError(e)
-                })?;
+                                    if let Some(candidate) = response.candidates.first() {
+                                        if let Some(part) = candidate.content.parts.first() {
+                                            debug!("Streaming chunk: {}", &part.text);
+                                            self.window.emit("gemini-stream", &part.text).map_err(
+                                                |e| {
+                                                    error!("Failed to emit stream: {}", e);
+                                                    AppError::TauriError(e)
+                                                },
+                                            )?;
+                                            full_response.push_str(&part.text);
+                                        }
+                                    }
+                                }
+                                Err(e) => {
+                                    debug!("Error parsing JSON object: {} | JSON: {}", e, json_str);
+                                }
+                            }
 
-                self.window.emit("gemini-stream-end", ()).map_err(|e| {
-                    error!("Failed to emit stream end: {}", e);
-                    AppError::TauriError(e)
-                })?;
-
-                debug!(
-                    "Candidates token count: {:?}",
-                    response.usage_metadata.candidates_token_count
-                );
-                debug!(
-                    "Prompt Token count: {}, Total: {}",
-                    response.usage_metadata.prompt_token_count,
-                    response.usage_metadata.total_token_count
-                );
-
-                return Ok(part.text.clone());
+                            buffer = new_buffer;
+                        }
+                    }
+                }
+                Err(e) => {
+                    error!("Error reading stream chunk: {}", e);
+                    return Err(AppError::RequestError(e));
+                }
             }
         }
 
-        Err(AppError::AIServiceError("No response content".into()))
+        self.window.emit("gemini-stream-end", ()).map_err(|e| {
+            error!("Failed to emit stream end: {}", e);
+            AppError::TauriError(e)
+        })?;
+
+        Ok((full_response, final_usage))
+    }
+
+    fn extract_json_object(buffer: &str) -> Option<(&str, String)> {
+        let mut depth = 0;
+        let mut start_index = None;
+        let mut in_string = false;
+        let mut escape_next = false;
+
+        for (i, c) in buffer.char_indices() {
+            if c == '{' && !in_string {
+                start_index = Some(i);
+                break;
+            }
+        }
+
+        let start = start_index?;
+
+        for (i, c) in buffer[start..].char_indices() {
+            if escape_next {
+                escape_next = false;
+                continue;
+            }
+
+            match c {
+                '"' if !escape_next => in_string = !in_string,
+                '\\' if in_string => escape_next = true,
+                '{' if !in_string => depth += 1,
+                '}' if !in_string => {
+                    depth -= 1;
+                    if depth == 0 {
+                        // Encontramos un objeto JSON completo
+                        let end = start + i + 1;
+                        let json_str = &buffer[start..end];
+                        let rest = buffer[end..].trim_start().to_string();
+                        return Some((json_str, rest));
+                    }
+                }
+                _ => {}
+            }
+        }
+
+        None
     }
 }
 
@@ -222,22 +243,56 @@ impl AIProvider for GeminiProvider {
         let system_prompt = self.build_system_prompt(session);
 
         let request = GeminiRequest {
-            system_instruction: SystemInstruction {
-                parts: TextPart {
-                    text: system_prompt,
+            model: "gemini-1.5-flash-001".to_string(),
+            contents: vec![
+                Content {
+                    role: "user".to_string(),
+                    parts: vec![Part {
+                        text: system_prompt,
+                    }],
                 },
-            },
-            contents: Contents {
-                parts: TextPart { text: message },
-            },
+                Content {
+                    role: "user".to_string(),
+                    parts: vec![Part { text: message }],
+                },
+            ],
         };
 
-        let response = self.send_request(request, api_key).await?;
-        let response_text = self.process_response(response).await?;
+        let client = reqwest::Client::builder()
+            .timeout(std::time::Duration::from_secs(30))
+            .build()
+            .map_err(AppError::RequestError)?;
+
+        let url = format!("{}?key={}", GEMINI_API_URL, api_key);
+
+        let response = client
+            .post(&url)
+            .header(header::CONTENT_TYPE, "application/json")
+            .json(&request)
+            .send()
+            .await
+            .map_err(|e| {
+                error!("Failed to send request to Gemini: {}", e);
+                AppError::RequestError(e)
+            })?;
+
+        if !response.status().is_success() {
+            let error_text = response.text().await.unwrap_or_else(|_| "Unknown error".to_string());
+            error!("Gemini API error: {}", error_text);
+            return Err(AppError::AIServiceError(error_text));
+        }
+
+        let (response_text, usage_metadata) = self.process_stream(response).await?;
 
         Ok(AIResponse {
             text: response_text,
-            usage: Default::default(),
+            usage: crate::session::Usage {
+                input_tokens: usage_metadata.as_ref().map(|u| u.prompt_token_count).unwrap_or(0),
+                output_tokens: usage_metadata
+                    .as_ref()
+                    .map(|u| u.candidates_token_count)
+                    .unwrap_or(0),
+            },
         })
     }
 
