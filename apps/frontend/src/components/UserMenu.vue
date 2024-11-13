@@ -50,7 +50,7 @@ const handleLogout = async () => {
         </RouterLink>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <RouterLink to="/my-roadmaps" class="flex items-center">
+          <RouterLink to="/roadmaps" class="flex items-center">
           <Map class="mr-2 h-4 w-4" />
           <span>Mis Roadmaps</span>
         </RouterLink>
