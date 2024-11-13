@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import type { ViewUpdate } from "@codemirror/view"
-import type {Extension} from "@codemirror/state";
+import type { Extension } from "@codemirror/state"
 import type { CodeMirrorRef } from "#build/nuxt-codemirror"
-import type { ThemeKey } from '../composables/editor';
+import type { ThemeKey } from '../composables/editor'
 import { useEditorCode, useEditorExtensions, useEditorTheme } from '../composables/editor'
 import { useCodeExecutionStore } from "../stores/useCodeExecutionStore"
 import ExecuteCodeButton from "./exercise/ExecuteCodeButton.vue"
@@ -13,14 +13,16 @@ const props = withDefaults(defineProps<{
   language: string
   placeholder?: string
   availableExtensions: string[]
-  availableThemes: Record<ThemeKey, Extension> // Actualizamos este tipo
+  availableThemes: Record<ThemeKey, Extension>
   activeExtensions: string[]
   activeTheme: ThemeKey
+  lineWrapping?: boolean
 }>(), {
   placeholder: "// Type some code here",
   availableExtensions: () => ["lineNumbersRelative", "indentationMarkers", "interact"],
   activeExtensions: () => ["lineNumbersRelative", "indentationMarkers", "interact"],
-  activeTheme: "materialDark"
+  activeTheme: "materialDark",
+  lineWrapping: true
 })
 
 const emit = defineEmits<{
@@ -32,7 +34,11 @@ const emit = defineEmits<{
 const codeExecutionStore = useCodeExecutionStore()
 const codemirror = ref<CodeMirrorRef>()
 
-const { extensions } = useEditorExtensions(props)
+const { extensions } = useEditorExtensions({
+  language: props.language,
+  activeExtensions: props.activeExtensions,
+  lineWrapping: props.lineWrapping
+})
 const { activeTheme } = useEditorTheme(props, codemirror)
 const { code, handleChange, handleUpdate, handleStatistics } = useEditorCode(props, emit)
 

@@ -1,4 +1,5 @@
 import { computed } from 'vue'
+import { EditorView } from "@codemirror/view"
 import { javascript } from "@codemirror/lang-javascript"
 import { loadLanguage } from "@uiw/codemirror-extensions-langs"
 import { indentationMarkers } from "@replit/codemirror-indentation-markers"
@@ -10,7 +11,8 @@ import { useEditorLinting, useEditorCompletions } from './'
 
 export function useEditorExtensions(props: {
   language: string
-  activeExtensions: string[]
+  activeExtensions: string[],
+  lineWrapping?: boolean
 }) {
   const { getLanguageCompletions } = useEditorCompletions()
   const { getLanguageLinter } = useEditorLinting()
@@ -43,12 +45,22 @@ export function useEditorExtensions(props: {
     return extension
   }
 
+  const lineWrappingExtension = computed((): CodeMirrorExtension => {
+    return EditorView.lineWrapping
+  })
+
+
+
   const extensions = computed((): CodeMirrorExtension[] => {
     const exts: CodeMirrorExtension[] = [
       getLanguageExtension(props.language),
       getLanguageLinter(props.language),
       getLanguageCompletions(props.language)
     ]
+
+    if (props.lineWrapping) {
+      exts.push(lineWrappingExtension.value)
+    }
 
     if (props.activeExtensions.includes("lineNumbersRelative")) {
       exts.push(lineNumbersRelative)
