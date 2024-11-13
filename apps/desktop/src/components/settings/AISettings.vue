@@ -44,8 +44,8 @@ const loadCurrentApiKey = async () => {
       apiKey.value = key
       await providerStore.setProviderConfigured(currentProvider.value, true)
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
-    await debug(`Error loading API key: ${error}`)
     await debug(`No existing API key found for ${currentProvider.value}`)
   } finally {
     isLoading.value = false
@@ -96,9 +96,9 @@ const saveApiKey = async () => {
   try {
     validateApiKey(currentProvider.value, apiKey.value)
     isSaving.value = true
-    await chatStore.setProvider(currentProvider.value)
     await keystore.setApiKey(currentProvider.value, apiKey.value)
     await providerStore.setProviderConfigured(currentProvider.value, true)
+    await chatStore.setProvider(currentProvider.value)
   } catch (error) {
     await errorHandler.handleError(error, {
       statusCode: 400,
@@ -118,7 +118,7 @@ const removeApiKey = async () => {
 
   try {
     isRemoving.value = true
-    await keystore.removeApiKey()
+    await keystore.removeProviderKey(currentProvider.value)
     await providerStore.setProviderConfigured(currentProvider.value, false)
     apiKey.value = ''
   } catch (error) {

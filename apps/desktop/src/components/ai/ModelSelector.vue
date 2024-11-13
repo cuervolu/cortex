@@ -15,6 +15,11 @@ const aiModels = [
     description: "Modelo avanzado de Anthropic con excelentes capacidades de razonamiento y comprensión contextual.",
   },
   {
+    value: "gemini",
+    label: "Gemini",
+    description: "Modelo de IA de Google, optimizado para respuestas rápidas y precisas con excelente comprensión del contexto.",
+  },
+  {
     value: "ollama",
     label: "Ollama",
     description: "Modelo local basado en Llama, eficiente para la mayoría de tareas.",
