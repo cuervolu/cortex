@@ -1,0 +1,15 @@
+meta {
+  name: Get Roadmap Courses
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{BASEURL}}/api/v1/education/roadmap/1/courses
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

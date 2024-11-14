@@ -2,14 +2,12 @@ use crate::roadmaps::{
     create_roadmap, delete_roadmap, fetch_course_from_roadmap, fetch_roadmaps,
     fetch_roadmaps_details, update_roadmap,
 };
-use crate::{
-    Course, PaginatedRoadmaps, Roadmap, RoadmapCreateRequest, RoadmapDetails, RoadmapUpdateRequest,
-};
+use crate::{roadmaps, Course, CourseAssignment, PaginatedResponse, PaginatedRoadmaps, Roadmap, RoadmapCourseAssignment, RoadmapCreateRequest, RoadmapDetails, RoadmapUpdateRequest};
+use common::handle_content_image_upload;
 use common::state::AppState;
 use error::AppError;
 use log::{debug, error};
 use tauri::{AppHandle, State};
-use common::handle_content_image_upload;
 
 #[tauri::command]
 pub async fn fetch_all_roadmaps(
@@ -28,7 +26,6 @@ pub async fn fetch_all_roadmaps(
         }
     }
 }
-
 
 #[tauri::command]
 pub async fn get_roadmap(
@@ -87,14 +84,8 @@ pub async fn upload_roadmap_image_command(
     app: AppHandle,
     state: State<'_, AppState>,
 ) -> Result<Roadmap, AppError> {
-    handle_content_image_upload::<Roadmap>(
-        roadmap_id,
-        image_path,
-        alt_text,
-        "roadmap",
-        &app,
-        state,
-    ).await
+    handle_content_image_upload::<Roadmap>(roadmap_id, image_path, alt_text, "roadmap", &app, state)
+        .await
 }
 
 #[tauri::command]
@@ -126,6 +117,69 @@ pub async fn delete_roadmap_command(id: u64, state: State<'_, AppState>) -> Resu
         }
         Err(e) => {
             error!("Failed to delete roadmap: {:?}", e);
+            Err(e)
+        }
+    }
+}
+
+#[tauri::command]
+pub async fn get_roadmap_courses(
+    roadmap_id: u64,
+    page: Option<u32>,
+    size: Option<u32>,
+    sort: Option<Vec<String>>,
+    state: State<'_, AppState>,
+) -> Result<PaginatedResponse<Course>, AppError> {
+    debug!("Fetching courses for roadmap: {}", roadmap_id);
+    match roadmaps::get_roadmap_courses(roadmap_id, state, page, size, sort).await {
+        Ok(paginated_courses) => {
+            debug!("Successfully fetched {} courses", paginated_courses.content.len());
+            Ok(paginated_courses)
+        }
+        Err(e) => {
+            error!("Failed to fetch roadmap courses: {:?}", e);
+            Err(e)
+        }
+    }
+}
+
+#[tauri::command]
+pub async fn get_available_courses(
+    roadmap_id: u64,
+    page: Option<u32>,
+    size: Option<u32>,
+    sort: Option<Vec<String>>,
+    include_unpublished: Option<bool>,
+    state: State<'_, AppState>,
+) -> Result<PaginatedResponse<Course>, AppError> {
+    debug!("Fetching available courses for roadmap: {}", roadmap_id);
+    match roadmaps::get_available_courses(roadmap_id, state, page, size, sort, include_unpublished).await {
+        Ok(paginated_courses) => {
+            debug!("Successfully fetched {} available courses", paginated_courses.content.len());
+            Ok(paginated_courses)
+        }
+        Err(e) => {
+            error!("Failed to fetch available courses: {:?}", e);
+            Err(e)
+        }
+    }
+}
+
+#[tauri::command]
+pub async fn update_roadmap_courses(
+    roadmap_id: u64,
+    assignments: Vec<CourseAssignment>,
+    state: State<'_, AppState>,
+) -> Result<(), AppError> {
+    debug!("Updating courses for roadmap: {}", roadmap_id);
+    let wrapped_assignments = RoadmapCourseAssignment { assignments };
+    match roadmaps::update_roadmap_courses(roadmap_id, wrapped_assignments, state).await {
+        Ok(_) => {
+            debug!("Successfully updated roadmap courses");
+            Ok(())
+        }
+        Err(e) => {
+            error!("Failed to update roadmap courses: {:?}", e);
             Err(e)
         }
     }

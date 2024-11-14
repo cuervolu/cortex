@@ -128,6 +128,19 @@ pub struct Course {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
+pub struct CourseAssignment {
+    #[serde(rename = "course_id")]
+    pub course_id: u64,
+    #[serde(rename = "display_order")]
+    pub display_order: i32,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct RoadmapCourseAssignment {
+    pub assignments: Vec<CourseAssignment>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
 pub struct RoadmapExercise {
     pub id: u64,
     pub title: String,
