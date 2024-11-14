@@ -27,15 +27,15 @@ defineProps<{
         </div>
         <div class="flex gap-2">
           <Button
-            class="rounded-full border-2 w-11 h-11 p-0 bg-transparent hover:bg-[#00000020] dark:hover:bg-[#ffffff20]">
+            class="rounded-full border-2 w-11 h-11 p-0 bg-transparent hover:bg-foreground/20">
             <ThumbsUp class="stroke-foreground" />
           </Button>
           <Button
-            class="rounded-full border-2 w-11 h-11 p-0 bg-transparent hover:bg-[#00000020] dark:hover:bg-[#ffffff20]">
+            class="rounded-full border-2 w-11 h-11 p-0 bg-transparent hover:bg-foreground/20">
             <ThumbsDown class="stroke-foreground" />
           </Button>
           <Button
-            class="rounded-full border-2 w-11 h-11 p-0 bg-transparent hover:bg-[#00000020] dark:hover:bg-[#ffffff20]">
+            class="rounded-full border-2 w-11 h-11 p-0 bg-transparent hover:bg-foreground/20">
             <Flag class="stroke-foreground" />
           </Button>
         </div>
