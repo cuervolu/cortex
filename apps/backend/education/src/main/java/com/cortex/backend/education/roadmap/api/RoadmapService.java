@@ -38,4 +38,6 @@ public interface RoadmapService {
 
   Optional<PageResponse<CourseResponse>> getAvailableCourses(Long roadmapId, int page, int size, String[] sort, boolean includeUnpublished);
 
+  Optional<PageResponse<CourseResponse>> getRoadmapCourses(Long roadmapId, int page, int size, String[] sort);
+
 }

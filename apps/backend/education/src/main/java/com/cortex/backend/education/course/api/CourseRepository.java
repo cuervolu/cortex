@@ -47,4 +47,6 @@ public interface CourseRepository extends CrudRepository<Course, Long> {
       @Param("roadmapId") Long roadmapId,
       @Param("includeUnpublished") boolean includeUnpublished,
       Pageable pageable);
+
+  Page<Course> findByRoadmapsContainingOrderByDisplayOrderAsc(Roadmap roadmap, Pageable pageable);
 }

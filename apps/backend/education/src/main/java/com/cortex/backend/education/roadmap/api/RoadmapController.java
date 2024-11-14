@@ -162,4 +162,20 @@ public class RoadmapController {
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }
+
+  @GetMapping("/{id}/courses")
+  @Operation(summary = "Get roadmap courses", description = "Retrieves all courses assigned to a roadmap")
+  @ApiResponse(responseCode = "200", description = "Successful operation",
+      content = @Content(schema = @Schema(implementation = PageResponse.class)))
+  @ApiResponse(responseCode = "404", description = "Roadmap not found")
+  public ResponseEntity<PageResponse<CourseResponse>> getRoadmapCourses(
+      @PathVariable Long id,
+      @RequestParam(name = "page", defaultValue = "0") int page,
+      @RequestParam(name = "size", defaultValue = "10") int size,
+      @RequestParam(name = "sort", required = false) String[] sort) {
+
+    return roadmapService.getRoadmapCourses(id, page, size, sort)
+        .map(ResponseEntity::ok)
+        .orElse(ResponseEntity.notFound().build());
+  }
 }
