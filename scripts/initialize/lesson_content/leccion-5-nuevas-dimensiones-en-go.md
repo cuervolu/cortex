@@ -1,7 +1,7 @@
 
 # Lección 5: Nuevas Dimensiones en Go 🌠
 
-![galaxia-nueva](https://res.cloudinary.com/dukgkrpft/image/upload/v1729457531/lessons/nueva-galaxia/exploracion-nueva.png)
+![galaxia-nueva](https://res.cloudinary.com/dukgkrpft/image/upload/v1729455335/lessons/aventuras-espaciales-en-go/o2tvozzhzvd8amuktoic.png)
 
 ¡Bienvenidos, valientes exploradores del código! Hoy daremos un gran salto hacia nuevas dimensiones en el Planeta Go. Prepárense para aprender sobre nuevos conceptos que les ayudarán a navegar por el espacio digital con aún más destreza. 🚀
 
