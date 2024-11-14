@@ -238,4 +238,4 @@ Instrucciones: Crea tu propia biblioteca mágica con:
 
 ¡Que sus programas sean seguros, rápidos y mágicos! 🦀✨
 
-![Yipi](https://res.cloudinary.com/dukgkrpft/image/upload/v1729378761/lessons/felicidades-yipi/jczrx7hhw88cvrfnminae.jpg)
+![Yipi](https://res.cloudinary.com/dukgkrpft/image/upload/v1729378761/lessons/felicidades-yipi/jczrx7hhw88cvrfnmiae.jpg)

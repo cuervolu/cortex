@@ -20,33 +20,29 @@ def conjurar_hechizo(hechizo):
 
 def curar(puntos_de_vida):
     return f"Has curado {puntos_de_vida} puntos de vida."
+```
 
-3. Importando tu Módulo 🌠
+1. Importando tu Módulo 🌠
 Para usar nuestro nuevo módulo, solo necesitas importarlo en tu código principal.
 
- python
-
+```python
 
 import hechizos
 
 print(hechizos.conjurar_hechizo("Expelliarmus"))
 print(hechizos.curar(20))
+```
 
-4. La Importancia de los Comentarios 📝
+1. La Importancia de los Comentarios 📝
 Los comentarios son notas que puedes incluir en tu código para explicar qué hace cada parte. Esto es muy útil para recordar tus propios hechizos más tarde o para que otros magos puedan entender tu código.
-
- python
-
-
-# Este es un comentario que explica que la siguiente función cura puntos de vida.
 
 Proyecto Mágico: El Juego de Hechizos 🐍⚡
 Descripción del Proyecto
 Vamos a crear un juego sencillo en el que los jugadores pueden lanzar hechizos y ver si les hace daño o les cura. Usaremos todo lo que hemos aprendido.
 
 Código del Juego
- python
 
+```python
 
 # archivo del juego: juego_hechizos.py
 import random
@@ -75,6 +71,7 @@ def juego():
 
 # Iniciar el juego
 juego()
+```
 
 Ejercicio Final: Crea Tu Propio Módulo
 Ahora es tu turno. Crea un nuevo módulo con al menos dos funciones. Puede ser un módulo de tareas, pociones, o lo que desees. Luego, escribe un programa que use tu módulo y lanza algunos hechizos básicos.
@@ -85,3 +82,5 @@ Conclusión
 Recuerden, la práctica es clave. ¡Sigan explorando y creando en este maravilloso mundo digital!
 
 ¡Hasta siempre, valientes programadores! 🌟
+
+![Yipi](https://res.cloudinary.com/dukgkrpft/image/upload/v1729378761/lessons/felicidades-yipi/jczrx7hhw88cvrfnmiae.jpg)

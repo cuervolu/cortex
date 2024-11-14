@@ -16,12 +16,12 @@ Para usar una biblioteca, primero debes importarla. Esto es como abrir la puerta
 ```python
 import math  # Importamos la biblioteca de matemáticas
 print(math.sqrt(16))  # Usando la función para encontrar la raíz cuadrada
+```
 
-3. La Biblioteca random 🎲
+1. La Biblioteca random 🎲
 La biblioteca random te permite crear números aleatorios. Esto puede ser útil para juegos o para simular decisiones mágicas.
 
- python
-
+```python
 
 import random
 
@@ -30,24 +30,24 @@ def lanzar_moneda():
     print(f"El resultado del lanzamiento es: {resultado}")
 
 lanzar_moneda()
+```
 
-4. La Biblioteca datetime ⏰
+1. La Biblioteca datetime ⏰
 La biblioteca datetime te ayuda a trabajar con fechas y horas. Esto es como tener un reloj mágico que puede decirte cuándo es la hora adecuada para lanzar tus hechizos.
 
- python
-
+```python
 
 import datetime
 
 hoy = datetime.date.today()
 print(f"Hoy es: {hoy}")
+```
 
 Ejercicios Mágicos 🔮
 Ejercicio 1: Generador de Números Aleatorios
 Crea un programa que genere un número aleatorio entre 1 y 10 y permita al usuario adivinarlo. ¡Celebra cuando lo adivine correctamente!
 
- python
-
+```python
 
 import random
 
@@ -64,12 +64,12 @@ def adivina_el_numero():
             print("Sigue intentando, ¡no es el número correcto!")
 
 adivina_el_numero()
+```
 
 Ejercicio 2: Cronómetro Mágico
 Crea un programa que muestre la hora actual y espere 3 segundos antes de mostrar la hora nuevamente.
 
- python
-
+```python
 
 import datetime
 import time
@@ -81,12 +81,12 @@ def mostrar_hora():
     print(f"La hora actual es: {hora_actual.strftime('%H:%M:%S')}")
 
 mostrar_hora()
+```
 
 Ejercicio 3: El Calendario Mágico
 Usa la biblioteca calendar para mostrar el calendario del mes actual.
 
- python
-
+```python
 
 import calendar
 
@@ -96,6 +96,7 @@ def mostrar_calendario():
     print(calendar.month(ano, mes))
 
 mostrar_calendario()
+```
 
 Conclusión
 ¡Bravo! Han completado una lección llena de magia sobre bibliotecas en Python. Ahora tienen el poder de usar herramientas mágicas para hacer que su código sea más eficiente y divertido.
@@ -104,3 +105,4 @@ En la próxima lección, exploraremos cómo usar bibliotecas externas y crear nu
 
 ¡Hasta pronto, valientes magos y brujas del código! 🌌
 
+![Yipi](https://res.cloudinary.com/dukgkrpft/image/upload/v1729378761/lessons/felicidades-yipi/jczrx7hhw88cvrfnmiae.jpg)
