@@ -1,11 +1,13 @@
 pub mod commands;
 
 use crate::{
-    Course, PaginatedRoadmaps, Roadmap, RoadmapCreateRequest, RoadmapDetails, RoadmapUpdateRequest,
+    Course, PaginatedResponse, PaginatedRoadmaps, Roadmap, RoadmapCourseAssignment,
+    RoadmapCreateRequest, RoadmapDetails, RoadmapUpdateRequest,
 };
 use common::state::AppState;
 use common::{SortQueryParams, API_BASE_URL, CLIENT};
 use error::AppError;
+use log::{debug, error};
 use tauri::State;
 
 pub async fn fetch_roadmaps(
@@ -188,6 +190,145 @@ pub async fn delete_roadmap(id: u64, state: State<'_, AppState>) -> Result<(), A
     if !response.status().is_success() {
         let error_msg = response.text().await.unwrap_or_else(|_| "Unknown error".to_string());
         return Err(AppError::ApiError(format!("Failed to delete roadmap: {}", error_msg)));
+    }
+
+    Ok(())
+}
+
+pub async fn get_roadmap_courses(
+    roadmap_id: u64,
+    state: State<'_, AppState>,
+    page: Option<u32>,
+    size: Option<u32>,
+    sort: Option<Vec<String>>,
+) -> Result<PaginatedResponse<Course>, AppError> {
+    let token = state
+        .token
+        .lock()
+        .map_err(|_| AppError::ContextLockError)?
+        .clone()
+        .ok_or(AppError::NoTokenError)?;
+
+    let params = SortQueryParams { page, size, sort };
+    let url = format!(
+        "{}/education/roadmap/{}/courses{}",
+        API_BASE_URL,
+        roadmap_id,
+        params.to_query_string()
+    );
+
+    debug!("Fetching roadmap courses from: {}", url);
+
+    let response = CLIENT
+        .get(&url)
+        .bearer_auth(token)
+        .send()
+        .await
+        .map_err(|e| {
+            error!("Failed to fetch roadmap courses: {:?}", e);
+            AppError::RequestError(e)
+        })?;
+
+    if !response.status().is_success() {
+        let error_msg = response.text().await.unwrap_or_else(|_| "Unknown error".to_string());
+        return Err(AppError::ApiError(format!("Failed to get roadmap courses: {}", error_msg)));
+    }
+
+    let paginated_response = response
+        .json::<PaginatedResponse<Course>>()
+        .await
+        .map_err(|e| {
+            error!("Failed to deserialize roadmap courses: {:?}", e);
+            AppError::RequestError(e)
+        })?;
+
+    debug!("Successfully fetched {} roadmap courses", paginated_response.content.len());
+    Ok(paginated_response)
+}
+
+pub async fn get_available_courses(
+    roadmap_id: u64,
+    state: State<'_, AppState>,
+    page: Option<u32>,
+    size: Option<u32>,
+    sort: Option<Vec<String>>,
+    include_unpublished: Option<bool>,
+) -> Result<PaginatedResponse<Course>, AppError> {
+    let token = state
+        .token
+        .lock()
+        .map_err(|_| AppError::ContextLockError)?
+        .clone()
+        .ok_or(AppError::NoTokenError)?;
+
+    let params = SortQueryParams { page, size, sort };
+    let query_string = params.to_query_string();
+
+    let url = if let Some(include_unpub) = include_unpublished {
+        let separator = if query_string.is_empty() { "?" } else { "&" };
+        format!(
+            "{}/education/roadmap/{}/available-courses{}{}includeUnpublished={}",
+            API_BASE_URL, roadmap_id, query_string, separator, include_unpub
+        )
+    } else {
+        format!(
+            "{}/education/roadmap/{}/available-courses{}",
+            API_BASE_URL, roadmap_id, query_string
+        )
+    };
+
+    debug!("Fetching available courses from: {}", url);
+
+    let response = CLIENT
+        .get(&url)
+        .bearer_auth(token)
+        .send()
+        .await
+        .map_err(|e| {
+            error!("Failed to fetch available courses: {:?}", e);
+            AppError::RequestError(e)
+        })?;
+
+    if !response.status().is_success() {
+        let error_msg = response.text().await.unwrap_or_else(|_| "Unknown error".to_string());
+        return Err(AppError::ApiError(format!("Failed to get available courses: {}", error_msg)));
+    }
+
+    let paginated_response = response
+        .json::<PaginatedResponse<Course>>()
+        .await
+        .map_err(|e| {
+            error!("Failed to deserialize available courses: {:?}", e);
+            AppError::RequestError(e)
+        })?;
+
+    debug!("Successfully fetched {} available courses", paginated_response.content.len());
+    Ok(paginated_response)
+}
+
+pub async fn update_roadmap_courses(
+    roadmap_id: u64,
+    assignments: RoadmapCourseAssignment,
+    state: State<'_, AppState>,
+) -> Result<(), AppError> {
+    let token = state
+        .token
+        .lock()
+        .map_err(|_| AppError::ContextLockError)?
+        .clone()
+        .ok_or(AppError::NoTokenError)?;
+
+    let response = CLIENT
+        .put(format!("{}/education/roadmap/{}/courses", API_BASE_URL, roadmap_id))
+        .bearer_auth(token)
+        .json(&assignments)
+        .send()
+        .await
+        .map_err(AppError::RequestError)?;
+
+    if !response.status().is_success() {
+        let error_msg = response.text().await.unwrap_or_else(|_| "Unknown error".to_string());
+        return Err(AppError::ApiError(format!("Failed to update roadmap courses: {}", error_msg)));
     }
 
     Ok(())

@@ -19,6 +19,7 @@ import com.cortex.backend.education.progress.api.ProgressUpdatedEvent;
 import com.cortex.backend.education.progress.api.UserProgressService;
 import com.cortex.backend.education.roadmap.api.RoadmapRepository;
 import com.cortex.backend.education.roadmap.api.RoadmapService;
+import com.cortex.backend.education.roadmap.api.dto.CourseAssignment;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapDetails;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapRequest;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapResponse;
@@ -27,7 +28,9 @@ import com.cortex.backend.education.tags.internal.TagService;
 import com.cortex.backend.media.api.MediaService;
 import jakarta.persistence.EntityNotFoundException;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -315,6 +318,39 @@ public class RoadmapServiceImpl implements RoadmapService {
               courses.isLast()
           );
         });
+  }
+
+  @Transactional
+  @Override
+  public void assignCoursesToRoadmap(Long roadmapId, List<CourseAssignment> assignments) {
+    Roadmap roadmap = roadmapRepository.findById(roadmapId)
+        .orElseThrow(() -> new EntityNotFoundException(ROADMAP_NOT_FOUND_MESSAGE));
+
+    Set<Long> courseIds = assignments.stream()
+        .map(CourseAssignment::courseId)
+        .collect(Collectors.toSet());
+
+    Map<Long, Course> coursesMap = StreamSupport.stream(
+            courseRepository.findAllById(courseIds).spliterator(), false)
+        .collect(Collectors.toMap(Course::getId, course -> course));
+
+    assignments.forEach(assignment -> {
+      if (!coursesMap.containsKey(assignment.courseId())) {
+        throw new EntityNotFoundException("Course not found with id: " + assignment.courseId());
+      }
+    });
+
+    assignments.forEach(assignment -> {
+      Course course = coursesMap.get(assignment.courseId());
+      course.setDisplayOrder(assignment.displayOrder());
+      courseRepository.save(course);
+    });
+
+    roadmap.setCourses(new HashSet<>(coursesMap.values()));
+    roadmapRepository.save(roadmap);
+
+    Optional.ofNullable(cacheManager.getCache("roadmaps"))
+        .ifPresent(cache -> cache.evict(roadmap.getSlug()));
   }
 
   private Long findRelatedRoadmapId(Long entityId, EntityType entityType) {

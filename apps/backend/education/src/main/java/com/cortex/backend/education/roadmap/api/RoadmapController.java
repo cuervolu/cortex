@@ -3,6 +3,7 @@ package com.cortex.backend.education.roadmap.api;
 import com.cortex.backend.core.common.PageResponse;
 import com.cortex.backend.core.domain.User;
 import com.cortex.backend.education.course.api.dto.CourseResponse;
+import com.cortex.backend.education.roadmap.api.dto.CourseAssignmentRequest;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapDetails;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapRequest;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapResponse;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -178,4 +180,21 @@ public class RoadmapController {
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }
+
+  @PutMapping("/{id}/courses")
+  @PreAuthorize("hasAnyRole('MODERATOR', 'ADMIN')")
+  @Operation(
+      summary = "Assign courses to roadmap",
+      description = "Updates the courses assigned to a roadmap with their display order"
+  )
+  @ApiResponse(responseCode = "200", description = "Courses assigned successfully")
+  @ApiResponse(responseCode = "404", description = "Roadmap not found")
+  public ResponseEntity<Void> assignCoursesToRoadmap(
+      @PathVariable Long id,
+      @Valid @RequestBody CourseAssignmentRequest request) {
+    roadmapService.assignCoursesToRoadmap(id, request.assignments());
+    return ResponseEntity.ok().build();
+  }
+
+
 }
