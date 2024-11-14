@@ -172,6 +172,8 @@ Rust tiene superpoderes que lo hacen único:
 
 ## Actividades divertidas 🎮
 
+![gato](https://res.cloudinary.com/dukgkrpft/image/upload/v1729453770/lessons/los-super-heroes-rust/tyvwxhmwgnwnp0bg5xh7.png)
+
 ### 1. Juego del Detective Rust
 
 Encuentra los errores en este código:

@@ -51,7 +51,7 @@ go func() {
 wg.Wait() // Espera a que todas las tareas se completen
 ```
 
-2. Reflexión Espacial 🪞
+1. Reflexión Espacial 🪞
 La reflexión nos permite examinar y manipular tipos y estructuras en el tiempo de ejecución. Esto es útil cuando queremos interactuar con tipos de datos de manera más dinámica.
 
 ```go
@@ -133,3 +133,5 @@ mostrarCampos(miNave)
 ¡Han llegado a la quinta lección! Ahora tienen poder sobre la programación concurrente, la sincronización y la reflexión en Go. Con estas herramientas, están listos para enfrentar desafíos aún mayores en su viaje exploratorio. 🌌
 
 Estén atentos, ya que en la próxima lección descubriremos los misterios del manejo de paquetes y bibliotecas en Go. ¡Hasta pronto, intrépidos aventureros espaciales!
+
+![Yipi](https://res.cloudinary.com/dukgkrpft/image/upload/v1729378761/lessons/felicidades-yipi/jczrx7hhw88cvrfnmiae.jpg)
