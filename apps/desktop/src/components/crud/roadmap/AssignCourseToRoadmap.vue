@@ -166,7 +166,7 @@ const handleScroll = async (type: 'assigned' | 'available', event: Event) => {
               <template #item="{ element }">
                 <Card
                     v-if="element.name.toLowerCase().includes(searchQueryAssigned.toLowerCase())"
-                    class="bg-white dark:bg-secondary rounded-lg shadow-sm p-4 mb-2 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-secondary/40 transition-colors"
+                    class="bg-white dark:bg-secondary rounded-lg shadow-sm p-4 mb-2 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-secondary/40 transition-colors card-content"
                 >
                   <div class="flex items-center gap-3">
                     <span>{{ element.name }}</span>
@@ -207,7 +207,7 @@ const handleScroll = async (type: 'assigned' | 'available', event: Event) => {
               <template #item="{ element }">
                 <Card
                     v-if="element.name.toLowerCase().includes(searchQueryAvailable.toLowerCase())"
-                    class="bg-white dark:bg-secondary rounded-lg shadow-sm p-4 mb-2 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-secondary/40 transition-colors"
+                    class="bg-white dark:bg-secondary rounded-lg shadow-sm p-4 mb-2 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-secondary/40 transition-colors card-content"
                 >
                   <div class="flex items-center gap-3">
                     <span>{{ element.name }}</span>
@@ -228,5 +228,11 @@ const handleScroll = async (type: 'assigned' | 'available', event: Event) => {
 }
 .no-move {
   transition: transform 0s;
+}
+.card-content {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 </style>

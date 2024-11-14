@@ -24,6 +24,7 @@ export function useCourseAssignment() {
     animation: 200,
     group: 'courses',
     disabled: false,
+    forceFallback: true,
     ghostClass: 'opacity-50'
   }
 
@@ -118,7 +119,7 @@ export function useCourseAssignment() {
       isLoading.value = true;
       const assignments = assignedCourses.value.map((course, index) => ({
         course_id: course.id,
-        display_order: index
+        display_order: index + 1
       }));
 
       await invoke('update_roadmap_courses', {
