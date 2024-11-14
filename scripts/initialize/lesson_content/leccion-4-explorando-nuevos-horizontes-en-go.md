@@ -8,6 +8,7 @@
 Las estructuras en Go son como naves espaciales que pueden tener varios componentes para mantener organizados nuestros datos. ¡Podemos almacenar diferentes tipos de información en un solo lugar!
 
 ```go
+
 type NaveEspacial struct {
     nombre   string
     escudos  int
@@ -26,7 +27,6 @@ fmt.Println(miNave)
 Las interfaces son como las instrucciones para nuestras naves. Nos dicen que ciertos métodos deben ser implementados, aunque no especifican cómo:
 
 ```go
-
 
 type Comunicador interface {
     enviarMensaje(mensaje string)
@@ -61,7 +61,6 @@ Misión 1: Creación de un Sistema de Clasificación de Planetas
 Crea un programa que clasifique planetas según su habitabilidad utilizando estructuras y métodos.
 
 ```go
-
 
 type Planeta struct {
     nombre   string
@@ -103,8 +102,7 @@ miNave.enviarMensaje("¡Listos para la aventura!")
 Misión 3: Reparador de Errores
 Implementa un programa que simule la reparación de errores en tu nave, notificando al capitán si algo no funciona correctamente:
 
-``` go
-
+```go
 
 func reparar() error {
     // Simulación de una falla
