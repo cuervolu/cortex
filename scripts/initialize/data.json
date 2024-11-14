@@ -419,7 +419,7 @@
     },
     {
       "module_id": 3,
-      "name": "go la ardilla amigable",
+      "name": "Go la ardilla amigable",
       "content_file": "leccion-1-go-la-ardilla-amigable.md",
       "credits": 40,
       "is_published": true,
@@ -427,7 +427,7 @@
     },
     {
       "module_id": 3,
-      "name": "aventuras espaciales en go",
+      "name": "Aventuras espaciales en go",
       "content_file": "leccion-2-Aventuras-espaciales-en-go.md",
       "credits": 40,
       "is_published": true,
