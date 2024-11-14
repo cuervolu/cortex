@@ -13,12 +13,14 @@ import ContentTags from "~/components/education/ContentTags.vue";
 import ContentEditor from "~/components/education/ContentEditor.vue";
 import ContentFooter from "~/components/education/ContentFooter.vue";
 import type { Path } from "vee-validate";
+import type {PartialDeep} from "type-fest";
 
 interface Props {
   contentType: ContentType;
   iconComponent?: Component;
   submitLabel?: string;
   isLoading?: boolean;
+  initialValues?: PartialDeep<RoadmapFormValues | CourseModuleFormValues>;
 }
 
 const props = defineProps<Props>();
@@ -40,7 +42,11 @@ const {
   currentImagePath
 } = useImageDrop();
 
-const { form } = useEducationalForm(props.contentType);
+const { form } = useEducationalForm(
+    props.contentType,
+    {},
+    props.initialValues
+);
 const { values, meta } = form;
 
 onMounted(setupDragListeners);
@@ -63,6 +69,14 @@ const contentName = computed({
 const handleDescriptionUpdate = (content: string) => {
   form.setFieldValue('description', content);
 };
+
+watch(() => props.initialValues, (newValues) => {
+  if (newValues) {
+    Object.entries(newValues).forEach(([key, value]) => {
+      form.setFieldValue(key as Path<typeof values>, value);
+    });
+  }
+}, { deep: true });
 </script>
 
 <template>
