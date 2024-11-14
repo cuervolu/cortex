@@ -14,15 +14,16 @@ La programación concurrente nos permite realizar múltiples tareas al mismo tie
 Las goroutines son funciones que pueden ejecutarse de manera concurrente. Se inician con la palabra clave `go`:
 
 ```go
+
 go func() {
     fmt.Println("Esta es una goroutine en acción!")
 }()
+```
 
 Canales 🌌
 Los canales son como tubos intergalácticos que permiten que nuestras goroutines se comuniquen entre sí.
 
- go
-
+```go
 
 canal := make(chan string)
 
@@ -32,13 +33,12 @@ go func() {
 
 mensaje := <-canal
 fmt.Println(mensaje)
+```
 
-2. El Paquete sync para Sincronización 🕒
+1. El Paquete sync para Sincronización 🕒
 A veces, necesitamos asegurarnos de que ciertas partes de nuestro código se ejecuten en orden y no se superpongan. Para eso, utilizamos el paquete sync y sus estructuras como WaitGroup.
 
- go
-
-
+```go
 import "sync"
 
 var wg sync.WaitGroup
@@ -49,25 +49,24 @@ go func() {
     fmt.Println("Tarea concurrente finalizada!")
 }()
 wg.Wait() // Espera a que todas las tareas se completen
+```
 
-3. Reflexión Espacial 🪞
+2. Reflexión Espacial 🪞
 La reflexión nos permite examinar y manipular tipos y estructuras en el tiempo de ejecución. Esto es útil cuando queremos interactuar con tipos de datos de manera más dinámica.
 
- go
-
+```go
 
 import "reflect"
 
 tipo := reflect.TypeOf(miNave)
 fmt.Println("El tipo de mi nave es:", tipo)
+```
 
 Nuevas Misiones Espaciales 🚀
 Misión 1: Sincronización de Goroutines
 Crea un programa que ejecute varias goroutines y espera a que todas terminen utilizando WaitGroup.
 
- go
-
-
+```go
 var wg sync.WaitGroup
 naves := []string{"Nave A", "Nave B", "Nave C"}
 
@@ -81,12 +80,12 @@ for _, nave := range naves {
 
 wg.Wait()
 fmt.Println("¡Todas las naves han completado sus misiones!")
+```
 
 Misión 2: Comunicador Concurrente
 Crea un comunicador que envíe y reciba mensajes de manera concurrente usando canales.
 
- go
-
+```go
 
 func comunicador(canal chan string) {
     for i := 0; i < 5; i++ {
@@ -104,12 +103,12 @@ func main() {
         fmt.Println("Recibido:", mensaje)
     }
 }
+```
 
 Misión 3: Reflección de Nave
 Utiliza la reflexión para obtener y mostrar los campos de una estructura de nave espacial.
 
- go
-
+```go
 
 import "reflect"
 
@@ -128,6 +127,7 @@ func mostrarCampos(nave NaveEspacial) {
 
 miNave := NaveEspacial{"Estrella Rápida", 100}
 mostrarCampos(miNave)
+```
 
 ¡Felicidades, jóvenes Gophers!
 ¡Han llegado a la quinta lección! Ahora tienen poder sobre la programación concurrente, la sincronización y la reflexión en Go. Con estas herramientas, están listos para enfrentar desafíos aún mayores en su viaje exploratorio. 🌌
