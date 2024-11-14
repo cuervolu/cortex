@@ -36,4 +36,6 @@ public interface RoadmapService {
 
   void handleProgressUpdated(ProgressUpdatedEvent event);
 
+  Optional<PageResponse<CourseResponse>> getAvailableCourses(Long roadmapId, int page, int size, String[] sort, boolean includeUnpublished);
+
 }

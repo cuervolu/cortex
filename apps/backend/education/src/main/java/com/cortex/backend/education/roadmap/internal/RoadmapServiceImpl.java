@@ -255,6 +255,42 @@ public class RoadmapServiceImpl implements RoadmapService {
     }
   }
 
+  @Override
+  @Transactional(readOnly = true)
+  public Optional<PageResponse<CourseResponse>> getAvailableCourses(
+      Long roadmapId,
+      int page,
+      int size,
+      String[] sort,
+      boolean includeUnpublished) {
+
+    return roadmapRepository.findById(roadmapId)
+        .map(roadmap -> {
+          Sort sorting = SortUtils.parseSort(sort);
+          Pageable pageable = PageRequest.of(page, size, sorting);
+
+          Page<Course> availableCourses = courseRepository.findAvailableCoursesForRoadmap(
+              roadmap.getId(),
+              includeUnpublished,
+              pageable
+          );
+
+          List<CourseResponse> courseResponses = availableCourses.stream()
+              .map(courseMapper::toCourseResponse)
+              .toList();
+
+          return new PageResponse<>(
+              courseResponses,
+              availableCourses.getNumber(),
+              availableCourses.getSize(),
+              availableCourses.getTotalElements(),
+              availableCourses.getTotalPages(),
+              availableCourses.isFirst(),
+              availableCourses.isLast()
+          );
+        });
+  }
+
   private Long findRelatedRoadmapId(Long entityId, EntityType entityType) {
     return switch (entityType) {
       case ROADMAP -> entityId;
