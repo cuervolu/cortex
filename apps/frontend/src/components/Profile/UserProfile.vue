@@ -1,98 +1,94 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
-import { format, parseISO } from 'date-fns'
-import { es } from 'date-fns/locale'
-import { 
-  type UserResponse,
-  type Achievement,
-  type UpdateProfileRequest,
-  transformSessionToProfileRequest
-} from '~/interfaces'
-import EditProfileModal from '~/components/Profile/EditProfileModal.vue'
+import type { UserResponse, UpdateProfileRequest } from '~/interfaces/user.interface'
+import EditProfileModal from '@/components/Profile/EditProfileModal.vue'
+import { useRouter } from 'vue-router'
+import {
+  LogOut,
+} from 'lucide-vue-next'
 
-definePageMeta({
-  middleware: 'auth'
-})
-
-const userProfile = ref<UserResponse | null>(null)
-const achievements = ref<Achievement[]>([])
-const showEditProfile = ref(false)
+const router = useRouter()
 const loading = ref(true)
 const error = ref<string | null>(null)
+const showEditProfile = ref(false)
+const profileRequest = ref<UpdateProfileRequest | null>(null)
 
-const profileRequest = computed(() => {
-  if (!userProfile.value) return null
-  return transformSessionToProfileRequest(userProfile.value)
+// Obtenemos la sesión y el signOut correctamente
+const { data: session, signOut } = useAuth()
+
+// Watch para debug
+watch(() => session.value, (newSession) => {
+  console.log('Session changed:', newSession)
+}, { immediate: true })
+
+const userFullName = computed(() => {
+  return session.value?.full_name || 'Unknown User'
 })
 
-// Obtener la sesión del usuario usando el composable de Nuxt Auth
-const { data: session } = useAuth()
+const userUsername = computed(() => {
+  return session.value?.username ? `@${session.value.username}` : 'No username'
+})
 
-const getInitials = (name?: string) => {
-  if (!name) return ''
-  return name
-    .split(' ')
-    .map(word => word[0])
-    .join('')
-    .toUpperCase()
-    .slice(0, 2)
-}
+const userAvatar = computed(() => {
+  return session.value?.avatar_url || ''
+})
 
-const formatDate = (date?: string) => {
-  if (!date) return 'No especificada'
-  return format(parseISO(date), 'dd MMM yyyy', { locale: es })
-}
+const userEmail = computed(() => {
+  return session.value?.email || 'No email'
+})
 
-const formatGender = (gender?: string) => {
-  const genderMap: Record<string, string> = {
-    'MALE': 'Masculino',
-    'FEMALE': 'Femenino',
-    'OTHER': 'Otro',
-    'NON_BINARY': 'No binario',
-    'PREFER_NOT_TO_SAY': 'Prefiero no decirlo'
-  }
-  return genderMap[gender || ''] || 'No especificado'
-}
+const getInitials = computed(() => {
+  const firstName = session.value?.first_name || ''
+  const lastName = session.value?.last_name || ''
+  return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase()
+})
 
-const handleProfileUpdate = async (updatedProfile: UpdateProfileRequest) => {
-  try {
-    // TODO: Implementar la actualización del perfil
-    showEditProfile.value = false
-    // Actualizar los datos locales después de la actualización exitosa
-    if (session.value) {
-      userProfile.value = session.value.user as UserResponse
-    }
-  } catch (error) {
-    console.error('Error al actualizar el perfil:', error)
-  }
-}
-
-// Cargar los datos del usuario cuando el componente se monta
-onMounted(async () => {
+const handleLogout = async () => {
   try {
     loading.value = true
-    
-    if (session.value) {
-      userProfile.value = session.value.user as UserResponse
-      // Aquí podrías cargar los logros si tienes un endpoint específico
-      // achievements.value = await fetchAchievements()
-    } else {
+    await signOut()
+    // Primero navegamos a la página principal
+    await router.push('/')
+    // Opcional: Recargar la página para asegurar que se limpie el estado
+    window.location.reload()
+  } catch (error) {
+    console.error('Error al cerrar sesión:', error)
+  } finally {
+    loading.value = false
+  }
+}
+
+async function handleProfileUpdate(_updatedProfile: UpdateProfileRequest) {
+  try {
+    // TODO: Implementar la actualización del perfil
+    showEditProfile.value = false;
+    // La sesión se actualizará automáticamente si el backend responde con los nuevos datos
+  } catch (error) {
+    console.error('Error al actualizar el perfil:', error);
+  }
+}
+
+onMounted(() => {
+  loading.value = true
+  try {
+    // Verificamos directamente session.value en lugar de session.value?.user
+    if (!session.value) {
       throw new Error('No hay sesión de usuario')
     }
-  } catch (error) {
-    console.error('Error al cargar el perfil:', error)
+    loading.value = false
+  } catch (err) {
+    console.error('Error al cargar el perfil:', err)
     error.value = 'No se pudo cargar el perfil del usuario'
-  } finally {
     loading.value = false
   }
 })
 </script>
 
 <template>
-  <div class="max-w-4xl mx-auto p-4">
+  <div class="relative max-w-4xl mx-auto p-4">
     <!-- Estado de carga -->
     <div v-if="loading" class="flex justify-center items-center h-64">
-      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <span class="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-600" />
     </div>
 
     <!-- Estado de error -->
@@ -101,87 +97,71 @@ onMounted(async () => {
     </div>
 
     <!-- Contenido principal -->
-    <div v-else class="bg-white rounded-lg shadow">
+    <div v-else class="bg-white rounded-lg shadow-lg">
       <!-- Header del perfil -->
-      <div class="relative h-48 bg-gray-100 rounded-t-lg">
-        <!-- Avatar -->
-        <div class="absolute -bottom-16 left-8">
-          <div class="w-32 h-32 rounded-full border-4 border-white overflow-hidden bg-gray-200">
+      <div class="relative h-48 bg-gray-50 rounded-t-lg">
+        <!-- Avatar y datos básicos -->
+        <div class="absolute -bottom-16 left-8 flex items-end gap-4">
+          <div class="w-32 h-32 rounded-full border-4 border-white overflow-hidden bg-gray-100 shadow-md">
             <img
-              v-if="userProfile?.avatar_url"
-              :src="userProfile.avatar_url"
-              :alt="userProfile?.username"
+              v-if="userAvatar"
+              :src="userAvatar"
+              :alt="userFullName"
               class="w-full h-full object-cover"
-            />
-            <div v-else class="w-full h-full flex items-center justify-center text-gray-500">
-              <span class="text-4xl">{{ getInitials(userProfile?.full_name) }}</span>
+            >
+            <div 
+              v-else 
+              class="w-full h-full flex items-center justify-center text-gray-600 text-4xl"
+            >
+              {{ getInitials }}
             </div>
+          </div>
+          
+          <div class="mb-4 flex gap-4">
+            <button
+              class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 shadow-sm"
+              @click="showEditProfile = true"
+            >
+              Editar Perfil
+            </button>
+            <button
+              class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 shadow-sm flex items-center gap-2"
+              :disabled="loading"
+              @click="handleLogout"
+            >
+              <LogOut class="h-4 w-4" />
+              <span>{{ loading ? 'Cerrando sesión...' : 'Cerrar sesión' }}</span>
+            </button>
           </div>
         </div>
       </div>
 
       <!-- Información del perfil -->
       <div class="pt-20 px-8 pb-8">
-        <div class="flex justify-between items-start">
-          <div>
-            <h1 class="text-2xl font-bold">{{ userProfile?.full_name }}</h1>
-            <p class="text-gray-600">@{{ userProfile?.username }}</p>
-          </div>
-          <button
-            @click="showEditProfile = true"
-            class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-          >
-            Editar Perfil
-          </button>
+        <div>
+          <h1 class="text-2xl font-bold text-gray-800">{{ userFullName }}</h1>
+          <p class="text-gray-600">{{ userUsername }}</p>
+          <p class="text-gray-600 mt-2">{{ userEmail }}</p>
         </div>
 
         <!-- Detalles del perfil -->
-        <div class="mt-8 grid grid-cols-2 gap-6">
+        <div class="mt-8">
           <div>
-            <h2 class="text-lg font-semibold mb-4">Información Personal</h2>
+            <h2 class="text-lg font-semibold mb-4 text-gray-800">Información Personal</h2>
             <div class="space-y-3">
-              <div>
-                <span class="text-gray-600">Email:</span>
-                <span class="ml-2">{{ userProfile?.email }}</span>
-              </div>
-              <div>
-                <span class="text-gray-600">País:</span>
-                <span class="ml-2">{{ userProfile?.country_code || 'No especificado' }}</span>
-              </div>
-              <div>
+              <div v-if="session?.gender">
                 <span class="text-gray-600">Género:</span>
-                <span class="ml-2">{{ formatGender(userProfile?.gender) }}</span>
+                <span class="ml-2 text-gray-800">{{ session.gender }}</span>
               </div>
-              <div>
+              <div v-if="session?.date_of_birth">
                 <span class="text-gray-600">Fecha de nacimiento:</span>
-                <span class="ml-2">{{ formatDate(userProfile?.date_of_birth) }}</span>
+                <span class="ml-2 text-gray-800">
+                  {{ new Date(session.date_of_birth).toLocaleDateString() }}
+                </span>
               </div>
-            </div>
-          </div>
-
-          <div>
-            <h2 class="text-lg font-semibold mb-4">Logros</h2>
-            <div class="space-y-3">
-              <div v-if="achievements?.length" class="grid gap-3">
-                <div
-                  v-for="achievement in achievements"
-                  :key="achievement.id"
-                  class="flex items-center p-3 bg-gray-50 rounded-lg"
-                >
-                  <img
-                    v-if="achievement.type.iconUrl"
-                    :src="achievement.type.iconUrl"
-                    :alt="achievement.name"
-                    class="w-8 h-8 mr-3"
-                  />
-                  <div>
-                    <div class="font-medium">{{ achievement.name }}</div>
-                    <div class="text-sm text-gray-600">{{ achievement.description }}</div>
-                  </div>
-                </div>
-              </div>
-              <div v-else class="text-gray-500">
-                Aún no hay logros desbloqueados
+              <div v-if="session?.country_code">
+                <span class="text-gray-600">País:</span>
+                <span class="ml-2 text-gray-800">{{ session.country_code }}</span>
               </div>
             </div>
           </div>
@@ -190,11 +170,16 @@ onMounted(async () => {
     </div>
 
     <!-- Modal de edición de perfil -->
-    <EditProfileModal
-      v-if="showEditProfile"
-      :profile-data="profileRequest"
-      @close="showEditProfile = false"
-      @save="handleProfileUpdate"
-    />
+    <Teleport to="body">
+      <div v-if="showEditProfile" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+        <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4">
+          <EditProfileModal
+            :profile-data="profileRequest"
+            @close="showEditProfile = false"
+            @save="handleProfileUpdate"
+          />
+        </div>
+      </div>
+    </Teleport>
   </div>
 </template>
