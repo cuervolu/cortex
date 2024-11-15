@@ -17,6 +17,7 @@ import com.cortex.backend.education.lesson.api.LessonService;
 import com.cortex.backend.education.module.api.ModuleService;
 import com.cortex.backend.education.progress.api.ProgressUpdatedEvent;
 import com.cortex.backend.education.progress.api.UserProgressService;
+import com.cortex.backend.education.progress.internal.EntityRelationService;
 import com.cortex.backend.education.roadmap.api.RoadmapRepository;
 import com.cortex.backend.education.roadmap.api.RoadmapService;
 import com.cortex.backend.education.roadmap.api.dto.CourseAssignment;
@@ -66,6 +67,7 @@ public class RoadmapServiceImpl implements RoadmapService {
   private final CourseService courseService;
   private final ModuleService moduleService;
   private final LessonService lessonService;
+  private final EntityRelationService entityRelationService;
   private final CacheManager cacheManager;
 
   private static final String ROADMAP_IMAGE_UPLOAD_PATH = "roadmaps";
@@ -252,12 +254,13 @@ public class RoadmapServiceImpl implements RoadmapService {
   @EventListener
   public void handleProgressUpdated(ProgressUpdatedEvent event) {
     try {
-      Long roadmapId = findRelatedRoadmapId(event.entityId(), event.entityType());
+      Long roadmapId = entityRelationService.findRelatedRoadmapId(event.entityId(), event.entityType());
       if (roadmapId != null) {
-        roadmapRepository.findById(roadmapId).ifPresent(roadmap -> {
-          Objects.requireNonNull(cacheManager.getCache("roadmaps")).evict(roadmap.getSlug());
-          log.debug("Invalidated cache for roadmap: {}", roadmap.getSlug());
-        });
+        Optional.ofNullable(cacheManager.getCache("roadmaps"))
+            .ifPresent(cache -> {
+              cache.evict(roadmapId);
+              log.debug("Invalidated cache for roadmap ID: {}", roadmapId);
+            });
       }
     } catch (Exception e) {
       log.error("Error handling progress update event", e);
@@ -359,23 +362,6 @@ public class RoadmapServiceImpl implements RoadmapService {
 
     Optional.ofNullable(cacheManager.getCache("roadmaps"))
         .ifPresent(cache -> cache.evict(roadmap.getSlug()));
-  }
-
-  private Long findRelatedRoadmapId(Long entityId, EntityType entityType) {
-    return switch (entityType) {
-      case ROADMAP -> entityId;
-      case COURSE -> courseService.getRoadmapIdForCourse(entityId);
-      case MODULE -> {
-        Long courseId = moduleService.getCourseIdForModule(entityId);
-        yield courseService.getRoadmapIdForCourse(courseId);
-      }
-      case LESSON -> {
-        Long moduleId = lessonService.getModuleIdForLesson(entityId);
-        Long courseId = moduleService.getCourseIdForModule(moduleId);
-        yield courseService.getRoadmapIdForCourse(courseId);
-      }
-      default -> null;
-    };
   }
 
 

@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/engine")
 @RequiredArgsConstructor
 @Tag(name = "Engine", description = "Code Execution API")
+@Slf4j
 public class EngineController {
 
   private final CodeExecutionService codeExecutionService;
@@ -36,39 +38,21 @@ public class EngineController {
   @PostMapping("/execute")
   @Operation(summary = "Submit code for execution",
       description = "Submits code for execution and returns execution details")
-  @ApiResponse(responseCode = "202", description = "Code submitted successfully",
-      content = @Content(schema = @Schema(implementation = CodeExecutionSubmissionResponse.class)))
-  @ApiResponse(responseCode = "400", description = "Invalid request")
+  @ApiResponse(responseCode = "202", description = "Code submitted successfully")
+  @ApiResponse(responseCode = "400", description = "Invalid request or exercise state")
   @ApiResponse(responseCode = "500", description = "Internal server error")
   public ResponseEntity<CodeExecutionSubmissionResponse> submitCodeExecution(
-      @Valid @RequestBody CodeExecutionRequest request, Authentication authentication) {
-    try {
-      User user = (User) authentication.getPrincipal();
-      String taskId = codeExecutionService.submitCodeExecution(request, user.getId());
-      CodeExecutionSubmissionResponse response = new CodeExecutionSubmissionResponse(
-          taskId,
-          "SUBMITTED",
-          "Code execution task submitted successfully",
-          LocalDateTime.now()
-      );
-      return ResponseEntity.accepted().body(response);
-    } catch (UnsupportedLanguageException e) {
-      CodeExecutionSubmissionResponse response = new CodeExecutionSubmissionResponse(
-          null,
-          "ERROR",
-          e.getMessage(),
-          LocalDateTime.now()
-      );
-      return ResponseEntity.badRequest().body(response);
-    } catch (Exception e) {
-      CodeExecutionSubmissionResponse response = new CodeExecutionSubmissionResponse(
-          null,
-          "ERROR",
-          "An unexpected error occurred",
-          LocalDateTime.now()
-      );
-      return ResponseEntity.internalServerError().body(response);
-    }
+      @Valid @RequestBody CodeExecutionRequest request,
+      Authentication authentication) {
+    User user = (User) authentication.getPrincipal();
+    String taskId = codeExecutionService.submitCodeExecution(request, user.getId());
+
+    return ResponseEntity.accepted().body(new CodeExecutionSubmissionResponse(
+        taskId,
+        "SUBMITTED",
+        "Code execution task submitted successfully",
+        LocalDateTime.now()
+    ));
   }
 
   @GetMapping("/result/{taskId}")
