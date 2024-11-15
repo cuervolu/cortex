@@ -4,11 +4,11 @@ import static com.cortex.backend.engine.internal.utils.Constants.CODE_EXECUTION_
 import static com.cortex.backend.engine.internal.utils.Constants.RESULT_EXPIRATION_HOURS;
 import static com.cortex.backend.engine.internal.utils.Constants.RESULT_KEY_PREFIX;
 
-import com.cortex.backend.core.common.exception.ContentChangedException;
 import com.cortex.backend.core.common.exception.ResultNotAvailableException;
 import com.cortex.backend.core.common.exception.UnsupportedLanguageException;
 import com.cortex.backend.core.domain.EntityType;
 import com.cortex.backend.core.domain.Exercise;
+import com.cortex.backend.core.domain.Lesson;
 import com.cortex.backend.education.progress.api.LessonCompletedEvent;
 import com.cortex.backend.education.progress.api.ProgressTrackingService;
 import com.cortex.backend.engine.api.ExerciseRepository;
@@ -22,7 +22,7 @@ import com.cortex.backend.engine.api.dto.TestCaseResult;
 import com.cortex.backend.engine.internal.docker.DockerExecutionService;
 import com.cortex.backend.engine.internal.parser.TestResultParser;
 import com.cortex.backend.engine.internal.parser.TestResultParserFactory;
-import com.cortex.backend.engine.internal.utils.HashUtil;
+import jakarta.persistence.EntityNotFoundException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Base64;
@@ -87,13 +87,18 @@ public class CodeExecutionService {
       submissionService.updateSubmissionWithResult(task.submissionId(), result);
 
       if (result.isSuccess()) {
-        Exercise exercise = exerciseRepository.findById(task.request().exerciseId()).orElseThrow();
+        Exercise exercise = exerciseRepository.findById(task.request().exerciseId())
+            .orElseThrow(() -> new EntityNotFoundException("Exercise not found"));
+
+        // Track progress for the exercise
         progressTrackingService.trackProgress(task.userId(), exercise.getId(), EntityType.EXERCISE);
 
-        if (exerciseRepository.areAllExercisesCompletedForLesson(task.userId(),
-            exercise.getLesson().getId())) {
-          eventPublisher.publishEvent(
-              new LessonCompletedEvent(exercise.getLesson().getId(), task.userId()));
+        // Only check lesson completion if the exercise is associated with a lesson
+        Lesson lesson = exercise.getLesson();
+        if (lesson != null) {
+          if (exerciseRepository.areAllExercisesCompletedForLesson(task.userId(), lesson.getId())) {
+            eventPublisher.publishEvent(new LessonCompletedEvent(lesson.getId(), task.userId()));
+          }
         }
       }
 
@@ -109,7 +114,9 @@ public class CodeExecutionService {
           .success(false)
           .language(task.request().language())
           .stderr("Internal error: " + e.getMessage())
+          .exerciseId(task.request().exerciseId())
           .build();
+
       redisTemplate.opsForValue().set(
           RESULT_KEY_PREFIX + task.taskId(),
           errorResult,
