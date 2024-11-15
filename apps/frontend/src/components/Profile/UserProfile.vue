@@ -1,17 +1,20 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
-import type { UserResponse, UpdateProfileRequest } from '~/interfaces/user.interface'
+import { ref, onMounted, computed, watch } from 'vue'
+import type { UpdateProfileRequest } from '~/interfaces/user.interface'
 import EditProfileModal from '@/components/Profile/EditProfileModal.vue'
 import { useRouter } from 'vue-router'
 import {
   LogOut,
+  Trash2,
 } from 'lucide-vue-next'
 
 const router = useRouter()
 const loading = ref(true)
 const error = ref<string | null>(null)
 const showEditProfile = ref(false)
+const showDeleteConfirm = ref(false)
 const profileRequest = ref<UpdateProfileRequest | null>(null)
+const deleteLoading = ref(false)
 
 // Obtenemos la sesión y el signOut correctamente
 const { data: session, signOut } = useAuth()
@@ -47,9 +50,7 @@ const handleLogout = async () => {
   try {
     loading.value = true
     await signOut()
-    // Primero navegamos a la página principal
     await router.push('/')
-    // Opcional: Recargar la página para asegurar que se limpie el estado
     window.location.reload()
   } catch (error) {
     console.error('Error al cerrar sesión:', error)
@@ -58,20 +59,68 @@ const handleLogout = async () => {
   }
 }
 
-async function handleProfileUpdate(_updatedProfile: UpdateProfileRequest) {
+const handleDeleteAccount = async () => {
   try {
-    // TODO: Implementar la actualización del perfil
-    showEditProfile.value = false;
-    // La sesión se actualizará automáticamente si el backend responde con los nuevos datos
+    deleteLoading.value = true
+    const { error } = await useSupabaseClient()
+      .from('profiles')
+      .delete()
+      .eq('id', session.value.id)
+    
+    if (error) throw error
+
+    // Eliminar la cuenta de autenticación
+    const { error: authError } = await useSupabaseClient().auth.admin.deleteUser(
+      session.value.id
+    )
+    
+    if (authError) throw authError
+
+    await signOut()
+    await router.push('/')
+    toast.success('Cuenta eliminada correctamente')
+    window.location.reload()
+  } catch (err) {
+    console.error('Error al eliminar la cuenta:', err)
+    toast.error('Error al eliminar la cuenta')
+  } finally {
+    deleteLoading.value = false
+    showDeleteConfirm.value = false
+  }
+}
+
+async function handleProfileUpdate(updatedProfile: UpdateProfileRequest) {
+  try {
+    loading.value = true
+    const { data, error } = await useSupabaseClient()
+      .from('profiles')
+      .update(updatedProfile)
+      .eq('id', session.value.id)
+    
+    if (error) throw error
+
+    // Actualizar la sesión con los nuevos datos
+    if (data) {
+      const { data: sessionData } = await useSupabaseClient().auth.refreshSession()
+      if (sessionData) {
+        // Recargar los datos del usuario
+        await useAuth().refresh()
+      }
+    }
+
+    showEditProfile.value = false
+    toast.success('Perfil actualizado correctamente')
   } catch (error) {
-    console.error('Error al actualizar el perfil:', error);
+    console.error('Error al actualizar el perfil:', error)
+    toast.error('Error al actualizar el perfil')
+  } finally {
+    loading.value = false
   }
 }
 
 onMounted(() => {
   loading.value = true
   try {
-    // Verificamos directamente session.value en lugar de session.value?.user
     if (!session.value) {
       throw new Error('No hay sesión de usuario')
     }
@@ -132,6 +181,14 @@ onMounted(() => {
               <LogOut class="h-4 w-4" />
               <span>{{ loading ? 'Cerrando sesión...' : 'Cerrar sesión' }}</span>
             </button>
+            <button
+              class="px-4 py-2 bg-red-700 text-white rounded-md hover:bg-red-800 shadow-sm flex items-center gap-2"
+              :disabled="deleteLoading"
+              @click="showDeleteConfirm = true"
+            >
+              <Trash2 class="h-4 w-4" />
+              <span>Eliminar cuenta</span>
+            </button>
           </div>
         </div>
       </div>
@@ -178,6 +235,36 @@ onMounted(() => {
             @close="showEditProfile = false"
             @save="handleProfileUpdate"
           />
+        </div>
+      </div>
+    </Teleport>
+
+    <!-- Modal de confirmación para eliminar cuenta -->
+    <Teleport to="body">
+      <div v-if="showDeleteConfirm" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4 p-6">
+          <h3 class="text-xl font-bold text-gray-900 mb-4">¿Eliminar cuenta?</h3>
+          <p class="text-gray-600 mb-6">
+            Esta acción es irreversible. Se eliminarán todos tus datos y no podrás recuperar tu cuenta.
+            ¿Estás seguro de que deseas continuar?
+          </p>
+          <div class="flex justify-end gap-4">
+            <button
+              class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
+              @click="showDeleteConfirm = false"
+              :disabled="deleteLoading"
+            >
+              Cancelar
+            </button>
+            <button
+              class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 flex items-center gap-2"
+              @click="handleDeleteAccount"
+              :disabled="deleteLoading"
+            >
+              <Trash2 class="h-4 w-4" />
+              <span>{{ deleteLoading ? 'Eliminando...' : 'Sí, eliminar cuenta' }}</span>
+            </button>
+          </div>
         </div>
       </div>
     </Teleport>
