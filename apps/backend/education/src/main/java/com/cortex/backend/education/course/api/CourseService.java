@@ -32,4 +32,5 @@ public interface CourseService {
 
   Long getRoadmapIdForCourse(Long courseId);
   boolean areAllModulesCompleted(Long userId, Long courseId);
+  int getTotalLessons(Long courseId);
 }

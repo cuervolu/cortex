@@ -4,10 +4,13 @@ import static com.cortex.backend.engine.internal.utils.Constants.CODE_EXECUTION_
 import static com.cortex.backend.engine.internal.utils.Constants.RESULT_EXPIRATION_HOURS;
 import static com.cortex.backend.engine.internal.utils.Constants.RESULT_KEY_PREFIX;
 
+import com.cortex.backend.core.common.BusinessErrorCodes;
+import com.cortex.backend.core.common.exception.InvalidExerciseStateException;
 import com.cortex.backend.core.common.exception.ResultNotAvailableException;
 import com.cortex.backend.core.common.exception.UnsupportedLanguageException;
 import com.cortex.backend.core.domain.EntityType;
 import com.cortex.backend.core.domain.Exercise;
+import com.cortex.backend.core.domain.ExerciseStatus;
 import com.cortex.backend.core.domain.Lesson;
 import com.cortex.backend.education.progress.api.LessonCompletedEvent;
 import com.cortex.backend.education.progress.api.ProgressTrackingService;
@@ -36,6 +39,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
@@ -54,9 +58,13 @@ public class CodeExecutionService {
   @Value("${github.exercises.local-path}")
   private String localExercisesPath;
 
+  @Transactional
   public String submitCodeExecution(CodeExecutionRequest request, Long userId) {
     Exercise exercise = exerciseRepository.findById(request.exerciseId())
         .orElseThrow(() -> new IllegalArgumentException("Exercise not found"));
+
+    validateExerciseState(exercise);
+
     if (!languageRepository.existsByName(request.language())) {
       throw new UnsupportedLanguageException("Unsupported language: " + request.language());
     }
@@ -81,50 +89,54 @@ public class CodeExecutionService {
     return result;
   }
 
+  @Transactional
   public void processCodeExecution(CodeExecutionTask task) {
     try {
+      Exercise exercise = exerciseRepository.findById(task.request().exerciseId())
+          .orElseThrow(() -> new EntityNotFoundException("Exercise not found"));
+
+      validateExerciseState(exercise);
+
       CodeExecutionResult result = executeCode(task.request(), task.githubPath());
       submissionService.updateSubmissionWithResult(task.submissionId(), result);
 
       if (result.isSuccess()) {
-        Exercise exercise = exerciseRepository.findById(task.request().exerciseId())
-            .orElseThrow(() -> new EntityNotFoundException("Exercise not found"));
-
-        // Track progress for the exercise
-        progressTrackingService.trackProgress(task.userId(), exercise.getId(), EntityType.EXERCISE);
-
-        // Only check lesson completion if the exercise is associated with a lesson
-        Lesson lesson = exercise.getLesson();
-        if (lesson != null) {
-          if (exerciseRepository.areAllExercisesCompletedForLesson(task.userId(), lesson.getId())) {
-            eventPublisher.publishEvent(new LessonCompletedEvent(lesson.getId(), task.userId()));
-          }
-        }
+        progressTrackingService.trackProgressAndCheckCompletion(
+            task.userId(),
+            exercise.getId(),
+            EntityType.EXERCISE,
+            exercise.getLesson() // Ya validamos que existe
+        );
       }
 
-      redisTemplate.opsForValue().set(
-          RESULT_KEY_PREFIX + task.taskId(),
-          result,
-          RESULT_EXPIRATION_HOURS,
-          TimeUnit.HOURS
-      );
-    } catch (Exception e) {
-      log.error("Error processing code execution task", e);
-      CodeExecutionResult errorResult = CodeExecutionResult.builder()
-          .success(false)
-          .language(task.request().language())
-          .stderr("Internal error: " + e.getMessage())
-          .exerciseId(task.request().exerciseId())
-          .build();
+      saveExecutionResult(task.taskId(), result);
 
-      redisTemplate.opsForValue().set(
-          RESULT_KEY_PREFIX + task.taskId(),
-          errorResult,
-          RESULT_EXPIRATION_HOURS,
-          TimeUnit.HOURS
-      );
+    } catch (Exception e) {
+      log.error("Error processing code execution task: {}", e.getMessage(), e);
+      handleExecutionError(task, e);
     }
   }
+
+  private void saveExecutionResult(String taskId, CodeExecutionResult result) {
+    redisTemplate.opsForValue().set(
+        RESULT_KEY_PREFIX + taskId,
+        result,
+        RESULT_EXPIRATION_HOURS,
+        TimeUnit.HOURS
+    );
+  }
+
+  private void handleExecutionError(CodeExecutionTask task, Exception e) {
+    CodeExecutionResult errorResult = CodeExecutionResult.builder()
+        .success(false)
+        .language(task.request().language())
+        .stderr("Internal error: " + e.getMessage())
+        .exerciseId(task.request().exerciseId())
+        .build();
+
+    saveExecutionResult(task.taskId(), errorResult);
+  }
+
 
   private CodeExecutionResult executeCode(CodeExecutionRequest request, String githubPath) {
     try {
@@ -170,6 +182,25 @@ public class CodeExecutionService {
           .language(request.language())
           .exerciseId(request.exerciseId())  
           .build();
+    }
+  }
+
+  private void validateExerciseState(Exercise exercise) {
+    if (exercise.getStatus() != ExerciseStatus.PUBLISHED) {
+      throw new InvalidExerciseStateException(
+          String.format("Cannot submit code for exercise %d - current status: %s",
+              exercise.getId(),
+              exercise.getStatus()),
+          BusinessErrorCodes.EXERCISE_NOT_PUBLISHED
+      );
+    }
+
+    if (exercise.getLesson() == null) {
+      throw new InvalidExerciseStateException(
+          String.format("Cannot submit code for exercise %d - no lesson assigned",
+              exercise.getId()),
+          BusinessErrorCodes.EXERCISE_NO_LESSON
+      );
     }
   }
 

@@ -36,6 +36,7 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
+import com.cortex.backend.core.common.BusinessErrorCodes;
 import com.cortex.backend.core.common.exception.AlreadyEnrolledException;
 import com.cortex.backend.core.common.exception.CodeExecutionException;
 import com.cortex.backend.core.common.exception.ContainerExecutionException;
@@ -49,6 +50,7 @@ import com.cortex.backend.core.common.exception.GitSyncException;
 import com.cortex.backend.core.common.exception.HashGenerationException;
 import com.cortex.backend.core.common.exception.IncorrectCurrentPasswordException;
 import com.cortex.backend.core.common.exception.InvalidConfigurationException;
+import com.cortex.backend.core.common.exception.InvalidExerciseStateException;
 import com.cortex.backend.core.common.exception.InvalidFileTypeException;
 import com.cortex.backend.core.common.exception.InvalidPrerequisiteException;
 import com.cortex.backend.core.common.exception.InvalidTokenException;
@@ -460,6 +462,19 @@ public class GlobalExceptionHandler {
                 .description(ALREADY_ENROLLED.getDescription())
                 .error(exp.getMessage())
                 .build());
+  }
+
+  @ExceptionHandler(InvalidExerciseStateException.class)
+  public ResponseEntity<ExceptionResponse> handleInvalidExerciseStateException(
+      InvalidExerciseStateException exp) {
+    BusinessErrorCodes errorCode = exp.getErrorCode();
+    return ResponseEntity
+        .status(errorCode.getHttpStatus())
+        .body(ExceptionResponse.builder()
+            .code(errorCode.getCode())
+            .description(errorCode.getDescription())
+            .error(exp.getMessage())
+            .build());
   }
 
 

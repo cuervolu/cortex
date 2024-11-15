@@ -237,5 +237,15 @@ public class CourseServiceImpl implements CourseService {
     return totalModules == completedModules;
   }
 
+  @Override
+  @Transactional(readOnly = true)
+  public int getTotalLessons(Long courseId) {
+    return courseRepository.findById(courseId)
+        .map(course -> course.getModuleEntities().stream()
+            .mapToInt(module -> module.getLessons().size())
+            .sum())
+        .orElse(0);
+  }
+
 
 }

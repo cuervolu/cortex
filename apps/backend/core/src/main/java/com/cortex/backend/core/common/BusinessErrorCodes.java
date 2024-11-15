@@ -49,6 +49,8 @@ public enum BusinessErrorCodes {
   PAYMENT_FAILED(326, INTERNAL_SERVER_ERROR, "Payment failed"),
   RESOURCE_NOT_FOUND(327, NOT_FOUND, "Resource not found"),
   ALREADY_ENROLLED(328, BAD_REQUEST, "User already enrolled in this roadmap"),
+  EXERCISE_NOT_PUBLISHED(330, BAD_REQUEST, "Exercise is not published"),
+  EXERCISE_NO_LESSON(331, BAD_REQUEST, "Exercise has no lesson assigned"),
   ;
   private final int code;
   private final String description;

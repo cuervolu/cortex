@@ -49,4 +49,13 @@ public interface CourseRepository extends CrudRepository<Course, Long> {
       Pageable pageable);
 
   Page<Course> findByRoadmapsContainingOrderByDisplayOrderAsc(Roadmap roadmap, Pageable pageable);
+
+  @Query("""
+        SELECT DISTINCT c FROM Course c
+        LEFT JOIN FETCH c.moduleEntities m
+        LEFT JOIN FETCH m.lessons l
+        LEFT JOIN FETCH l.exercises e
+        WHERE c.id = :courseId
+    """)
+  Optional<Course> findByIdWithDetails(@Param("courseId") Long courseId);
 }
