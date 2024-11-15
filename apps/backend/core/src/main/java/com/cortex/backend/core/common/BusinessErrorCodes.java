@@ -48,6 +48,7 @@ public enum BusinessErrorCodes {
   NO_APPROVED_MENTORSHIP_REQUEST(325, NOT_FOUND, "No approved mentorship request found for this mentee"),
   PAYMENT_FAILED(326, INTERNAL_SERVER_ERROR, "Payment failed"),
   RESOURCE_NOT_FOUND(327, NOT_FOUND, "Resource not found"),
+  ALREADY_ENROLLED(328, BAD_REQUEST, "User already enrolled in this roadmap"),
   ;
   private final int code;
   private final String description;

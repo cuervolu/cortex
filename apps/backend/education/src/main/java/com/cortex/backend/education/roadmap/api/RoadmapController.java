@@ -5,9 +5,11 @@ import com.cortex.backend.core.domain.User;
 import com.cortex.backend.education.course.api.dto.CourseResponse;
 import com.cortex.backend.education.roadmap.api.dto.CourseAssignmentRequest;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapDetails;
+import com.cortex.backend.education.roadmap.api.dto.RoadmapEnrollmentResponse;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapRequest;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapResponse;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapUpdateRequest;
+import com.cortex.backend.education.roadmap.internal.RoadmapEnrollmentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -15,6 +17,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.io.IOException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -40,6 +43,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class RoadmapController {
 
   private final RoadmapService roadmapService;
+  private final RoadmapEnrollmentService enrollmentService;
 
   @GetMapping
   @Operation(summary = "Get all published roadmaps", description = "Retrieves a list of all published roadmaps")
@@ -195,6 +199,45 @@ public class RoadmapController {
     roadmapService.assignCoursesToRoadmap(id, request.assignments());
     return ResponseEntity.ok().build();
   }
+
+  @PostMapping("/{id}/enroll")
+  @Operation(
+      summary = "Enroll in roadmap",
+      description = "Enrolls the authenticated user in a roadmap"
+  )
+  @ApiResponse(
+      responseCode = "200",
+      description = "Successfully enrolled",
+      content = @Content(schema = @Schema(implementation = RoadmapEnrollmentResponse.class))
+  )
+  @ApiResponse(responseCode = "400", description = "User already enrolled")
+  @ApiResponse(responseCode = "404", description = "Roadmap not found")
+  public ResponseEntity<RoadmapEnrollmentResponse> enrollInRoadmap(
+      @PathVariable Long id,
+      Authentication authentication
+  ) {
+    User user = (User) authentication.getPrincipal();
+    RoadmapEnrollmentResponse enrollment = enrollmentService.enrollUserInRoadmap(user.getId(), id);
+    return ResponseEntity.ok(enrollment);
+  }
+
+  @GetMapping("/enrollments")
+  @Operation(
+      summary = "Get user enrollments",
+      description = "Gets all roadmap enrollments for the authenticated user"
+  )
+  @ApiResponse(
+      responseCode = "200",
+      description = "List of enrollments retrieved successfully",
+      content = @Content(schema = @Schema(implementation = RoadmapEnrollmentResponse.class))
+  )
+  public ResponseEntity<List<RoadmapEnrollmentResponse>> getUserEnrollments(
+      Authentication authentication
+  ) {
+    User user = (User) authentication.getPrincipal();
+    return ResponseEntity.ok(enrollmentService.getUserEnrollments(user.getId()));
+  }
+
 
 
 }

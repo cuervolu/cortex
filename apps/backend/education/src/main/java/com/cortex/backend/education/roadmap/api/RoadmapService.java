@@ -23,6 +23,8 @@ public interface RoadmapService {
 
   Optional<RoadmapDetails> getRoadmapBySlug(String slug, User user);
 
+  Optional<RoadmapResponse> getRoadmapById(Long id);
+
   RoadmapResponse createRoadmap(RoadmapRequest request);
 
   RoadmapResponse updateRoadmap(Long id, RoadmapUpdateRequest request);
