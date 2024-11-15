@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -108,5 +109,17 @@ public class UserController {
       @RequestBody List<String> roleNames) {
     UserResponse updatedUser = userService.updateUserRoles(userId, roleNames);
     return ResponseEntity.ok(updatedUser);
+  }
+
+
+  @GetMapping
+  @PreAuthorize("hasAnyRole('MODERATOR', 'ADMIN')")
+  @Operation(summary = "Get user by email", description = "Retrieves a user by their email address (Admin and Moderator only)")
+  @ApiResponse(responseCode = "200", description = "User retrieved successfully",
+      content = @Content(schema = @Schema(implementation = UserResponse.class)))
+  public ResponseEntity<UserResponse> getUserByEmail(
+      @Parameter(description = "Email address of the user to retrieve")
+      @RequestParam String email) {
+    return ResponseEntity.ok(userService.getUserByEmail(email).orElseThrow());
   }
 }
