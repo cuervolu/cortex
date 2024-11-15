@@ -4,6 +4,7 @@ package com.cortex.backend.core.handler;
 import static com.cortex.backend.core.common.BusinessErrorCodes.ACCESS_DENIED;
 import static com.cortex.backend.core.common.BusinessErrorCodes.ACCOUNT_DISABLED;
 import static com.cortex.backend.core.common.BusinessErrorCodes.ACCOUNT_LOCKED;
+import static com.cortex.backend.core.common.BusinessErrorCodes.ALREADY_ENROLLED;
 import static com.cortex.backend.core.common.BusinessErrorCodes.BAD_CREDENTIALS;
 import static com.cortex.backend.core.common.BusinessErrorCodes.CODE_EXECUTION_FAILED;
 import static com.cortex.backend.core.common.BusinessErrorCodes.CONTAINER_EXECUTION_FAILED;
@@ -35,6 +36,7 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
+import com.cortex.backend.core.common.exception.AlreadyEnrolledException;
 import com.cortex.backend.core.common.exception.CodeExecutionException;
 import com.cortex.backend.core.common.exception.ContainerExecutionException;
 import com.cortex.backend.core.common.exception.ContentChangedException;
@@ -423,7 +425,7 @@ public class GlobalExceptionHandler {
                 .build());
   }
 
-@ExceptionHandler(InvalidPrerequisiteException.class)
+  @ExceptionHandler(InvalidPrerequisiteException.class)
   public ResponseEntity<ExceptionResponse> handleInvalidPrerequisiteException(
       InvalidPrerequisiteException exp) {
     return ResponseEntity.status(INVALID_PREREQUISITE.getHttpStatus())
@@ -447,6 +449,18 @@ public class GlobalExceptionHandler {
                 .build());
   }
 
+
+  @ExceptionHandler(AlreadyEnrolledException.class)
+  public ResponseEntity<ExceptionResponse> handleAlreadyEnrolledException(
+      AlreadyEnrolledException exp) {
+    return ResponseEntity.status(ALREADY_ENROLLED.getHttpStatus())
+        .body(
+            ExceptionResponse.builder()
+                .code(ALREADY_ENROLLED.getCode())
+                .description(ALREADY_ENROLLED.getDescription())
+                .error(exp.getMessage())
+                .build());
+  }
 
 
   @ExceptionHandler(Exception.class)

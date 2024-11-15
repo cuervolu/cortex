@@ -119,6 +119,12 @@ public class RoadmapServiceImpl implements RoadmapService {
   }
 
   @Override
+  public Optional<RoadmapResponse> getRoadmapById(Long id) {
+    return roadmapRepository.findById(id)
+        .map(roadmapMapper::toRoadmapResponse);
+  }
+
+  @Override
   @Transactional
   public RoadmapResponse createRoadmap(RoadmapRequest request) {
     Roadmap roadmap = roadmapMapper.toRoadmap(request);
@@ -296,13 +302,15 @@ public class RoadmapServiceImpl implements RoadmapService {
 
   @Override
   @Transactional(readOnly = true)
-  public Optional<PageResponse<CourseResponse>> getRoadmapCourses(Long roadmapId, int page, int size, String[] sort) {
+  public Optional<PageResponse<CourseResponse>> getRoadmapCourses(Long roadmapId, int page,
+      int size, String[] sort) {
     return roadmapRepository.findById(roadmapId)
         .map(roadmap -> {
           Sort sorting = SortUtils.parseSort(sort);
           Pageable pageable = PageRequest.of(page, size, sorting);
 
-          Page<Course> courses = courseRepository.findByRoadmapsContainingOrderByDisplayOrderAsc(roadmap, pageable);
+          Page<Course> courses = courseRepository.findByRoadmapsContainingOrderByDisplayOrderAsc(
+              roadmap, pageable);
 
           List<CourseResponse> courseResponses = courses.stream()
               .map(courseMapper::toCourseResponse)
