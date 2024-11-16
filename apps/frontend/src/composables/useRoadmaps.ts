@@ -1,12 +1,13 @@
 import { API_ROUTES } from "@cortex/shared/config/api";
-import type { PaginatedRoadmaps, RoadmapDetails, SortQueryParams } from '@cortex/shared/types'
+import type { PaginatedRoadmaps, RoadmapDetails, SortQueryParams, RoadmapEnrollment } from '@cortex/shared/types'
 import { AppError } from '@cortex/shared/types';
 
 export function useRoadmaps() {
   const paginatedRoadmaps = ref<PaginatedRoadmaps | null>(null);
   const roadmap = ref<RoadmapDetails | null>(null);
+  const enrollments = ref<RoadmapEnrollment[]>([]);
   const loading = ref(true);
-  const errorHandler = useWebErrorHandler()
+  const errorHandler = useWebErrorHandler();
   const { token } = useAuth();
 
   const getFetchOptions = () => ({
@@ -16,14 +17,40 @@ export function useRoadmaps() {
     }
   });
 
+  const fetchEnrollments = async () => {
+    try {
+      const response = await $fetch<RoadmapEnrollment[]>(
+        `${API_ROUTES.ROADMAPS}/enrollments`,
+        getFetchOptions()
+      );
+
+      if (!response) {
+        throw new AppError('No enrollments found', {
+          statusCode: 404
+        });
+      }
+
+      enrollments.value = response;
+      return response;
+    } catch (err) {
+      await errorHandler.handleError(err, {
+        statusCode: err instanceof AppError ? err.statusCode : 500,
+        fatal: false
+      });
+      return [];
+    }
+  };
+
   const fetchRoadmaps = async ({
     page = 0,
     size = 10,
     sort = ['createdAt:desc'],
-    isAdmin = false
-  }: SortQueryParams = {}) => {
+    isAdmin = false,
+    enrolledOnly = false
+  }: SortQueryParams & { enrolledOnly?: boolean } = {}) => {
     try {
       loading.value = true;
+
       const queryParams = new URLSearchParams({
         page: page.toString(),
         size: size.toString(),
@@ -31,14 +58,24 @@ export function useRoadmaps() {
       });
 
       const url = `${API_ROUTES.ROADMAPS}?${queryParams.toString()}`;
-      console.log('Fetching roadmaps:', url);
-
       const response = await $fetch<PaginatedRoadmaps>(url, getFetchOptions());
 
       if (!response) {
         throw new AppError('No roadmaps found', {
           statusCode: 404,
           data: { page, size, sort, isAdmin }
+        });
+      }
+
+      // Si tenemos enrollments y queremos filtrar
+      if (enrolledOnly) {
+
+        if (!enrollments.value.length) {
+          await fetchEnrollments();
+        }
+
+        response.content = response.content.filter((roadmap) => {
+          return enrollments.value.some((enrollment) => enrollment.roadmap_id === roadmap.id);
         });
       }
 
@@ -58,7 +95,6 @@ export function useRoadmaps() {
   const fetchRoadmap = async (slug: string) => {
     try {
       loading.value = true;
-      console.log(`Fetching roadmap: ${slug}`);
 
       const response = await $fetch<RoadmapDetails>(
         `${API_ROUTES.ROADMAPS}/${slug}`,
@@ -90,6 +126,8 @@ export function useRoadmaps() {
     fetchRoadmaps,
     roadmap,
     fetchRoadmap,
-    loading
+    loading,
+    enrollments,
+    fetchEnrollments
   };
 }

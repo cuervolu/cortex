@@ -97,3 +97,20 @@ onMounted(async () => {
 
 </template>
 
+<style>
+
+.prose code {
+    @apply bg-secondary text-white px-2 py-1 rounded-sm hover:bg-secondary/70;
+}
+
+.pre code {
+    @apply bg-transparent hover:bg-transparent
+}
+
+.prose code::before,
+.prose code::after {
+    content: none;
+}
+
+</style>
+

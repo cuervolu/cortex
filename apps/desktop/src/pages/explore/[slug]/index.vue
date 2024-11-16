@@ -56,7 +56,8 @@ const credits = computed(() => {
           :created-at="roadmap.created_at"
           :updated-at="roadmap.updated_at"
         />
-        <RoadmapInscriptionCard/>
+        <RoadmapInscriptionCard
+          :roadmap="roadmap"/>
       </div>
       <div class="w-2/6 self-stretch bg-background border-l px-3 min-w-[322px] hidden lg:block">
         <RoadmapSidebar
