@@ -7,7 +7,9 @@ import RoadmapCard from "@cortex/shared/components/roadmaps/RoadmapCard.vue";
 const props = defineProps<{
   paginatedRoadmaps: PaginatedRoadmaps
   isLoading?: boolean
-  sortBy?: string
+  sortBy?: string,
+  enrolledOnly?: boolean
+  enrollmentsCount?: number
 }>()
 
 const emit = defineEmits<{
@@ -26,7 +28,10 @@ const sortOptions = [
 <template>
   <section class="flex overflow-hidden flex-col flex-1 shrink p-2.5 basis-0 min-w-[240px] max-md:max-w-full">
     <header class="flex flex-wrap gap-10 justify-between items-center w-full max-md:max-w-full">
-      <h1 class="self-stretch my-auto text-xl font-medium">
+      <h1 v-if="enrolledOnly" class="self-stretch my-auto text-xl font-medium">
+        {{ enrollmentsCount }} Roadmaps
+      </h1>
+      <h1 v-else class="self-stretch my-auto text-xl font-medium">
         {{ paginatedRoadmaps.total_elements }} Roadmaps
       </h1>
       <Select

@@ -1,6 +1,46 @@
 <script setup lang="ts">
 import { ArrowRight, Rocket } from 'lucide-vue-next';
+import { AppError, RoadmapDetails } from '../../types';
 
+import { defineProps } from 'vue';
+import { useRouter } from 'vue-router';
+import { useRoadmapEnrollment } from '../../composables/front/useRoadmapEnrollment';
+import { useToast } from '../ui/toast';
+
+const { enrollInRoadmap, loading } = useRoadmapEnrollment();
+const { toast } = useToast();
+const router = useRouter();
+
+const props = defineProps<{
+    roadmap: RoadmapDetails
+}>();
+
+const handleEnroll = async (roadmap: RoadmapDetails) => {
+    try {
+        await enrollInRoadmap(roadmap.id);
+
+        toast({
+            title: 'Success',
+            description: 'Te has inscrito exitosamente en este roadmap',
+        });
+
+        await new Promise(resolve => setTimeout(resolve, 1500));
+
+        router.push(`/my-roadmaps/${roadmap.slug}`);
+    } catch (err: any) {
+        if (err instanceof AppError && err.statusCode === 328) {
+            toast({
+                title: 'Error',
+                description: 'Ya estás inscrito en este roadmap',
+            });
+        } else {
+            toast({
+                title: 'Error',
+                description: 'Ocurrió un error inesperado',
+            });
+        }
+    }
+};
 
 
 </script>
@@ -14,14 +54,21 @@ import { ArrowRight, Rocket } from 'lucide-vue-next';
                 </Avatar>
                 <div>
                     <h2 class="font-bold text-lg">Comienza tu Aventura</h2>
-                    <span class="text-sm">En Cortex, te guiamos en cada paso para que aprendas de forma práctica y
-                        efectiva. ¡Comienza ahora y acelera tu camino hacia el dominio de la informática!</span>
+                    <span class="text-sm">
+                        En Cortex, te guiamos en cada paso para que aprendas de forma práctica y
+                        efectiva. ¡Comienza ahora y acelera tu camino hacia el dominio de la informática!
+                    </span>
                 </div>
             </div>
-            <Button class="gap-2 rounded-full">
+            <Button 
+                class="gap-2 rounded-full"
+                :disabled="loading"
+                @click="handleEnroll(roadmap)"
+            >
                 <span>Get Started</span>
                 <ArrowRight :size="18" />
             </Button>
         </CardContent>
     </Card>
+    <Toaster />
 </template>

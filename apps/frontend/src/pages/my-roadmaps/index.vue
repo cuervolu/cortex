@@ -6,7 +6,7 @@ import HomeIcon from "~/components/icons/HomeIcon.vue";
 
 const router = useRouter()
 const { data } = useAuth();
-const { paginatedRoadmaps, loading, fetchRoadmaps } = useRoadmaps()
+const { paginatedRoadmaps, loading, fetchRoadmaps, enrollments } = useRoadmaps()
 const sortBy = ref('recent')
 
 const handlePageChange = (page: number) => {
@@ -30,7 +30,7 @@ const handleSortChange = (sort: string) => {
     sortBy.value = sort
 
     if (data?.value?.roles.includes('ADMIN')) {
-        fetchRoadmaps({ isAdmin: true, sort: getSortParam(sort) })
+        fetchRoadmaps({ isAdmin: true, sort: getSortParam(sort)})
     }
     fetchRoadmaps({ sort: getSortParam(sort) })
 }
@@ -41,11 +41,17 @@ const handleRoadmapClick = (roadmap: Roadmap) => {
 
 onMounted(() => {
     if (data?.value?.roles.includes('ADMIN')) {
-        fetchRoadmaps({ isAdmin: true })
+        fetchRoadmaps({ isAdmin: true, enrolledOnly: true })
     }
 
-    fetchRoadmaps()
+    fetchRoadmaps({ enrolledOnly: true })
 })
+
+// enrolled count
+const enrollmentsCount = computed(() => {
+    return enrollments.value?.length
+})
+
 </script>
 
 
@@ -108,7 +114,10 @@ onMounted(() => {
                             :sort-by="sortBy"
                             @sort-change="handleSortChange"
                             @page-change="handlePageChange"
-                            @roadmap-click="handleRoadmapClick"/>
+                            @roadmap-click="handleRoadmapClick"
+                            :enrolled-only="true"
+                            :enrollments-count="enrollmentsCount"
+                            />
                     </ClientOnly>
                 </div>
             </div>

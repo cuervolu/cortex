@@ -225,6 +225,15 @@ export interface ImageUploadRequest {
   alt_text?: string;
 }
 
+export interface RoadmapEnrollment {
+  status: string;
+  progress: number;
+  user_id: number;
+  roadmap_id: number;
+  enrollment_date: string;
+  last_activity_date: string;
+}
+
 export type PaginatedExercises = PaginatedResponse<Exercise>;
 export type PaginatedLessons = PaginatedResponse<Lesson>;
 export type PaginatedRoadmaps = PaginatedResponse<Roadmap>;

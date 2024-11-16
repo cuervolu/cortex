@@ -86,9 +86,8 @@ onMounted(async () => {
 
         <div class="w-full flex justify-center items-center">
             <div class="flex flex-col gap-5 w-fit">
-                <article
-                    class="prose prose-lg dark:prose-invert prose-img:rounded-xl prose-img:object-cover prose-a:no-underline">
-                    <MDC :value="lesson?.content || ''" class="prose-img:mx-auto"></MDC>
+                <article class="prose prose-lg dark:prose-invert prose-img:rounded-xl prose-img:object-cover prose-a:no-underline">
+                    <MDC :value="lesson?.content || ''" class="prose-img:mx-auto"></MDC>            
                 </article>
             </div>
         </div>
