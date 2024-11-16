@@ -24,11 +24,11 @@ export function useRoadmaps() {
   })
 
   const fetchRoadmaps = async ({
-                                 page = 0,
-                                 size = 10,
-                                 sort = ['createdAt:desc'],
-                                 isAdmin = false
-                               }: SortQueryParams = {}) => {
+    page = 0,
+    size = 10,
+    sort = ['createdAt:desc'],
+    isAdmin = false
+  }: SortQueryParams = {}) => {
     try {
       loading.value = true
       await debug(`Fetching roadmaps: page=${page}, size=${size}, sort=${sort.join(',')}, isAdmin=${isAdmin}`)

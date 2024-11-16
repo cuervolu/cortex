@@ -234,5 +234,9 @@ const handleScroll = async (type: 'assigned' | 'available', event: Event) => {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
+  cursor: grab;
+}
+.card-content:active {
+  cursor: grabbing;
 }
 </style>

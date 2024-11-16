@@ -1,14 +1,12 @@
 <script lang="ts" setup>
 
-import { ref, onMounted } from "vue";
-import { useRoute } from "vue-router";
-import HomeIcon from "~/components/icons/HomeIcon.vue";
+import HomeIcon from "@cortex/shared/components/icons/HomeIcon.vue";
 
 const route = useRoute()
 const slugModule = route.params.slugModule as string
 const slug = route.params.slugLesson as string
 
-const { handleError } = useWebErrorHandler()
+const { handleError } = useDesktopErrorHandler()
 
 const { module, fetchModule } = useModules()
 
@@ -88,8 +86,9 @@ onMounted(async () => {
 
         <div class="w-full flex justify-center items-center">
             <div class="flex flex-col gap-5 w-fit">
-                <article class="prose prose-lg dark:prose-invert prose-img:rounded-xl prose-img:object-cover prose-a:no-underline">
-                    <MDC :value="lesson?.content || ''" class="prose-img:mx-auto"></MDC>            
+                <article
+                    class="prose prose-lg dark:prose-invert prose-img:rounded-xl prose-img:object-cover prose-a:no-underline">
+                    <MDC :value="lesson?.content || ''" class="prose-img:mx-auto"></MDC>
                 </article>
             </div>
         </div>
@@ -97,3 +96,19 @@ onMounted(async () => {
 
 </template>
 
+<style>
+
+.prose code {
+    @apply bg-secondary text-white px-2 py-1 rounded-sm hover:bg-secondary/70;
+}
+
+.pre code {
+    @apply bg-transparent hover:bg-transparent
+}
+
+.prose code::before,
+.prose code::after {
+    content: none;
+}
+
+</style>

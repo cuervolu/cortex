@@ -28,7 +28,7 @@ const calculateCourseProgress = (course: { modules: { lessons: { exercises: { co
         <img :src="course.image_url || 'https://placehold.co/500x400'" alt="Course Image" class="w-full md:w-[210px] h-[160px] md:h-auto object-cover md:border-b-0 md:border-r sm:border-b border-b"/>  
         
         <CardContent class="flex flex-col gap-3 p-5 w-full">
-            <span class="text-lg sm:text-xl lg:text-xl xl:text-2xl font-bold text-start truncate">{{ index + 1 }}. {{ course.name }}</span>
+            <span class="text-lg sm:text-xl lg:text-xl xl:text-2xl font-bold text-start truncate text-wrap min-w-80">{{ index + 1 }}. {{ course.name }}</span>
             <div class="grid grid-cols-2 xl:flex xl:flex-wrap gap-4 xl:gap-8 justify-start">
                 <div class="flex gap-2">
                     <ModuleIcon :width="18" class="stroke-current"/>

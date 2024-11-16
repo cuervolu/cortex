@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import HomeIcon from '~/components/icons/HomeIcon.vue';
-
-import { onMounted } from "vue";
-import { useRoute } from "vue-router";
+import HomeIcon from '@cortex/shared/components/icons/HomeIcon.vue';
 
 import { Flag, ThumbsDown, ThumbsUp } from 'lucide-vue-next';
 
@@ -10,7 +7,7 @@ const route = useRoute()
 const slug = route.params.slug as string
 const slugCourse = route.params.slugCourse as string
 
-const { handleError } = useWebErrorHandler()
+const { handleError } = useDesktopErrorHandler()
 
 const { roadmap, fetchRoadmap, loading } = useRoadmaps()
 
@@ -37,7 +34,7 @@ onMounted(async () => {
         <div>Loading...</div>
     </section>
 
-    <section v-else class="w-full self-stretch px-10 justify-start items-start gap-[30px] flex flex-col">
+    <section v-else class="w-full h-screen px-10 py-5 justify-start items-start gap-[30px] flex flex-col">
         <Breadcrumb class="py-5">
             <BreadcrumbList>
                 <BreadcrumbItem>
@@ -89,10 +86,10 @@ onMounted(async () => {
         </Breadcrumb>
         <div class="w-full flex gap-7">
             
-            <div class="self-stretch bg-background px-3 w-full">
-                <Tabs defaultValue="overview" orientation="vertical" class="w-full flex gap-4">
+            <div class="self-stretch bg-background w-full">
+                <Tabs defaultValue="overview" orientation="vertical" class="w-full h-full flex gap-4">
                     <div class="border-r flex flex-col items-start">
-                        <TabsList class="flex flex-col max-w-md h-full bg-transparent space-y-2 justify-start">
+                        <TabsList class="flex flex-col max-w-md h-full bg-transparent p-0 pr-3 space-y-2 justify-start">
                             <TabsTrigger value="overview" class="w-full justify-start text-base font-bold data-[state=active]:bg-secondary data-[state=active]:text-white">
                                 {{ course?.name }}
                             </TabsTrigger>
@@ -103,13 +100,13 @@ onMounted(async () => {
                         </TabsList>
                     </div>
 
-                    <div class="w-full h-full overflow-y-auto">
+                    <div class="w-full self-stretch overflow-y-auto">
                         <TabsContent value="overview" class="flex flex-col gap-7 m-0 w-full">
                             <h1 class="font-bold text-4xl">{{ course?.name }}</h1>
 
                             <Card class="rounded-3xl border-2 overflow-hidden">
                                 <CardHeader class="p-0">
-                                    <img :src="course?.image_url || '/api/placeholder/600/400'" :alt="course?.name"
+                                    <img :src="course?.image_url || 'https://placehold.co/600x400'" :alt="course?.name"
                                         class="relative h-72 object-cover" />
                                 </CardHeader>
                                 <CardFooter class="border-t-2 justify-end items-center px-4 py-5">
