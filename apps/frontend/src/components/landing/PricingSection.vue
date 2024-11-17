@@ -2,6 +2,10 @@
 
 const isMonthly = ref(true);
 
+const props = defineProps<{
+  path : string;
+}>();
+
 const plans = [
 {
     title: 'Plan Básico',
@@ -16,6 +20,7 @@ const plans = [
       { text: 'Aprendizaje autodirigido' },
     ],
     buttonText: 'Plan Actual',
+    enable: false,
   },
   {
     title: 'Plan Estándar',
@@ -33,6 +38,7 @@ const plans = [
     buttonText: 'Elegir Plan',
     highlighted: true,
     tag: 'Más Popular',
+    enable: true,
   },
   {
     title: 'Plan empresarial',
@@ -49,15 +55,16 @@ const plans = [
     ],
     buttonText: 'Contactanos',
     highlighted: true,
+    enable: true,
   },
 ];
 </script>
 
 <template>
   <div class="flex justify-center w-full">
-    <div class="flex flex-col items-center justify-center gap-[97px] px-[65px] py-[53px] relative max-w-[1200px] w-full">
+    <div class="flex flex-col items-center justify-center gap-8 px-16 py-14 relative max-w-[1200px] w-full">
       <div class="flex flex-col items-center gap-4 relative self-stretch w-full flex-[0_0_auto]">
-        <div class="relative w-fit mt-[-1.00px] font-bold  text-[40px] text-center tracking-[0.80px] leading-normal">
+        <div class="relative w-fit mt-[-1.00px] font-bold text-[40px] text-center tracking-[0.80px] leading-normal">
           Compra una suscripción
         </div>
         <p class="relative w-fit font-normal  text-xl text-center tracking-[0.40px] leading-normal">
@@ -80,7 +87,16 @@ const plans = [
         </button>
       </div>
       <div class="flex flex-col md:flex-row justify-center items-center md:items-end gap-[17.99px] p-[13.49px] relative w-full max-w-[1075px] rounded-[35.98px] shadow-[0px_16.03px_14.52px_#00000021]">
-        <PricingCard v-for="(plan, index) in plans" :key="index" v-bind="plan" />
+
+        <Carousel v-slot="{ canScrollNext }" class="relative w-full">
+          <CarouselContent>
+            <CarouselItem v-for="(plan, index) in plans" :key="index" class="max-w-fit">
+              <PricingCard v-bind="plan" :path="path"/>
+            </CarouselItem>
+          </CarouselContent>
+          <CarouselPrevious/>
+          <CarouselNext v-if="canScrollNext" />
+        </Carousel>
       </div>
     </div>
   </div>

@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import {Check} from 'lucide-vue-next'
+import { string } from 'zod';
 
 interface Feature {
   text: string;
@@ -14,6 +15,8 @@ interface Props {
   buttonText: string;
   highlighted?: boolean;
   tag?: string;
+  path: string;
+  enable?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -81,15 +84,25 @@ const buttonClass = computed(() => props.highlighted ? 'bg-[#f296bd] text-white'
         {{ tag }}
       </div>
     </div>
-    <button
-        class="all-[unset] box-border flex flex-col items-center gap-[11.24px] pt-0 pb-[35.98px] px-[26.99px] relative self-stretch w-full flex-[0_0_auto]">
-      <div
-          :class="['relative self-stretch w-full h-[44.98px] rounded-[9px] overflow-hidden', buttonClass]">
+      <button v-if="path === '/'" @click="$router.push('/plans')" :disabled="!enable"
+          class="all-[unset] box-border flex flex-col items-center gap-[11.24px] pt-0 pb-[35.98px] px-[26.99px] relative self-stretch w-full flex-[0_0_auto] ">
         <div
-            class="absolute top-[7px] left-[50%] transform -translate-x-1/2 font-normal text-lg text-center tracking-0 leading-[27px] whitespace-nowrap">
-          {{ buttonText }}
+        :class="['relative self-stretch w-full h-[44.98px] rounded-[9px] overflow-hidden', buttonClass, { 'opacity-50 cursor-not-allowed': !enable }]">
+          <div
+          class="absolute top-[7px] left-[50%] transform -translate-x-1/2 font-normal text-lg text-center tracking-0 leading-[27px] whitespace-nowrap">
+        {{ buttonText }}
+          </div>
         </div>
-      </div>
-    </button>
+      </button>
+      <button v-else :disabled="!enable"
+          class="all-[unset] box-border flex flex-col items-center gap-[11.24px] pt-0 pb-[35.98px] px-[26.99px] relative self-stretch w-full flex-[0_0_auto] disabled:cursor-default">
+        <div
+        :class="['relative self-stretch w-full h-[44.98px] rounded-[9px] overflow-hidden', buttonClass, { 'opacity-50 cursor-not-allowed': !enable }]">
+          <div
+          class="absolute top-[7px] left-[50%] transform -translate-x-1/2 font-normal text-lg text-center tracking-0 leading-[27px] whitespace-nowrap">
+        {{ buttonText }}
+          </div>
+        </div>
+      </button>
   </div>
 </template>

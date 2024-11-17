@@ -4,6 +4,10 @@ import LearningInterface from "~/components/landing/LearningInterface.vue";
 import CommonQuestions from "~/components/landing/CommonQuestions.vue";
 import PricingSection from "~/components/landing/PricingSection.vue";
 
+const router = useRouter();
+
+const fullPath = ref(router.currentRoute.value.fullPath);
+
 useHead({
   title: 'Inicio',
   meta: [
@@ -25,6 +29,8 @@ definePageMeta({
     <landing-hero />
     <learning-interface />
     <common-questions />
-    <pricing-section />
+    <pricing-section 
+      :path="fullPath"
+    />
   </section>
 </template>

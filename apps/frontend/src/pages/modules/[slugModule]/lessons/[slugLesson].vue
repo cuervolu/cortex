@@ -93,6 +93,20 @@ onMounted(async () => {
                 </article>
             </div>
         </div>
+
+        <Sheet>
+            <SheetTrigger class="fixed bottom-8 right-8 bg-primary/80 hover:bg-primary text-white text-lg font-bold py-2 px-4 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none">
+                Ejercicios
+            </SheetTrigger>
+            <SheetContent>
+            <SheetHeader>
+                <SheetTitle>Ejercicios</SheetTitle>
+                <SheetDescription>
+                    {{ lesson?.exercise_ids }}
+                </SheetDescription>
+            </SheetHeader>
+            </SheetContent>
+        </Sheet>
     </section>
 
 </template>
