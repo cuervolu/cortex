@@ -2,6 +2,8 @@
 
 ¡Bienvenidos, jóvenes chefs de código, a nuestra última lección sobre TypeScript! En la sesión anterior, exploramos la programación orientada a objetos y cómo crear clases y herencias. Hoy, vamos a dar un paso más allá y aprender sobre los decoradores, una característica poderosa de TypeScript que les permitirá sazonar sus aplicaciones.
 
+![egg](https://res.cloudinary.com/dukgkrpft/image/upload/v1731877429/lessons/decoradores-typescript-sazona-tus-aplicaciones/kpssfdcfqpybj0af1h39.jpg)
+
 ## ¿Qué son los Decoradores?
 
 Los decoradores en TypeScript son una forma de agregar metadatos a las clases, propiedades, métodos y parámetros. Puedes pensar en ellos como "condimentos" que puedes aplicar a tus ingredientes de código para modificar su comportamiento.

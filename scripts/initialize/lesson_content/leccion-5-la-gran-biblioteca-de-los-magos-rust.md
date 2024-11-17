@@ -1,6 +1,6 @@
 # Introducción
 
-![rust](https://res.cloudinary.com/dukgkrpft/image/upload/v1729454906/lessons/aventuras-con-rust/xwsxfwkyphg91oud38sw.png)
+![magoso](https://res.cloudinary.com/dukgkrpft/image/upload/v1731877586/lessons/la-gran-biblioteca-de-los-magos-rust/c9polkbtumkpj3y98tjl.jpg)
 
 ¡Bienvenidos a la última aventura, intrépidos Rust Rangers! Hoy exploraremos la Gran Biblioteca de los Magos Rust, donde aprenderemos sobre los módulos mágicos, los crates misteriosos y el arte secreto de las pruebas. ¡Esta será nuestra aventura más emocionante! 🦀📚
 

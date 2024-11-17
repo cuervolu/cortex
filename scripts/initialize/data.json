@@ -176,7 +176,7 @@
       "course_ids": [
         7
       ],
-      "is_published": true
+      "is_published": false
     }
   ],
   "courses": [
@@ -435,7 +435,7 @@
     {
       "module_id": 3,
       "name": "Aventurandonos en el espacio con go",
-      "content_file": "leccion-3-aventuras-espaciales-en-go.md",
+      "content_file": "leccion-3-caminos-galacticos-en-go.md",
       "credits": 40,
       "is_published": true,
       "display_order": 3

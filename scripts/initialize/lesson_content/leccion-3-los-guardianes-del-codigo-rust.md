@@ -1,12 +1,12 @@
 # Introducción
 
-![rust](https://res.cloudinary.com/dukgkrpft/image/upload/v1729455101/lessons/aventuras-con-rust/uguvi94fvju89yoroijs.webp)
+![rust](https://res.cloudinary.com/dukgkrpft/image/upload/v1731876454/lessons/Los-guardianes-del-codigo-rust/b9pb8hz65qprgmre4heh.jpg))
 
 ¡Saludos, valientes Rust Rangers! Hoy nos adentraremos en el misterioso mundo de los Guardianes del Código: los Traits y los Lifetimes. ¡Prepárense para descubrir nuevos secretos y poderes mágicos que harán sus programas aún más asombrosos! 🦀✨
 
 ## Los Guardianes Mágicos: Los Traits
 
-![traits](https://res.cloudinary.com/dukgkrpft/image/upload/v1729455003/lessons/aventuras-con-rust/rdcbqcqfupbo1hejo80a.webp)
+![guardia](https://res.cloudinary.com/dukgkrpft/image/upload/v1731876382/lessons/Los-guardianes-del-codigo-rust/cstwznd0j1s0bwraq9m6.webp)
 
 ### ¿Qué son los Traits? 🎭
 

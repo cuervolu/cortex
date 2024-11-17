@@ -2,6 +2,8 @@
 
 ## La Historia de TypeScript
 
+![type](https://res.cloudinary.com/dukgkrpft/image/upload/v1729377002/lessons/cocinando-con-typescript/dhfxtr6kp18wtrwcg0zt.webp)
+
 JavaScript es el lenguaje que permite que las páginas web hagan cosas dinámicas, como mover imágenes o crear efectos. Sin embargo, a medida que los proyectos de programación se volvían más grandes y complejos, los desarrolladores necesitaban algo que los ayudara a organizar su código mejor. Aquí es donde nace **TypeScript**.
 
 TypeScript fue creado por Microsoft en 2012. La idea era construir una capa sobre JavaScript que hiciera el código más fácil de entender y manejar. Con TypeScript, puedes saber mejor si estás cometiendo errores en el código antes de probarlo. Esto ayuda a que los proyectos grandes funcionen sin problemas y a que los programadores encuentren los errores más rápido.
@@ -29,6 +31,8 @@ decirHola();
 Este código hará que aparezca el texto "¡Hola, Mundo!" en la consola.
 
 ### Crear un Proyecto en TypeScript
+
+![cocina](https://res.cloudinary.com/dukgkrpft/image/upload/v1729378602/lessons/cocinando-con-typescript/tohf9gjzxhbdskzhu4gi.webp)
 
 Para hacer un proyecto en TypeScript, puedes seguir estos pasos sencillos:
 

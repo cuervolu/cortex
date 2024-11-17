@@ -8,8 +8,6 @@ Introducción
 
 ## Historia de Java: Del Expresso al Latte
 
-![creador](https://res.cloudinary.com/dukgkrpft/image/upload/v1728694782/lessons/%C2%BFque-es-java-y-por-que-es-tan-popular/rwtbv9mfjwjb990hp2d3.jpg)
-
 Imagina que estás en una cafetería en 1991. Un grupo de programadores de Sun Microsystems, liderados por James Gosling, está tratando de crear un lenguaje de programación para dispositivos electrónicos. Inicialmente lo llamaron "Oak" (roble), pero descubrieron que ese nombre ya estaba registrado.
 
 Un día, mientras disfrutaban de una taza de café java (¡sí, java es un tipo de café!), tuvieron una idea brillante. ¿Por qué no llamar a su creación "Java"? Y así, en 1995, Java fue oficialmente presentado al mundo.

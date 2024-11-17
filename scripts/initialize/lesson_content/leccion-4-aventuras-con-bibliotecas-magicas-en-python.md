@@ -5,6 +5,8 @@
 
 ## Nuevos Conceptos Mágicos
 
+![biblioteca](https://res.cloudinary.com/dukgkrpft/image/upload/v1731876929/lessons/aventuras-con-bibliotecas-magicas-en-python/ae7fkgdigmnlbobv2foi.webp)
+
 ### 1. ¿Qué son las Bibliotecas? 🎩
 
 Las bibliotecas en Python son colecciones de funciones y métodos predefinidos que te ayudan a realizar tareas específicas. ¡Son como tener una caja de herramientas mágicas a tu disposición!

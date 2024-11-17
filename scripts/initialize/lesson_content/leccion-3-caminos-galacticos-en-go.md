@@ -1,12 +1,12 @@
 # Lección 3: Estructuras y Naves Espaciales en Go 🚀
 
-![go](https://res.cloudinary.com/dukgkrpft/image/upload/v1729455197/lessons/aventuras-espaciales-en-go/bfi1ydwke2edvrqsyuoh.png)
+![go](https://res.cloudinary.com/dukgkrpft/image/upload/v1731876168/lessons/caminos-galacticos-en-go/kaw7i80vzoxkdk4m2btm.webp)
 
 ¡Saludos, intrépidos exploradores del espacio! En esta emocionante lección, aprenderemos a construir nuestras propias naves espaciales utilizando las poderosas estructuras de Go. ¡Prepárense para una aventura llena de tipos personalizados y métodos especiales! 🌟
 
 ## Nuevos Tesoros Galácticos
 
-![galaxia](https://res.cloudinary.com/dukgkrpft/image/upload/v1729455335/lessons/aventuras-espaciales-en-go/o2tvozzhzvd8amuktoic.png)
+![tesoro](https://res.cloudinary.com/dukgkrpft/image/upload/v1731876042/lessons/caminos-galacticos-en-go/kbvtezrhofuz4kcu0zrt.webp)
 
 ### 1. Estructuras: Los Planos de tu Nave Espacial 🛸
 
@@ -62,7 +62,7 @@ type VehiculoEspacial interface {
 
 ## Misiones Espaciales
 
-![serio](https://res.cloudinary.com/dukgkrpft/image/upload/v1729455555/lessons/aventuras-espaciales-en-go/ebxb8f6v0pxvy8f6mtvt.gif)
+![mision](https://res.cloudinary.com/dukgkrpft/image/upload/v1731876242/lessons/caminos-galacticos-en-go/gaqtwcfg3jxdcqytrndy.webp)
 
 ### Misión 1: El Constructor de Flotas Espaciales
 

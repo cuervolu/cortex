@@ -2,6 +2,8 @@
 
 ¡Bienvenidos a otra emocionante lección de TypeScript, jóvenes chefs del código! En nuestra sesión anterior, exploramos proyectos prácticos que nos ayudaron a aplicar los conceptos básicos de TypeScript. Hoy, vamos a dar un paso más allá y sumergirnos en el mundo de la programación orientada a objetos (POO) con TypeScript.
 
+![gato](https://res.cloudinary.com/dukgkrpft/image/upload/v1731876986/lessons/creando-platos-deliciosos-en-typescript/jodwyfktuwa4caj3plxe.jpg)
+
 ## Clases y Objetos: Nuestros Utensilios Personalizados
 
 En TypeScript, puedes crear tus propias clases para representar objetos del mundo real. Estas clases pueden tener propiedades y métodos, al igual que los objetos que representan.

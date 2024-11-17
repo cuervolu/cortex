@@ -1,12 +1,12 @@
 # Introducción
 
-![rust](https://res.cloudinary.com/dukgkrpft/image/upload/v1729454906/lessons/aventuras-con-rust/xwsxfwkyphg91oud38sw.png)
+![rust](https://res.cloudinary.com/dukgkrpft/image/upload/v1731877176/lessons/los-defensores-del-reino-rust/rtlwgsnkgkcvoqqtby7f.webp)
 
 ¡Saludos, valientes Rust Rangers! Hoy nos adentraremos en el Reino de los Defensores Rust, donde aprenderemos sobre los poderosos Smart Pointers, el arte de manejar errores y la magia de la concurrencia. ¡Prepárense para una aventura épica! 🦀⚔️
 
 ## Los Defensores Mágicos: Smart Pointers
 
-![defensores](https://res.cloudinary.com/dukgkrpft/image/upload/v1729455003/lessons/aventuras-con-rust/rdcbqcqfupbo1hejo80a.webp)
+![defensores](https://res.cloudinary.com/dukgkrpft/image/upload/v1731877169/lessons/los-defensores-del-reino-rust/wjdllwfeyc6dlqaqyokh.png)
 
 ### Box<T\>: El Cofre Mágico 📦
 

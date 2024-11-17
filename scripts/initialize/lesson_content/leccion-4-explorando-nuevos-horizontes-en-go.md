@@ -3,6 +3,8 @@
 
 ¡Hola, valientes exploradores! Hoy continuaremos nuestra emocionante aventura en el Planeta Go. Prepárense para descubrir nuevas herramientas e ideas que los ayudarán a ser aún más poderosos programadores galácticos. 🚀
 
+![golang](https://res.cloudinary.com/dukgkrpft/image/upload/v1731877073/lessons/explorando-nuevos-horizontes-en-go/p0d3i1shlmzbrpv2bikn.jpg)
+
 ## 1. Las Estructuras Estelares 🌌
 
 Las estructuras en Go son como naves espaciales que pueden tener varios componentes para mantener organizados nuestros datos. ¡Podemos almacenar diferentes tipos de información en un solo lugar!

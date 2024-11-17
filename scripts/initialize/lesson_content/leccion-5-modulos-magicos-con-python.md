@@ -3,6 +3,8 @@
 
 ¡Hola, jóvenes programadores! Hoy, en nuestra última aventura, aprenderemos a crear nuestros propios módulos y poner en práctica todo lo que hemos aprendido hasta ahora. ¡Prepárense para desatar la magia de su creatividad!
 
+![poter](https://res.cloudinary.com/dukgkrpft/image/upload/v1731877650/lessons/modulos-magicos-con-python/ibzrhmfg8gnfg5kpfrf3.webp)
+
 ## Nuevos Conceptos Mágicos
 
 ### 1. ¿Qué es un Módulo? 📦
