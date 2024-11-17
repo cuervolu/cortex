@@ -4,16 +4,16 @@ import {Loader2} from 'lucide-vue-next'
 
 const currentMessage = ref(0)
 const funnyMessages = [
-  "Hang tight! We're teaching monkeys to code...",
-  "Convincing pixels to behave...",
-  "Reticulating splines and confusing geometry teachers...",
-  "Warming up the flux capacitor...",
-  "Generating witty loading messages...",
-  "Proving P = NP (this might take a while)...",
-  "Dividing by zero. Oops!",
-  "Downloading more RAM...",
-  "Untangling your earphones. How did they even get like that?",
-  "Counting to infinity. Twice.",
+  "¡Espera un momento! Estamos enseñando a los monos a programar...",
+  "Convenciendo a los píxeles de que se comporten...",
+  "Reticulando splines y confundiendo a los profesores de geometría...",
+  "Calentando el condensador de flujo...",
+  "Generando mensajes ingeniosos de carga...",
+  "Demostrando que P = NP (esto podría tardar un poco)...",
+  "Dividiendo por cero. ¡Ups!",
+  "Descargando más RAM...",
+  "Desenredando tus audífonos. ¿Cómo se enredaron así?",
+  "Contando hasta el infinito. Dos veces.",
 ]
 
 let interval: NodeJS.Timeout
