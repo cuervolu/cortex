@@ -1,6 +1,7 @@
 package com.cortex.backend.education.lesson.api;
 
 import com.cortex.backend.core.common.PageResponse;
+import com.cortex.backend.core.domain.User;
 import com.cortex.backend.education.lesson.api.dto.LessonRequest;
 import com.cortex.backend.education.lesson.api.dto.LessonResponse;
 import com.cortex.backend.education.lesson.api.dto.LessonUpdateRequest;
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -39,9 +41,11 @@ public class LessonController {
   public ResponseEntity<PageResponse<LessonResponse>> getAllPublishedLessons(
       @RequestParam(name = "page", defaultValue = "0") int page,
       @RequestParam(name = "size", defaultValue = "10") int size,
-      @RequestParam(name = "sort", required = false) String[] sort
+      @RequestParam(name = "sort", required = false) String[] sort,
+      Authentication authentication
   ) {
-    return ResponseEntity.ok(lessonService.getAllPublishedLessons(page, size, sort));
+    Long userId = authentication != null ? ((User) authentication.getPrincipal()).getId() : null;
+    return ResponseEntity.ok(lessonService.getAllPublishedLessons(page, size, sort, userId));
   }
 
   @GetMapping("/admin")
@@ -52,9 +56,11 @@ public class LessonController {
   public ResponseEntity<PageResponse<LessonResponse>> getAllLessons(
       @RequestParam(name = "page", defaultValue = "0") int page,
       @RequestParam(name = "size", defaultValue = "10") int size,
-      @RequestParam(name = "sort", required = false) String[] sort
+      @RequestParam(name = "sort", required = false) String[] sort,
+      Authentication authentication
   ) {
-    return ResponseEntity.ok(lessonService.getAllLessons(page, size, sort));
+    Long userId = authentication != null ? ((User) authentication.getPrincipal()).getId() : null;
+    return ResponseEntity.ok(lessonService.getAllLessons(page, size, sort, userId));
   }
 
   @GetMapping("/{id}")
@@ -62,8 +68,12 @@ public class LessonController {
   @ApiResponse(responseCode = "200", description = "Successful operation",
       content = @Content(schema = @Schema(implementation = LessonResponse.class)))
   @ApiResponse(responseCode = "404", description = "Lesson not found")
-  public ResponseEntity<LessonResponse> getLessonById(@PathVariable Long id) {
-    return lessonService.getLessonById(id)
+  public ResponseEntity<LessonResponse> getLessonById(
+      @PathVariable Long id,
+      Authentication authentication
+  ) {
+    Long userId = authentication != null ? ((User) authentication.getPrincipal()).getId() : null;
+    return lessonService.getLessonById(id, userId)
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }
@@ -73,11 +83,16 @@ public class LessonController {
   @ApiResponse(responseCode = "200", description = "Successful operation",
       content = @Content(schema = @Schema(implementation = LessonResponse.class)))
   @ApiResponse(responseCode = "404", description = "Lesson not found")
-  public ResponseEntity<LessonResponse> getLessonBySlug(@PathVariable String slug) {
-    return lessonService.getLessonBySlug(slug)
+  public ResponseEntity<LessonResponse> getLessonBySlug(
+      @PathVariable String slug,
+      Authentication authentication
+  ) {
+    Long userId = authentication != null ? ((User) authentication.getPrincipal()).getId() : null;
+    return lessonService.getLessonBySlug(slug, userId)
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }
+
 
   @PostMapping
   @PreAuthorize("hasAnyRole('MODERATOR', 'ADMIN')")

@@ -12,6 +12,7 @@ import com.cortex.backend.education.lesson.api.dto.LessonResponse;
 import com.cortex.backend.education.lesson.api.dto.LessonUpdateRequest;
 import com.cortex.backend.education.module.api.ModuleRepository;
 import com.cortex.backend.education.progress.api.LessonCompletedEvent;
+import com.cortex.backend.education.progress.api.UserProgressService;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
@@ -35,56 +36,54 @@ public class LessonServiceImpl implements LessonService {
   private final ModuleRepository moduleRepository;
   private final ApplicationEventPublisher eventPublisher;
   private final SlugUtils slugUtils;
+  private final UserProgressService userProgressService;
 
   private static final String LESSON_NOT_FOUND_MESSAGE = "Lesson not found";
 
   @Override
   @Transactional(readOnly = true)
-  public PageResponse<LessonResponse> getAllPublishedLessons(int page, int size, String[] sort) {
+  public PageResponse<LessonResponse> getAllPublishedLessons(int page, int size, String[] sort, Long userId) {
     Sort sortBy = SortUtils.parseSort(sort);
     Pageable pageable = PageRequest.of(page, size, sortBy);
 
     Page<Lesson> lessons = lessonRepository.findAllPublishedLessons(pageable);
 
     List<LessonResponse> response = lessons.stream()
-        .map(lessonMapper::toLessonResponse)
+        .map(lesson -> lessonMapper.toLessonResponse(lesson, userId, userProgressService))
         .toList();
 
     return new PageResponse<>(response, lessons.getNumber(), lessons.getSize(),
         lessons.getTotalElements(), lessons.getTotalPages(), lessons.isFirst(), lessons.isLast());
-
-
   }
 
   @Override
   @Transactional(readOnly = true)
-  public PageResponse<LessonResponse> getAllLessons(int page, int size, String[] sort) {
+  public PageResponse<LessonResponse> getAllLessons(int page, int size, String[] sort, Long userId) {
     Sort sortBy = SortUtils.parseSort(sort);
     Pageable pageable = PageRequest.of(page, size, sortBy);
 
     Page<Lesson> lessons = lessonRepository.findAll(pageable);
 
     List<LessonResponse> response = lessons.stream()
-        .map(lessonMapper::toLessonResponse)
+        .map(lesson -> lessonMapper.toLessonResponse(lesson, userId, userProgressService))
         .toList();
 
     return new PageResponse<>(response, lessons.getNumber(), lessons.getSize(),
         lessons.getTotalElements(), lessons.getTotalPages(), lessons.isFirst(), lessons.isLast());
-
   }
 
   @Override
   @Transactional(readOnly = true)
-  public Optional<LessonResponse> getLessonById(Long id) {
+  public Optional<LessonResponse> getLessonById(Long id, Long userId) {
     return lessonRepository.findById(id)
-        .map(lessonMapper::toLessonResponse);
+        .map(lesson -> lessonMapper.toLessonResponse(lesson, userId, userProgressService));
   }
 
   @Override
   @Transactional(readOnly = true)
-  public Optional<LessonResponse> getLessonBySlug(String slug) {
+  public Optional<LessonResponse> getLessonBySlug(String slug, Long userId) {
     return lessonRepository.findBySlug(slug)
-        .map(lessonMapper::toLessonResponse);
+        .map(lesson -> lessonMapper.toLessonResponse(lesson, userId, userProgressService));
   }
 
   @Override
@@ -94,8 +93,9 @@ public class LessonServiceImpl implements LessonService {
     lesson.setSlug(generateUniqueSlug(request.getName()));
     setLessonModule(lesson, request.getModuleId());
     Lesson savedLesson = lessonRepository.save(lesson);
-    return lessonMapper.toLessonResponse(savedLesson);
+    return lessonMapper.toLessonResponse(savedLesson, null, userProgressService);
   }
+
 
   @Override
   @Transactional
@@ -116,13 +116,12 @@ public class LessonServiceImpl implements LessonService {
     if (request.getModuleId() != null) {
       setLessonModule(existingLesson, request.getModuleId());
     }
-
     if (request.getIsPublished() != null) {
       existingLesson.setIsPublished(request.getIsPublished());
     }
 
     Lesson updatedLesson = lessonRepository.save(existingLesson);
-    return lessonMapper.toLessonResponse(updatedLesson);
+    return lessonMapper.toLessonResponse(updatedLesson, null, userProgressService);
   }
 
   @Override

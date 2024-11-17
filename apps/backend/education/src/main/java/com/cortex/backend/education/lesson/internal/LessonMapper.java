@@ -1,24 +1,26 @@
 package com.cortex.backend.education.lesson.internal;
 
+import com.cortex.backend.core.domain.EntityType;
 import com.cortex.backend.core.domain.Exercise;
 import com.cortex.backend.core.domain.Lesson;
+import com.cortex.backend.education.lesson.api.dto.ExerciseInfo;
 import com.cortex.backend.education.lesson.api.dto.LessonRequest;
 import com.cortex.backend.education.lesson.api.dto.LessonResponse;
+import com.cortex.backend.education.progress.api.UserProgressService;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Named;
 
 @Mapper(componentModel = "spring")
 public interface LessonMapper {
 
-  @Mapping(target = "moduleId", source = "moduleEntity.id")
-  @Mapping(target = "moduleName", source = "moduleEntity.name")
-  @Mapping(target = "exerciseIds", source = "exercises", qualifiedByName = "exercisesToIds")
-  @Mapping(target = "displayOrder", source = "displayOrder")
-  @Mapping(target = "isPublished", source = "isPublished")
-  LessonResponse toLessonResponse(Lesson lesson);
+  @Mapping(target = "moduleId", source = "lesson.moduleEntity.id")
+  @Mapping(target = "moduleName", source = "lesson.moduleEntity.name")
+  @Mapping(target = "exercises", expression = "java(mapExercises(lesson.getExercises(), userId, userProgressService))")
+  @Mapping(target = "displayOrder", source = "lesson.displayOrder")
+  @Mapping(target = "isPublished", source = "lesson.isPublished")
+  LessonResponse toLessonResponse(Lesson lesson, Long userId, UserProgressService userProgressService);
 
   @Mapping(target = "isPublished", source = "published")
   @Mapping(target = "id", ignore = true)
@@ -29,10 +31,20 @@ public interface LessonMapper {
   @Mapping(target = "displayOrder", source = "displayOrder")
   Lesson toLesson(LessonRequest lessonRequest);
 
-  @Named("exercisesToIds")
-  default Set<Long> exercisesToIds(Set<Exercise> exercises) {
-    return exercises != null ? exercises.stream()
-        .map(Exercise::getId)
-        .collect(Collectors.toSet()) : null;
+  default Set<ExerciseInfo> mapExercises(Set<Exercise> exercises, Long userId, UserProgressService userProgressService) {
+    if (exercises == null) return null;
+
+    return exercises.stream()
+        .map(exercise -> ExerciseInfo.builder()
+            .id(exercise.getId())
+            .slug(exercise.getSlug())
+            .title(exercise.getTitle())
+            .points(exercise.getPoints())
+            .isCompleted(userProgressService.isEntityCompleted(
+                userId,
+                exercise.getId(),
+                EntityType.EXERCISE))
+            .build())
+        .collect(Collectors.toSet());
   }
 }

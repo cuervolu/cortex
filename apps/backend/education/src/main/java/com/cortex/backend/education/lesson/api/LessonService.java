@@ -9,22 +9,22 @@ import org.springframework.data.domain.Page;
 
 public interface LessonService {
 
-  PageResponse<LessonResponse> getAllPublishedLessons(int page, int size, String[] sort);
+  PageResponse<LessonResponse> getAllPublishedLessons(int page, int size, String[] sort,
+      Long userId);
 
-  PageResponse<LessonResponse> getAllLessons(int page, int size, String[] sort);
+  PageResponse<LessonResponse> getAllLessons(int page, int size, String[] sort, Long userId);
 
-  Optional<LessonResponse> getLessonById(Long id);
+  Optional<LessonResponse> getLessonById(Long id, Long userId);
 
-  Optional<LessonResponse> getLessonBySlug(String slug);
+  Optional<LessonResponse> getLessonBySlug(String slug, Long userId);
 
-  LessonResponse createLesson(LessonRequest lesson);
+  LessonResponse createLesson(LessonRequest request);
 
-  LessonResponse updateLesson(Long id, LessonUpdateRequest lessonRequest);
+  LessonResponse updateLesson(Long id, LessonUpdateRequest request);
 
   void deleteLesson(Long id);
 
   void completeLesson(Long lessonId, Long userId);
-  
+
   Long getModuleIdForLesson(Long lessonId);
-  
 }

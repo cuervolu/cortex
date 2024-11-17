@@ -58,7 +58,7 @@ public class AchievementProcessorServiceImpl implements AchievementProcessorServ
   }
 
   private void processLessonAchievements(Long userId, Long lessonId) {
-    Optional<LessonResponse> lesson = lessonService.getLessonById(lessonId);
+    Optional<LessonResponse> lesson = lessonService.getLessonById(lessonId, userId);
     if (lesson.isPresent()) {
       awardAchievementIfNotExists(userId, "COMPLETE_FIRST_LESSON");
       checkAllLessonsInModuleCompleted(userId, lesson.get().getModuleId());
