@@ -47,11 +47,13 @@ export interface Lesson {
   content: string;
   credits: number;
   slug: string;
-  moduleId: number;
-  moduleName: string;
-  exerciseIds: number[];
-  createdAt: string;
-  updatedAt: string | null;
+  module_id: number;
+  module_name: string;
+  exercise_ids: number[];
+  created_at: string;
+  updated_at: string | null;
+  display_order?: number;
+  is_published: boolean;
 }
 
 export interface Roadmap {
