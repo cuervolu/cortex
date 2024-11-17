@@ -28,8 +28,7 @@ public class LessonResponse {
   @JsonProperty("module_name")
   private String moduleName;
 
-  @JsonProperty("exercise_ids")
-  private Set<Long> exerciseIds;
+  private Set<ExerciseInfo> exercises;
 
   @JsonProperty("created_at")
   private LocalDateTime createdAt;
