@@ -4,7 +4,17 @@ pub mod lessons;
 pub mod modules;
 pub mod roadmaps;
 
+use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
+
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum EnrollmentStatus {
+    Active,
+    Paused,
+    Dropped,
+    Completed,
+}
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PaginatedResponse<T> {
@@ -83,6 +93,8 @@ pub struct ExerciseInfo {
     #[serde(rename = "is_completed")]
     pub is_completed: bool,
     pub points: u32,
+    #[serde(rename = "display_order")]
+    pub display_order: i32,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -92,11 +104,30 @@ pub struct Roadmap {
     pub description: String,
     pub slug: String,
     pub image_url: Option<String>,
-    pub tag_names: Option<Vec<String>>,  
+    pub tag_names: Option<Vec<String>>,
     pub is_published: bool,
-    pub course_slugs: Option<Vec<String>>,  
+    pub course_slugs: Option<Vec<String>>,
     pub created_at: String,
     pub updated_at: Option<String>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct RoadmapEnrollmentResponse {
+    #[serde(rename = "user_id")]
+    pub user_id: u64,
+
+    #[serde(rename = "roadmap_id")]
+    pub roadmap_id: u64,
+
+    #[serde(rename = "enrollment_date")]
+    pub enrollment_date: DateTime<Utc>,
+
+    pub status: EnrollmentStatus,
+
+    #[serde(rename = "last_activity_date")]
+    pub last_activity_date: DateTime<Utc>,
+
+    pub progress: f64,
 }
 
 #[derive(Debug, Serialize, Deserialize)]

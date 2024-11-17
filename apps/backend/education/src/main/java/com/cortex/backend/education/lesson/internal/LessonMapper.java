@@ -40,6 +40,7 @@ public interface LessonMapper {
             .slug(exercise.getSlug())
             .title(exercise.getTitle())
             .points(exercise.getPoints())
+            .displayOrder(exercise.getDisplayOrder())
             .isCompleted(userProgressService.isEntityCompleted(
                 userId,
                 exercise.getId(),

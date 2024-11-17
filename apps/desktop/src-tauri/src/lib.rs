@@ -118,7 +118,8 @@ pub fn run() {
             education::roadmaps::commands::delete_roadmap_command,
             education::roadmaps::commands::get_roadmap_courses,
             education::roadmaps::commands::get_available_courses,
-             education::roadmaps::commands::update_roadmap_courses,
+            education::roadmaps::commands::update_roadmap_courses,
+            education::roadmaps::commands::enroll_in_roadmap,
             
             // Courses
             education::courses::commands::fetch_all_courses,
