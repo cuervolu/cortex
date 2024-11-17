@@ -11,10 +11,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ExerciseInfo {
+
   private Long id;
   private String slug;
   private String title;
   @JsonProperty("is_completed")
   private boolean isCompleted;
   private int points;
+  @JsonProperty("display_order")
+  private int displayOrder;
 }
