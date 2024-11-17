@@ -66,9 +66,23 @@ pub struct Lesson {
     pub slug: String,
     pub module_id: u64,
     pub module_name: String,
-    pub exercise_ids: Vec<u64>,
+    pub exercises: Vec<ExerciseInfo>,
     pub created_at: String,
     pub updated_at: Option<String>,
+    #[serde(rename = "display_order")]
+    pub display_order: u32,
+    #[serde(rename = "is_published")]
+    pub is_published: bool,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ExerciseInfo {
+    pub id: u64,
+    pub slug: String,
+    pub title: String,
+    #[serde(rename = "is_completed")]
+    pub is_completed: bool,
+    pub points: u32,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
