@@ -1,7 +1,6 @@
 package com.cortex.backend.chat.api;
 
 import com.cortex.backend.chat.internal.AiChatService;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,7 +20,7 @@ public class AiChatController {
   @GetMapping
   public Flux<String> chatWithStream(@RequestParam String message,
       @RequestParam String exerciseSlug,
-      @RequestParam(required = false) String userCode, Authentication authentication) {
-    return aiChatService.getChatStream(message, exerciseSlug, userCode, authentication.getName());
+      @RequestParam(required = false) String userCode) {
+    return aiChatService.getChatStream(message, exerciseSlug, userCode);
   }
 }

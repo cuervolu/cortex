@@ -26,8 +26,7 @@ public class AiChatService {
   private final ChatClient chatClient;
   private final ExerciseService exerciseService;
 
-  public Flux<String> getChatStream(String message, String exerciseSlug, String userCode,
-      String username) {
+  public Flux<String> getChatStream(String message, String exerciseSlug, String userCode) {
     Optional<ExerciseResponse> exercise = exerciseService.getExerciseBySlug(exerciseSlug);
 
     if (exercise.isEmpty()) {
@@ -41,7 +40,7 @@ public class AiChatService {
         .system(exercisePrompt)
         .user(message)
         .advisors(a -> a
-            .param(CHAT_MEMORY_CONVERSATION_ID_KEY, username)
+            .param(CHAT_MEMORY_CONVERSATION_ID_KEY, exerciseSlug)
             .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 100)
         )
         .stream()
