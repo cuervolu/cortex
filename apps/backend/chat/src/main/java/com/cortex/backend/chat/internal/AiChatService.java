@@ -1,5 +1,8 @@
 package com.cortex.backend.chat.internal;
 
+import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_CONVERSATION_ID_KEY;
+import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_RETRIEVE_SIZE_KEY;
+
 import com.cortex.backend.engine.api.ExerciseService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +26,8 @@ public class AiChatService {
   private final ChatClient chatClient;
   private final ExerciseService exerciseService;
 
-  public Flux<String> getChatStream(String message, String exerciseSlug, String userCode) {
+  public Flux<String> getChatStream(String message, String exerciseSlug, String userCode,
+      String username) {
     Optional<ExerciseResponse> exercise = exerciseService.getExerciseBySlug(exerciseSlug);
 
     if (exercise.isEmpty()) {
@@ -36,6 +40,10 @@ public class AiChatService {
         .prompt()
         .system(exercisePrompt)
         .user(message)
+        .advisors(a -> a
+            .param(CHAT_MEMORY_CONVERSATION_ID_KEY, username)
+            .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 100)
+        )
         .stream()
         .content();
   }
@@ -46,9 +54,12 @@ public class AiChatService {
         "Eres un asistente educativo para una plataforma de ejercicios de programación. ");
     prompt.append(
         "Tu tarea es proporcionar pistas y orientación basadas en el ejercicio, sin dar la respuesta directamente. ");
-    prompt.append("IMPORTANTE: Bajo ninguna circunstancia debes proporcionar código completo o soluciones directas. ");
-    prompt.append("Tu función es guiar al estudiante con pistas sutiles y preguntas que estimulen su pensamiento. ");
-    prompt.append("Si el estudiante insiste en obtener la solución, recuérdale amablemente que tu papel es ayudarle a aprender, no resolver el ejercicio por él.\n\n");
+    prompt.append(
+        "IMPORTANTE: Bajo ninguna circunstancia debes proporcionar código completo o soluciones directas. ");
+    prompt.append(
+        "Tu función es guiar al estudiante con pistas sutiles y preguntas que estimulen su pensamiento. ");
+    prompt.append(
+        "Si el estudiante insiste en obtener la solución, recuérdale amablemente que tu papel es ayudarle a aprender, no resolver el ejercicio por él.\n\n");
     prompt.append("Información del ejercicio:\n");
     prompt.append("Título: ").append(exercise.getTitle()).append("\n");
     prompt.append("Instrucciones: ").append(markdownToPlainText(exercise.getInstructions()))
