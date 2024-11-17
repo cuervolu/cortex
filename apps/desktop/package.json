@@ -17,12 +17,12 @@
   },
   "dependencies": {
     "@codemirror/state": "^6.4.1",
-    "@codemirror/view": "^6.34.2",
+    "@codemirror/view": "^6.34.3",
     "@cortex/shared": "workspace:^",
     "@fabianlars/tauri-plugin-oauth": "^2.0.0",
     "@neoconfetti/vue": "^2.2.1",
     "@nuxt/image": "^1.8.1",
-    "@tauri-apps/api": "^2.0.3",
+    "@tauri-apps/api": "^2.1.1",
     "@tauri-apps/plugin-clipboard-manager": "2.0.0",
     "@tauri-apps/plugin-dialog": "2.0.1",
     "@tauri-apps/plugin-fs": "2.0.2",
@@ -47,7 +47,7 @@
     "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
-    "@tauri-apps/cli": "2.0.4",
+    "@tauri-apps/cli": "2.1.0",
     "@types/turndown": "^5.0.5",
     "cross-env": "^7.0.3"
   }
