@@ -1,9 +1,6 @@
 pub mod commands;
 
-use crate::{
-    Course, PaginatedResponse, PaginatedRoadmaps, Roadmap, RoadmapCourseAssignment,
-    RoadmapCreateRequest, RoadmapDetails, RoadmapUpdateRequest,
-};
+use crate::{Course, PaginatedResponse, PaginatedRoadmaps, Roadmap, RoadmapCourseAssignment, RoadmapCreateRequest, RoadmapDetails, RoadmapEnrollmentResponse, RoadmapUpdateRequest};
 use common::state::AppState;
 use common::{SortQueryParams, API_BASE_URL, CLIENT};
 use error::AppError;
@@ -332,4 +329,56 @@ pub async fn update_roadmap_courses(
     }
 
     Ok(())
+}
+
+pub async fn enroll_in_roadmap(
+    roadmap_id: u64,
+    state: State<'_, AppState>,
+) -> Result<RoadmapEnrollmentResponse, AppError> {
+    let token = state
+        .token
+        .lock()
+        .map_err(|_| AppError::ContextLockError)?
+        .clone()
+        .ok_or(AppError::NoTokenError)?;
+
+    debug!("Enrolling in roadmap with ID: {}", roadmap_id);
+
+    let response = CLIENT
+        .post(format!("{}/education/roadmap/{}/enroll", API_BASE_URL, roadmap_id))
+        .bearer_auth(token)
+        .send()
+        .await
+        .map_err(|e| {
+            error!("Failed to enroll in roadmap: {:?}", e);
+            AppError::RequestError(e)
+        })?;
+
+    match response.status() {
+        status if status.is_success() => {
+            let enrollment = response
+                .json::<RoadmapEnrollmentResponse>()
+                .await
+                .map_err(|e| {
+                    error!("Failed to deserialize enrollment response: {:?}", e);
+                    AppError::RequestError(e)
+                })?;
+
+            debug!("Successfully enrolled in roadmap {}", roadmap_id);
+            Ok(enrollment)
+        }
+        status if status.as_u16() == 400 => {
+            Err(AppError::ApiError("Already enrolled in this roadmap".to_string()))
+        }
+        status if status.as_u16() == 404 => {
+            Err(AppError::ApiError("Roadmap not found".to_string()))
+        }
+        _ => {
+            let error_msg = response
+                .text()
+                .await
+                .unwrap_or_else(|_| "Unknown error".to_string());
+            Err(AppError::ApiError(format!("Failed to enroll in roadmap: {}", error_msg)))
+        }
+    }
 }

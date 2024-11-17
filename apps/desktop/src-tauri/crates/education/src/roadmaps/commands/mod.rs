@@ -2,7 +2,7 @@ use crate::roadmaps::{
     create_roadmap, delete_roadmap, fetch_course_from_roadmap, fetch_roadmaps,
     fetch_roadmaps_details, update_roadmap,
 };
-use crate::{roadmaps, Course, CourseAssignment, PaginatedResponse, PaginatedRoadmaps, Roadmap, RoadmapCourseAssignment, RoadmapCreateRequest, RoadmapDetails, RoadmapUpdateRequest};
+use crate::{roadmaps, Course, CourseAssignment, PaginatedResponse, PaginatedRoadmaps, Roadmap, RoadmapCourseAssignment, RoadmapCreateRequest, RoadmapDetails, RoadmapEnrollmentResponse, RoadmapUpdateRequest};
 use common::handle_content_image_upload;
 use common::state::AppState;
 use error::AppError;
@@ -153,7 +153,9 @@ pub async fn get_available_courses(
     state: State<'_, AppState>,
 ) -> Result<PaginatedResponse<Course>, AppError> {
     debug!("Fetching available courses for roadmap: {}", roadmap_id);
-    match roadmaps::get_available_courses(roadmap_id, state, page, size, sort, include_unpublished).await {
+    match roadmaps::get_available_courses(roadmap_id, state, page, size, sort, include_unpublished)
+        .await
+    {
         Ok(paginated_courses) => {
             debug!("Successfully fetched {} available courses", paginated_courses.content.len());
             Ok(paginated_courses)
@@ -183,4 +185,12 @@ pub async fn update_roadmap_courses(
             Err(e)
         }
     }
+}
+
+#[tauri::command]
+pub async fn enroll_in_roadmap(
+    roadmap_id: u64,
+    state: State<'_, AppState>,
+) -> Result<RoadmapEnrollmentResponse, AppError> {
+    super::enroll_in_roadmap(roadmap_id, state).await
 }
