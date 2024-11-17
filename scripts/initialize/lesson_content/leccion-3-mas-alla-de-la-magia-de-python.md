@@ -1,6 +1,8 @@
 
 # Lección 3: Más Allá de la Magia de Python 🌌
 
+![type](https://res.cloudinary.com/dukgkrpft/image/upload/v1731876586/lessons/Mas-alla-de-la-magia-de-python/dym1jvr2lhsu8cswdrux.avif)
+
 ¡Hola, jóvenes magos y brujas de Python! Hoy nos adentraremos aún más en este emocionante mundo, aprendiendo sobre nuevas herramientas mágicas que harán que sus hechizos sean aún más poderosos. ¡Ajusten sus sombreros y vamos a descubrirlo!
 
 ## Conceptos Emocionantes

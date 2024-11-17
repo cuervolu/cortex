@@ -1,6 +1,6 @@
 # Java para Niños - Lección 4: ¡Superhéroes y Métodos! 🦸‍♂️
 
-![superhero](https://res.cloudinary.com/dukgkrpft/image/upload/v1729456321/lessons/java-para-ninos/superhero.jpg)
+![superhero](https://res.cloudinary.com/dukgkrpft/image/upload/v1731876846/lessons/superheroes-y-metodos-de-java/mcosmxd9jduvkafrqekr.webp)
 
 ¡Hola super programadores! 👋 Hoy vamos a aprender sobre métodos y objetos en Java. ¡Será como crear nuestros propios superhéroes con superpoderes! 🌟
 

@@ -1,6 +1,6 @@
 # Java para Niños - Lección 5: ¡El Parque de Diversiones Virtual! 🎡
 
-![parque](https://res.cloudinary.com/dukgkrpft/image/upload/v1729456321/lessons/java-para-ninos/amusement-park.jpg)
+![parque](https://res.cloudinary.com/dukgkrpft/image/upload/v1731877347/lessons/el-parque-de-diversiones-virtual-el-potencial-de-java/toivtadigtd0xznkee31.jpg)
 
 ¡Hola aventureros del código! 👋 En esta última lección, vamos a crear nuestro propio parque de diversiones virtual usando conceptos más avanzados de Java. ¡Prepárense para la diversión! 🎢
 

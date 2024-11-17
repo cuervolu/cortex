@@ -2,6 +2,8 @@
 
 ¡Bienvenidos de vuelta, jóvenes cocineros de código! En nuestras lecciones anteriores, hemos explorado los ingredientes y las técnicas básicas de TypeScript. Ahora es el momento de poner todo en práctica y cocinar algunos proyectos reales.
 
+![type](https://res.cloudinary.com/dukgkrpft/image/upload/v1731876766/lessons/Typescript-en-accion-ajustando-la-temperatura/ce8vaiehi2vyhrzqxs1g.png)
+
 ## Proyecto 1: El Conversor de Monedas
 
 Vamos a crear una aplicación de conversor de monedas utilizando TypeScript. Nuestro objetivo será tomar un monto en una moneda y convertirla a otras monedas, mostrando el resultado de manera clara y organizada.

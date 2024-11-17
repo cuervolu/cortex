@@ -8,7 +8,7 @@
 
 ## Historia de Java: Del Expresso al Latte
 
-<img src="https://res.cloudinary.com/dukgkrpft/image/upload/v1728694782/lessons/%C2%BFque-es-java-y-por-que-es-tan-popular/rwtbv9mfjwjb990hp2d3.jpg" width="200" height="100">
+![java](https://res.cloudinary.com/dukgkrpft/image/upload/v1728694782/lessons/%C2%BFque-es-java-y-por-que-es-tan-popular/rwtbv9mfjwjb990hp2d3.jpg)
 
 Imagina que estás en una cafetería en 1991. Un grupo de programadores de Sun Microsystems, liderados por James Gosling, está tratando de crear un lenguaje de programación para dispositivos electrónicos. Inicialmente lo llamaron "Oak" (roble), pero descubrieron que ese nombre ya estaba registrado.
 

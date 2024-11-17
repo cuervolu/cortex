@@ -1,6 +1,6 @@
 # Java para Niños - Lección 3: ¡Aventuras con Arrays y Juegos! 🎮
 
-![arrays-hero](https://res.cloudinary.com/dukgkrpft/image/upload/v1729456321/lessons/java-para-ninos/arrays-hero.jpg)
+![java](https://res.cloudinary.com/dukgkrpft/image/upload/v1731875694/lessons/aventuras-con-arrays-y-juegos-con-java/taymdavxtjdxoywvcyu4.png)
 
 ¡Hola pequeños programadores! 👋 Hoy vamos a aprender sobre algo súper divertido en Java: ¡los Arrays! También crearemos algunos juegos sencillos. ¿Están listos para esta nueva aventura? 🚀
 
@@ -122,6 +122,8 @@ public class MiPatron {
 ```
 
 ## ¡Actividad Final: Zoo Virtual! 🦁
+
+![zoo](https://res.cloudinary.com/dukgkrpft/image/upload/v1731875733/lessons/aventuras-con-arrays-y-juegos-con-java/ocqwf9gwwvi9fwxvft6f.jpg)
 
 Vamos a crear un pequeño zoo virtual usando arrays.
 
