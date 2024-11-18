@@ -20,7 +20,7 @@ struct GeminiRequest {
     model: String,
     contents: Vec<Content>,
 }
-
+#[allow(dead_code)]
 #[derive(Debug, Deserialize)]
 struct StreamResponse {
     candidates: Vec<Candidate>,
@@ -29,7 +29,7 @@ struct StreamResponse {
     #[serde(rename = "modelVersion")]
     model_version: Option<String>,
 }
-
+#[allow(dead_code)]
 #[derive(Debug, Deserialize)]
 struct Candidate {
     content: Content,
@@ -50,13 +50,13 @@ struct Content {
 struct Part {
     text: String,
 }
-
+#[allow(dead_code)]
 #[derive(Debug, Deserialize)]
 struct SafetyRating {
     category: String,
     probability: String,
 }
-
+#[allow(dead_code)]
 #[derive(Debug, Deserialize, Clone)]
 struct UsageMetadata {
     #[serde(rename = "promptTokenCount")]

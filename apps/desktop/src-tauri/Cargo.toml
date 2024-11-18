@@ -1,9 +1,9 @@
 [package]
 name = "cortex"
-version = "0.1.5"
+version = "0.1.6"
 description = "Cortex Desktop Application for Premium Users"
 authors = ["Bytech SpA"]
-license = ""
+license = "AGPL-3"
 repository = "https://github.com/cuervolu/cortex"
 edition = "2021"
 rust-version = "1.80.0"
