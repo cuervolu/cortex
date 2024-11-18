@@ -83,6 +83,9 @@ importers:
       '@cortex/shared':
         specifier: workspace:^
         version: link:../../packages/shared
+      '@f3ve/vue-markdown-it':
+        specifier: ^0.2.3
+        version: 0.2.3(vue@3.5.13(typescript@5.6.3))
       '@fabianlars/tauri-plugin-oauth':
         specifier: ^2.0.0
         version: 2.0.0
@@ -152,9 +155,12 @@ importers:
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
+      highlight.js:
+        specifier: ^11.10.0
+        version: 11.10.0
       nuxt-tiptap-editor:
         specifier: ^2.0.0
-        version: 2.0.0(@tiptap/core@2.9.1(@tiptap/pm@2.9.1))(@tiptap/extension-code-block@2.9.1(@tiptap/core@2.9.1(@tiptap/pm@2.9.1))(@tiptap/pm@2.9.1))(highlight.js@11.9.0)(magicast@0.3.5)(rollup@4.25.0)(vue@3.5.13(typescript@5.6.3))
+        version: 2.0.0(@tiptap/core@2.9.1(@tiptap/pm@2.9.1))(@tiptap/extension-code-block@2.9.1(@tiptap/core@2.9.1(@tiptap/pm@2.9.1))(@tiptap/pm@2.9.1))(highlight.js@11.10.0)(magicast@0.3.5)(rollup@4.25.0)(vue@3.5.13(typescript@5.6.3))
       turndown:
         specifier: ^7.2.0
         version: 7.2.0
@@ -989,6 +995,11 @@ packages:
   '@eslint/plugin-kit@0.2.2':
     resolution: {integrity: sha512-CXtq5nR4Su+2I47WPOlWud98Y5Lv8Kyxp2ukhgFx/eW6Blm18VXJO5WuQylPugRo8nbluoi6GvvxBLqHcvqUUw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@f3ve/vue-markdown-it@0.2.3':
+    resolution: {integrity: sha512-v0VNd7wb55kwsUUy3n6DLI9+0FYSG0PrCTD3bWuSRo6WS3OHD5wghh/aHzebVdsVkSBXfVpiEUlMA3DrxLs7Lw==}
+    peerDependencies:
+      vue: ^3.3.4
 
   '@fabianlars/tauri-plugin-oauth@2.0.0':
     resolution: {integrity: sha512-I1s08ZXrsFuYfNWusAcpLyiCfr5TCvaBrRuKfTG+XQrcaqnAcwjdWH0U5J9QWuMDLwCUMnVxdobtMJzPR8raxQ==}
@@ -4558,6 +4569,10 @@ packages:
   hex-rgb@4.3.0:
     resolution: {integrity: sha512-Ox1pJVrDCyGHMG9CFg1tmrRUMRPRsAWYc/PinY0XzJU4K7y7vjNoLKIQ7BR5UJMCxNN8EM1MNDmHWA/B3aZUuw==}
     engines: {node: '>=6'}
+
+  highlight.js@11.10.0:
+    resolution: {integrity: sha512-SYVnVFswQER+zu1laSya563s+F8VDGt7o35d4utbamowvUNLLMovFqwCLSocpZTz3MgaSRA1IbqRWZv97dtErQ==}
+    engines: {node: '>=12.0.0'}
 
   highlight.js@11.9.0:
     resolution: {integrity: sha512-fJ7cW7fQGCYAkgv4CPfwFHrfd/cLS4Hau96JuJ+ZTOWhjnhoeN1ub1tFmALm/+lW5z4WCAuAV9bm05AP0mS6Gw==}
@@ -8407,6 +8422,11 @@ snapshots:
     dependencies:
       levn: 0.4.1
 
+  '@f3ve/vue-markdown-it@0.2.3(vue@3.5.13(typescript@5.6.3))':
+    dependencies:
+      markdown-it: 14.1.0
+      vue: 3.5.13(typescript@5.6.3)
+
   '@fabianlars/tauri-plugin-oauth@2.0.0':
     dependencies:
       '@tauri-apps/api': 2.1.1
@@ -9863,12 +9883,12 @@ snapshots:
       '@tiptap/core': 2.9.1(@tiptap/pm@2.9.1)
       '@tiptap/pm': 2.9.1
 
-  '@tiptap/extension-code-block-lowlight@2.9.1(@tiptap/core@2.9.1(@tiptap/pm@2.9.1))(@tiptap/extension-code-block@2.9.1(@tiptap/core@2.9.1(@tiptap/pm@2.9.1))(@tiptap/pm@2.9.1))(@tiptap/pm@2.9.1)(highlight.js@11.9.0)(lowlight@3.1.0)':
+  '@tiptap/extension-code-block-lowlight@2.9.1(@tiptap/core@2.9.1(@tiptap/pm@2.9.1))(@tiptap/extension-code-block@2.9.1(@tiptap/core@2.9.1(@tiptap/pm@2.9.1))(@tiptap/pm@2.9.1))(@tiptap/pm@2.9.1)(highlight.js@11.10.0)(lowlight@3.1.0)':
     dependencies:
       '@tiptap/core': 2.9.1(@tiptap/pm@2.9.1)
       '@tiptap/extension-code-block': 2.9.1(@tiptap/core@2.9.1(@tiptap/pm@2.9.1))(@tiptap/pm@2.9.1)
       '@tiptap/pm': 2.9.1
-      highlight.js: 11.9.0
+      highlight.js: 11.10.0
       lowlight: 3.1.0
 
   '@tiptap/extension-code-block@2.9.1(@tiptap/core@2.9.1(@tiptap/pm@2.9.1))(@tiptap/pm@2.9.1)':
@@ -13309,6 +13329,8 @@ snapshots:
 
   hex-rgb@4.3.0: {}
 
+  highlight.js@11.10.0: {}
+
   highlight.js@11.9.0: {}
 
   home-or-tmp@2.0.0:
@@ -14757,10 +14779,10 @@ snapshots:
       - vue
       - webpack-sources
 
-  nuxt-tiptap-editor@2.0.0(@tiptap/core@2.9.1(@tiptap/pm@2.9.1))(@tiptap/extension-code-block@2.9.1(@tiptap/core@2.9.1(@tiptap/pm@2.9.1))(@tiptap/pm@2.9.1))(highlight.js@11.9.0)(magicast@0.3.5)(rollup@4.25.0)(vue@3.5.13(typescript@5.6.3)):
+  nuxt-tiptap-editor@2.0.0(@tiptap/core@2.9.1(@tiptap/pm@2.9.1))(@tiptap/extension-code-block@2.9.1(@tiptap/core@2.9.1(@tiptap/pm@2.9.1))(@tiptap/pm@2.9.1))(highlight.js@11.10.0)(magicast@0.3.5)(rollup@4.25.0)(vue@3.5.13(typescript@5.6.3)):
     dependencies:
       '@nuxt/kit': 3.14.159(magicast@0.3.5)(rollup@4.25.0)
-      '@tiptap/extension-code-block-lowlight': 2.9.1(@tiptap/core@2.9.1(@tiptap/pm@2.9.1))(@tiptap/extension-code-block@2.9.1(@tiptap/core@2.9.1(@tiptap/pm@2.9.1))(@tiptap/pm@2.9.1))(@tiptap/pm@2.9.1)(highlight.js@11.9.0)(lowlight@3.1.0)
+      '@tiptap/extension-code-block-lowlight': 2.9.1(@tiptap/core@2.9.1(@tiptap/pm@2.9.1))(@tiptap/extension-code-block@2.9.1(@tiptap/core@2.9.1(@tiptap/pm@2.9.1))(@tiptap/pm@2.9.1))(@tiptap/pm@2.9.1)(highlight.js@11.10.0)(lowlight@3.1.0)
       '@tiptap/extension-image': 2.9.1(@tiptap/core@2.9.1(@tiptap/pm@2.9.1))
       '@tiptap/extension-link': 2.9.1(@tiptap/core@2.9.1(@tiptap/pm@2.9.1))(@tiptap/pm@2.9.1)
       '@tiptap/pm': 2.9.1

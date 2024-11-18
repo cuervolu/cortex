@@ -19,6 +19,7 @@
     "@codemirror/state": "^6.4.1",
     "@codemirror/view": "^6.34.3",
     "@cortex/shared": "workspace:^",
+    "@f3ve/vue-markdown-it": "^0.2.3",
     "@fabianlars/tauri-plugin-oauth": "^2.0.0",
     "@neoconfetti/vue": "^2.2.1",
     "@nuxt/image": "^1.8.1",
