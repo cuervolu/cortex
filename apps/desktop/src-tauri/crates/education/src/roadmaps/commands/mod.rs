@@ -1,8 +1,9 @@
-use crate::roadmaps::{
-    create_roadmap, delete_roadmap, fetch_course_from_roadmap, fetch_roadmaps,
-    fetch_roadmaps_details, update_roadmap,
+use crate::roadmaps::*;
+use crate::{
+    roadmaps, Course, CourseAssignment, PaginatedResponse, PaginatedRoadmaps, Roadmap,
+    RoadmapCourseAssignment, RoadmapCreateRequest, RoadmapDetails, RoadmapEnrollmentResponse,
+    RoadmapUpdateRequest,
 };
-use crate::{roadmaps, Course, CourseAssignment, PaginatedResponse, PaginatedRoadmaps, Roadmap, RoadmapCourseAssignment, RoadmapCreateRequest, RoadmapDetails, RoadmapEnrollmentResponse, RoadmapUpdateRequest};
 use common::handle_content_image_upload;
 use common::state::AppState;
 use error::AppError;
@@ -193,4 +194,21 @@ pub async fn enroll_in_roadmap(
     state: State<'_, AppState>,
 ) -> Result<RoadmapEnrollmentResponse, AppError> {
     super::enroll_in_roadmap(roadmap_id, state).await
+}
+
+#[tauri::command]
+pub async fn get_user_enrollments(
+    state: State<'_, AppState>,
+) -> Result<Vec<RoadmapEnrollmentResponse>, AppError> {
+    debug!("Fetching user enrollments");
+    match fetch_enrollments(state).await {
+        Ok(enrollments) => {
+            debug!("Successfully fetched {} enrollments", enrollments.len());
+            Ok(enrollments)
+        }
+        Err(e) => {
+            error!("Failed to fetch enrollments: {:?}", e);
+            Err(e)
+        }
+    }
 }
