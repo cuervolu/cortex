@@ -38,6 +38,7 @@ const emit = defineEmits<{
 const open = ref(false)
 const selectedModel = ref(aiModels.find(model => model.value === props.modelValue) || aiModels[0])
 const providerStore = useAIProviderStore();
+const chatStore = useChatStore();
 const handleSelect = (value: string) => {
   const model = aiModels.find(m => m.value === value)
   if (model) {
@@ -61,6 +62,10 @@ const filteredModels = computed(() => {
 const isModelDisabled = (model: AIModel) => {
   const provider = providerStore.getProvider(model.value);
   return provider?.requiresApiKey && !provider?.isConfigured;
+};
+
+const isModelOverloaded = (model: AIModel) => {
+  return model.value === 'gemini' && chatStore.lastError?.includes('sobrecargado');
 };
 </script>
 
@@ -109,6 +114,9 @@ const isModelDisabled = (model: AIModel) => {
                 {{ model.label }}
                 <span v-if="isModelDisabled(model)" class="text-sm text-muted-foreground ml-2">
       (API Key Required)
+    </span>
+                <span v-if="isModelOverloaded(model)" class="text-sm text-yellow-500 ml-2">
+      (Temporalmente Sobrecargado)
     </span>
               </CommandItem>
             </CommandGroup>

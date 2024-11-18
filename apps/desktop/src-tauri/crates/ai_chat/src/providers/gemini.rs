@@ -15,6 +15,18 @@ use tokio::sync::RwLock;
 const GEMINI_API_URL: &str =
     "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:streamGenerateContent";
 
+#[derive(Debug, Deserialize)]
+struct GeminiError {
+    error: GeminiErrorDetails,
+}
+
+#[derive(Debug, Deserialize)]
+struct GeminiErrorDetails {
+    code: i32,
+    message: String,
+    status: String,
+}
+
 #[derive(Debug, Serialize)]
 struct GeminiRequest {
     model: String,
@@ -33,13 +45,13 @@ struct StreamResponse {
 #[derive(Debug, Deserialize)]
 struct Candidate {
     content: Content,
+    #[serde(default)]
     index: i32,
-    #[serde(rename = "safetyRatings")]
+    #[serde(rename = "safetyRatings", default)]
     safety_ratings: Vec<SafetyRating>,
     #[serde(rename = "finishReason", default)]
     finish_reason: Option<String>,
 }
-
 #[derive(Debug, Serialize, Deserialize)]
 struct Content {
     parts: Vec<Part>,
@@ -61,7 +73,7 @@ struct SafetyRating {
 struct UsageMetadata {
     #[serde(rename = "promptTokenCount")]
     prompt_token_count: u32,
-    #[serde(rename = "candidatesTokenCount")]
+    #[serde(rename = "candidatesTokenCount", default)]
     candidates_token_count: u32,
     #[serde(rename = "totalTokenCount")]
     total_token_count: u32,
@@ -122,8 +134,9 @@ impl GeminiProvider {
     ) -> Result<(String, Option<UsageMetadata>), AppError> {
         let mut stream = response.bytes_stream();
         let mut full_response = String::new();
-        let mut final_usage: Option<UsageMetadata> = None;
+        let mut final_usage = None;
         let mut buffer = String::new();
+        let mut total_candidates_tokens = 0u32;
 
         while let Some(chunk_result) = stream.next().await {
             match chunk_result {
@@ -137,7 +150,13 @@ impl GeminiProvider {
                             match serde_json::from_str::<StreamResponse>(json_str) {
                                 Ok(response) => {
                                     if let Some(usage) = response.usage_metadata {
-                                        final_usage = Some(usage);
+                                        total_candidates_tokens += usage.candidates_token_count;
+                                        final_usage = Some(UsageMetadata {
+                                            prompt_token_count: usage.prompt_token_count,
+                                            candidates_token_count: total_candidates_tokens,
+                                            total_token_count: usage.total_token_count
+                                                + total_candidates_tokens,
+                                        });
                                     }
 
                                     if let Some(candidate) = response.candidates.first() {
@@ -154,7 +173,15 @@ impl GeminiProvider {
                                     }
                                 }
                                 Err(e) => {
-                                    debug!("Error parsing JSON object: {} | JSON: {}", e, json_str);
+                                    if !e
+                                        .to_string()
+                                        .contains("missing field `candidatesTokenCount`")
+                                    {
+                                        error!(
+                                            "Error parsing JSON object: {} | JSON: {}",
+                                            e, json_str
+                                        );
+                                    }
                                 }
                             }
 
@@ -205,7 +232,6 @@ impl GeminiProvider {
                 '}' if !in_string => {
                     depth -= 1;
                     if depth == 0 {
-                        // Encontramos un objeto JSON completo
                         let end = start + i + 1;
                         let json_str = &buffer[start..end];
                         let rest = buffer[end..].trim_start().to_string();
@@ -278,8 +304,35 @@ impl AIProvider for GeminiProvider {
 
         if !response.status().is_success() {
             let error_text = response.text().await.unwrap_or_else(|_| "Unknown error".to_string());
-            error!("Gemini API error: {}", error_text);
-            return Err(AppError::AIServiceError(error_text));
+
+            return if let Ok(gemini_error) = serde_json::from_str::<GeminiError>(&error_text) {
+                match (gemini_error.error.code, gemini_error.error.status.as_str()) {
+                    (503, "UNAVAILABLE") => {
+                        error!("Gemini model overloaded: {}", gemini_error.error.message);
+                        Err(AppError::AIServiceError(
+                            "El modelo está temporalmente sobrecargado. Por favor, intenta nuevamente en unos momentos o considera usar otro modelo.".into()
+                        ))
+                    }
+                    (429, _) => {
+                        error!("Gemini rate limit exceeded: {}", gemini_error.error.message);
+                        Err(AppError::AIServiceError(
+                            "Has alcanzado el límite de solicitudes. Por favor, espera un momento antes de intentar nuevamente.".into()
+                        ))
+                    }
+                    _ => {
+                        error!("Unexpected Gemini error: {:?}", gemini_error);
+                        Err(AppError::AIServiceError(format!(
+                            "Error del servicio de Gemini: {}",
+                            gemini_error.error.message
+                        )))
+                    }
+                }
+            } else {
+                error!("Non-Gemini API error: {}", error_text);
+                Err(AppError::AIServiceError(
+                    "Se produjo un error inesperado al comunicarse con Gemini. Por favor, intenta nuevamente.".into()
+                ))
+            };
         }
 
         let (response_text, usage_metadata) = self.process_stream(response).await?;
