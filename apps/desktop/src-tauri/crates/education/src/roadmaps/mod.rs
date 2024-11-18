@@ -1,6 +1,9 @@
 pub mod commands;
 
-use crate::{Course, PaginatedResponse, PaginatedRoadmaps, Roadmap, RoadmapCourseAssignment, RoadmapCreateRequest, RoadmapDetails, RoadmapEnrollmentResponse, RoadmapUpdateRequest};
+use crate::{
+    Course, PaginatedResponse, PaginatedRoadmaps, Roadmap, RoadmapCourseAssignment,
+    RoadmapCreateRequest, RoadmapDetails, RoadmapEnrollmentResponse, RoadmapUpdateRequest,
+};
 use common::state::AppState;
 use common::{SortQueryParams, API_BASE_URL, CLIENT};
 use error::AppError;
@@ -216,28 +219,20 @@ pub async fn get_roadmap_courses(
 
     debug!("Fetching roadmap courses from: {}", url);
 
-    let response = CLIENT
-        .get(&url)
-        .bearer_auth(token)
-        .send()
-        .await
-        .map_err(|e| {
-            error!("Failed to fetch roadmap courses: {:?}", e);
-            AppError::RequestError(e)
-        })?;
+    let response = CLIENT.get(&url).bearer_auth(token).send().await.map_err(|e| {
+        error!("Failed to fetch roadmap courses: {:?}", e);
+        AppError::RequestError(e)
+    })?;
 
     if !response.status().is_success() {
         let error_msg = response.text().await.unwrap_or_else(|_| "Unknown error".to_string());
         return Err(AppError::ApiError(format!("Failed to get roadmap courses: {}", error_msg)));
     }
 
-    let paginated_response = response
-        .json::<PaginatedResponse<Course>>()
-        .await
-        .map_err(|e| {
-            error!("Failed to deserialize roadmap courses: {:?}", e);
-            AppError::RequestError(e)
-        })?;
+    let paginated_response = response.json::<PaginatedResponse<Course>>().await.map_err(|e| {
+        error!("Failed to deserialize roadmap courses: {:?}", e);
+        AppError::RequestError(e)
+    })?;
 
     debug!("Successfully fetched {} roadmap courses", paginated_response.content.len());
     Ok(paginated_response)
@@ -276,28 +271,20 @@ pub async fn get_available_courses(
 
     debug!("Fetching available courses from: {}", url);
 
-    let response = CLIENT
-        .get(&url)
-        .bearer_auth(token)
-        .send()
-        .await
-        .map_err(|e| {
-            error!("Failed to fetch available courses: {:?}", e);
-            AppError::RequestError(e)
-        })?;
+    let response = CLIENT.get(&url).bearer_auth(token).send().await.map_err(|e| {
+        error!("Failed to fetch available courses: {:?}", e);
+        AppError::RequestError(e)
+    })?;
 
     if !response.status().is_success() {
         let error_msg = response.text().await.unwrap_or_else(|_| "Unknown error".to_string());
         return Err(AppError::ApiError(format!("Failed to get available courses: {}", error_msg)));
     }
 
-    let paginated_response = response
-        .json::<PaginatedResponse<Course>>()
-        .await
-        .map_err(|e| {
-            error!("Failed to deserialize available courses: {:?}", e);
-            AppError::RequestError(e)
-        })?;
+    let paginated_response = response.json::<PaginatedResponse<Course>>().await.map_err(|e| {
+        error!("Failed to deserialize available courses: {:?}", e);
+        AppError::RequestError(e)
+    })?;
 
     debug!("Successfully fetched {} available courses", paginated_response.content.len());
     Ok(paginated_response)
@@ -356,13 +343,10 @@ pub async fn enroll_in_roadmap(
 
     match response.status() {
         status if status.is_success() => {
-            let enrollment = response
-                .json::<RoadmapEnrollmentResponse>()
-                .await
-                .map_err(|e| {
-                    error!("Failed to deserialize enrollment response: {:?}", e);
-                    AppError::RequestError(e)
-                })?;
+            let enrollment = response.json::<RoadmapEnrollmentResponse>().await.map_err(|e| {
+                error!("Failed to deserialize enrollment response: {:?}", e);
+                AppError::RequestError(e)
+            })?;
 
             debug!("Successfully enrolled in roadmap {}", roadmap_id);
             Ok(enrollment)
@@ -374,11 +358,44 @@ pub async fn enroll_in_roadmap(
             Err(AppError::ApiError("Roadmap not found".to_string()))
         }
         _ => {
-            let error_msg = response
-                .text()
-                .await
-                .unwrap_or_else(|_| "Unknown error".to_string());
+            let error_msg = response.text().await.unwrap_or_else(|_| "Unknown error".to_string());
             Err(AppError::ApiError(format!("Failed to enroll in roadmap: {}", error_msg)))
         }
     }
+}
+
+pub async fn fetch_enrollments(
+    state: State<'_, AppState>,
+) -> Result<Vec<RoadmapEnrollmentResponse>, AppError> {
+    let token = state
+        .token
+        .lock()
+        .map_err(|_| AppError::ContextLockError)?
+        .clone()
+        .ok_or(AppError::NoTokenError)?;
+
+    debug!("Fetching user enrollments");
+
+    let response = CLIENT
+        .get(format!("{}/education/roadmap/enrollments", API_BASE_URL))
+        .bearer_auth(token)
+        .send()
+        .await
+        .map_err(|e| {
+            error!("Failed to fetch enrollments: {:?}", e);
+            AppError::RequestError(e)
+        })?;
+
+    if !response.status().is_success() {
+        let error_msg = response.text().await.unwrap_or_else(|_| "Unknown error".to_string());
+        return Err(AppError::ApiError(format!("Failed to fetch enrollments: {}", error_msg)));
+    }
+
+    let enrollments = response.json::<Vec<RoadmapEnrollmentResponse>>().await.map_err(|e| {
+        error!("Failed to deserialize enrollments: {:?}", e);
+        AppError::RequestError(e)
+    })?;
+
+    debug!("Successfully fetched {} enrollments", enrollments.len());
+    Ok(enrollments)
 }
