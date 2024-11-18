@@ -9,11 +9,8 @@ use tauri_plugin_log::RotationStrategy;
 
 fn setup_logger(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> {
     // Set base log level based on environment
-    let base_log_level = if cfg!(debug_assertions) {
-        log::LevelFilter::Debug
-    } else {
-        log::LevelFilter::Info
-    };
+    let base_log_level =
+        if cfg!(debug_assertions) { log::LevelFilter::Debug } else { log::LevelFilter::Info };
 
     // Create builder with environment-specific configuration
     let builder = tauri_plugin_log::Builder::new()
@@ -31,14 +28,27 @@ fn setup_logger(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> 
         .level_for("hyper_util::client::legacy", log::LevelFilter::Warn)
         .level_for("devtools_core", log::LevelFilter::Warn)
         .level_for("tracing", log::LevelFilter::Warn)
+        // Add zbus-related filters for production
+        .level_for(
+            "zbus",
+            if cfg!(debug_assertions) { log::LevelFilter::Debug } else { log::LevelFilter::Error },
+        )
+        .level_for(
+            "zbus::connection",
+            if cfg!(debug_assertions) { log::LevelFilter::Debug } else { log::LevelFilter::Error },
+        )
+        .level_for(
+            "zbus::connection::handshake",
+            if cfg!(debug_assertions) { log::LevelFilter::Debug } else { log::LevelFilter::Error },
+        )
         // Set application specific level
-        .level_for("cortex_lib", if cfg!(debug_assertions) {
-            log::LevelFilter::Trace
-        } else {
-            log::LevelFilter::Info
-        });
+        .level_for(
+            "cortex_lib",
+            if cfg!(debug_assertions) { log::LevelFilter::Trace } else { log::LevelFilter::Info },
+        );
 
-    #[cfg(debug_assertions)] {
+    #[cfg(debug_assertions)]
+    {
         // For debug builds, setup DevTools with the logger
         let (plugin, _max_level, logger) = builder.split(app.handle())?;
         let mut devtools_builder = tauri_plugin_devtools::Builder::default();
@@ -47,7 +57,8 @@ fn setup_logger(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> 
         app.handle().plugin(plugin)?;
     }
 
-    #[cfg(not(debug_assertions))] {
+    #[cfg(not(debug_assertions))]
+    {
         // For release builds, just build and set up the logger
         app.handle().plugin(builder.build())?;
     }
@@ -120,7 +131,6 @@ pub fn run() {
             education::roadmaps::commands::get_available_courses,
             education::roadmaps::commands::update_roadmap_courses,
             education::roadmaps::commands::enroll_in_roadmap,
-            
             // Courses
             education::courses::commands::fetch_all_courses,
             education::courses::commands::get_course,
@@ -128,21 +138,17 @@ pub fn run() {
             education::courses::commands::update_course_command,
             education::courses::commands::delete_course_command,
             education::courses::commands::upload_course_image_command,
-            
             // Modules
             education::modules::commands::fetch_all_modules,
             education::modules::commands::get_module,
-            
             // Lessons
             education::lessons::commands::fetch_all_lessons,
             education::lessons::commands::get_lesson,
-            
             // Exercises
             education::exercises::commands::get_exercises,
             education::exercises::commands::get_exercise_details,
             education::exercises::commands::execute_code,
             education::exercises::commands::get_code_execution_result,
-            
             // AI Chat commands
             ai_chat::commands::start_exercise_session,
             ai_chat::commands::send_message,
