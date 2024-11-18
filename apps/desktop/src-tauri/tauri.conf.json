@@ -1,6 +1,6 @@
 {
   "productName": "Cortex",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "identifier": "com.cortex.app",
   "build": {
     "frontendDist": "../dist",
@@ -94,6 +94,8 @@
   "bundle": {
     "publisher": "Bytech SpA",
     "copyright": "Copyright © 2024",
+    "license": "AGPL-3.0",
+    "licenseFile": "../../../LICENSE",
     "category": "Education",
     "shortDescription": "Start learning today. Knowledge has no limits, and neither does your potential.",
     "longDescription": "Premium version of the Cortex web app. Start learning today. Knowledge has no limits, and neither does your potential.",
