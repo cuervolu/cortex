@@ -121,6 +121,7 @@ const panelTabs = computed(() => [
       currentStreamingMessage: chatStore.currentStreamingMessage,
       avatarSrc: authData.value?.avatar_url || "https://placewaifu.com/image",
       isSending: chatStore.isSending,
+      error: chatStore.error
     },
   }
 ])
@@ -179,7 +180,6 @@ watch(selectedModel, async (newModel) => {
   }
 })
 
-// Watch para sincronizar el store con el estado local
 watch(() => codeExecutionStore.activeTab, (newTab) => {
   if (newTab !== currentTab.value) {
     currentTab.value = newTab;

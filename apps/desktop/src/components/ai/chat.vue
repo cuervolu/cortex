@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { Send } from "lucide-vue-next";
+import { Send, AlertCircle } from "lucide-vue-next";
 import { VueMarkdownIt } from '@f3ve/vue-markdown-it';
 import type { Message } from "~/types";
-
+import logo from "~/assets/img/cortex_logo_dark_mode.svg";
 interface Props {
   messages: Message[];
   isStreaming: boolean;
   currentStreamingMessage: string;
   isSending: boolean;
+  error: string | null;
   avatarSrc?: string;
   explanation?: string;
   streamingMessage?: string;
@@ -18,7 +19,8 @@ const props = withDefaults(defineProps<Props>(), {
   avatarSrc: "https://placewaifu.com/image",
   explanation: "",
   streamingMessage: "CORTEX-IA está escribiendo...",
-  cortexLogo: "https://placewaifu.com/image",
+  cortexLogo: logo,
+  error: null
 });
 
 const emit = defineEmits<{
@@ -27,9 +29,13 @@ const emit = defineEmits<{
 
 const userMessage = ref('');
 
+const isChatBlocked = computed(() => {
+  return props.error !== null || props.isSending || props.isStreaming;
+});
+
 const sendMessage = async () => {
   const message = userMessage.value.trim();
-  if (!message || props.isSending || props.isStreaming) return;
+  if (!message || isChatBlocked.value) return;
 
   emit('send-message', message);
   userMessage.value = '';
@@ -64,6 +70,15 @@ const { $markdown } = useNuxtApp();
         >
       </div>
     </div>
+
+    <!-- Error Alert -->
+    <Alert v-if="error" variant="destructive" class="mb-4">
+      <AlertCircle class="h-4 w-4" />
+      <AlertTitle>Error</AlertTitle>
+      <AlertDescription>
+        {{ error }}
+      </AlertDescription>
+    </Alert>
 
     <!-- Messages Container -->
     <div class="flex-grow overflow-y-auto overflow-x-hidden rounded-lg">
@@ -137,21 +152,33 @@ const { $markdown } = useNuxtApp();
     </div>
 
     <!-- Input Area -->
-    <div class="flex items-center justify-between px-3 sm:px-6 py-2 bg-primary rounded-full shadow mt-4">
+    <div
+        class="flex items-center justify-between px-3 sm:px-6 py-2 rounded-full shadow mt-4"
+        :class="[
+        error ? 'bg-destructive/20' : 'bg-primary',
+        { 'opacity-50': isChatBlocked }
+      ]"
+    >
       <Textarea
           v-model="userMessage"
           placeholder="Escribe tu mensaje aquí..."
           class="w-full bg-transparent border-transparent text-xs sm:text-sm text-muted-foreground outline-none min-h-[24px] resize-none py-0"
+          :disabled="isChatBlocked"
           @keydown="handleKeydown"
       />
       <Button
           size="icon"
           variant="ghost"
-          :disabled="isSending || isStreaming"
+          :disabled="isChatBlocked"
           @click="sendMessage"
       >
-        <Send class="w-2 h-2 sm:w-5 sm:h-5 cursor-pointer ml-2" />
+        <Send class="w-2 h-2 sm:w-5 sm:h-5 cursor-pointer ml-2" :class="{ 'opacity-50': isChatBlocked }" />
       </Button>
     </div>
+
+    <!-- Error Hint -->
+    <p v-if="error" class="text-xs text-destructive text-center mt-2">
+      Chat bloqueado debido a un error. Por favor, recarga la página o cambia el modelo de IA.
+    </p>
   </div>
 </template>
