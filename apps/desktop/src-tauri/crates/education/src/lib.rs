@@ -120,14 +120,40 @@ pub struct RoadmapEnrollmentResponse {
     pub roadmap_id: u64,
 
     #[serde(rename = "enrollment_date")]
+    #[serde(with = "datetime_format")]
     pub enrollment_date: DateTime<Utc>,
 
     pub status: EnrollmentStatus,
 
     #[serde(rename = "last_activity_date")]
+    #[serde(with = "datetime_format")]
     pub last_activity_date: DateTime<Utc>,
 
     pub progress: f64,
+}
+
+mod datetime_format {
+    use chrono::{DateTime, NaiveDateTime, Utc};
+    use serde::{self, Deserialize, Deserializer, Serializer};
+
+    const FORMAT: &str = "%Y-%m-%dT%H:%M:%S%.f";
+
+    pub fn serialize<S>(date: &DateTime<Utc>, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        let s = format!("{}", date.format(FORMAT));
+        serializer.serialize_str(&s)
+    }
+
+    pub fn deserialize<'de, D>(deserializer: D) -> Result<DateTime<Utc>, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        let s = String::deserialize(deserializer)?;
+        let naive = NaiveDateTime::parse_from_str(&s, FORMAT).map_err(serde::de::Error::custom)?;
+        Ok(DateTime::<Utc>::from_naive_utc_and_offset(naive, Utc))
+    }
 }
 
 #[derive(Debug, Serialize, Deserialize)]
