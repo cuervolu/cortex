@@ -27,6 +27,7 @@ import com.cortex.backend.education.roadmap.api.dto.RoadmapResponse;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapUpdateRequest;
 import com.cortex.backend.education.tags.internal.TagService;
 import com.cortex.backend.media.api.MediaService;
+import com.cortex.backend.user.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import java.io.IOException;
 import java.util.HashSet;
@@ -57,6 +58,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class RoadmapServiceImpl implements RoadmapService {
 
   private final RoadmapRepository roadmapRepository;
+  private final UserRepository userRepository;
   private final RoadmapMapper roadmapMapper;
   private final MediaService mediaService;
   private final SlugUtils slugUtils;
@@ -113,11 +115,11 @@ public class RoadmapServiceImpl implements RoadmapService {
     if (user.hasAnyRole("ADMIN", "MODERATOR")) {
       return roadmapRepository.findBySlugWithDetailsWithAdminRole(slug)
           .map(roadmap -> roadmapMapper.toRoadmapDetails(roadmap, user.getId(),
-              userProgressService));
+              userProgressService,userRepository));
     }
 
     return roadmapRepository.findBySlugWithDetails(slug)
-        .map(roadmap -> roadmapMapper.toRoadmapDetails(roadmap, user.getId(), userProgressService));
+        .map(roadmap -> roadmapMapper.toRoadmapDetails(roadmap, user.getId(), userProgressService, userRepository));
   }
 
   @Override
