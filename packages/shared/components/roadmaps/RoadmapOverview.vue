@@ -78,17 +78,36 @@ const formatDate = (date: string) => new Date(date).toLocaleDateString()
           <span>{{ description }}</span>
           <div class="flex flex-col gap-2">
             <span class="font-bold">¿Que vas a aprender?</span>
-            <ul class="list-disc list-inside">
-              <li>Fundamentos de Go: Aprende a diseñar y programar tus propias pistas de carreras con Go.</li>
-              <li>Fundamentos de TypeScript: Domina los encantos de TypeScript y crea aplicaciones web encantadoras.
-              </li>
-              <li>Resolución de problemas: Enfréntate a ejercicios prácticos como invertir cadenas, calcular edades
-                espaciales y mucho más.</li>
-              <li>Desarrollo práctico: Crea proyectos de código funcional en un entorno interactivo para aplicar tus
-                nuevas habilidades.</li>
-            </ul>
-            <span>Este roadmap es perfecto tanto para principiantes como para aquellos que buscan perfeccionar sus
-              conocimientos en Go y TypeScript. ¡Es tu turno de brillar en la pista de carreras!</span>
+            <ul>
+            <li>
+                  Fundamentos de Go: Aprende a diseñar y programar tus propias pistas de carreras utilizando el poderoso lenguaje Go. 
+                  Domina desde los conceptos básicos, como estructuras y control de flujo, hasta técnicas avanzadas como concurrencia y 
+                  manejo de errores, para desarrollar aplicaciones eficientes y de alto rendimiento.
+            </li>
+            <li>
+                  Fundamentos de TypeScript: Descubre cómo TypeScript puede transformar tu experiencia de desarrollo web. Desde su tipado 
+                  estático hasta el manejo avanzado de interfaces y genéricos, aprenderás a escribir código más confiable, escalable y 
+                  legible. ¡Conviértete en un maestro de la creación de aplicaciones encantadoras y bien estructuradas!
+            </li>
+            <li>
+                  Resolución de problemas: Pon a prueba tus habilidades enfrentándote a desafíos prácticos diseñados para mejorar tu lógica 
+                  y capacidad analítica. Resuelve problemas como invertir cadenas de texto, calcular edades espaciales en diferentes 
+                  planetas y desentrañar acertijos algorítmicos. Cada ejercicio te ayudará a perfeccionar tu pensamiento crítico y 
+                  preparar soluciones efectivas.
+            </li>
+            <li>
+                  Desarrollo práctico: Llévate el aprendizaje a otro nivel creando proyectos funcionales desde cero. Trabaja en un entorno 
+                  interactivo que simula situaciones reales, permitiéndote aplicar tus conocimientos recién adquiridos de manera inmediata. 
+                  Desde aplicaciones sencillas hasta soluciones más complejas, verás tu progreso en acción.
+            </li>
+          </ul>
+          <span>
+                  Este roadmap es ideal tanto para quienes están dando sus primeros pasos en el mundo de la programación como para aquellos 
+                  que buscan llevar sus habilidades en Go y TypeScript al siguiente nivel. Prepárate para dominar conceptos esenciales y 
+                  avanzar hacia el desarrollo de proyectos desafiantes. ¡Es tu oportunidad para brillar y destacarte en la pista de carreras 
+                  tecnológicas!
+          </span>
+
           </div>
         </div>
       </div>
