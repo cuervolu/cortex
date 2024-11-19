@@ -20,6 +20,9 @@ useHead({
   ]
 })
 
+useScript('https://cdn.jsdelivr.net/npm/js-confetti@0.12.0/dist/js-confetti.browser.js')
+
+
 </script>
 
 <template>

@@ -34,13 +34,6 @@
       <artifactId>lemon-squeezy</artifactId>
       <version>${project.version}</version>
     </dependency>
-    <!-- Mercado pago -->
-    <dependency>
-      <groupId>com.mercadopago</groupId>
-      <artifactId>sdk-java</artifactId>
-      <version>2.1.28</version>
-    </dependency>
-
     <dependency>
       <groupId>com.fasterxml.jackson.datatype</groupId>
       <artifactId>jackson-datatype-jsr310</artifactId>

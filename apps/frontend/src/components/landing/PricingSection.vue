@@ -40,6 +40,7 @@ const plans = [
     highlighted: true,
     tag: 'Más Popular',
     enable: true,
+    checkoutUrl: 'https://cortex.lemonsqueezy.com/buy/0ecc8d50-7ccd-436e-94c9-eb5b337a9824',
   },
   {
     title: 'Plan anual',
