@@ -149,7 +149,7 @@ const toggleMenu = () => {
         
         <!-- Menu content -->
         <div class="relative h-full w-full flex flex-col pt-24 pl-10">
-          <div class="space-y-6">
+          <div class="space-y-6 pr-6">
             <a 
               v-for="item in [
               { text: 'Explorar Roadmaps', url: '/explore' },
