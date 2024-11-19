@@ -41,6 +41,23 @@ const plans = [
     enable: true,
   },
   {
+    title: 'Plan anual',
+    price: '250.000 CLP',
+    period: 'por editor/anual',
+    subPeriod: 'factura anual',
+    features: [
+    { text: 'Acceso a todos los cursos' },
+      { text: 'Mentorías limitadas' },
+      { text: 'Acceso a proyectos colaborativos' },
+      { text: 'Créditos extra opcionales' },
+      { text: 'Acceso a foros avanzados' },
+      { text: 'Aprendizaje guiado y personalizado' },
+    ],
+    buttonText: 'Elegir Plan',
+    highlighted: true,
+    enable: true,
+  },
+  {
     title: 'Plan empresarial',
     price: '50.000 CLP',
     period: 'por editor/mes',
@@ -57,6 +74,7 @@ const plans = [
     highlighted: true,
     enable: true,
   },
+
 ];
 </script>
 
