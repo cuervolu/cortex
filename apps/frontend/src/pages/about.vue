@@ -4,6 +4,10 @@ import xdImage from '~/assets/img/xd.webp'
 import cinnamorollImage from '~/assets/img/cinnamoroll.webp'
 import godImage from '~/assets/img/god.webp'
 
+definePageMeta({
+  auth: false
+})
+
 const testimonios = [
   {
     nombre: "Vicente Zapata",
