@@ -95,6 +95,7 @@ export default defineNuxtConfig({
       endpoints: {
         signIn: {path: 'auth/authenticate', method: 'post'},
         getSession: {path: 'user/me', method: 'get'},
+        signOut: false
       },
       token: {
         signInResponseTokenPointer: '/token',
