@@ -15,4 +15,6 @@ export const API_ROUTES = {
   CHANGE_PASSWORD: `${API_BASE_URL}/user/change-password`,
   FORGOT_PASSWORD: `${API_BASE_URL}/auth/forgot-password`,
   RESET_PASSWORD: `${API_BASE_URL}/auth/reset-password`,
+  EXECUTE_CODE: `${API_BASE_URL}/engine/execute`,
+  GET_EXECUTION_RESULT: `${API_BASE_URL}/engine/result/`,
 }

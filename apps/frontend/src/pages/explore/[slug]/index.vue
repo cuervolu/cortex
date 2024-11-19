@@ -90,6 +90,7 @@ const credits = computed(() => {
                 :description="roadmap.description"
                 :created-at="roadmap.created_at"
                 :updated-at="roadmap.updated_at"
+                :mentor = "roadmap.mentor"
             />
             <RoadmapInscriptionCard
                 :roadmap="roadmap"

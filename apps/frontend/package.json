@@ -11,6 +11,8 @@
     "clean": "nuxi cleanup"
   },
   "dependencies": {
+    "@codemirror/state": "^6.4.1",
+    "@codemirror/view": "^6.34.3",
     "@cortex/shared": "workspace:^",
     "@neoconfetti/vue": "^2.2.1",
     "@nuxt/scripts": "^0.9.5",

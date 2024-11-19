@@ -153,6 +153,7 @@ export interface RoadmapDetails {
   courses: RoadmapCourse[];
   created_at: string;
   updated_at: string | null;
+  mentor: RoadmapMentor[] | null;
 }
 
 export interface CourseDetails extends Omit<Course, 'module_ids'> {
@@ -243,6 +244,12 @@ export interface RoadmapEnrollment {
   roadmap_id: number;
   enrollment_date: string;
   last_activity_date: string;
+}
+
+export interface RoadmapMentor {
+  username: string;
+  full_name: string;
+  avatar_url: string | null;
 }
 
 export type PaginatedExercises = PaginatedResponse<Exercise>;
