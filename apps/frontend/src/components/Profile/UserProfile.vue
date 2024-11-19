@@ -126,30 +126,32 @@ onMounted(() => {
     </div>
 
     <!-- Contenido principal -->
-    <div v-else class="bg-white rounded-lg shadow-lg">
+    <div v-else class="bg-white rounded-lg shadow-lg p-3">
       <!-- Header Card -->
       <Card class="mb-6">
         <CardContent class="pt-6">
-          <div class="flex items-start justify-between">
+          <div class="flex flex-wrap md:flex-nowrap md:gap-4 gap-7 items-start justify-between">
             <!-- Información básica y avatar -->
             <div class="flex gap-6">
               <div class="relative">
-                <div
+                <div class="relative">
+                  <div
                     class="w-32 h-32 rounded-full border-4 border-white overflow-hidden bg-gray-100 shadow-lg">
                   <img
-                      v-if="userAvatar"
-                      :src="userAvatar"
-                      :alt="userFullName"
-                      class="w-full h-full object-cover"
+                    v-if="userAvatar"
+                    :src="userAvatar"
+                    :alt="userFullName"
+                    class="w-full h-full object-cover"
                   >
                   <div v-else
-                       class="w-full h-full flex items-center justify-center text-gray-600 text-4xl">
+                    class="w-full h-full flex items-center justify-center text-gray-600 text-4xl">
                     {{ getInitials }}
                   </div>
-                </div>
-                <Badge :class="accountStatus.class" class="absolute -bottom-2 right-0 px-3 py-1">
+                  </div>
+                  <Badge :class="accountStatus.class" class="absolute -bottom-2 left-3/4 transform -translate-x-1/2 px-3 py-1">
                   {{ accountStatus.label }}
-                </Badge>
+                  </Badge>
+                </div>
               </div>
 
               <div class="space-y-2">
@@ -158,8 +160,8 @@ onMounted(() => {
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger>
-                        <ShieldCheck v-if="session?.has_password" class="h-5 w-5 text-green-500"/>
-                        <ShieldAlert v-else class="h-5 w-5 text-yellow-500"/>
+                        <ShieldCheck v-if="session?.has_password" class="h-6 w-6 text-green-500 flex-shrink-0"/>
+                        <ShieldAlert v-else class="h-6 w-6 text-yellow-500 flex-shrink-0"/>
                       </TooltipTrigger>
                       <TooltipContent>
                         {{
@@ -173,8 +175,8 @@ onMounted(() => {
                   <span>{{ userUsername }}</span>
                 </p>
                 <p class="text-gray-600 flex items-center gap-2">
-                  <Mail class="h-4 w-4"/>
-                  <span>{{ userEmail }}</span>
+                  <Mail class="h-4 w-4 flex-shrink-0"/>
+                    <span class="break-all md:text-nowrap">{{ userEmail }}</span>
                 </p>
                 <div class="flex gap-2 mt-2">
                   <Badge v-for="role in session?.roles" :key="role" variant="secondary">
@@ -185,11 +187,11 @@ onMounted(() => {
             </div>
 
             <!-- Acciones -->
-            <div class="flex gap-3">
-              <Button variant="outline" @click="showEditProfile = true">
+            <div class="flex gap-3 gap w-full md:w-fit">
+              <Button variant="outline" @click="showEditProfile = true" class="w-full md:w-fit">
                 Editar Perfil
               </Button>
-              <Button variant="destructive" :disabled="deleteLoading"
+              <Button variant="destructive" :disabled="deleteLoading" class="w-full md:w-fit"
                       @click="showDeleteConfirm = true">
                 <Trash2 class="h-4 w-4 mr-2"/>
                 Eliminar cuenta
