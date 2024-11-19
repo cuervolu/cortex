@@ -229,6 +229,7 @@ pub struct RoadmapLesson {
     pub slug: String,
     pub exercises: Option<Vec<RoadmapExercise>>,
     pub credits: u32,
+    pub display_order: i32,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -240,6 +241,7 @@ pub struct RoadmapModule {
     #[serde(rename = "lesson_count")]
     pub lesson_count: u32,
     pub lessons: Vec<RoadmapLesson>,
+    pub display_order: i32,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -253,6 +255,7 @@ pub struct RoadmapCourse {
     #[serde(rename = "tag_names")]
     pub tag_names: Vec<String>,
     pub modules: Vec<RoadmapModule>,
+    // pub display_order: i32,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
