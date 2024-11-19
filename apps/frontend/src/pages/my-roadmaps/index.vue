@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import RoadmapList from '@cortex/shared/components/roadmaps/RoadmapList.vue'
 import RoadmapCardSkeleton from '@cortex/shared/components/roadmaps/RoadmapCardSkeleton.vue';
+import { useRoadmaps } from '~/composables/useRoadmaps'
 import type { Roadmap } from '@cortex/shared/types';
 import HomeIcon from "~/components/icons/HomeIcon.vue";
 
@@ -107,7 +108,7 @@ const enrollmentsCount = computed(() => {
                         >
                             <RoadmapCardSkeleton v-for="i in 6" :key="i" />
                         </section>
-                        <RoadmapList 
+                        <RoadmapList
                             v-else-if="paginatedRoadmaps" 
                             :paginated-roadmaps="paginatedRoadmaps"
                             :is-loading="loading"
@@ -117,7 +118,7 @@ const enrollmentsCount = computed(() => {
                             @roadmap-click="handleRoadmapClick"
                             :enrolled-only="true"
                             :enrollments-count="enrollmentsCount"
-                            />
+                        />
                     </ClientOnly>
                 </div>
             </div>

@@ -49,7 +49,7 @@ export interface Lesson {
   slug: string;
   module_id: number;
   module_name: string;
-  exercise_ids: number[];
+  exercises: ExerciseInfo[];
   created_at: string;
   updated_at: string | null;
   display_order?: number;
@@ -88,6 +88,15 @@ export interface ExerciseDetails extends Exercise {
   test_code: string;
   lesson_name: string;
   file_name: string;
+}
+
+export interface ExerciseInfo {
+  id: number;
+  slug: string;
+  title: string;
+  is_completed: boolean;
+  points: number;
+  display_order?: number;
 }
 
 export interface Course {

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import HomeIcon from '@cortex/shared/components/icons/HomeIcon.vue';
 
-import { Flag, ThumbsDown, ThumbsUp } from 'lucide-vue-next';
+import { Flag, ThumbsDown, ThumbsUp, ChevronRight } from 'lucide-vue-next';
 
 const route = useRoute()
 const slug = route.params.slug as string
@@ -159,7 +159,8 @@ onMounted(async () => {
                                         <CardTitle>Contenido del módulo</CardTitle>
                                     </CardHeader>
                                     <CardContent class="p-0">
-                                        <div v-for="(lesson, index) in module.lessons?.sort((a, b) => (a.display_order ?? 0) - (b.display_order ?? 0))" :key="lesson.id">
+                                        <div v-for="(lesson, index) in [...module.lessons]
+                                        .sort((a, b) => (a.display_order ?? 0) - (b.display_order ?? 0))" :key="index">
                                             <Separator v-if="index > 0" />
                                             <NuxtLink :to="`/modules/${module.slug}/lessons/${lesson.slug}`">
                                                 <div class="p-4 flex items-center justify-between hover:bg-muted/50 transition-colors cursor-pointer">

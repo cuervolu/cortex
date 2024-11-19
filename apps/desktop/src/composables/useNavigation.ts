@@ -3,16 +3,7 @@ import type {NavigationItem} from "~/types";
 import RoadmapIcon from "~/components/icons/RoadmapIcon.vue";
 import SupportIcon from "~/components/icons/SupportIcon.vue";
 import DashboardIcon from "~/components/icons/DashboardIcon.vue";
-import CubeIcon from "~/components/icons/CubeIcon.vue";
-import { ShieldPlus } from 'lucide-vue-next';
-
-//Asignar propiedades al icono
-ShieldPlus.props = {
-  color: {
-    type: String,
-    default: '#F4F8F7'
-  }
-}
+import { ShieldPlus, Telescope } from 'lucide-vue-next';
 
 export function useNavigation() {
   const userStore = useUserStore()
@@ -33,6 +24,12 @@ export function useNavigation() {
       {
         name: 'Roadmaps',
         icon: RoadmapIcon,
+        route: '/my-roadmaps',
+        roles: ['USER', 'ADMIN', 'MODERATOR']
+      },
+      {
+        name: 'Explore',
+        icon: Telescope,
         route: '/explore',
         roles: ['USER', 'ADMIN', 'MODERATOR']
       },

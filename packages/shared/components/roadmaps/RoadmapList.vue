@@ -3,13 +3,14 @@ import type { PaginatedRoadmaps, Roadmap } from "@cortex/shared/types"
 import RoadmapPagination from "@cortex/shared/components/roadmaps/RoadmapPagination.vue";
 import RoadmapCardSkeleton from "@cortex/shared/components/roadmaps/RoadmapCardSkeleton.vue";
 import RoadmapCard from "@cortex/shared/components/roadmaps/RoadmapCard.vue";
+import NothingHereCat from "../icons/NothingHereCat.vue";
 
 const props = defineProps<{
   paginatedRoadmaps: PaginatedRoadmaps
   isLoading?: boolean
   sortBy?: string,
   enrolledOnly?: boolean
-  enrollmentsCount?: number
+  enrollmentsCount: number
 }>()
 
 const emit = defineEmits<{
@@ -26,7 +27,7 @@ const sortOptions = [
 </script>
 
 <template>
-  <section class="flex overflow-hidden flex-col flex-1 shrink p-2.5 basis-0 min-w-[240px] max-md:max-w-full">
+  <section v-if="enrollmentsCount > 0 || !enrolledOnly" class="flex overflow-hidden flex-col flex-1 shrink p-2.5 basis-0 min-w-[240px] max-md:max-w-full">
     <header class="flex flex-wrap gap-10 justify-between items-center w-full max-md:max-w-full">
       <h1 v-if="enrolledOnly" class="self-stretch my-auto text-xl font-medium">
         {{ enrollmentsCount }} Roadmaps
@@ -79,5 +80,21 @@ const sortOptions = [
       :is-loading="isLoading ?? false"
       :on-page-change="page => emit('pageChange', page)"
     />
+  </section>
+
+  <section v-else class="flex flex-wrap gap-7 items-start mt-2.5 w-full max-md:max-w-full">
+    <div class="flex flex-col items-center justify-center w-full">
+      <NothingHereCat class="max-w-72"/>
+      <h1 class="text-2xl text-center font-medium">No tienes roadmaps inscritos</h1>
+      <p class="text-foreground text-center text-lg font-normal">
+        Explora nuestros roadmaps y comienza tu aventura de aprendizaje
+      </p>
+      <!-- Boton para ir a explore roadmaps -->
+      <NuxtLink to="/explore">
+      <Button class="mt-5">
+        Explorar Roadmaps
+      </Button>
+      </NuxtLink>
+    </div>
   </section>
 </template>
