@@ -30,4 +30,7 @@ public class RoadmapCourseDTO implements Serializable {
     @JsonProperty("tag_names")
     private List<String> tagNames;
     private List<RoadmapModuleDTO> modules;
+
+    @JsonProperty("display_order")
+    private Integer displayOrder;
 }
