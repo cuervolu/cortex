@@ -47,7 +47,8 @@ public interface RoadmapMapper {
   @Mapping(target = "courses", expression = "java(mapCourses(roadmap, userId, userProgressService))")
   @Mapping(target = "tagNames", source = "roadmap.tags", qualifiedByName = "tagsToNamesList")
   @Mapping(target = "isPublished", source = "roadmap.published")
-  RoadmapDetails toRoadmapDetails(Roadmap roadmap, @Context Long userId, @Context UserProgressService userProgressService);
+  RoadmapDetails toRoadmapDetails(Roadmap roadmap, @Context Long userId,
+      @Context UserProgressService userProgressService);
 
   @Named("mediaToUrl")
   default String mediaToUrl(Media media) {
@@ -68,7 +69,8 @@ public interface RoadmapMapper {
         .collect(Collectors.toSet()) : null;
   }
 
-  default List<RoadmapCourseDTO> mapCourses(Roadmap roadmap, Long userId, UserProgressService userProgressService) {
+  default List<RoadmapCourseDTO> mapCourses(Roadmap roadmap, Long userId,
+      UserProgressService userProgressService) {
     return roadmap.getCourses() != null ? roadmap.getCourses().stream()
         .map(course -> new RoadmapCourseDTO(
             course.getId(),
@@ -77,14 +79,16 @@ public interface RoadmapMapper {
             mediaToUrl(course.getImage()),
             course.getSlug(),
             tagsToNamesList(course.getTags()),
-            modulesToDetailedResponses(course.getModuleEntities(), userId, userProgressService)
+            modulesToDetailedResponses(course.getModuleEntities(), userId, userProgressService),
+            course.getDisplayOrder()
         ))
         .toList() : null;
   }
 
 
   @Named("modulesToDetailedResponses")
-  default List<RoadmapModuleDTO> modulesToDetailedResponses(Set<ModuleEntity> modules, Long userId, UserProgressService userProgressService) {
+  default List<RoadmapModuleDTO> modulesToDetailedResponses(Set<ModuleEntity> modules, Long userId,
+      UserProgressService userProgressService) {
     return modules != null ? modules.stream()
         .filter(ModuleEntity::getIsPublished)
         .map(module -> RoadmapModuleDTO.builder()
@@ -100,7 +104,8 @@ public interface RoadmapMapper {
   }
 
   @Named("lessonsToDetailedResponses")
-  default List<RoadmapLessonDTO> lessonsToDetailedResponses(Set<Lesson> lessons, @Context Long userId, @Context UserProgressService userProgressService) {
+  default List<RoadmapLessonDTO> lessonsToDetailedResponses(Set<Lesson> lessons,
+      @Context Long userId, @Context UserProgressService userProgressService) {
     return lessons != null ? lessons.stream()
         .filter(Lesson::getIsPublished)
         .map(lesson -> RoadmapLessonDTO.builder()
@@ -108,21 +113,24 @@ public interface RoadmapMapper {
             .name(lesson.getName())
             .slug(lesson.getSlug())
             .credits(lesson.getCredits())
-            .exercises(exercisesToDetailedResponses(lesson.getExercises(), userId, userProgressService))
+            .exercises(
+                exercisesToDetailedResponses(lesson.getExercises(), userId, userProgressService))
             .displayOrder(lesson.getDisplayOrder())
             .build())
         .toList() : null;
   }
 
   @Named("exercisesToDetailedResponses")
-  default List<RoadmapExerciseDTO> exercisesToDetailedResponses(Set<Exercise> exercises, @Context Long userId, @Context UserProgressService userProgressService) {
+  default List<RoadmapExerciseDTO> exercisesToDetailedResponses(Set<Exercise> exercises,
+      @Context Long userId, @Context UserProgressService userProgressService) {
     return exercises != null ? exercises.stream()
         .map(exercise -> RoadmapExerciseDTO.builder()
             .id(exercise.getId())
             .title(exercise.getTitle())
             .slug(exercise.getSlug())
             .points(exercise.getPoints())
-            .completed(userProgressService.isEntityCompleted(userId, exercise.getId(), EntityType.EXERCISE))
+            .completed(userProgressService.isEntityCompleted(userId, exercise.getId(),
+                EntityType.EXERCISE))
             .displayOrder(exercise.getDisplayOrder())
             .build())
         .toList() : null;

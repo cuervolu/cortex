@@ -12,5 +12,7 @@ export const API_ROUTES = {
   LESSONS: `${API_BASE_URL}/education/lesson`,
   EXERCISES: `${API_BASE_URL}/exercises`,
   USER: `${API_BASE_URL}/user`,
-  CHANGE_PASSWORD: `${API_BASE_URL}/user/change-password`
+  CHANGE_PASSWORD: `${API_BASE_URL}/user/change-password`,
+  FORGOT_PASSWORD: `${API_BASE_URL}/auth/forgot-password`,
+  RESET_PASSWORD: `${API_BASE_URL}/auth/reset-password`,
 }
