@@ -1,13 +1,14 @@
 <script lang="ts" setup>
+import { ref, computed } from 'vue';
 
 const isMonthly = ref(true);
 
 const props = defineProps<{
-  path : string;
+  path: string;
 }>();
 
 const plans = [
-{
+  {
     title: 'Plan Básico',
     price: '0 CLP',
     period: 'Gratis',
@@ -46,7 +47,7 @@ const plans = [
     period: 'por editor/anual',
     subPeriod: 'factura anual',
     features: [
-    { text: 'Acceso a todos los cursos' },
+      { text: 'Acceso a todos los cursos' },
       { text: 'Mentorías limitadas' },
       { text: 'Acceso a proyectos colaborativos' },
       { text: 'Créditos extra opcionales' },
@@ -76,43 +77,47 @@ const plans = [
   },
 
 ];
+
+// Filtra los planes según la opción seleccionada, siempre incluye el Plan Básico
+const filteredPlans = computed(() => {
+  const additionalPlans = isMonthly.value
+    ? plans.filter(plan => plan.period.includes('mes'))
+    : plans.filter(plan => plan.period.includes('anual'));
+  return [plans[0], ...additionalPlans]; // Siempre incluye el Plan Básico
+});
 </script>
 
 <template>
   <div class="flex justify-center w-full">
     <div class="flex flex-col items-center justify-center gap-8 px-16 py-14 relative max-w-[1200px] w-full">
-      <div class="flex flex-col items-center gap-4 relative self-stretch w-full flex-[0_0_auto]">
-        <div class="relative w-fit mt-[-1.00px] font-bold text-[40px] text-center tracking-[0.80px] leading-normal">
+      <div class="flex flex-col items-center gap-4 relative self-stretch w-full">
+        <div class="relative w-fit font-bold text-[40px] text-center">
           Compra una suscripción
         </div>
-        <p class="relative w-fit font-normal  text-xl text-center tracking-[0.40px] leading-normal">
+        <p class="relative w-fit text-xl text-center">
           Escoje el plan que mejor te convenga
         </p>
       </div>
-      <div class="flex max-w-[355px] items-center gap-[9px] p-[4.5px] self-stretch w-full bg-[#ebeff0] rounded-[112.45px] justify-center relative flex-[0_0_auto]">
-        <button :class="['flex w-[168.67px] items-center justify-center gap-[4.5px] p-[11.24px] relative ml-[-0.17px] rounded-[112.45px]', isMonthly ? 'bg-[#1d2127] text-white' : 'text-[#1d2127]']" @click="isMonthly = true">
-          <div class="relative flex-1 mt-[-1.12px] font-bold text-lg text-center tracking-[0.36px] leading-normal">
-            Mensual
-          </div>
+      <div class="flex max-w-[355px] items-center gap-[9px] p-[4.5px] bg-[#ebeff0] rounded-[112.45px] justify-center">
+        <button 
+          :class="['w-[168.67px] p-[11.24px] rounded-[112.45px]', isMonthly ? 'bg-[#1d2127] text-white' : 'text-[#1d2127]']" 
+          @click="isMonthly = true">
+          Mensual
         </button>
-        <button :class="['flex w-[168.67px] items-baseline justify-center gap-[4.5px] p-[11.24px] relative mr-[-0.17px] rounded-[112.45px]', !isMonthly ? 'bg-[#1d2127] text-white' : 'text-[#1d2127]']" @click="isMonthly = false">
-          <div class="relative w-fit mt-[-1.12px] font-normal text-lg text-center tracking-[0.36px] leading-normal">
-            Anual
-          </div>
-          <div class="relative w-fit font-normal text-[13.5px] text-center tracking-[0.27px] leading-normal">
-            -20% off
-          </div>
+        <button 
+          :class="['w-[168.67px] p-[11.24px] rounded-[112.45px]', !isMonthly ? 'bg-[#1d2127] text-white' : 'text-[#1d2127]']" 
+          @click="isMonthly = false">
+          Anual
         </button>
       </div>
-      <div class="flex flex-col md:flex-row justify-center items-center md:items-end gap-[17.99px] p-[13.49px] relative w-full max-w-[1075px] rounded-[35.98px] shadow-[0px_16.03px_14.52px_#00000021]">
-
-        <Carousel v-slot="{ canScrollNext }" class="relative w-full">
+      <div class="flex flex-col md:flex-row justify-center gap-[18px] p-[13.5px] w-full max-w-[1075px] rounded-[36px] shadow-[0px_16px_14px_#00000021]">
+        <Carousel v-slot="{ canScrollNext }" class="w-full">
           <CarouselContent>
-            <CarouselItem v-for="(plan, index) in plans" :key="index" class="max-w-fit">
-              <PricingCard v-bind="plan" :path="path"/>
+            <CarouselItem v-for="(plan, index) in filteredPlans" :key="index" class="max-w-fit">
+              <PricingCard v-bind="plan" :path="path" />
             </CarouselItem>
           </CarouselContent>
-          <CarouselPrevious/>
+          <CarouselPrevious />
           <CarouselNext v-if="canScrollNext" />
         </Carousel>
       </div>
