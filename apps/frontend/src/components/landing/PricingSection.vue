@@ -75,6 +75,7 @@ const plans = [
     highlighted: true,
     enable: true,
   },
+
 ];
 
 // Filtra los planes según la opción seleccionada, siempre incluye el Plan Básico
