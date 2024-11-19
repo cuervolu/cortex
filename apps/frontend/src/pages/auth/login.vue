@@ -11,7 +11,7 @@ definePageMeta({
   layout: 'auth-default',
   auth: {
     unauthenticatedOnly: true,
-    navigateAuthenticatedTo: '/roadmaps'
+    navigateAuthenticatedTo: '/explore'
   },
 })
 
