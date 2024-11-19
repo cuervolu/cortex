@@ -4,14 +4,24 @@ import Setting from '~/components/usersetting/setting.vue'
 definePageMeta({
   middleware: 'auth'
 })
+
+useHead({
+  title: 'Configuración',
+  meta: [
+    {
+      name: 'description',
+      content: 'Configura la manera en la que interactúas con la aplicación'
+    }
+  ]
+})
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-50">
+  <section class="min-h-screen">
     <div class="max-w-4xl mx-auto p-4 pt-8">
-      <div class="bg-white rounded-lg shadow-lg p-6">
-        <Setting />
+      <div class=" bg-muted/40 rounded-lg shadow-lg p-6">
+        <Setting/>
       </div>
     </div>
-  </div>
+  </section>
 </template>

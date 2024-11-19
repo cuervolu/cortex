@@ -35,10 +35,10 @@ const emit = defineEmits<{
 const requiredFields = computed(() => {
   const fields: (keyof UpdateProfileRequest)[] = [
     'username',
-    'firstName',
-    'lastName',
-    'dateOfBirth',
-    'countryCode',
+    'first_name',
+    'last_name',
+    'date_of_birth',
+    'country_code',
     'gender'
   ]
 
@@ -81,10 +81,10 @@ const form = useForm({
   validationSchema: formSchema,
   initialValues: {
     username: props.initialData.username,
-    firstName: props.initialData.firstName,
-    lastName: props.initialData.lastName,
-    dateOfBirth: props.initialData.dateOfBirth ? new Date(props.initialData.dateOfBirth) : undefined,
-    countryCode: props.initialData.countryCode,
+    firstName: props.initialData.first_name,
+    lastName: props.initialData.last_name,
+    dateOfBirth: props.initialData.date_of_birth ? new Date(props.initialData.date_of_birth) : undefined,
+    countryCode: props.initialData.country_code,
     gender: props.initialData.gender,
   }
 })

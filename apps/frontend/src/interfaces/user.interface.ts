@@ -70,12 +70,12 @@ export interface AchievementType {
 }
 
 export interface UpdateProfileRequest {
-  firstName?: string
-  lastName?: string
+  first_name?: string
+  last_name?: string
   username?: string
   email?: string
-  dateOfBirth?: Date
-  countryCode?: string
+  date_of_birth?: Date
+  country_code?: string
   gender?: Gender
   password?: string
   confirm_password?: string
@@ -103,7 +103,7 @@ export interface UserResponse {
 }
 
 
-type Gender = 'MALE' | 'FEMALE' | 'OTHER' | 'NON_BINARY' | 'PREFER_NOT_TO_SAY'
+export type Gender = 'MALE' | 'FEMALE' | 'OTHER' | 'NON_BINARY' | 'PREFER_NOT_TO_SAY'
 
 export const transformSessionToProfileRequest = (sessionData: any): UpdateProfileRequest => {
   if (!sessionData) {
@@ -129,11 +129,30 @@ export const transformSessionToProfileRequest = (sessionData: any): UpdateProfil
 
   return {
     username: sessionData.username || '',
-    firstName: sessionData.first_name,
-    lastName: sessionData.last_name,
+    first_name: sessionData.first_name,
+    last_name: sessionData.last_name,
     email: sessionData.email || '',
-    dateOfBirth: dateOfBirth,
-    countryCode: sessionData.country_code,
+    date_of_birth: dateOfBirth,
+    country_code: sessionData.country_code,
     gender: sessionData.gender || 'PREFER_NOT_TO_SAY',
   }
 }
+
+export const genderLabels: Record<Gender, string> = {
+  MALE: 'Masculino',
+  FEMALE: 'Femenino',
+  NON_BINARY: 'No binario',
+  OTHER: 'Otro',
+  PREFER_NOT_TO_SAY: 'Prefiero no decirlo'
+};
+
+export const useGender = () => {
+  const translateGender = (gender: Gender | null | undefined): string => {
+    if (!gender) return 'No especificado';
+    return genderLabels[gender] || 'No especificado';
+  };
+
+  return {
+    translateGender
+  };
+};

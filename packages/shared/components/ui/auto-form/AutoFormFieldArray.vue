@@ -8,7 +8,7 @@ import { beautifyObjectName, getBaseType } from './utils'
 import AutoFormField from './AutoFormField.vue'
 import AutoFormLabel from './AutoFormLabel.vue'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../accordion'
-import { Button } from '../ui/button'
+import { Button } from '../button'
 import { Separator } from '../separator'
 import { FormItem, FormMessage } from '../form'
 

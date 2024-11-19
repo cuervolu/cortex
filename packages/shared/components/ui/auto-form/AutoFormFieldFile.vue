@@ -6,7 +6,7 @@ import { beautifyObjectName } from './utils'
 import type { FieldProps } from './interface'
 import { FormControl, FormDescription, FormField, FormItem, FormMessage } from '../form'
 import { Input } from '../input'
-import { Button } from '../ui/button'
+import { Button } from '../button'
 
 defineProps<FieldProps>()
 

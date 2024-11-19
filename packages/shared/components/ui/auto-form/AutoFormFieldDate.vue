@@ -7,7 +7,7 @@ import type { FieldProps } from './interface'
 import { FormControl, FormDescription, FormField, FormItem, FormMessage } from '../form'
 
 import { Calendar } from '../calendar'
-import { Button } from '../ui/button'
+import { Button } from '../button'
 import { Popover, PopoverContent, PopoverTrigger } from '../popover'
 import { cn } from '../../../lib/utils'
 
