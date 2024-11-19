@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 
+import { CircleCheck, CirclePlay } from "lucide-vue-next";
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import HomeIcon from "~/components/icons/HomeIcon.vue";
@@ -102,7 +103,23 @@ onMounted(async () => {
             <SheetHeader>
                 <SheetTitle>Ejercicios</SheetTitle>
                 <SheetDescription>
-                    {{ lesson?.exercise_ids }}
+                    <div v-for="(exercise, exerciseIndex) in [...(lesson?.exercises ?? [])]
+                        .sort((a, b) => (a.display_order ?? 0) - (b.display_order ?? 0))"
+                        :key="exerciseIndex" :class="[
+                            'flex justify-between items-center py-3 gap-2 px-6',
+                            exercise.is_completed ? 'border-l-4 border-primary bg-popover dark:bg-secondary' : 'border-b'
+                        ]">
+                        <div class="flex gap-3 items-center">
+                            <LayoutList :size="28" class="stroke-current" />
+                            <div class="flex flex-col">
+                                <span class="font-bold text-lg">{{ exercise.title }}</span>
+                                <span v-if="exercise.is_completed">Completado</span>
+                                <span v-else>No Iniciado</span>
+                            </div>
+                        </div>
+                        <CircleCheck v-if="exercise.is_completed" :size="28" class="stroke-current" />
+                        <CirclePlay v-else :size="28" class="stroke-current" />
+                    </div>
                 </SheetDescription>
             </SheetHeader>
             </SheetContent>

@@ -7,7 +7,7 @@ import HomeIcon from "@cortex/shared/components/icons/HomeIcon.vue"; ;
 
 const router = useRouter()
 const { data } = useAuth();
-const { paginatedRoadmaps, loading, fetchRoadmaps } = useRoadmaps()
+const { paginatedRoadmaps, loading, fetchRoadmaps, enrollments } = useRoadmaps()
 const sortBy = ref<string>('recent')
 
 const handlePageChange = (page: number) => {
@@ -42,11 +42,17 @@ const handleRoadmapClick = (roadmap: Roadmap) => {
 
 onMounted(() => {
     if (data?.value?.roles.includes('ADMIN')) {
-        fetchRoadmaps({ isAdmin: true })
+        fetchRoadmaps({ isAdmin: true, enrolledOnly: true })
     }
 
-    fetchRoadmaps()
+    fetchRoadmaps({ enrolledOnly: true })
 })
+
+// enrolled count
+const enrollmentsCount = computed(() => {
+    return enrollments.value?.length
+})
+
 </script>
 
 <template>
@@ -101,6 +107,8 @@ onMounted(() => {
             @sort-change="handleSortChange"
             @page-change="handlePageChange"
             @roadmap-click="handleRoadmapClick"
+            :enrolled-only="true"
+            :enrollments-count="enrollmentsCount"
         />
     </div>
 </template>

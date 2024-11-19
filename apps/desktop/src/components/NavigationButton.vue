@@ -42,7 +42,7 @@ const isButtonSelected = computed(() => props.isSelected || isActive.value);
       <div
           class="min-w-10 h-10 p-2 from-white to-white rounded-[20px] justify-center items-center gap-2.5 flex navigation-button-icon-background"
       >
-        <component :is="icon" class="w-[18.79px] h-[19.84px]"/>
+        <component :is="icon" :class="['w-[18.79px] h-[19.84px] flex-shrink-0', isButtonSelected ? 'text-[#f4f8f7]' : 'text-[#f4f8f7]/60']"/>
       </div>
       <div
           v-if="!isCollapsed"

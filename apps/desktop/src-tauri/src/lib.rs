@@ -131,6 +131,7 @@ pub fn run() {
             education::roadmaps::commands::get_available_courses,
             education::roadmaps::commands::update_roadmap_courses,
             education::roadmaps::commands::enroll_in_roadmap,
+            education::roadmaps::commands::get_user_enrollments,
             // Courses
             education::courses::commands::fetch_all_courses,
             education::courses::commands::get_course,

@@ -24,7 +24,7 @@ pub async fn fetch_all_roadmaps(
         Err(e) => {
             log::error!("Failed to fetch roadmaps: {:?}", e);
             Err(e)
-        }
+        }   
     }
 }
 

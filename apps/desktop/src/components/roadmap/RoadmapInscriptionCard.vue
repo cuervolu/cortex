@@ -1,13 +1,12 @@
 <script setup lang="ts">
 
-import { AppError, RoadmapDetails } from '../../types';
+import { AppError, type RoadmapDetails } from '@cortex/shared/types';
 
 import { defineProps } from 'vue';
 import { useRouter } from 'vue-router';
-import { useRoadmapEnrollment } from '../../composables/front/useRoadmapEnrollment';
-import { useToast } from '../ui/toast';
+import { useRoadmapEnrollment } from '@cortex/shared/composables/desktop/useRoadmapEnrollment'; 
+import { useToast } from '@cortex/shared/components/ui/toast'; 
 import { ArrowRight, Rocket } from 'lucide-vue-next';
-
 
 
 const { enrollInRoadmap, loading } = useRoadmapEnrollment();
@@ -31,7 +30,7 @@ const handleEnroll = async (roadmap: RoadmapDetails) => {
 
         router.push(`/my-roadmaps/${roadmap.slug}`);
     } catch (err: any) {
-        if (err instanceof AppError && err.statusCode === 328) {
+        if (err === 'API error: Already enrolled in this roadmap') {
             toast({
                 title: 'Error',
                 description: 'Ya estás inscrito en este roadmap',
