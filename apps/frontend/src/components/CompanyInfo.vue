@@ -9,8 +9,7 @@
       <span class="w-[90px] h-[25px] font-bold text-[#381653] dark:text-[#FAF9F7] leading-7 tracking-[4px]">CORTEX</span>
     </div>
     <address class="mt-8 text-xs font-light leading-6 text-gray-500 dark:text-[#BEBEBE] not-italic">
-      20 Osgood Rd, Milford, NH 03055, USA<br>
-      +1283871239190213021
+      Cam. de La Laguna 14341, 7700251 Lo Barnechea, Región Metropolitana
     </address>
   </div>
 </template>
