@@ -104,7 +104,7 @@ onMounted(async () => {
                             'flex justify-between items-center py-3 gap-2 px-6 hover:bg-foreground/5',
                             exercise.is_completed ? 'border-l-4 border-primary bg-popover dark:bg-secondary' : 'border-b'
                         ]"
-                        :to="`/exercises/${exercise.id}`">
+                        :to="`/exercises/${exercise.id}/solve`">
                         <div class="flex gap-3 items-center">
                             <LayoutList :size="28" class="stroke-current" />
                             <div class="flex flex-col">

@@ -14,14 +14,9 @@ const props = defineProps<Props>();
 
 <template>
   <div class="exercise-header">
-    <div
-      class="flex items-start justify-between p-2 sm:p-4 bg-muted/50 border-b-2 border-gradient-purple"
-    >
-      <div
-        class="flex items-center gap-1 sm:gap-2 cursor-pointer"
-        @click="props.onBackClick"
-      >
-        <ChevronLeft class="w-4 h-4 sm:w-5 sm:h-5"/>
+    <div class="flex items-start justify-between p-2 sm:p-4 bg-muted/50 border-b-2 border-gradient-purple">
+      <div class="flex items-center gap-1 sm:gap-2 cursor-pointer" @click="props.onBackClick">
+        <ChevronLeft class="w-4 h-4 sm:w-5 sm:h-5" />
         <div class="text-xs sm:text-sm text-foreground truncate max-w-[80px] sm:max-w-none">
           Back to Exercise
         </div>
@@ -33,23 +28,10 @@ const props = defineProps<Props>();
           <span class="text-foreground"> {{ props.exerciseName }}</span>
         </p>
       </div>
-      <Settings
-        class="hidden sm:block cursor-pointer w-4 h-4 sm:w-5 sm:h-5"
-        @click="props.onSettingsClick"
-      />
-      <Menu
-        class="sm:hidden cursor-pointer w-4 h-4"
-        @click="props.onSettingsClick"
-      />
+      <Settings class="hidden sm:block cursor-pointer w-4 h-4 sm:w-5 sm:h-5" @click="props.onSettingsClick" />
+      <Menu class="sm:hidden cursor-pointer w-4 h-4" @click="props.onSettingsClick" />
     </div>
     <!-- Tab -->
-    <div
-      class="inline-flex items-center px-2 sm:px-4 py-1 sm:py-1.5 rounded-br-2xl sm:rounded-br-3xl border-r-2 border-b-2 overflow-hidden bg-muted/50"
-    >
-      <div class="font-medium text-xs sm:text-sm text-foreground truncate max-w-[120px] sm:max-w-none">
-        {{ props.fileName }}
-      </div>
-    </div>
   </div>
 </template>
 

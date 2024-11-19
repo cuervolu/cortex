@@ -103,12 +103,13 @@ onMounted(async () => {
             <SheetHeader>
                 <SheetTitle>Ejercicios</SheetTitle>
                 <SheetDescription>
-                    <div v-for="(exercise, exerciseIndex) in [...(lesson?.exercises ?? [])]
+                    <NuxtLink v-for="(exercise, exerciseIndex) in [...(lesson?.exercises ?? [])]
                         .sort((a, b) => (a.display_order ?? 0) - (b.display_order ?? 0))"
                         :key="exerciseIndex" :class="[
-                            'flex justify-between items-center py-3 gap-2 px-6',
+                            'flex justify-between items-center py-3 gap-2 px-6 hover:bg-foreground/5',
                             exercise.is_completed ? 'border-l-4 border-primary bg-popover dark:bg-secondary' : 'border-b'
-                        ]">
+                        ]"
+                        :to="`/exercises/${exercise.id}/solve`">
                         <div class="flex gap-3 items-center">
                             <LayoutList :size="28" class="stroke-current" />
                             <div class="flex flex-col">
@@ -119,7 +120,7 @@ onMounted(async () => {
                         </div>
                         <CircleCheck v-if="exercise.is_completed" :size="28" class="stroke-current" />
                         <CirclePlay v-else :size="28" class="stroke-current" />
-                    </div>
+                    </NuxtLink>
                 </SheetDescription>
             </SheetHeader>
             </SheetContent>
@@ -130,17 +131,37 @@ onMounted(async () => {
 
 <style>
 
+.prose {
+    @apply max-w-7xl;
+}
+
 .prose code {
     @apply bg-secondary text-white px-2 py-1 rounded-sm hover:bg-secondary/70;
 }
 
-.pre code {
-    @apply bg-transparent hover:bg-transparent
+.prose pre code {
+    @apply bg-transparent hover:bg-transparent;
 }
 
 .prose code::before,
 .prose code::after {
     content: none;
+}
+
+.prose img {
+    @apply mx-auto rounded-xl object-cover;
+}
+
+.prose a {
+    @apply no-underline;
+}
+
+.dark .prose {
+    @apply prose-invert;
+}
+
+.prose {
+    @apply prose-lg;
 }
 
 </style>

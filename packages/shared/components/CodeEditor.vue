@@ -21,7 +21,7 @@ const props = withDefaults(defineProps<{
   placeholder: "// Type some code here",
   availableExtensions: () => ["lineNumbersRelative", "indentationMarkers", "interact"],
   activeExtensions: () => ["lineNumbersRelative", "indentationMarkers", "interact"],
-  activeTheme: "materialDark",
+  activeTheme: "materialLight",
   lineWrapping: true
 })
 

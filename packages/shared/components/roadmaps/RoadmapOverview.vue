@@ -1,21 +1,30 @@
 <script setup lang="ts">
 import { AlarmClock, BookOpen, Clock, FileBadge, LayoutList, NotebookText, Search } from 'lucide-vue-next'
+import { computed } from 'vue'
 import type { Course } from "@cortex/shared/types";
 import StudentIcon from '@cortex/shared/components/icons/StudentIcon.vue';
 import InstagramIcon from '@cortex/shared/components/icons/InstagramIcon.vue';
 import TwitterIcon from '@cortex/shared/components/icons/TwitterIcon.vue';
 import LinkedinIcon from '@cortex/shared/components/icons/LinkedinIcon.vue';
 import GithubIcon from '@cortex/shared/components/icons/GithubIcon.vue';
+import { RoadmapMentor } from '@cortex/shared/types';
 
 export interface RoadmapOverviewProps {
   description: string
   createdAt: string
   updatedAt: string | null
+  mentor: RoadmapMentor
 }
-
-defineProps<RoadmapOverviewProps>()
+const props = defineProps<RoadmapOverviewProps>()
 
 const formatDate = (date: string) => new Date(date).toLocaleDateString()
+
+// obtener iniciales mentor con mentor.full_name
+const initials = computed(() => {
+  const [firstName, lastName] = props.mentor.full_name.split(' ')
+  return `${firstName.charAt(0)}${lastName.charAt(0)}`
+})
+
 </script>
 
 <template>
@@ -98,11 +107,16 @@ const formatDate = (date: string) => new Date(date).toLocaleDateString()
         <div class="flex-col flex justify-between gap-3 text-sm w-3/4">
           <div class="flex items-center gap-3">
             <Avatar class="w-12 h-12">
-              <AvatarImage src="https://pbs.twimg.com/profile_images/994592419705274369/RLplF55e_400x400.jpg" />
+              <AvatarImage 
+                v-if="mentor.avatar_url" 
+                :src="mentor.avatar_url"
+                :alt="mentor.username || ''"
+              />
+              <AvatarFallback>{{ initials }}</AvatarFallback>
             </Avatar>
             <div class="flex flex-col">
-              <span class="font-bold">Nelson Garrido</span>
-              <span>Desarrollador de Software</span>
+              <span class="font-bold">{{ mentor.full_name }}</span>
+              <span>@{{ mentor.username }}</span>
             </div>
           </div>
           <!-- Social Media Buttons -->
