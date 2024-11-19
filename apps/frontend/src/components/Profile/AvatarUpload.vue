@@ -45,10 +45,10 @@ const getDisplayImage = computed(() => {
 <template>
   <div class="flex flex-col items-center gap-4">
     <div
-        class="relative group cursor-pointer"
+        class="relative group cursor-pointer h-24 w-24"
         @click="handleClick"
     >
-      <Avatar class="h-24 w-24">
+      <Avatar class="w-full h-full">
         <AvatarImage
             v-if="getDisplayImage"
             :src="getDisplayImage"
