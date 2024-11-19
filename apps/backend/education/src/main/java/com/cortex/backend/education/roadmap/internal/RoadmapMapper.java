@@ -13,9 +13,11 @@ import com.cortex.backend.education.roadmap.api.dto.RoadmapCourseDTO;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapDetails;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapExerciseDTO;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapLessonDTO;
+import com.cortex.backend.education.roadmap.api.dto.RoadmapMentorDTO;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapModuleDTO;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapRequest;
 import com.cortex.backend.education.roadmap.api.dto.RoadmapResponse;
+import com.cortex.backend.user.repository.UserRepository;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -24,7 +26,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {UserRepository.class})
 public interface RoadmapMapper {
 
   @Mapping(target = "imageUrl", source = "image", qualifiedByName = "mediaToUrl")
@@ -47,8 +49,10 @@ public interface RoadmapMapper {
   @Mapping(target = "courses", expression = "java(mapCourses(roadmap, userId, userProgressService))")
   @Mapping(target = "tagNames", source = "roadmap.tags", qualifiedByName = "tagsToNamesList")
   @Mapping(target = "isPublished", source = "roadmap.published")
+  @Mapping(target = "mentor", expression = "java(userToMentorDto(roadmap.getCreatedBy(), userRepository))")
   RoadmapDetails toRoadmapDetails(Roadmap roadmap, @Context Long userId,
-      @Context UserProgressService userProgressService);
+      @Context UserProgressService userProgressService,
+      @Context UserRepository userRepository);
 
   @Named("mediaToUrl")
   default String mediaToUrl(Media media) {
@@ -85,6 +89,21 @@ public interface RoadmapMapper {
         .toList() : null;
   }
 
+
+  @Named("userToMentorDto")
+  default RoadmapMentorDTO userToMentorDto(Long userId, @Context UserRepository userRepository) {
+    if (userId == null) {
+      return null;
+    }
+
+    return userRepository.findById(userId)
+        .map(user -> RoadmapMentorDTO.builder()
+            .fullName(user.getFullName())
+            .username(user.getUsername())
+            .avatarUrl(user.getAvatar() != null ? user.getAvatar().getUrl() : null)
+            .build())
+        .orElse(null);
+  }
 
   @Named("modulesToDetailedResponses")
   default List<RoadmapModuleDTO> modulesToDetailedResponses(Set<ModuleEntity> modules, Long userId,

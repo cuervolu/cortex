@@ -33,6 +33,9 @@ public class RoadmapDetails implements Serializable {
 
     private List<RoadmapCourseDTO> courses;
 
+    @JsonProperty("mentor")
+    private RoadmapMentorDTO mentor;
+
     @JsonProperty("is_published")
     private boolean isPublished;
 
