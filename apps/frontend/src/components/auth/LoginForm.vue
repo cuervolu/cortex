@@ -97,12 +97,8 @@ const handleLogin = (provider: 'github' | 'google') => {
     </CardContent>
     <CardFooter class="flex flex-col justify-center items-center w-full p-0">
       <PasswordResetDialog />
-
-      <NuxtLink to="/auth/register">
-        <Button variant="link" class="text-[#5e4a6e] dark:text-[#BEBEBE] text-sm font-medium p-0">
-          No tienes cuenta? Regístrate
-        </Button>
-      </NuxtLink>
+      <br>
+      <NuxtLink to="/auth/register" class="text-[#5e4a6e] dark:text-[#BEBEBE] text-sm font-normal">¿No tienes cuenta? Regístrate</NuxtLink>
     </CardFooter>
   </Card>
 </template>

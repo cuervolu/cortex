@@ -1,0 +1,20 @@
+meta {
+  name: Activate License Key
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{BASEURL}}/api/v1/subscriptions/activate?license_key=196F3391-6889-46AB-8269-A9F3A34DA64E&instance_name=desktop
+  body: none
+  auth: bearer
+}
+
+params:query {
+  license_key: 196F3391-6889-46AB-8269-A9F3A34DA64E
+  instance_name: desktop
+}
+
+auth:bearer {
+  token: {{token}}
+}

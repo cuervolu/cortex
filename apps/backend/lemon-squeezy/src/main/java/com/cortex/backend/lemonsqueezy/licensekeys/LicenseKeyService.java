@@ -18,9 +18,9 @@ public class LicenseKeyService extends PaginatedService<LicenseKey> {
 
   // Endpoint constants
   private static final String LICENSE_KEYS_ENDPOINT = "license-keys";
-  private static final String VALIDATE_ENDPOINT = "v1/licenses/validate";
-  private static final String ACTIVATE_ENDPOINT = "v1/licenses/activate";
-  private static final String DEACTIVATE_ENDPOINT = "v1/licenses/deactivate";
+  private static final String VALIDATE_ENDPOINT = "licenses/validate";
+  private static final String ACTIVATE_ENDPOINT = "licenses/activate";
+  private static final String DEACTIVATE_ENDPOINT = "licenses/deactivate";
 
   // Field name constants
   private static final String FIELD_TYPE = "type";
