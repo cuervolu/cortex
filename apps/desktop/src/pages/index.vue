@@ -22,12 +22,6 @@ const commonActions = [
     icon: User,
     route: '/profile',
     variant: 'outline'
-  },
-  {
-    name: 'Explorar Ejercicios',
-    icon: BookOpen,
-    route: '/exercises',
-    variant: 'default'
   }
 ]
 
@@ -97,7 +91,7 @@ const moderatorActions = [
     <!-- Sección derecha (imagen) -->
     <div class="grow shrink basis-0 self-stretch min-w-[310px] max-w-[908px] w-full md:w-auto px-[42px] py-[38px] bg-gradient-to-b from-background to-background-muted rounded-[35px] justify-center items-end gap-2.5 flex relative">
       <img
-          src="https://res.cloudinary.com/dukgkrpft/image/upload/v1731019914/modules/curso-de-parques-y-heroes-de-java/vkachhklsl3tdolsjjr1.jpg"
+          src="~/assets/img/cover.webp"
           alt="Ilustración de aprendizaje"
           class="absolute inset-0 w-full h-full object-cover rounded-3xl"
       >
