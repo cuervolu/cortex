@@ -150,7 +150,7 @@ public class RoadmapEnrollmentService {
     return calculateRoadmapProgress(userId, roadmapId);
   }
 
-  
+
   public double calculateRoadmapProgress(Long userId, Long roadmapId) {
     Double result = transactionTemplate.execute(_ -> {
       try {

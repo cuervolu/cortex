@@ -79,6 +79,7 @@ const handleSendMessage = async (message: string) => {
     await errorHandler.handleError(error)
   }
 }
+const { $markdown } = useNuxtApp();
 
 // Computed properties
 const panelTabs = computed(() => [
@@ -88,7 +89,8 @@ const panelTabs = computed(() => [
     component: markRaw(InstructionsTab),
     iconSrc: markRaw(Book),
     props: {
-      exercise: exercise.value
+      exercise: exercise.value,
+      options: $markdown.options
     },
   },
   {
@@ -97,7 +99,8 @@ const panelTabs = computed(() => [
     component: markRaw(HintsTab),
     iconSrc: markRaw(Lightbulb),
     props: {
-      exercise: exercise.value
+      exercise: exercise.value,
+      options: $markdown.options
     },
   },
   {
