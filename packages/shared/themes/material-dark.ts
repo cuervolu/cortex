@@ -6,7 +6,7 @@ import {tags as t} from '@lezer/highlight'
 export const materialDarkConfig = {
   name: 'materialDark',
   dark: true,
-  background: '#263238',
+  background: '#1B0D26',
   foreground: '#EEFFFF',
   selection: '#80CBC420',
   cursor: '#FFCC00',
@@ -62,7 +62,7 @@ export const materialDarkTheme = EditorView.theme({
   },
 
   '.cm-gutters': {
-    backgroundColor: materialDarkConfig.background,
+    backgroundColor: materialDarkConfig.dropdownBorder,
     color: materialDarkConfig.foreground,
     border: 'none'
   },

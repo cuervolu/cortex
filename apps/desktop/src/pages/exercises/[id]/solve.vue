@@ -224,7 +224,7 @@ const handleCodeExecution = async (code: string) => {
 
 <template>
   <loading-overlay v-if="isLoading"/>
-  <div v-else class="flex flex-col h-full w-full bg-background">
+  <div v-else class="flex flex-col h-full w-full bg-background pt-0">
     <ExerciseHeader
         :lesson="currentLesson"
         :exercise-name="currentExercise"
@@ -240,7 +240,13 @@ const handleCodeExecution = async (code: string) => {
     />
     <ResizablePanelGroup direction="horizontal" class="flex-grow">
       <ResizablePanel :default-size="70" :min-size="30">
-        <div class="h-full p-4">
+        <div class="h-full">
+          <div
+              class="inline-flex items-center px-2 sm:px-4 py-1 sm:py-1.5 rounded-bottom-right-gradient-borders overflow-hidden">
+              <div class="font-medium text-xs sm:text-sm text-foreground truncate max-w-[120px] sm:max-w-none">
+                  {{ currentFileName }}
+              </div>
+          </div>
           <CodeEditor
               v-if="initialCode"
               v-model:code="editorCode"
@@ -250,7 +256,7 @@ const handleCodeExecution = async (code: string) => {
               :available-themes="availableThemes"
               :active-extensions="activeExtensions"
               :active-theme="editorTheme"
-              class="h-full rounded-md overflow-hidden"
+              class="h-full overflow-hidden"
               @change="handleCodeChange"
               @execute="handleCodeExecution"
           />
@@ -258,18 +264,43 @@ const handleCodeExecution = async (code: string) => {
       </ResizablePanel>
       <ResizableHandle/>
       <ResizablePanel :default-size="30" :min-size="20">
-        <ScrollArea class="flex flex-col h-full">
+        <div class="flex flex-col h-full">
           <ExercisePanel
               v-model:active-tab="currentTab"
               :tabs="panelTabs"
               :default-tab="defaultPanelTab"
               :is-open="isPanelOpen"
-              class="flex-1"
+              class="flex-1 h-full"
               @send-message="handleSendMessage"
               @update:is-open="isPanelOpen = $event"
           />
-        </ScrollArea>
+        </div>
       </ResizablePanel>
     </ResizablePanelGroup>
   </div>
 </template>
+
+<style scoped>
+.rounded-bottom-right-gradient-borders {
+  border-bottom: double 4px transparent;
+  border-right: double 4px transparent;
+  border-top: 0;
+  border-left: 0;
+  border-radius: 0 0 20px 0;
+  background-image: 
+    linear-gradient(hsl(var(--background)), hsl(var(--background))), 
+    radial-gradient(circle at bottom right, hsl(var(--primary)), hsl(var(--secondary)));
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+}
+
+</style>
+
+
+<style>
+.prose code::before,
+.prose code::after {
+    content: none;
+}
+
+</style>

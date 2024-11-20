@@ -25,3 +25,9 @@ defineProps<{ exercise: Exercise, options: Options }>();
     />
   </div>
 </template>
+
+<style scoped>
+.prose h2{
+  margin-top: 10px
+}
+</style>

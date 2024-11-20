@@ -42,7 +42,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="self-stretch h-[128px] p-2.5 flex-col justify-start items-start flex gap-3">
+  <div class="self-stretch h-[128px] p-2.5 flex-col justify-start items-start flex gap-3 cursor-default">
     <span class="w-full text-[#f4f8f7]/80 text-xs font-semibold tracking-tight">Cuenta de usuario
     </span>
     <div class="self-stretch justify-between items-center inline-flex">
@@ -80,7 +80,7 @@ onMounted(async () => {
         </DropdownMenu>
 
         <div v-if="!isCollapsed" class="grow shrink basis-0 p-2.5 flex-col justify-start items-start inline-flex">
-          <span class="self-stretch h-7 text-[#f4f8f7] text-lg font-semibold tracking-tight">{{ userFullName }}</span>
+          <span :title="userFullName" class="self-stretch h-7 text-[#f4f8f7] text-lg font-semibold tracking-tight text-nowrap truncate max-w-52">{{ userFullName }}</span>
           <span class="w-full text-[#f4f8f7]/60 text-sm font-normal tracking-tight">{{ userUsername }}</span>
         </div>
       </div>

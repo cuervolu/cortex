@@ -165,9 +165,13 @@ const handleCodeExecution = async (code: string) => {
 <template>
   <loading-overlay v-if="isLoading"/>
   <div v-else class="flex flex-col h-screen w-full bg-background">
-    <ExerciseHeader :lesson="currentLesson" :exercise-name="currentExercise"
-                    :file-name="currentFileName"
-                    :on-back-click="handleBackClick" :on-settings-click="handleSettingsClick"/>
+    <ExerciseHeader 
+      :lesson="currentLesson" 
+      :exercise-name="currentExercise"
+      :file-name="currentFileName"
+      :on-back-click="handleBackClick" 
+      :on-settings-click="handleSettingsClick"
+    />
 
     <ResizablePanelGroup direction="horizontal" class="flex-grow">
       <ResizablePanel :default-size="70" :min-size="30">
@@ -179,22 +183,31 @@ const handleCodeExecution = async (code: string) => {
               {{ currentFileName }}
             </div>
           </div>
-          <CodeEditor v-if="initialCode" v-model:code="editorCode" :language="currentLanguage"
-                      :initial-code="initialCode" :available-extensions="availableExtensions"
-                      :available-themes="availableThemes" :active-extensions="activeExtensions"
-                      :active-theme="editorTheme" class="h-screen rounded-md overflow-hidden p-4"
-                      @change="handleCodeChange"
-                      @execute="handleCodeExecution"/>
+          <CodeEditor 
+            v-if="initialCode" 
+            v-model:code="editorCode" 
+            :language="currentLanguage"
+            :initial-code="initialCode" 
+            :available-extensions="availableExtensions"
+            :available-themes="availableThemes" 
+            :active-extensions="activeExtensions"
+            :active-theme="editorTheme" class="h-full overflow-hidden"
+            @change="handleCodeChange"
+            @execute="handleCodeExecution"
+          />
         </div>
       </ResizablePanel>
       <ResizableHandle/>
       <ResizablePanel :default-size="30" :min-size="20">
-        <ScrollArea class="flex flex-col h-full">
-          <ExercisePanel v-model:active-tab="currentTab" :tabs="panelTabs"
-                         :default-tab="defaultPanelTab"
-                         :is-open="isPanelOpen" class="flex-1"
-                         @update:is-open="isPanelOpen = $event"/>
-        </ScrollArea>
+        <div class="flex flex-col h-full">
+          <ExercisePanel 
+            v-model:active-tab="currentTab" 
+            :tabs="panelTabs"
+            :default-tab="defaultPanelTab"
+            :is-open="isPanelOpen" class="flex-1 h-full"
+            @update:is-open="isPanelOpen = $event"
+          />
+        </div>
       </ResizablePanel>
     </ResizablePanelGroup>
   </div>

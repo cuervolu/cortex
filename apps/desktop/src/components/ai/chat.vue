@@ -53,9 +53,7 @@ const { $markdown } = useNuxtApp();
 
 <template>
   <div
-      class="flex flex-col gap-4 p-3 sm:p-5 bg-muted/50 rounded-lg border-2 border-transparent shadow-md overflow-hidden h-full"
-      style="border-image: linear-gradient(to bottom, rgb(56, 22, 83), rgb(146, 210, 221)) 1;"
-  >
+      class="flex flex-col gap-4 p-3 sm:p-5 bg-muted/50 rounded-lg shadow-lg shadow-current/30 dark:shadow-sm overflow-hidden h-full my-4 mx-7 rounded-corners-gradient-borders">
     <!-- Header -->
     <div class="flex justify-center">
       <div class="relative w-[152px] h-[33px]">
@@ -151,34 +149,45 @@ const { $markdown } = useNuxtApp();
       </div>
     </div>
 
-    <!-- Input Area -->
-    <div
-        class="flex items-center justify-between px-3 sm:px-6 py-2 rounded-full shadow mt-4"
-        :class="[
-        error ? 'bg-destructive/20' : 'bg-primary',
-        { 'opacity-50': isChatBlocked }
-      ]"
-    >
-      <Textarea
-          v-model="userMessage"
-          placeholder="Escribe tu mensaje aquí..."
-          class="w-full bg-transparent border-transparent text-xs sm:text-sm text-muted-foreground outline-none min-h-[24px] resize-none py-0"
-          :disabled="isChatBlocked"
-          @keydown="handleKeydown"
-      />
-      <Button
-          size="icon"
-          variant="ghost"
-          :disabled="isChatBlocked"
-          @click="sendMessage"
-      >
-        <Send class="w-2 h-2 sm:w-5 sm:h-5 cursor-pointer ml-2" :class="{ 'opacity-50': isChatBlocked }" />
-      </Button>
-    </div>
-
     <!-- Error Hint -->
     <p v-if="error" class="text-xs text-destructive text-center mt-2">
       Chat bloqueado debido a un error. Por favor, recarga la página o cambia el modelo de IA.
     </p>
   </div>
+  <!-- Input Area -->
+    <div
+      class="flex items-start justify-between px-3 sm:px-6 py-2 shadow my-4 mx-7 transition-all duration-200"
+      :class="[
+      error ? 'bg-destructive/20' : 'bg-background',
+      { 'opacity-50': isChatBlocked },
+      userMessage.split('\n').length > 2 || userMessage.length > 50 ? 'rounded-3xl' : 'rounded-full'
+      ]"
+    >
+      <Textarea
+      v-model="userMessage"
+      placeholder="Escribe tu mensaje aquí..."
+      class="w-full bg-transparent border-none text-sm sm:text-base text-muted-foreground outline-none min-h-[24px] max-h-[200px] h-fit resize-none py-0 focus:ring-transparent focus-visible:ring-transparent overflow-y-auto"
+      :disabled="isChatBlocked"
+      @keydown="handleKeydown"
+      @input="$event.target.style.height = 'auto'; $event.target.style.height = $event.target.scrollHeight + 'px'"
+      />
+      <Button
+      size="icon"
+      class="flex bg-background shadow-inherit shadow-lg hover:bg-foreground/20 mt-1"
+      :disabled="isChatBlocked"
+      @click="sendMessage"
+      >
+      <Send class="h-5 cursor-pointer text-foreground flex-shrink-0" :class="{ 'opacity-50': isChatBlocked }" />
+      </Button>
+    </div>
 </template>
+
+<style scoped>
+.rounded-corners-gradient-borders {
+  border: double 4px transparent;
+  border-radius: 20px;
+  background-image: linear-gradient(hsl(var(--background)), hsl(var(--background))), radial-gradient(circle at top left, #92D2DD,hsl(var(--primary)));
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+}
+</style>
