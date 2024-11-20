@@ -4,7 +4,7 @@
 
         <div class="text-center mb-16">
           <div class="flex justify-center mb-4">
-            <div class="text-4xl font-bold text-indigo-600">
+            <div class="text-4xl font-bold text-primary">
               😊
             </div>
           </div>
@@ -15,7 +15,7 @@
           </p>
           <RouterLink 
             to="/explore" 
-            class="inline-block bg-indigo-600 text-white px-6 py-3 rounded-md hover:bg-indigo-700 transition-colors"
+            class="inline-block bg-primary text-white px-6 py-3 rounded-md hover:bg-primary/80 transition-colors"
           >
             Explorar Roadmaps
           </RouterLink>
@@ -45,7 +45,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
           <div class="bg-white p-6 rounded-lg shadow-md">
             <div class="text-center mb-4">
-              <div class="inline-block bg-indigo-100 rounded-full p-3">
+              <div class="inline-block bg-indigo-100 rounded-full p-3 w-14">
                 <span class="text-2xl">1</span>
               </div>
             </div>
@@ -58,7 +58,7 @@
 
           <div class="bg-white p-6 rounded-lg shadow-md">
             <div class="text-center mb-4">
-              <div class="inline-block bg-indigo-100 rounded-full p-3">
+              <div class="inline-block bg-indigo-100 rounded-full p-3 w-14">
                 <span class="text-2xl">2</span>
               </div>
             </div>
@@ -71,7 +71,7 @@
 
           <div class="bg-white p-6 rounded-lg shadow-md">
             <div class="text-center mb-4">
-              <div class="inline-block bg-indigo-100 rounded-full p-3">
+              <div class="inline-block bg-indigo-100 rounded-full p-3 w-14">
                 <span class="text-2xl">3</span>
               </div>
             </div>

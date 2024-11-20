@@ -18,10 +18,10 @@ const handleLemonEvent = (event: any) => {
 </script>
 
 <template>
-  <ScriptLemonSqueezy @lemon-squeezy-event="handleLemonEvent" @ready="ready = true">
+  <ScriptLemonSqueezy @lemon-squeezy-event="handleLemonEvent" @ready="ready = true" class="rounded-[9px] w-full">
     <Button
         :class="[
-        'relative self-stretch w-full h-[44.98px] rounded-[9px] overflow-hidden',
+        'relative self-stretch w-full h-[44.98px] text-lg rounded-[9px] overflow-hidden',
         'bg-[#f296bd] text-white',
         { 'opacity-50 cursor-not-allowed': disabled },
         className

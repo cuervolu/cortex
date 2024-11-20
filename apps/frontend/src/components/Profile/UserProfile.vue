@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {type UpdateProfileRequest, useGender} from '~/interfaces/user.interface'
 import EditProfileModal from '@/components/Profile/EditProfileModal.vue'
+import { vConfetti } from '@neoconfetti/vue';
 import {
   LogOut, Trash2, Lock, UserCheck, Calendar, MapPin,
   Mail, Trophy, ShieldCheck, ShieldAlert
@@ -13,10 +14,19 @@ const router = useRouter()
 const loading = ref(true)
 const error = ref<string | null>(null)
 const showEditProfile = ref(false)
+const showConfetti = ref(false)
 const showDeleteConfirm = ref(false)
 const profileRequest = ref<UpdateProfileRequest | null>(null)
 const deleteLoading = ref(false)
 const {translateGender} = useGender()
+
+watch(showConfetti, (newValue) => {
+  if (newValue) {
+setTimeout(() => {
+  showConfetti.value = false
+}, 5000)
+  }
+})
 
 const {data: session} = useAuth()
 
@@ -257,6 +267,8 @@ onMounted(() => {
         </Card>
       </div>
 
+      <div v-if="showConfetti" v-confetti="{ particleCount: 200, force: 0.3 }" class="relative mx-auto"/>
+
       <!-- Activar Suscripcion -->
       <Card class="mt-6">
         <CardContent class="pt-6">
@@ -267,12 +279,12 @@ onMounted(() => {
           <p class="text-gray-600">
             ¡Activa tu suscripción para acceder a contenido exclusivo y mejorar tu experiencia de aprendizaje!
           </p>
-          <div class="flex gap-3">
-            <Button class="mt-4">
+            <div class="flex gap-3">
+              <Button class="mt-4" @click="showConfetti = true">
               Activar Suscripción
-            </Button>
-            <Input class="mt-4" placeholder="Código de activación"/>
-          </div>
+              </Button>
+              <Input class="mt-4" placeholder="Código de activación"/>
+            </div>
         </CardContent>
       </Card>
     </div>
