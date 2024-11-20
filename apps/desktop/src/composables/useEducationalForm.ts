@@ -25,6 +25,7 @@ export interface BaseFormValues {
 
 export interface RoadmapFormValues extends BaseFormValues {
   title: string;
+  image_url?: string;
 }
 
 export interface CourseModuleFormValues extends BaseFormValues {
