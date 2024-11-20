@@ -38,11 +38,11 @@ const steps = [
   },
   {
     title: 'Personal Information',
-    fields: ['firstname', 'lastname', 'dateOfBirth']
+    fields: ['firstname', 'lastname', 'date_of_birth']
   },
   {
     title: 'Additional Details',
-    fields: ['countryCode', 'gender']
+    fields: ['country_code', 'gender']
   }
 ]
 
@@ -130,7 +130,7 @@ const genderOptions = [
               <FormItem>
                 <FormLabel>{{ field.charAt(0).toUpperCase() + field.slice(1) }}</FormLabel>
                 <FormControl>
-                  <template v-if="field === 'dateOfBirth'">
+                  <template v-if="field === 'date_of_birth'">
                     <Calendar v-bind="componentField" class="rounded-md border" />
                   </template>
                   <template v-else-if="field === 'gender'">
@@ -145,7 +145,7 @@ const genderOptions = [
                       </SelectContent>
                     </Select>
                   </template>
-                  <template v-else-if="field === 'countryCode'">
+                  <template v-else-if="field === 'country_code'">
                     <Select v-bind="componentField">
                       <SelectTrigger>
                         <SelectValue placeholder="Select country" />

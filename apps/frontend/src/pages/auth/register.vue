@@ -6,6 +6,7 @@ import {type RegisterSchemaType, stepSchemas} from "~/schemas/register.schema";
 
 definePageMeta({
   layout: 'auth-default',
+  auth: false,
 })
 
 const { signUp } = useAuth()
