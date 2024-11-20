@@ -34,7 +34,7 @@ const toggleMenu = () => {
                   <NavigationMenuLink as-child>
                     <a
                       class="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                      href="/"
+                      href="/roadmaps"
                     >
                       <RoadmapIcon class="w-[32px] fill-primary dark:fill-current" />
                       <div class="mb-2 mt-4 text-lg font-medium">
@@ -69,19 +69,6 @@ const toggleMenu = () => {
                       <div class="text-sm font-medium leading-none">Mis Roadmaps</div>
                       <p class="line-clamp-2 text-sm leading-snug text-muted-foreground">
                         Explora tus Roadmaps guardados y en progreso.
-                      </p>
-                    </a>
-                  </NavigationMenuLink>
-                </li>
-                <li>
-                  <NavigationMenuLink as-child>
-                    <a
-                      href="/docs/typography"
-                      class="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                    >
-                      <div class="text-sm font-medium leading-none">Typography</div>
-                      <p class="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                        Styles for headings, paragraphs, lists...etc
                       </p>
                     </a>
                   </NavigationMenuLink>
