@@ -246,6 +246,7 @@ export function useRoadmaps() {
     createRoadmap,
     updateRoadmap,
     transformFormToRequest,
-    deleteRoadmap
+    deleteRoadmap,
+    enrollments
   }
 }

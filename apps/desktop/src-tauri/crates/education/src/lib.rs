@@ -255,8 +255,16 @@ pub struct RoadmapCourse {
     #[serde(rename = "tag_names")]
     pub tag_names: Vec<String>,
     pub modules: Vec<RoadmapModule>,
-    // pub display_order: i32,
+    pub display_order: i32,
 }
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct RoadmapMentor {
+    pub full_name: String,
+    pub username: String,
+    pub avatar_url: Option<String>,
+}
+
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct RoadmapDetails {
@@ -271,6 +279,7 @@ pub struct RoadmapDetails {
     #[serde(rename = "is_published")]
     pub is_published: bool,
     pub courses: Vec<RoadmapCourse>,
+    pub mentor: RoadmapMentor,
     #[serde(rename = "created_at")]
     pub created_at: String,
     #[serde(rename = "updated_at")]
