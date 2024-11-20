@@ -7,6 +7,7 @@ const router = useRouter();
 const fullPath = ref(router.currentRoute.value.fullPath);
 
 definePageMeta({
+  layout: false,
   auth: false
 });
 
