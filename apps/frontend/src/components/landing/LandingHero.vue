@@ -22,8 +22,12 @@ import { ref } from 'vue'
     </div>
     
           <div class="space-x-4 py-10" >
-        <Button class="bg-purple-900 hover:bg-purple-800 text-white px-6 rounded-full">Empieza aqui</Button>
-        <Button variant="outline" class="bg-white border-gray-200 hover:bg-gray-50 rounded-full text-purple-900">Explorar Roadmaps</Button>
+        <NuxtLink to="/my-roadmaps">
+          <Button class="bg-purple-900 hover:bg-purple-800 text-white px-6 rounded-full">Empieza aqui</Button>
+        </NuxtLink>
+        <NuxtLink to="/explore">
+          <Button variant="outline" class="bg-white border-gray-200 hover:bg-gray-50 rounded-full text-purple-900">Explorar Roadmaps</Button>
+        </NuxtLink>
       </div>
 
     <vue-icon class="icon-float absolute top-20 left-10 w-16 h-16 " />

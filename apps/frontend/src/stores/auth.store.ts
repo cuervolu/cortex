@@ -47,7 +47,7 @@ export const useAuthStore = defineStore('auth', () => {
         })
       }
 
-      await $fetch(`${API_ROUTES.ACTIVATE_ACCOUNT}`, {
+      await $fetch(`${API_ROUTES.ACTIVATE_ACCOUNT}/auth/activate-account`, {
         method: 'GET',
         params: { token }
       })

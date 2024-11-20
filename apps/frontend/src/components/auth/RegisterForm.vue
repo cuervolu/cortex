@@ -122,7 +122,7 @@ const genderOptions = [
             <FormField v-slot="{ componentField }" :name="field">
               <FormItem>
                 <FormLabel>{{ field.charAt(0).toUpperCase() + field.slice(1) }}</FormLabel>
-                <FormControl>
+                <FormControl class="bg-[#FFFFFF] border-[#E4E4E7]">
                   <template v-if="field === 'dateOfBirth'">
                     <Calendar v-bind="componentField" class="rounded-md border" />
                   </template>
