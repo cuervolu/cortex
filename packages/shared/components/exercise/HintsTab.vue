@@ -1,14 +1,17 @@
 <script setup lang="ts">
-import type { Exercise } from "@cortex/shared/types";
+import type {Exercise} from "@cortex/shared/types";
+import type {Options} from "markdown-it";
+import {VueMarkdownIt} from "@f3ve/vue-markdown-it";
 
-defineProps<{ exercise: Exercise }>();
+defineProps<{ exercise: Exercise, options: Options }>();
 </script>
 
 <template>
   <div class="p-4">
-    <MDC
-        :value="exercise.hints || 'No hay pistas disponibles para este ejercicio.'"
-        class="prose prose-slate dark:prose-invert max-w-none
+    <VueMarkdownIt
+      :source="exercise.hints"
+      :options="options"
+      class="prose prose-slate dark:prose-invert max-w-none
              prose-headings:font-bold prose-headings:no-underline
              prose-h1:text-2xl prose-h1:no-underline
              prose-h2:text-xl prose-h2:no-underline

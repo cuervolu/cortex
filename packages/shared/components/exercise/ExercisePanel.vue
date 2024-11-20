@@ -17,7 +17,7 @@ interface Props {
   tabs: Tab[];
   defaultTab: string;
   modelValue?: string;
-  activeTab: string; // <- Añadimos esta prop
+  activeTab: string;
 }
 
 const props = defineProps<Props>();

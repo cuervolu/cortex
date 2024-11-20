@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { Download } from "lucide-vue-next"
-import { parseMarkdown } from '@nuxtjs/mdc/runtime'
 import { format, isValid, parseISO } from 'date-fns'
 import { es } from 'date-fns/locale'
+import {VueMarkdownIt} from "@f3ve/vue-markdown-it";
 
 const props = defineProps<{
   version: string
@@ -10,7 +10,7 @@ const props = defineProps<{
   notes: string
   onBack: () => void
 }>()
-
+const { $markdown } = useNuxtApp();
 // Detect if the app is running in development mode
 const isDev = import.meta.dev
 
@@ -63,10 +63,6 @@ const formattedDate = computed(() => {
   }
 })
 
-const { data: notesAst } = await useAsyncData(
-    `changelog-${props.version}`,
-    () => parseMarkdown(isDev ? devChangelog : (props.notes || '::alert{type="info"}\nNo hay notas de versión disponibles\n::'))
-)
 </script>
 
 <template>
@@ -87,11 +83,7 @@ const { data: notesAst } = await useAsyncData(
     <!-- Content -->
     <div class="flex-1 px-6 py-3 text-white overflow-y-auto">
       <div class="prose prose-invert prose-pre:bg-white/5 prose-headings:text-white prose-headings:no-underline prose-p:text-white/90 prose-strong:text-white max-w-none">
-        <MDCRenderer
-            v-if="notesAst"
-            :body="notesAst.body"
-            :data="notesAst.data"
-        />
+        <VueMarkdownIt :source="props.notes" :options="$markdown.options" />
       </div>
     </div>
     <!-- Footer -->
