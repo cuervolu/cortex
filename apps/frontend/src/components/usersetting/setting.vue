@@ -51,12 +51,10 @@ const wordWrap = ref(false)
       <div class="space-y-4">
         <h2 class="text-lg font-semibold text-foreground">Tamaño de Fuente</h2>
         <div class="flex items-center gap-4 max-w-[300px]">
-          <Slider 
-            v-model="fontSize"
+          <Slider
+              :default-value="[14]" :max="32" :step="1"
             class="flex-1"
             :min="8"
-            :max="32"
-            :step="1"
           />
           <span class="text-sm text-foreground min-w-[45px]">{{ fontSize }}px</span>
         </div>
