@@ -1,0 +1,19 @@
+meta {
+  name: Get All Modules
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{BASEURL}}/api/v1/education/module/admin?sort=name:asc,createdAt:desc
+  body: none
+  auth: bearer
+}
+
+params:query {
+  sort: name:asc,createdAt:desc
+}
+
+auth:bearer {
+  token: {{token}}
+}

@@ -1,0 +1,15 @@
+meta {
+  name: Enroll
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{BASEURL}}/api/v1/education/roadmap/1/enroll
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

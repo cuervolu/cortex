@@ -1,0 +1,15 @@
+meta {
+  name: Get Roadmap By Slug
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{BASEURL}}/api/v1/education/roadmap/cafe-compilado-tu-primer-sorbo-de-java
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

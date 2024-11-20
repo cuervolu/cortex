@@ -1,0 +1,17 @@
+spring:
+    application:
+        name: backend
+    profiles:
+        active: dev
+    servlet:
+        multipart:
+            max-file-size: 50MB
+    threads:
+        virtual:
+            enabled: true
+    
+springdoc:
+    default-produces-media-type: application/json
+server:
+    servlet:
+        context-path: /api/v1/

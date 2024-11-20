@@ -1,0 +1,28 @@
+meta {
+  name: Register
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{BASEURL}}/api/v1/auth/register
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "firstname": "Hamir",
+    "lastname": "Llanos",
+    "username": "kiwi",
+    "email": "ha.llanos@duocuc.cl",
+    "password": "{{PASSWORD}}",
+    "dateOfBirth": "2002-12-05",
+    "countryCode": "CL",
+    "gender": "MALE"
+  }
+}
+
+assert {
+  res.status: eq 202
+}

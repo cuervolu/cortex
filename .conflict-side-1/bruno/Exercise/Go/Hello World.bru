@@ -1,0 +1,27 @@
+meta {
+  name: Hello World
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{BASEURL}}/api/v1/engine/execute
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "code": "cGFja2FnZSBoZWxsb193b3JsZAoKZnVuYyBIZWxsbygpIHN0cmluZyB7CiAgICByZXR1cm4gIkhlbGxvLCBXb3JsZCEiCn0=",
+    "language": "go",
+    "exercise_id": 24
+  }
+}

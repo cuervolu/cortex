@@ -1,0 +1,49 @@
+[package]
+name = "cortex"
+version = "0.1.6"
+description = "Cortex Desktop Application for Premium Users"
+authors = ["Bytech SpA"]
+license = "AGPL-3"
+repository = "https://github.com/cuervolu/cortex"
+edition = "2021"
+rust-version = "1.80.0"
+workspace = "../../../"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+name = "cortex_lib"
+crate-type = ["staticlib", "cdylib", "lib"]
+
+[build-dependencies]
+tauri-build = { version = "2.0.3", features = [] }
+
+[dependencies]
+serde = { workspace = true }
+serde_json = { workspace = true }
+tokio = { workspace = true }
+tauri = { workspace = true }
+reqwest = { workspace = true }
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+log = { workspace = true }
+tauri-plugin-shell =  {workspace = true}
+tauri-plugin-store = {workspace = true}
+tauri-plugin-dialog = {workspace = true}
+tauri-plugin-devtools = "2.0.0"
+tauri-plugin-fs = {workspace = true}
+tauri-plugin-log = { version = "2.0.2", features = ["colored"] }
+tauri-plugin-os = "2"
+tauri-plugin-process = "2.0.1"
+tauri-plugin-clipboard-manager = "2.0.2"
+tauri-plugin-oauth = {workspace = true}
+tauri-plugin-notification = "2.0.1"
+sysinfo = "0.32.0"
+common = { path = "./crates/common" }
+error = { path = "./crates/error" }
+ai_chat = { path = "./crates/ai_chat" }
+auth = { path = "./crates/auth" }
+education = { path = "./crates/education" }
+
+[target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
+tauri-plugin-updater = "2.0.2"

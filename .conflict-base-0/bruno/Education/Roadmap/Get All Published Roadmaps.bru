@@ -1,0 +1,19 @@
+meta {
+  name: Get All Published Roadmaps
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{BASEURL}}/api/v1/education/roadmap?sort=title:asc,createdAt:desc
+  body: none
+  auth: bearer
+}
+
+params:query {
+  sort: title:asc,createdAt:desc
+}
+
+auth:bearer {
+  token: {{token}}
+}

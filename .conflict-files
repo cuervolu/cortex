@@ -1,0 +1,3 @@
+ancestorEntries = ["apps/frontend/src/components/auth/RegisterForm.vue"]
+ourEntries = ["apps/frontend/src/components/auth/RegisterForm.vue"]
+theirEntries = ["apps/frontend/src/components/auth/RegisterForm.vue"]

@@ -1,0 +1,27 @@
+meta {
+  name: Hello World
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{BASEURL}}/api/v1/engine/execute
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "code": "cHViIGZuIGhlbGxvKCkgLT4gU3RyaW5nIHsKICAgICJIZWxsbywgV29ybGQhIi50b19zdHJpbmcoKQp9Cg==",
+    "language": "rust",
+    "exercise_id": 19
+  }
+}
