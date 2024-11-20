@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 
-import { CircleCheck, CirclePlay } from "lucide-vue-next";
-import { ref, onMounted } from "vue";
+import { CircleCheck, CirclePlay, LayoutList } from "lucide-vue-next";
 import { useRoute } from "vue-router";
 import HomeIcon from "~/components/icons/HomeIcon.vue";
 
