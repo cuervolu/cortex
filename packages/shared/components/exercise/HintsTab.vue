@@ -22,7 +22,6 @@ defineProps<{ exercise: Exercise, options: Options }>();
              prose-pre:bg-muted/50
              prose-strong:font-semibold
              prose-a:text-foreground hover:prose-a:text-foreground/80"
-        tag="article"
     />
   </div>
 </template>

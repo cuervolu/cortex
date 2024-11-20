@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { Roadmap } from "@cortex/shared/types"
-import { useRouter } from "vue-router"
-
+import {VueMarkdownIt} from "@f3ve/vue-markdown-it";
 const props = defineProps<{
   roadmap: Roadmap
 }>()
@@ -13,7 +12,7 @@ const emit = defineEmits<{
 const handleClick = () => {
   emit('click', props.roadmap)
 }
-
+const { $markdown } = useNuxtApp();
 </script>
 
 <template>
@@ -41,10 +40,10 @@ const handleClick = () => {
         </div>
       </div>
       <h2 class="text-xl font-medium line-clamp-1">{{ roadmap.title }}</h2>
-      <MDC
-        :value="roadmap.description"
-        class="text-sm text-gray-500 line-clamp-2"
-      />
+      <VueMarkdownIt
+        :source="roadmap.description"
+        :options="$markdown.options"
+        class="text-sm text-gray-500 line-clamp-2" />
     </CardContent>
     <Separator/>
     <CardFooter class="w-full p-2.5">

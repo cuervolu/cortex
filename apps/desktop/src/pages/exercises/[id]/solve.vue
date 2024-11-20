@@ -12,8 +12,8 @@ import {useCodeExecutionStore} from '@cortex/shared/stores/useCodeExecutionStore
 import {useCodeExecution} from '@cortex/shared/composables/useCodeExecution';
 import BotIcon from '~/components/icons/BotIcon.vue'
 import LoadingOverlay from "~/components/LoadingOverlay.vue"
-import InstructionsTab from "~/components/exercise/InstructionsTab.vue";
-import HintsTab from "~/components/exercise/HintsTab.vue";
+import InstructionsTab from "@cortex/shared/components/exercise/InstructionsTab.vue";
+import HintsTab from "@cortex/shared/components/exercise/HintsTab.vue";
 import {DesktopCodeExecutionService} from "~/services/desktop-code-execution.service";
 import {AppError} from "@cortex/shared/types";
 
