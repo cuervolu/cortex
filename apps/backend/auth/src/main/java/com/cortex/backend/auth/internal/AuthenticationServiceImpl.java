@@ -78,14 +78,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         .build();
 
     userRepository.save(user);
-    if (!isDevProfile()) {
-      sendValidationEmail(user);
-    } else {
-      // In dev mode, automatically activate the account
-      log.info("Dev profile detected, activating account automatically");
-      user.setEnabled(true);
-      userRepository.save(user);
-    }
+    sendValidationEmail(user);
+//    if (!isDevProfile()) {
+//      sendValidationEmail(user);
+//    } else {
+//      // In dev mode, automatically activate the account
+//      log.info("Dev profile detected, activating account automatically");
+//      user.setEnabled(true);
+//      userRepository.save(user);
+//    }
   }
 
   private String generateAndSaveActivationToken(User user) {
