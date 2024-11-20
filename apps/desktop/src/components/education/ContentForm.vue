@@ -40,7 +40,7 @@ const {
   handleImageUpload,
   cleanup,
   currentImagePath
-} = useImageDrop();
+} = useImageDrop(props.initialValues?.image_url);
 
 const { form } = useEducationalForm(
     props.contentType,
@@ -53,7 +53,11 @@ onMounted(setupDragListeners);
 onUnmounted(cleanup);
 
 const handleSubmit = form.handleSubmit((formValues) => {
-  emit('submit', formValues as FormValues<typeof props.contentType>, currentImagePath.value);
+  const hasImageChanged = currentImagePath.value !== props.initialValues?.image_url;
+  emit('submit', 
+    formValues as FormValues<typeof props.contentType>, 
+    hasImageChanged ? currentImagePath.value : null
+  );
 });
 
 const contentName = computed({
@@ -108,6 +112,7 @@ watch(() => props.initialValues, (newValues) => {
           v-model:is-published="values.is_published"
           :is-valid="meta.valid"
           :is-loading="isLoading"
+          @update:is-published="(value) => form.setFieldValue('is_published', value)"
       >
         {{ submitLabel }}
       </ContentFooter>

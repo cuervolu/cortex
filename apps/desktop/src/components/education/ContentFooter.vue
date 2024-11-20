@@ -1,35 +1,32 @@
 <script setup lang="ts">
-
-const props = defineProps<{
+interface Props {
   isPublished: boolean;
   isValid: boolean;
-}>();
+  isLoading?: boolean;
+}
 
+const props = defineProps<Props>();
 const emit = defineEmits<{
   (e: 'update:isPublished', value: boolean): void;
 }>();
-
-const isPublishedComputed = computed({
-  get: () => props.isPublished,
-  set: (value) => emit('update:isPublished', value)
-});
 </script>
 
 <template>
   <div class="flex items-center justify-between pt-4 border-t">
     <div class="flex items-center space-x-2">
       <Switch
-          v-model="isPublishedComputed"
+          :checked="isPublished"
+          @update:checked="(value) => emit('update:isPublished', value)"
           class="peer"
+          :disabled="isLoading"
       />
       <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
         Publicar contenido
       </label>
     </div>
-
     <Button
         type="submit"
-        :disabled="!isValid"
+        :disabled="!isValid || isLoading"
     >
       <slot>Guardar</slot>
     </Button>

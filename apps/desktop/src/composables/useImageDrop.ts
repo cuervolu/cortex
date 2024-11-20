@@ -9,10 +9,10 @@ type DropEventPayload = {
   position: { x: number; y: number; };
 };
 
-export function useImageDrop() {
-  const previewImage = ref<string | null>(null);
+export const useImageDrop = (initialImage?: string) => {
+  const previewImage = ref<string | null>(initialImage || null);
   const isDragging = ref(false);
-  const currentImagePath = ref<string | null>(null);
+  const currentImagePath = ref<string | null>(initialImage || null);
   const unlisteners: (() => void)[] = [];
 
   const setupDragListeners = async () => {
