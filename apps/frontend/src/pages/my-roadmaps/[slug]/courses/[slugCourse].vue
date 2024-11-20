@@ -109,7 +109,7 @@ onMounted(async () => {
 
                             <Card class="rounded-3xl border-2 overflow-hidden">
                                 <CardHeader class="p-0">
-                                    <img :src="course?.image_url || '/api/placeholder/600/400'" :alt="course?.name"
+                                    <img :src="course?.image_url || 'https://placehold.co/600x400'" :alt="course?.name"
                                         class="relative h-72 object-cover" />
                                 </CardHeader>
                                 <CardFooter class="border-t-2 justify-end items-center px-4 py-5">

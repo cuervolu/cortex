@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import HomeIcon from "@cortex/shared/components/icons/HomeIcon.vue";
 import { VueMarkdownIt } from '@f3ve/vue-markdown-it';
-import { CircleCheck, CirclePlay } from "lucide-vue-next";
+import { CircleCheck, CirclePlay, LayoutList } from "lucide-vue-next";
 
 const route = useRoute()
 const slugModule = route.params.slugModule as string
@@ -116,6 +116,15 @@ onMounted(async () => {
                         <CircleCheck v-if="exercise.is_completed" :size="28" class="stroke-current" />
                         <CirclePlay v-else :size="28" class="stroke-current" />
                     </NuxtLink>
+                    <!-- Si no hay ejercicios -->
+                    <div v-if="lesson?.exercises?.length === 0" class="flex justify-center items-center py-3 gap-2 px-6 hover:bg-foreground/5">
+                        <div class="flex gap-3 items-center">
+                            <LayoutList :size="28" class="stroke-current" />
+                            <div class="flex flex-col">
+                                <span class="font-bold text-lg">No hay ejercicios</span>
+                            </div>
+                        </div>
+                    </div>
                 </SheetDescription>
             </SheetHeader>
             </SheetContent>
