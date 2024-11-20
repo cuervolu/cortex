@@ -7,7 +7,7 @@ import InstagramIcon from '@cortex/shared/components/icons/InstagramIcon.vue';
 import TwitterIcon from '@cortex/shared/components/icons/TwitterIcon.vue';
 import LinkedinIcon from '@cortex/shared/components/icons/LinkedinIcon.vue';
 import GithubIcon from '@cortex/shared/components/icons/GithubIcon.vue';
-import { RoadmapMentor } from '@cortex/shared/types';
+import type { RoadmapMentor } from '@cortex/shared/types';
 
 export interface RoadmapOverviewProps {
   description: string
@@ -107,8 +107,8 @@ const initials = computed(() => {
         <div class="flex-col flex justify-between gap-3 text-sm w-3/4">
           <div class="flex items-center gap-3">
             <Avatar class="w-12 h-12">
-              <AvatarImage 
-                v-if="mentor.avatar_url" 
+              <AvatarImage
+                v-if="mentor.avatar_url"
                 :src="mentor.avatar_url"
                 :alt="mentor.username || ''"
               />
