@@ -125,7 +125,7 @@ onMounted(async () => {
 
 <style>
 .prose {
-    @apply max-w-none;
+    @apply lg:max-w-4xl xl:max-w-6xl max-w-xl;
 }
 
 .prose code {

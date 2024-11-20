@@ -32,8 +32,8 @@ const activeTabComputed = computed({
 <template>
   <div>
     <!-- Panel for desktop (visible on screens >= 800px) -->
-    <ScrollArea
-      class="hidden lg:flex flex-col w-full h-full bg-muted/40 shadow-lg rounded-lg"
+    <div
+      class="hidden lg:flex flex-col w-full h-full bg-muted/40"
     >
       <Tabs
         :default-value="defaultTab"
@@ -41,8 +41,9 @@ const activeTabComputed = computed({
         class="h-full flex flex-col"
         @update:value="activeTabComputed = $event"
       >
+      <div class="border-b-4 border-primary">
         <TabsList
-          class="flex justify-center px-6 py-2 bg-muted/40 border-b-2 border-purple-600 shrink-0"
+          class="flex justify-center px-6 py-2 bg-muted/40 shrink-0 rounded-none"
         >
           <TabsTrigger
             v-for="tab in tabs"
@@ -71,7 +72,8 @@ const activeTabComputed = computed({
             <span class="text-sm text-center" :class="tab.labelClassName">{{ tab.label }}</span>
           </TabsTrigger>
         </TabsList>
-        <div class="flex-grow overflow-auto h-full">
+      </div>
+        <ScrollArea class="flex-grow overflow-auto h-screen py-2">
           <TabsContent
             v-for="tab in tabs"
             :key="tab.value"
@@ -85,9 +87,9 @@ const activeTabComputed = computed({
               @send-message="$emit('send-message', $event)"
             />
           </TabsContent>
-        </div>
+        </ScrollArea>
       </Tabs>
-    </ScrollArea>
+    </div>
 
     <!-- Sheet for mobile (visible on screens < 800px) -->
     <Sheet>

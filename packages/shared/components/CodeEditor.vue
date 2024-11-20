@@ -83,7 +83,6 @@ onMounted(() => {
 <style>
 .cm-editor {
   height: 100%;
-  border-radius: 10px;
   overflow: hidden;
 }
 .cm-scroller {

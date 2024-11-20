@@ -14,13 +14,13 @@ const props = defineProps<Props>();
 
 <template>
   <div class="exercise-header">
-    <div class="flex items-start justify-between p-2 sm:p-4 bg-muted/50 border-b-2 border-gradient-purple">
-      <div class="flex items-center gap-1 sm:gap-2 cursor-pointer" @click="props.onBackClick">
-        <ChevronLeft class="w-4 h-4 sm:w-5 sm:h-5" />
-        <div class="text-xs sm:text-sm text-foreground truncate max-w-[80px] sm:max-w-none">
-          Back to Exercise
-        </div>
+    <div class="flex items-start justify-between p-2 sm:p-4 bg-muted/50 border-b-4 border-gradient-purple">
+      <RouterLink to="/my-roadmaps" class="flex items-center gap-1 sm:gap-2">
+      <ChevronLeft class="w-4 h-4 sm:w-5 sm:h-5" />
+      <div class="text-xs sm:text-sm text-foreground truncate max-w-[80px] sm:max-w-none">
+        Back to Exercise
       </div>
+      </RouterLink>
       <div class="flex items-center gap-1 sm:gap-2">
         <p class="text-xs sm:text-sm truncate max-w-[120px] sm:max-w-none">
           <span class="text-muted-foreground">{{ props.lesson }}</span>
@@ -37,6 +37,6 @@ const props = defineProps<Props>();
 
 <style scoped>
 .border-gradient-purple {
-  border-image: linear-gradient(to bottom, rgb(56, 22, 83), rgb(135.66, 56.29, 198.69)) 1;
+  border-image: linear-gradient(to right, hsl(var(--primary)), hsl(var(--secondary))) 1;
 }
 </style>

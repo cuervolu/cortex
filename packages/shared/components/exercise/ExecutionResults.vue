@@ -102,19 +102,32 @@ const getStatusMessage = computed(() => {
         <AccordionTrigger>Detalles técnicos</AccordionTrigger>
         <AccordionContent>
           <div class="space-y-2 text-sm">
-            <div v-if="result.stderr" class="text-destructive bg-destructive/10 p-2 rounded">
+            <!-- Output (both standard and error) -->
+            <div v-if="result.stderr" class="mb-4">
+              <div class="text-sm font-medium mb-2">Output:</div>
+              <div class="font-mono text-sm whitespace-pre-wrap bg-muted/50 p-4 rounded-lg border">
               {{ result.stderr }}
+              </div>
             </div>
-            <div
-              v-if="result.stdout"
-              class="font-mono text-xs whitespace-pre-wrap bg-muted p-4 rounded-md">
+            <div v-if="result.stdout" class="mb-4">
+              <div class="text-sm font-medium mb-2">Output:</div>
+              <div class="font-mono text-sm whitespace-pre-wrap bg-muted/50 p-4 rounded-lg border">
               {{ result.stdout }}
+              </div>
             </div>
-            <div class="grid grid-cols-2 gap-2 text-xs text-muted-foreground mt-2">
-              <div>Tiempo de ejecución: {{ result.execution_time }}ms</div>
-              <div>Memoria utilizada: {{ result.memory_used }}KB</div>
+
+            <!-- Performance metrics -->
+            <div class="grid grid-cols-2 gap-4 mt-4">
+              <div class="flex items-center space-x-2 p-3 rounded-lg bg-muted/30">
+              <span class="text-xs font-medium">Execution Time:</span>
+              <span class="text-xs font-mono">{{ result.execution_time }}ms</span>
+              </div>
+              <div class="flex items-center space-x-2 p-3 rounded-lg bg-muted/30">
+              <span class="text-xs font-medium">Memory Usage:</span>
+              <span class="text-xs font-mono">{{ result.memory_used }}KB</span>
+              </div>
             </div>
-          </div>
+            </div>
         </AccordionContent>
       </AccordionItem>
     </Accordion>

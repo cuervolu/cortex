@@ -62,7 +62,7 @@ export const materialLightTheme = EditorView.theme({
   },
 
   '.cm-gutters': {
-    backgroundColor: config.background,
+    backgroundColor: config.dropdownBorder,
     color: config.foreground,
     border: 'none'
   },

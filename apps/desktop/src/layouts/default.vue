@@ -67,7 +67,7 @@ onMounted(async () => {
             :progress="progress"
             @install="installUpdate"
         />
-        <main class="grow shrink basis-0 self-stretch bg-background rounded-[34px] flex-col justify-start items-start gap-2.5 inline-flex overflow-auto scrollable-content">
+        <main class="grow shrink basis-0 self-stretch bg-background rounded-[34px] flex-col justify-start items-start inline-flex overflow-auto scrollable-content">
           <slot />
         </main>
       </div>
