@@ -38,11 +38,11 @@ const steps = [
   },
   {
     title: 'Personal Information',
-    fields: ['firstname', 'lastname', 'date_of_birth']
+    fields: ['firstname', 'lastname', 'dateOfBirth']
   },
   {
     title: 'Additional Details',
-    fields: ['country_code', 'gender']
+    fields: ['countryCode', 'gender']
   }
 ]
 
@@ -86,7 +86,7 @@ const genderOptions = [
 
 <template>
   <div class="min-h-screen flex items-center justify-center">
-    <Card class="w-full max-w-md bg-white bg-opacity-20 backdrop-blur-lg rounded-xl shadow-lg">
+    <Card class="w-full max-w-md rounded-xl shadow-lg card-register-form">
       <CardHeader>
         <CardTitle class="text-3xl font-bold text-purple-900 text-center">
           {{ steps[currentStep - 1].title }}
@@ -130,7 +130,7 @@ const genderOptions = [
               <FormItem>
                 <FormLabel>{{ field.charAt(0).toUpperCase() + field.slice(1) }}</FormLabel>
                 <FormControl>
-                  <template v-if="field === 'date_of_birth'">
+                  <template v-if="field === 'dateOfBirth'">
                     <Calendar v-bind="componentField" class="rounded-md border" />
                   </template>
                   <template v-else-if="field === 'gender'">
@@ -145,7 +145,7 @@ const genderOptions = [
                       </SelectContent>
                     </Select>
                   </template>
-                  <template v-else-if="field === 'country_code'">
+                  <template v-else-if="field === 'countryCode'">
                     <Select v-bind="componentField">
                       <SelectTrigger>
                         <SelectValue placeholder="Select country" />
@@ -196,3 +196,25 @@ const genderOptions = [
     </Card>
   </div>
 </template>
+
+<style scoped>
+.card-register-form {
+  border: 1.203px solid #E4E4E7;
+  background: linear-gradient(209deg, rgba(247, 255, 175, 0.38) 10.42%, rgba(244, 162, 255, 0.65) 92.04%);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(7.6px);
+}
+
+.dark .card-register-form {
+  border: 1.203px solid #E4E4E7;
+  background: linear-gradient(209deg, rgba(78, 205, 196, 0.38) 10.42%, rgba(244, 162, 255, 0.65) 92.04%);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(7.6px);
+}
+
+.separator-label{
+  color:#f493bc;
+  font-size: 1.125rem;
+  background-color: transparent;
+}
+</style>
