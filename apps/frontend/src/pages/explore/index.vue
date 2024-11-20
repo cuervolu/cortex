@@ -73,14 +73,14 @@ onMounted(() => {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Explore Roadmaps</BreadcrumbPage>
+            <BreadcrumbPage>Explora Roadmaps</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
 
       <div class="self-stretch w-full px-[38px] py-[30px] flex-col justify-center md:items-center items-start gap-[22px] flex">
         <div class="text-primary dark:text-[#E1E0E0] text-5xl font-semibold">
-          Explore Roadmaps
+          Explora Roadmaps
         </div>
         <div>
           <div class="self-stretch md:text-center max-w-[900px] text-left text-neutral-700 dark:text-[#BEBEBE] text-xl font-normal">
