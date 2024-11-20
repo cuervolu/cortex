@@ -30,6 +30,14 @@ const testimonios = [
     comentario:
         "Uso Cortex como complemento en mis clases. El contenido es excelente y siempre actualizado. Nunca me ha fallado y por eso les di un 7.",
   },
+  // Otro testimonio pero de un usuario llamado Don Quirogas
+  {
+    nombre: "Don Quirogas",
+    rol: "Desarrollador Junior",
+    avatar: xdImage,
+    comentario:
+        "En Cortex descubrí una comunidad increíble que me ha ayudado a crecer como profesional. ¡Gracias!",
+  },
 ];
 </script>
 
@@ -162,7 +170,7 @@ const testimonios = [
               <!-- Reflective Section -->
               <Card
                   class="border border-primary/10 shadow-lg hover:shadow-xl transition-all duration-300 bg-background/40">
-                <CardHeader className="space-y-4 text-center">
+                <CardHeader class="space-y-4 text-center pt-4">
                   <div
                       class="mx-auto bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center">
                     <Brain class="w-8 h-8 text-primary"/>
@@ -181,7 +189,7 @@ const testimonios = [
               <!-- Small Team Section -->
               <Card
                   class="border border-primary/10 shadow-lg hover:shadow-xl transition-all duration-300 bg-background/40">
-                <CardHeader className="space-y-4 text-center">
+                <CardHeader class="space-y-4 text-center pt-4">
                   <div
                       class="mx-auto bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center">
                     <Target class="w-8 h-8 text-primary"/>
@@ -200,7 +208,7 @@ const testimonios = [
               <!-- Ethics Section -->
               <Card
                   class="border border-primary/10 shadow-lg hover:shadow-xl transition-all duration-300 bg-background/40">
-                <CardHeader className="space-y-4 text-center">
+                <CardHeader class="space-y-4 text-center pt-4">
                   <div
                       class="mx-auto bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center">
                     <Shield class="w-8 h-8 text-primary"/>
