@@ -109,7 +109,6 @@ public class RoadmapServiceImpl implements RoadmapService {
   }
 
   @Override
-  @Cacheable(value = "roadmaps", key = "#slug + '_' + #user.id")
   @Transactional(readOnly = true)
   public Optional<RoadmapDetails> getRoadmapBySlug(String slug, User user) {
     if (user.hasAnyRole("ADMIN", "MODERATOR")) {
@@ -138,7 +137,6 @@ public class RoadmapServiceImpl implements RoadmapService {
     return roadmapMapper.toRoadmapResponse(savedRoadmap);
   }
 
-  @CacheEvict(value = "roadmaps", key = "#id")
   @Override
   @Transactional
   public RoadmapResponse updateRoadmap(Long id, RoadmapUpdateRequest request) {

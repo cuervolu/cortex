@@ -150,8 +150,7 @@ public class RoadmapEnrollmentService {
     return calculateRoadmapProgress(userId, roadmapId);
   }
 
-
-  @Cacheable(value = PROGRESS_CACHE, key = "{#userId, #roadmapId}")
+  
   public double calculateRoadmapProgress(Long userId, Long roadmapId) {
     Double result = transactionTemplate.execute(_ -> {
       try {
