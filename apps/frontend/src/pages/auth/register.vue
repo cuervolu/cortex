@@ -1,15 +1,18 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useAuthStore } from '~/stores'
+import {ref} from 'vue'
+import {useAuthStore} from '~/stores'
 import RegisterForm from "~/components/auth/RegisterForm.vue";
 import {type RegisterSchemaType, stepSchemas} from "~/schemas/register.schema";
+import {useToast} from "@cortex/shared/components/ui/toast";
 
 definePageMeta({
   layout: 'auth-default',
   auth: false,
 })
 
-const { signUp } = useAuth()
+const {signUp} = useAuth()
+
+const { toast } = useToast()
 const auth = useAuthStore()
 const router = useRouter()
 const error = ref('')
@@ -20,10 +23,14 @@ const handleSubmit = async (credentials: RegisterSchemaType) => {
   error.value = ''
   loading.value = true
   try {
-    await signUp(credentials,{ preventLoginFlow: true, redirect: false })
+    await signUp(credentials,undefined, {preventLoginFlow: true, redirect: false})
     showSuccessDialog.value = true
   } catch (err) {
-    error.value = err instanceof Error ? err.message : 'An error occurred during registration'
+    toast({
+      title: "Error",
+      description: err.message,
+      variant: "destructive",
+    })
   } finally {
     loading.value = false
   }
@@ -47,12 +54,6 @@ const closeDialog = () => {
         @submit="handleSubmit"
         @login="handleLogin"
     />
-
-    <Alert v-if="error" variant="destructive" class="mt-4">
-      <AlertTitle>Error</AlertTitle>
-      <AlertDescription>{{ error }}</AlertDescription>
-    </Alert>
-
     <Dialog :open="showSuccessDialog" @update:open="showSuccessDialog = $event">
       <DialogContent class="sm:max-w-[425px]">
         <DialogHeader>
