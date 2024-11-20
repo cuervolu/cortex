@@ -38,7 +38,7 @@ const credits = computed(() => {
         .flatMap(module => module.lessons)
         .reduce((totalCredits, lesson) => totalCredits + lesson.credits, 0);
 });
-
+const { $markdown } = useNuxtApp();
 </script>
 
 <template>
@@ -91,6 +91,7 @@ const credits = computed(() => {
                 :created-at="roadmap.created_at"
                 :updated-at="roadmap.updated_at"
                 :mentor = "roadmap.mentor"
+                :options = "$markdown.options"
             />
             <RoadmapInscriptionCard
                 :roadmap="roadmap"
