@@ -7,6 +7,7 @@ import {
 } from 'lucide-vue-next'
 import {AppError} from "@cortex/shared/types";
 import DeleteConfirmModal from "~/components/Profile/DeleteConfirmModal.vue";
+import Input from '@cortex/shared/components/ui/input/Input.vue';
 
 const router = useRouter()
 const loading = ref(true)
@@ -255,6 +256,25 @@ onMounted(() => {
           </CardContent>
         </Card>
       </div>
+
+      <!-- Activar Suscripcion -->
+      <Card class="mt-6">
+        <CardContent class="pt-6">
+          <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+            <Trophy class="h-5 w-5"/>
+            Activar Suscripción Premium
+          </h2>
+          <p class="text-gray-600">
+            ¡Activa tu suscripción para acceder a contenido exclusivo y mejorar tu experiencia de aprendizaje!
+          </p>
+          <div class="flex gap-3">
+            <Button class="mt-4">
+              Activar Suscripción
+            </Button>
+            <Input class="mt-4" placeholder="Código de activación"/>
+          </div>
+        </CardContent>
+      </Card>
     </div>
 
     <EditProfileModal
