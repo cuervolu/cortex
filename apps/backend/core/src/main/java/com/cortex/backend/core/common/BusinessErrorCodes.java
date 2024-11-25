@@ -51,6 +51,9 @@ public enum BusinessErrorCodes {
   ALREADY_ENROLLED(328, BAD_REQUEST, "User already enrolled in this roadmap"),
   EXERCISE_NOT_PUBLISHED(330, BAD_REQUEST, "Exercise is not published"),
   EXERCISE_NO_LESSON(331, BAD_REQUEST, "Exercise has no lesson assigned"),
+  FAILED_TO_ACTIVATE_LICENSE(332, INTERNAL_SERVER_ERROR, "Failed to activate license, please try again"),
+  FAILED_TO_VALIDATE_LICENSE(332, INTERNAL_SERVER_ERROR, "Failed validate license, please try again"),
+  FAILED_TO_DEACTIVATE_LICENSE(332, INTERNAL_SERVER_ERROR, "Failed deactivate license, please try again"),
   ;
   private final int code;
   private final String description;
