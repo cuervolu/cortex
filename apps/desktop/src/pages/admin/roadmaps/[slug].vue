@@ -52,7 +52,7 @@ const loadRoadmap = async () => {
       await router.push('/admin/roadmaps/create');
     }
   } finally {
-    isLoading.value = false;
+    isLoading.value = isCreateMode.value ? false : loading.value;
   }
 };
 
@@ -150,7 +150,7 @@ await loadRoadmap();
       :icon-component="RoadmapIcon"
       :submit-label="isCreateMode ? 'Crear Roadmap' : 'Actualizar Roadmap'"
       :initial-values="initialValues"
-      :is-loading="loading"
+      :is-loading="isCreateMode ? false : loading"
       @submit="handleSubmit"
     />
   </div>
