@@ -45,6 +45,9 @@ import com.cortex.backend.core.common.exception.EmailSendingException;
 import com.cortex.backend.core.common.exception.ExerciseCreationException;
 import com.cortex.backend.core.common.exception.ExerciseReadException;
 import com.cortex.backend.core.common.exception.ExpiredTokenException;
+import com.cortex.backend.core.common.exception.FailedToActivateLicenseException;
+import com.cortex.backend.core.common.exception.FailedToDeactivateLicenseException;
+import com.cortex.backend.core.common.exception.FailedToValidateLicenseException;
 import com.cortex.backend.core.common.exception.FileSizeExceededException;
 import com.cortex.backend.core.common.exception.GitSyncException;
 import com.cortex.backend.core.common.exception.HashGenerationException;
@@ -477,6 +480,43 @@ public class GlobalExceptionHandler {
             .build());
   }
 
+  @ExceptionHandler(FailedToActivateLicenseException.class)
+  public ResponseEntity<ExceptionResponse> handleFailedToActivateLicenseException(
+      FailedToActivateLicenseException exp) {
+    return ResponseEntity.status(BusinessErrorCodes.FAILED_TO_ACTIVATE_LICENSE.getHttpStatus())
+        .body(
+            ExceptionResponse.builder()
+                .code(BusinessErrorCodes.FAILED_TO_ACTIVATE_LICENSE.getCode())
+                .description(BusinessErrorCodes.FAILED_TO_ACTIVATE_LICENSE.getDescription())
+                .error(exp.getMessage())
+                .build());
+  }
+
+
+  @ExceptionHandler(FailedToValidateLicenseException.class)
+  public ResponseEntity<ExceptionResponse> handleFailedToValidateLicenseException(
+      FailedToValidateLicenseException exp) {
+    return ResponseEntity.status(BusinessErrorCodes.FAILED_TO_VALIDATE_LICENSE.getHttpStatus())
+        .body(
+            ExceptionResponse.builder()
+                .code(BusinessErrorCodes.FAILED_TO_VALIDATE_LICENSE.getCode())
+                .description(BusinessErrorCodes.FAILED_TO_VALIDATE_LICENSE.getDescription())
+                .error(exp.getMessage())
+                .build());
+  }
+
+
+  @ExceptionHandler(FailedToDeactivateLicenseException.class)
+  public ResponseEntity<ExceptionResponse> handleFailedToDeactivateLicenseException(
+      FailedToDeactivateLicenseException exp) {
+    return ResponseEntity.status(BusinessErrorCodes.FAILED_TO_DEACTIVATE_LICENSE.getHttpStatus())
+        .body(
+            ExceptionResponse.builder()
+                .code(BusinessErrorCodes.FAILED_TO_DEACTIVATE_LICENSE.getCode())
+                .description(BusinessErrorCodes.FAILED_TO_DEACTIVATE_LICENSE.getDescription())
+                .error(exp.getMessage())
+                .build());
+  }
 
   @ExceptionHandler(Exception.class)
   public ResponseEntity<ExceptionResponse> handleException(Exception exp) {
