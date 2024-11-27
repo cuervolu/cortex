@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {Book, Lightbulb, Activity} from "lucide-vue-next";
+import {Book, Lightbulb, Activity,MessageCircle} from "lucide-vue-next";
 
 import {useCodeEditor} from '@cortex/shared/composables/useCodeEditor'
 import CodeEditor from '@cortex/shared/components/CodeEditor.vue'
@@ -16,6 +16,7 @@ import {useExercise} from "~/composables/useExercise";
 import {useExerciseUI} from "@cortex/shared/composables/useExerciseUI";
 import {usePanel} from "@cortex/shared/composables/usePanel";
 import {WebCodeExecutionService} from "~/services/web-code-execution.service";
+import ChatTab from "@cortex/shared/components/exercise/ChatTab.vue";
 
 const {
   isLoading,
@@ -84,6 +85,18 @@ const panelTabs = computed(() => [
       result: codeExecutionStore.result,
       loading: codeExecutionStore.isExecuting
     },
+    
+  },
+  {
+    value: 'chat',
+    label: 'mentoria',
+    component: markRaw(ChatTab),
+    iconSrc: markRaw(MessageCircle),
+    props: {
+      result: codeExecutionStore.result,
+      loading: codeExecutionStore.isExecuting
+    },
+    
   },
 ])
 
