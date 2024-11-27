@@ -29,7 +29,8 @@ const { handleError } = useDesktopErrorHandler();
 const isLoading = ref(true);
 const error = ref<Error | null>(null);
 const { toast } = useToast();
-
+const showNextStepsModal = ref(false);
+const newRoadmapId = ref<number | null>(null);
 const loadRoadmap = async () => {
   isLoading.value = true;
   error.value = null;
@@ -81,7 +82,8 @@ const handleSubmit = async (
           title: 'Roadmap creado',
           description: 'El roadmap ha sido creado correctamente',
         });
-        await navigateTo(`/admin/roadmaps`);
+        newRoadmapId.value = result.id;
+        showNextStepsModal.value = true;
       }
     } else if (roadmap.value) {
       const request = transformFormToRequest<RoadmapUpdateRequest>(
@@ -125,6 +127,19 @@ const initialValues = computed(() => {
 });
 
 await loadRoadmap();
+
+const handleModalSelection = async (action: 'assign' | 'create') => {
+  showNextStepsModal.value = false;
+
+  if (action === 'create') {
+    await navigateTo({
+      path: '/admin/courses/create',
+      query: { roadmapId: newRoadmapId.value?.toString() }
+    });
+  } else {
+    await navigateTo(`/admin/roadmaps/assign-courses/${newRoadmapId.value}`);
+  }
+};
 </script>
 
 <template>
@@ -143,7 +158,11 @@ await loadRoadmap();
         Volver al listado
       </Button>
     </div>
-
+    <RoadmapNextStepsModal
+        :is-open="showNextStepsModal"
+        @close="showNextStepsModal = false"
+        @select="handleModalSelection"
+    />
     <!-- Content Form -->
     <ContentForm
       content-type="roadmap"

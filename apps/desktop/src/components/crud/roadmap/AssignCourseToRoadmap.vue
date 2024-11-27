@@ -1,4 +1,3 @@
-<!-- components/crud/roadmap/AssignCourseToRoadmap.vue -->
 <script setup lang="ts">
 import draggable from 'vuedraggable'
 import { Search } from 'lucide-vue-next'
@@ -6,9 +5,11 @@ import { useCourseAssignment } from '~/composables/useCourseAssignment'
 import { useRoadmaps } from '~/composables/useRoadmaps'
 import { useDesktopErrorHandler } from '~/composables/useDesktopErrorHandler'
 
-const searchQueryAssigned = ref('')
-const searchQueryAvailable = ref('')
-const isDragging = ref(false)
+const route = useRoute();
+const roadmapId = computed(() => Number(route.params.id));
+const searchQueryAssigned = ref('');
+const searchQueryAvailable = ref('');
+const isDragging = ref(false);
 
 const { handleError } = useDesktopErrorHandler()
 const { paginatedRoadmaps, fetchRoadmaps } = useRoadmaps()
@@ -25,11 +26,17 @@ const {
 
 onMounted(async () => {
   try {
-    await fetchRoadmaps({ isAdmin: true })
+    await fetchRoadmaps({ isAdmin: true });
+    if (roadmapId.value) {
+      const roadmap = paginatedRoadmaps.value?.content.find(r => r.id === roadmapId.value);
+      if (roadmap) {
+        await setRoadmap(roadmap);
+      }
+    }
   } catch (err) {
-    await handleError(err)
+    await handleError(err);
   }
-})
+});
 
 const handleRoadmapSelect = async (roadmapId: number) => {
   try {
@@ -66,7 +73,7 @@ const handleScroll = async (type: 'assigned' | 'available', event: Event) => {
     </div>
 
     <!-- Roadmap Selection -->
-    <Card class="mb-6">
+    <Card v-if="!roadmapId" class="mb-6">
       <CardHeader>
         <CardTitle>Seleccionar Roadmap</CardTitle>
       </CardHeader>

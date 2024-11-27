@@ -191,11 +191,17 @@ pub struct Course {
     pub description: String,
     pub slug: String,
     pub image_url: Option<String>,
-    pub roadmap_slugs: Vec<String>,
-    pub tag_names: Vec<String>,
-    pub module_ids: Vec<u64>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub roadmap_slugs: Option<Vec<String>>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub tag_names: Option<Vec<String>>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub module_ids: Option<Vec<u64>>,
+    #[serde(rename = "display_order")]
+    pub display_order: i32,
     pub created_at: String,
     pub updated_at: Option<String>,
+    pub is_published: bool,
 }
 
 #[derive(Debug, Serialize, Deserialize)]

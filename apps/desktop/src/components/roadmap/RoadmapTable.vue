@@ -52,8 +52,10 @@ const handlePageChange = async (page: number) => {
 
 // Handlers para las acciones del menú
 const handleCreateCourse = async (roadmapId: number) => {
-  // Implementar lógica
-  console.log('Crear curso para roadmap:', roadmapId)
+  await navigateTo({
+    path: '/admin/courses/create',
+    query: { roadmapId }
+  })
 }
 
 const handleCreateModule = async (roadmapId: number) => {
@@ -72,7 +74,7 @@ const handleTogglePublish = async (roadmapId: number) => {
 }
 
 const handleAssignCourses = async (roadmapId: number) => {
-  await navigateTo(`/admin/roadmaps/assign-courses`)
+  await navigateTo(`/admin/roadmaps/assign-courses/${roadmapId}`);
 }
 
 const handleEdit = async (roadmapSlug: string) => {
