@@ -30,6 +30,7 @@ export interface RoadmapFormValues extends BaseFormValues {
 
 export interface CourseModuleFormValues extends BaseFormValues {
   name: string;
+  display_order?: number;
 }
 
 const createRoadmapSchema = () => ({
