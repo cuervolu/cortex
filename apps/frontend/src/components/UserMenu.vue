@@ -56,12 +56,6 @@ const handleLogout = async () => {
         </NuxtLink>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <NuxtLink to="/courses" class="flex items-center">
-          <BookOpen class="mr-2 h-4 w-4" />
-          <span>Mis Cursos</span>
-          </NuxtLink>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
           <NuxtLink to="/config" class="flex items-center ">
           <Settings class="mr-2 h-4 w-4" />
           <span>Configuración</span>
