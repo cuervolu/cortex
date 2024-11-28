@@ -25,7 +25,7 @@ public class CourseUpdateRequest {
 
   private Set<TagDTO> tags;
   
-  @Column(name = "is_published")
+  @JsonProperty("is_published")
   private Boolean isPublished;
 
   @JsonProperty("display_order")
