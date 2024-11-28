@@ -5,6 +5,7 @@ import {
   User,
   BookOpen,
   Map,
+  BrainCog,
 } from 'lucide-vue-next'
 
 const { data: session, signOut } = useAuth()
@@ -59,6 +60,12 @@ const handleLogout = async () => {
           <NuxtLink to="/config" class="flex items-center ">
           <Settings class="mr-2 h-4 w-4" />
           <span>Configuración</span>
+          </NuxtLink>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <NuxtLink to="/postular" class="flex items-center ">
+          <BrainCog class="mr-2 h-4 w-4" />
+          <span>Postular para mentor</span>
           </NuxtLink>
         </DropdownMenuItem>
       </DropdownMenuGroup>
