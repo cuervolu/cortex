@@ -13,3 +13,4 @@ export * from './useEducationalForm';
 export * from './useImageDrop';
 export * from './useEducationalContent';
 export * from './useCourseAssignment';
+export * from './useCourses';

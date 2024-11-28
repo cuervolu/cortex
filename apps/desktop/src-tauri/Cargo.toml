@@ -38,7 +38,7 @@ tauri-plugin-process = "2.0.1"
 tauri-plugin-clipboard-manager = "2.0.2"
 tauri-plugin-oauth = {workspace = true}
 tauri-plugin-notification = "2.0.1"
-sysinfo = "0.32.0"
+sysinfo = "0.32.1"
 common = { path = "./crates/common" }
 error = { path = "./crates/error" }
 ai_chat = { path = "./crates/ai_chat" }
