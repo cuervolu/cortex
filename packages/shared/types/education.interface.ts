@@ -110,6 +110,8 @@ export interface Course {
   module_ids: number[];
   created_at: string;
   updated_at: string | null;
+  is_published: boolean;
+  display_order?: number;
 }
 
 export interface RoadmapLesson {

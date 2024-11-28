@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { useToast } from "@cortex/shared/components/ui/toast";
+import {format} from "date-fns";
+import {es} from "date-fns/locale";
 import {Loader, FolderIcon} from "lucide-vue-next";
+import { useToast } from "@cortex/shared/components/ui/toast";
 import RoadmapActionsMenu from "~/components/roadmap/RoadmapActionsMenu.vue";
 
 const {
@@ -37,20 +39,26 @@ const loadRoadmaps = async () => {
 }
 
 const formatDate = (date: string) => {
-  return new Date(date).toLocaleDateString('es-ES', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  })
-}
+  return format(new Date(date), 'PPP', { locale: es });
+};
 
-// Handle page change
 const handlePageChange = async (page: number) => {
   currentPage.value = page - 1
   await loadRoadmaps()
 }
 
-// Handlers para las acciones del menú
+const handleViewCourses = async (roadmapId: number) => {
+  await navigateTo(`/admin/roadmaps/${roadmapId}/courses`)
+}
+
+const handleViewModules = async (roadmapId: number) => {
+  await navigateTo(`/admin/roadmaps/${roadmapId}/modules`)
+}
+
+const handleViewLessons = async (roadmapId: number) => {
+  await navigateTo(`/admin/roadmaps/${roadmapId}/lessons`)
+}
+
 const handleCreateCourse = async (roadmapId: number) => {
   await navigateTo({
     path: '/admin/courses/create',
@@ -159,6 +167,9 @@ const handleDelete = async (roadmapId: number) => {
                   <RoadmapActionsMenu
                       :roadmap-id="roadmap.id"
                       :is-published="roadmap.is_published"
+                      @view-courses="handleViewCourses"
+                      @view-modules="handleViewModules"
+                      @view-lessons="handleViewLessons"
                       @create-course="handleCreateCourse"
                       @create-module="handleCreateModule"
                       @create-lesson="handleCreateLesson"
