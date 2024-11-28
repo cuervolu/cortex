@@ -61,6 +61,26 @@ export function useCourses() {
     }
   }
 
+  const fetchCourseById = async (id: number) => {
+    try {
+      loading.value = true;
+      await debug(`Fetching course by ID: ${id}`);
+      const response = await invoke<Course>('get_course_by_id', { id });
+
+      if (!response) {
+        throw new Error('Course not found');
+      }
+
+      course.value = response;
+      return response;
+    } catch (err) {
+      await error(`Failed to fetch course by ID: ${err}`);
+      throw err;
+    } finally {
+      loading.value = false;
+    }
+  };
+
   const createCourse = async (request: CourseCreateRequest, imagePath: string | null, roadmapId: number) => {
     try {
       loading.value = true
@@ -157,6 +177,7 @@ export function useCourses() {
     loading,
     fetchRoadmapCourses,
     fetchCourse,
+    fetchCourseById,
     createCourse,
     updateCourse,
     transformFormToRequest
