@@ -4,6 +4,7 @@ import { Search } from 'lucide-vue-next'
 import { useCourseAssignment } from '~/composables/useCourseAssignment'
 import { useRoadmaps } from '~/composables/useRoadmaps'
 import { useDesktopErrorHandler } from '~/composables/useDesktopErrorHandler'
+import {useToast} from "@cortex/shared/components/ui/toast";
 
 const route = useRoute();
 const roadmapId = computed(() => Number(route.params.id));
@@ -23,7 +24,7 @@ const {
   loadMoreCourses,
   saveCourseAssignments
 } = useCourseAssignment()
-
+const { toast } = useToast();
 onMounted(async () => {
   try {
     await fetchRoadmaps({ isAdmin: true });
@@ -52,6 +53,10 @@ const handleRoadmapSelect = async (roadmapId: number) => {
 const handleSave = async () => {
   try {
     await saveCourseAssignments()
+    toast({
+      title: 'Curso asignado correctamente',
+      description: 'Los cursos se han asignado correctamente al roadmap',
+    });
   } catch (err) {
     await handleError(err)
   }
