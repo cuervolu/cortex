@@ -15,6 +15,7 @@ const {
   createCourse,
   updateCourse,
   fetchCourse,
+    fetchCourseById,
   transformFormToRequest
 } = useCourses()
 
@@ -24,30 +25,37 @@ const isLoading = ref(true)
 const error = ref<Error | null>(null)
 
 const loadCourse = async () => {
-  isLoading.value = true
-  error.value = null
+  isLoading.value = true;
+  error.value = null;
 
   try {
     if (!isCreateMode.value) {
-      await fetchCourse(route.params.slug as string)
+      // Try to load by ID first if we have one
+      const id = parseInt(route.params.slug as string);
+      if (!isNaN(id)) {
+        await fetchCourseById(id);
+      } else {
+        await fetchCourse(route.params.slug as string);
+      }
+
       if (!course.value) {
-        throw new Error('Curso no encontrado')
+        throw new Error('Curso no encontrado');
       }
     }
   } catch (e) {
-    error.value = e as Error
+    error.value = e as Error;
     await handleError(e, {
       statusCode: 404,
-      data: {slug: route.params.slug},
+      data: { slug: route.params.slug },
       silent: false,
-    })
+    });
     if (e instanceof Error && e.message.includes('not found')) {
-      await router.push('/admin/courses/create')
+      await router.push('/admin/courses/create');
     }
   } finally {
-    isLoading.value = false
+    isLoading.value = false;
   }
-}
+};
 
 const handleSubmit = async (formData: CourseModuleFormValues, imagePath: string | null) => {
   try {
@@ -92,6 +100,7 @@ const initialValues = computed(() => {
   if (isCreateMode.value) return undefined
 
   return course.value ? {
+    title: course.value.name,
     name: course.value.name,
     description: course.value.description,
     tagNames: course.value.tag_names || [],

@@ -28,6 +28,18 @@ pub async fn get_course(slug: String, state: State<'_, AppState>) -> Result<Cour
 }
 
 #[tauri::command]
+pub async fn get_course_by_id(id: u64, state: State<'_, AppState>) -> Result<Course, AppError> {
+    debug!("Fetching course with id: {}", id);
+    match fetch_course_by_id(id, state).await {
+        Ok(course) => Ok(course),
+        Err(e) => {
+            error!("Failed to fetch course: {:?}", e);
+            Err(e)
+        }
+    }
+}
+
+#[tauri::command]
 pub async fn create_new_course(
     request: CourseCreateRequest,
     state: State<'_, AppState>,

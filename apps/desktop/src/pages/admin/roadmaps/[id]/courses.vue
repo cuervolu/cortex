@@ -3,6 +3,7 @@ import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Loader, BookOpen } from "lucide-vue-next";
 import { useToast } from "@cortex/shared/components/ui/toast";
+import CourseActionsMenu from "~/components/courses/CourseActionsMenu.vue";
 
 const route = useRoute();
 const roadmapId = Number(route.params.id);
@@ -36,6 +37,46 @@ const handlePageChange = async (page: number) => {
   currentPage.value = page - 1;
   await loadCourses();
 };
+const handleViewLessons = async (courseId: number) => {
+  await navigateTo(`/admin/courses/${courseId}/lessons`)
+}
+
+const handleViewModules = async (courseId: number) => {
+  await navigateTo(`/admin/courses/${courseId}/modules`)
+}
+
+const handleCreateLesson = async (courseId: number) => {
+  await navigateTo(`/admin/courses/${courseId}/lessons/create`)
+}
+
+const handleCreateModule = async (courseId: number) => {
+  await navigateTo(`/admin/courses/${courseId}/modules/create`)
+}
+
+const handleTogglePublish = async (courseId: number) => {
+  // Implementar lógica de publicación
+}
+
+const handleEdit = async (courseId: number) => {
+  await navigateTo(`/admin/courses/${courseId}`)
+}
+
+const handleDelete = async (courseId: number) => {
+  try {
+    // Implementar lógica de eliminación
+    await loadCourses()
+    toast({
+      title: "Éxito",
+      description: "Curso eliminado correctamente"
+    })
+  } catch (err) {
+    toast({
+      title: "Error",
+      description: "Error al eliminar el curso",
+      variant: "destructive"
+    })
+  }
+}
 
 onMounted(loadCourses);
 </script>
@@ -59,6 +100,7 @@ onMounted(loadCourses);
               <TableHead class="hidden sm:table-cell w-[180px]">Fecha de creación</TableHead>
               <TableHead class="w-[100px] text-center">Estado</TableHead>
               <TableHead class="w-[100px]">Orden</TableHead>
+              <TableHead class="w-[50px]"></TableHead>
             </TableRow>
           </TableHeader>
 
@@ -111,6 +153,19 @@ onMounted(loadCourses);
 
                 <TableCell class="text-center">
                   {{ course.display_order || 0 }}
+                </TableCell>
+                <TableCell>
+                  <CourseActionsMenu
+                      :course-id="course.id"
+                      :is-published="course.is_published"
+                      @view-lessons="handleViewLessons"
+                      @view-modules="handleViewModules"
+                      @create-lesson="handleCreateLesson"
+                      @create-module="handleCreateModule"
+                      @toggle-publish="handleTogglePublish"
+                      @edit="handleEdit"
+                      @delete="handleDelete"
+                  />
                 </TableCell>
               </TableRow>
             </template>

@@ -135,6 +135,7 @@ pub fn run() {
             // Courses
             education::courses::commands::fetch_all_courses,
             education::courses::commands::get_course,
+            education::courses::commands::get_course_by_id,
             education::courses::commands::create_new_course,
             education::courses::commands::update_course_command,
             education::courses::commands::delete_course_command,
