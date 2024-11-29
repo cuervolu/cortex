@@ -217,10 +217,20 @@ const mentors = [
   }
 ];
 
+
 const searchTerm = ref('');
 const selectedSpecialty = ref('all');
 const specialties = [...new Set(mentors.map(mentor => mentor.specialty))];
 const isLoading = ref(true);
+const dialogOpen = ref(false);
+
+const mentorApplicationForm = ref({
+  name: '',
+  email: '',
+  specialty: '',
+  experience: '',
+  motivation: ''
+});
 
 // Simulate loading
 onMounted(() => {
@@ -228,7 +238,6 @@ onMounted(() => {
     isLoading.value = false;
   }, 1000);
 });
-
 
 const filteredMentors = computed(() => {
   return mentors.filter(mentor => {
@@ -239,22 +248,141 @@ const filteredMentors = computed(() => {
     return matchesSearch && matchesSpecialty;
   });
 });
+
+const submitMentorApplication = () => {
+  // Validate form
+  if (!mentorApplicationForm.value.name || 
+      !mentorApplicationForm.value.email || 
+      !mentorApplicationForm.value.specialty || 
+      !mentorApplicationForm.value.experience || 
+      !mentorApplicationForm.value.motivation) {
+    toast({
+      title: "Error",
+      description: "Por favor, completa todos los campos",
+      variant: "destructive"
+    });
+    return;
+  }
+
+  // Here you would typically send the application to a backend
+  console.log('Mentor Application Submitted:', mentorApplicationForm.value);
+  
+  toast({
+    title: "Éxito",
+    description: "Tu solicitud de mentoría ha sido enviada correctamente",
+  });
+
+  // Reset form and close dialog
+  mentorApplicationForm.value = {
+    name: '',
+    email: '',
+    specialty: '',
+    experience: '',
+    motivation: ''
+  };
+  dialogOpen.value = false;
+}
 </script>
 
 <template>
   <div class="min-h-screen bg-gray-50">
     <!-- Hero Section -->
     <div class="bg-gradient-to-r from-blue-600 to-purple-400 py-16">
-      <div class="container mx-auto px-4">
-        <h1 class="text-4xl md:text-5xl font-bold text-white text-center mb-4">
-          Aprende de los Mejores Expertos
-        </h1>
-        <p class="text-xl text-blue-100 text-center max-w-2xl mx-auto">
-          Conecta con mentores de clase mundial y acelera tu carrera en tecnología
-        </p>
+      <div class="container mx-auto px-4 flex justify-between items-center">
+        <div>
+          <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
+            Aprende de los Mejores Expertos
+          </h1>
+          <p class="text-xl text-blue-100 max-w-2xl">
+            Conecta con mentores de clase mundial y acelera tu carrera en tecnología
+          </p>
+        </div>
+        
+        <Dialog v-model:open="dialogOpen">
+          <DialogTrigger as-child>
+            <Button variant="default" class="bg-white text-blue-600 hover:bg-blue-50">
+              Postular como Mentor
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Postulación para Mentor</DialogTitle>
+              <DialogDescription>
+                Comparte tu experiencia y ayuda a otros profesionales a crecer
+              </DialogDescription>
+            </DialogHeader>
+            
+            <div class="grid gap-4 py-4">
+              <div class="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="name" class="text-right">Nombre</Label>
+                <input
+                  id="name"
+                  v-model="mentorApplicationForm.name"
+                  class="col-span-3 border p-2 rounded"
+                  placeholder="Tu nombre completo"
+                />
+              </div>
+              <div class="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="email" class="text-right">Email</Label>
+                <input
+                  id="email"
+                  v-model="mentorApplicationForm.email"
+                  type="email"
+                  class="col-span-3 border p-2 rounded"
+                  placeholder="Tu correo electrónico"
+                />
+              </div>
+              <div class="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="specialty" class="text-right">Especialidad</Label>
+                <select
+                  id="specialty"
+                  v-model="mentorApplicationForm.specialty"
+                  class="col-span-3 border p-2 rounded"
+                >
+                  <option value="">Selecciona tu especialidad</option>
+                  <option 
+                    v-for="specialty in specialties" 
+                    :key="specialty"
+                    :value="specialty"
+                  >
+                    {{ specialty }}
+                  </option>
+                </select>
+              </div>
+              <div class="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="experience" class="text-right">Años de Exp.</Label>
+                <input
+                  id="experience"
+                  v-model="mentorApplicationForm.experience"
+                  type="number"
+                  class="col-span-3 border p-2 rounded"
+                  placeholder="Años de experiencia"
+                />
+              </div>
+              <div class="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="motivation" class="text-right">Motivación</Label>
+                <Textarea
+                  id="motivation"
+                  v-model="mentorApplicationForm.motivation"
+                  class="col-span-3"
+                  placeholder="¿Por qué quieres ser mentor?"
+                />
+              </div>
+            </div>
+            
+            <DialogFooter>
+              <Button 
+                type="submit" 
+                @click="submitMentorApplication"
+                class="w-full"
+              >
+                Enviar Postulación
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
-
     <!-- Filters Section -->
     <div class="container mx-auto px-4 py-8">
       <div class="flex flex-col md:flex-row gap-4 mb-8">
