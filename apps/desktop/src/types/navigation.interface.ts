@@ -3,4 +3,5 @@ export interface NavigationItem {
   icon: Component;
   route: string;
   roles?: string[];
+  isCustomIcon: boolean;
 }

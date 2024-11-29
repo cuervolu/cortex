@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {debug, error as logError} from "@tauri-apps/plugin-log"
-import {Book, Lightbulb, Activity} from "lucide-vue-next";
+import {Book, Lightbulb, Activity, MessageCircleCode} from "lucide-vue-next";
 
 import {createExerciseContext} from '~/types'
 import AiChat from '~/components/ai/chat.vue'
@@ -16,6 +16,7 @@ import InstructionsTab from "@cortex/shared/components/exercise/InstructionsTab.
 import HintsTab from "@cortex/shared/components/exercise/HintsTab.vue";
 import {DesktopCodeExecutionService} from "~/services/desktop-code-execution.service";
 import {AppError} from "@cortex/shared/types";
+import MentorshipTab from "@cortex/shared/components/exercise/MentorshipTab.vue";
 
 const {
   isSettingsOpen,
@@ -94,16 +95,6 @@ const panelTabs = computed(() => [
     },
   },
   {
-    value: 'hints',
-    label: 'Pistas',
-    component: markRaw(HintsTab),
-    iconSrc: markRaw(Lightbulb),
-    props: {
-      exercise: exercise.value,
-      options: $markdown.options
-    },
-  },
-  {
     value: 'results',
     label: 'Resultados',
     component: markRaw(ResultsTab),
@@ -126,7 +117,26 @@ const panelTabs = computed(() => [
       isSending: chatStore.isSending,
       error: chatStore.error
     },
-  }
+  },
+  {
+    value: 'hints',
+    label: 'Pistas',
+    component: markRaw(HintsTab),
+    iconSrc: markRaw(Lightbulb),
+    props: {
+      exercise: exercise.value,
+      options: $markdown.options
+    },
+  },
+  {
+    value: 'mentorship',
+    label: 'Mentorship',
+    component: markRaw(MentorshipTab),
+    iconSrc: markRaw(MessageCircleCode),
+    props: {
+      exercise: exercise.value,
+    },
+  },
 ])
 
 const defaultPanelTab = 'instructions'

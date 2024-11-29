@@ -3,12 +3,16 @@ import { type HTMLAttributes, computed } from 'vue'
 import { ScrollAreaScrollbar, type ScrollAreaScrollbarProps, ScrollAreaThumb } from 'radix-vue'
 import { cn } from '../../../lib/utils'
 
-const props = withDefaults(defineProps<ScrollAreaScrollbarProps & { class?: HTMLAttributes['class'] }>(), {
+const props = withDefaults(defineProps<ScrollAreaScrollbarProps & { 
+  class?: HTMLAttributes['class'], 
+  thumbColor?: string 
+}>(), {
   orientation: 'vertical',
+  thumbColor: 'bg-border' // Color predeterminado
 })
 
 const delegatedProps = computed(() => {
-  const { class: _, ...delegated } = props
+  const { class: _, thumbColor: __, ...delegated } = props
 
   return delegated
 })
@@ -25,6 +29,8 @@ const delegatedProps = computed(() => {
            && 'h-2.5 flex-col border-t border-t-transparent p-px',
          props.class)"
   >
-    <ScrollAreaThumb class="relative flex-1 rounded-full bg-border" />
+    <ScrollAreaThumb 
+      :class="cn('relative flex-1 rounded-full', props.thumbColor)" 
+    />
   </ScrollAreaScrollbar>
 </template>
