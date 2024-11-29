@@ -58,6 +58,7 @@ const { navigationItems } = useNavigation()
               :icon="item.icon"
               :route="item.route"
               :is-collapsed="isCollapsed"
+              :is-custom-icon="item.isCustomIcon"
           />
         </div>
       </div>

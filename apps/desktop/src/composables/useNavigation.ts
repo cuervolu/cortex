@@ -4,6 +4,7 @@ import RoadmapIcon from "~/components/icons/RoadmapIcon.vue";
 import SupportIcon from "~/components/icons/SupportIcon.vue";
 import DashboardIcon from "~/components/icons/DashboardIcon.vue";
 import { ShieldPlus, Telescope } from 'lucide-vue-next';
+import MentorshipIcon from '~/components/icons/MentorshipIcon.vue';
 
 export function useNavigation() {
   const userStore = useUserStore()
@@ -19,30 +20,42 @@ export function useNavigation() {
         name: 'Dashboard',
         icon: DashboardIcon,
         route: '/',
-        roles: ['USER', 'ADMIN', 'MODERATOR']
+        roles: ['USER', 'ADMIN', 'MODERATOR'],
+        isCustomIcon: true
       },
       {
         name: 'Roadmaps',
         icon: RoadmapIcon,
         route: '/my-roadmaps',
-        roles: ['USER', 'ADMIN', 'MODERATOR']
+        roles: ['USER', 'ADMIN', 'MODERATOR'],
+        isCustomIcon: true
       },
       {
         name: 'Explore',
         icon: Telescope,
         route: '/explore',
-        roles: ['USER', 'ADMIN', 'MODERATOR']
+        roles: ['USER', 'ADMIN', 'MODERATOR'],
+        isCustomIcon: false
+      },
+      {
+        name: 'Mentorship',
+        icon: MentorshipIcon,
+        route: '/mentorship',
+        roles: ['MENTOR','ADMIN', 'MODERATOR'],
+        isCustomIcon: true
       },
       {
         name: 'Admin',
         icon: ShieldPlus,
         route: '/admin',
-        roles: ['ADMIN']
+        roles: ['ADMIN'],
+        isCustomIcon: false
       },
       {
         name: 'Support',
         icon: SupportIcon,
-        route: '/settings'
+        route: '/settings',
+        isCustomIcon: true
       }
     ]
 

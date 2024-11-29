@@ -42,36 +42,39 @@ const activeTabComputed = computed({
         @update:value="activeTabComputed = $event"
       >
       <div class="border-b-4 border-primary">
-        <TabsList
-          class="flex justify-center px-6 py-2 bg-muted/40 shrink-0 rounded-none"
-        >
-          <TabsTrigger
-            v-for="tab in tabs"
-            :key="tab.value"
-            :value="tab.value"
-            class="flex flex-col items-center justify-center gap-2 px-4 py-2"
-            :class="tab.className"
-          >
-            <template v-if="tab.iconSrc">
-              <div class="flex justify-center w-full">
-                <img
-                  v-if="typeof tab.iconSrc === 'string'"
-                  :src="tab.iconSrc"
-                  :alt="tab.label"
-                  class="w-5 h-5"
-                >
-                <component
-                  :is="tab.iconSrc"
-                  v-else
-                  :alt="tab.label"
-                  class="w-5 h-5"
-                />
-              </div>
-            </template>
-            <div v-if="tab.customIcon"/>
-            <span class="text-sm text-center" :class="tab.labelClassName">{{ tab.label }}</span>
-          </TabsTrigger>
-        </TabsList>
+        <ScrollArea class="py-1">
+          <div class="w-max relative h-11 px-5">
+            <TabsList class="rounded-none bg-background/80 flex absolute gap-2">
+              <TabsTrigger
+                v-for="tab in tabs"
+                :key="tab.value"
+                :value="tab.value"
+                class="flex flex-col items-center justify-start gap-2 px-4 py-2 data-[state=active]:bg-[#EAD4FC] dark:data-[state=active]:bg-secondary rounded-full"
+                :class="tab.className"
+              >
+                <template v-if="tab.iconSrc">
+                  <div class="flex items-center gap-2">
+                    <img
+                      v-if="typeof tab.iconSrc === 'string'"
+                      :src="tab.iconSrc"
+                      :alt="tab.label"
+                      class="w-5 h-5"
+                    >
+                    <component
+                      :is="tab.iconSrc"
+                      v-else
+                      :alt="tab.label"
+                      class="w-5 h-5"
+                    />
+                    <span class="text-sm" :class="tab.labelClassName">{{ tab.label }}</span>
+                  </div>
+                </template>
+                <div v-if="tab.customIcon"/>
+              </TabsTrigger>
+            </TabsList>
+          </div>
+          <ScrollBar orientation="horizontal" thumbColor="bg-secondary" />
+        </ScrollArea>
       </div>
         <ScrollArea class="flex-grow overflow-auto h-screen py-2">
           <TabsContent
