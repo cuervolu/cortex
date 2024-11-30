@@ -76,6 +76,32 @@ async fn close_splashscreen_show_main(app_handle: tauri::AppHandle) -> Result<()
     Ok(())
 }
 
+fn prevent_default() -> tauri::plugin::TauriPlugin<tauri::Wry> {
+    #[cfg(debug_assertions)]
+    {
+        use tauri_plugin_prevent_default::{Builder, Flags};
+        Builder::new()
+            .with_flags(
+                Flags::all()
+                    .difference(
+                        Flags::DEV_TOOLS
+                            | Flags::RELOAD
+                            | Flags::CONTEXT_MENU
+                    )
+            )
+            .build()
+    }
+
+    #[cfg(not(debug_assertions))]
+    {
+        use tauri_plugin_prevent_default::{Builder, Flags};
+        Builder::new()
+            .with_flags(Flags::all())
+            .build()
+    }
+}
+
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     let builder =
@@ -108,6 +134,7 @@ pub fn run() {
         .plugin(tauri_plugin_os::init())
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_fs::init())
+        .plugin(prevent_default())
         .invoke_handler(tauri::generate_handler![
             close_splashscreen_show_main,
             // Auth commands

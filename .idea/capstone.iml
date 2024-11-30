@@ -17,7 +17,6 @@
       <excludeFolder url="file://$MODULE_DIR$/target" />
       <excludeFolder url="file://$MODULE_DIR$/apps/backend" />
       <excludeFolder url="file://$MODULE_DIR$/apps/desktop/.output" />
-      <excludeFolder url="file://$MODULE_DIR$/apps/desktop/src-tauri" />
       <excludeFolder url="file://$MODULE_DIR$/scripts" />
     </content>
     <orderEntry type="inheritedJdk" />
