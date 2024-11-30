@@ -32,6 +32,7 @@ tauri-plugin-store = {workspace = true}
 tauri-plugin-dialog = {workspace = true}
 tauri-plugin-devtools = "2.0.0"
 tauri-plugin-fs = {workspace = true}
+tauri-plugin-prevent-default = "0.7"
 tauri-plugin-log = { version = "2.0.2", features = ["colored"] }
 tauri-plugin-os = "2"
 tauri-plugin-process = "2.0.1"
