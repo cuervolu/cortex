@@ -43,7 +43,7 @@ const { navigationItems } = useNavigation()
       <!-- Navigation section -->
       <div class="self-stretch h-[355px] py-2.5 flex-col justify-start items-start gap-2.5 flex">
         <div class="w-fit h-[35px] text-[#f4f8f7]/80 text-xs font-semibold tracking-tight uppercase">
-          Navigation
+          Navegar
         </div>
         <div
             :class="[

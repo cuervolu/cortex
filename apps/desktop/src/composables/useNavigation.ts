@@ -31,14 +31,14 @@ export function useNavigation() {
         isCustomIcon: true
       },
       {
-        name: 'Explore',
+        name: 'Explorar',
         icon: Telescope,
         route: '/explore',
         roles: ['USER', 'ADMIN', 'MODERATOR'],
         isCustomIcon: false
       },
       {
-        name: 'Mentorship',
+        name: 'Mentorias',
         icon: MentorshipIcon,
         route: '/mentorship',
         roles: ['MENTOR','ADMIN', 'MODERATOR'],
@@ -52,7 +52,7 @@ export function useNavigation() {
         isCustomIcon: false
       },
       {
-        name: 'Support',
+        name: 'Soporte',
         icon: SupportIcon,
         route: '/settings',
         isCustomIcon: true

@@ -53,7 +53,7 @@ onMounted(() => {
         </div>
       </div>
       <div class="flex flex-col justify-end items-center gap-2 h-full pb-3">
-        <span class="text-white text-center text-xs font-normal">Problemas de Conexión? Haznolo saber!</span>
+        <span class="text-white text-center text-xs font-normal">Problemas de Conexión? haznoslo saber!</span>
         <div class="flex gap-4 text-[#53B7BE]">
           <div class="flex items-center gap-2 cursor-pointer"
             @click="open('https://x.com/i/status/1854958268952854543')">
