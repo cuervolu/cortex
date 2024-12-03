@@ -2,7 +2,9 @@
 import catImage from '@/assets/img/cuh-cat.gif';
 import cinnamorollImage from '~/assets/img/cinnamoroll.webp'
 import { Star, Briefcase, Award, GraduationCap } from 'lucide-vue-next';
-
+import { toTypedSchema } from '@vee-validate/zod'
+import * as z from 'zod'
+import { useForm } from 'vee-validate'
 
 const mentors = [
   {
@@ -217,10 +219,36 @@ const mentors = [
   }
 ];
 
+
 const searchTerm = ref('');
 const selectedSpecialty = ref('all');
 const specialties = [...new Set(mentors.map(mentor => mentor.specialty))];
 const isLoading = ref(true);
+const dialogOpen = ref(false);
+
+const formSchema = toTypedSchema(z.object({
+  name: z.string().min(2, { message: "El nombre debe tener al menos 2 caracteres" }),
+  email: z.string().email({ message: "Ingresa un correo electrónico válido" }),
+  specialty: z.string().min(1, { message: "Selecciona una especialidad" }),
+  experience: z.number().min(1, { message: "Indica tus años de experiencia" }),
+  motivation: z.string().min(10, { message: "La motivación debe tener al menos 10 caracteres" })
+}))
+
+const form = useForm({
+  validationSchema: formSchema,
+})
+
+const onSubmit = form.handleSubmit((values) => {
+  // Aquí enviarías los datos al backend
+  console.log('Mentor Application Submitted:', values)
+  
+  // Mostrar mensaje de éxito
+  alert("Tu solicitud de mentoría ha sido enviada correctamente");
+
+  // Resetea el formulario y cierra el diálogo
+  form.resetForm()
+  dialogOpen.value = false
+})
 
 // Simulate loading
 onMounted(() => {
@@ -228,7 +256,6 @@ onMounted(() => {
     isLoading.value = false;
   }, 1000);
 });
-
 
 const filteredMentors = computed(() => {
   return mentors.filter(mentor => {
@@ -242,19 +269,123 @@ const filteredMentors = computed(() => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-50">
+  <div class="min-h-screen">
     <!-- Hero Section -->
     <div class="bg-gradient-to-r from-blue-600 to-purple-400 py-16">
-      <div class="container mx-auto px-4">
-        <h1 class="text-4xl md:text-5xl font-bold text-white text-center mb-4">
-          Aprende de los Mejores Expertos
-        </h1>
-        <p class="text-xl text-blue-100 text-center max-w-2xl mx-auto">
-          Conecta con mentores de clase mundial y acelera tu carrera en tecnología
-        </p>
+      <div class="container mx-auto px-4 flex justify-between items-center">
+        <div>
+          <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
+            Aprende de los Mejores Expertos
+          </h1>
+          <p class="text-xl text-blue-100 max-w-2xl">
+            Conecta con mentores de clase mundial y acelera tu carrera en tecnología
+          </p>
+        </div>
+        
+        <Dialog v-model:open="dialogOpen">
+          <DialogTrigger as-child>
+            <Button variant="default" class="bg-white text-blue-600 hover:bg-blue-50">
+              Postular como Mentor
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Postulación para Mentor</DialogTitle>
+      <DialogDescription>
+        Comparte tu experiencia y ayuda a otros profesionales a crecer
+      </DialogDescription>
+    </DialogHeader>
+    
+    <form @submit="onSubmit">
+      <div class="grid gap-4 py-4">
+        <FormField v-slot="{ componentField }" name="name">
+          <FormItem>
+            <FormLabel>Nombre</FormLabel>
+            <FormControl>
+              <Input 
+                placeholder="Tu nombre completo" 
+                v-bind="componentField" 
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+
+        <FormField v-slot="{ componentField }" name="email">
+          <FormItem>
+            <FormLabel>Email</FormLabel>
+            <FormControl>
+              <Input 
+                type="email" 
+                placeholder="Tu correo electrónico" 
+                v-bind="componentField" 
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+
+        <FormField v-slot="{ componentField }" name="specialty">
+          <FormItem>
+            <FormLabel>Especialidad</FormLabel>
+            <FormControl>
+              <Select v-bind="componentField">
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecciona tu especialidad" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem 
+                    v-for="specialty in specialties" 
+                    :key="specialty"
+                    :value="specialty"
+                  >
+                    {{ specialty }}
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+
+        <FormField v-slot="{ componentField }" name="experience">
+          <FormItem>
+            <FormLabel>Años de Experiencia</FormLabel>
+            <FormControl>
+              <Input 
+                type="number" 
+                placeholder="Años de experiencia" 
+                v-bind="componentField" 
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+
+        <FormField v-slot="{ componentField }" name="motivation">
+          <FormItem>
+            <FormLabel>Motivación</FormLabel>
+            <FormControl>
+              <Textarea 
+                placeholder="¿Por qué quieres ser mentor?" 
+                v-bind="componentField" 
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+      </div>
+      
+      <DialogFooter>
+        <Button type="submit" class="w-full">
+          Enviar Postulación
+        </Button>
+      </DialogFooter>
+    </form>
+  </DialogContent>
+        </Dialog>
       </div>
     </div>
-
     <!-- Filters Section -->
     <div class="container mx-auto px-4 py-8">
       <div class="flex flex-col md:flex-row gap-4 mb-8">
