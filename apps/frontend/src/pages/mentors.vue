@@ -2,7 +2,9 @@
 import catImage from '@/assets/img/cuh-cat.gif';
 import cinnamorollImage from '~/assets/img/cinnamoroll.webp'
 import { Star, Briefcase, Award, GraduationCap } from 'lucide-vue-next';
-
+import { toTypedSchema } from '@vee-validate/zod'
+import * as z from 'zod'
+import { useForm } from 'vee-validate'
 
 const mentors = [
   {
@@ -224,13 +226,29 @@ const specialties = [...new Set(mentors.map(mentor => mentor.specialty))];
 const isLoading = ref(true);
 const dialogOpen = ref(false);
 
-const mentorApplicationForm = ref({
-  name: '',
-  email: '',
-  specialty: '',
-  experience: '',
-  motivation: ''
-});
+const formSchema = toTypedSchema(z.object({
+  name: z.string().min(2, { message: "El nombre debe tener al menos 2 caracteres" }),
+  email: z.string().email({ message: "Ingresa un correo electrónico válido" }),
+  specialty: z.string().min(1, { message: "Selecciona una especialidad" }),
+  experience: z.number().min(1, { message: "Indica tus años de experiencia" }),
+  motivation: z.string().min(10, { message: "La motivación debe tener al menos 10 caracteres" })
+}))
+
+const form = useForm({
+  validationSchema: formSchema,
+})
+
+const onSubmit = form.handleSubmit((values) => {
+  // Aquí enviarías los datos al backend
+  console.log('Mentor Application Submitted:', values)
+  
+  // Mostrar mensaje de éxito
+  alert("Tu solicitud de mentoría ha sido enviada correctamente");
+
+  // Resetea el formulario y cierra el diálogo
+  form.resetForm()
+  dialogOpen.value = false
+})
 
 // Simulate loading
 onMounted(() => {
@@ -248,44 +266,10 @@ const filteredMentors = computed(() => {
     return matchesSearch && matchesSpecialty;
   });
 });
-
-const submitMentorApplication = () => {
-  // Validate form
-  if (!mentorApplicationForm.value.name || 
-      !mentorApplicationForm.value.email || 
-      !mentorApplicationForm.value.specialty || 
-      !mentorApplicationForm.value.experience || 
-      !mentorApplicationForm.value.motivation) {
-    toast({
-      title: "Error",
-      description: "Por favor, completa todos los campos",
-      variant: "destructive"
-    });
-    return;
-  }
-
-  // Here you would typically send the application to a backend
-  console.log('Mentor Application Submitted:', mentorApplicationForm.value);
-  
-  toast({
-    title: "Éxito",
-    description: "Tu solicitud de mentoría ha sido enviada correctamente",
-  });
-
-  // Reset form and close dialog
-  mentorApplicationForm.value = {
-    name: '',
-    email: '',
-    specialty: '',
-    experience: '',
-    motivation: ''
-  };
-  dialogOpen.value = false;
-}
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-50">
+  <div class="min-h-screen">
     <!-- Hero Section -->
     <div class="bg-gradient-to-r from-blue-600 to-purple-400 py-16">
       <div class="container mx-auto px-4 flex justify-between items-center">
@@ -305,81 +289,100 @@ const submitMentorApplication = () => {
             </Button>
           </DialogTrigger>
           <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Postulación para Mentor</DialogTitle>
-              <DialogDescription>
-                Comparte tu experiencia y ayuda a otros profesionales a crecer
-              </DialogDescription>
-            </DialogHeader>
-            
-            <div class="grid gap-4 py-4">
-              <div class="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="name" class="text-right">Nombre</Label>
-                <input
-                  id="name"
-                  v-model="mentorApplicationForm.name"
-                  class="col-span-3 border p-2 rounded"
-                  placeholder="Tu nombre completo"
-                />
-              </div>
-              <div class="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="email" class="text-right">Email</Label>
-                <input
-                  id="email"
-                  v-model="mentorApplicationForm.email"
-                  type="email"
-                  class="col-span-3 border p-2 rounded"
-                  placeholder="Tu correo electrónico"
-                />
-              </div>
-              <div class="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="specialty" class="text-right">Especialidad</Label>
-                <select
-                  id="specialty"
-                  v-model="mentorApplicationForm.specialty"
-                  class="col-span-3 border p-2 rounded"
-                >
-                  <option value="">Selecciona tu especialidad</option>
-                  <option 
+    <DialogHeader>
+      <DialogTitle>Postulación para Mentor</DialogTitle>
+      <DialogDescription>
+        Comparte tu experiencia y ayuda a otros profesionales a crecer
+      </DialogDescription>
+    </DialogHeader>
+    
+    <form @submit="onSubmit">
+      <div class="grid gap-4 py-4">
+        <FormField v-slot="{ componentField }" name="name">
+          <FormItem>
+            <FormLabel>Nombre</FormLabel>
+            <FormControl>
+              <Input 
+                placeholder="Tu nombre completo" 
+                v-bind="componentField" 
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+
+        <FormField v-slot="{ componentField }" name="email">
+          <FormItem>
+            <FormLabel>Email</FormLabel>
+            <FormControl>
+              <Input 
+                type="email" 
+                placeholder="Tu correo electrónico" 
+                v-bind="componentField" 
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+
+        <FormField v-slot="{ componentField }" name="specialty">
+          <FormItem>
+            <FormLabel>Especialidad</FormLabel>
+            <FormControl>
+              <Select v-bind="componentField">
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecciona tu especialidad" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem 
                     v-for="specialty in specialties" 
                     :key="specialty"
                     :value="specialty"
                   >
                     {{ specialty }}
-                  </option>
-                </select>
-              </div>
-              <div class="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="experience" class="text-right">Años de Exp.</Label>
-                <input
-                  id="experience"
-                  v-model="mentorApplicationForm.experience"
-                  type="number"
-                  class="col-span-3 border p-2 rounded"
-                  placeholder="Años de experiencia"
-                />
-              </div>
-              <div class="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="motivation" class="text-right">Motivación</Label>
-                <Textarea
-                  id="motivation"
-                  v-model="mentorApplicationForm.motivation"
-                  class="col-span-3"
-                  placeholder="¿Por qué quieres ser mentor?"
-                />
-              </div>
-            </div>
-            
-            <DialogFooter>
-              <Button 
-                type="submit" 
-                @click="submitMentorApplication"
-                class="w-full"
-              >
-                Enviar Postulación
-              </Button>
-            </DialogFooter>
-          </DialogContent>
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+
+        <FormField v-slot="{ componentField }" name="experience">
+          <FormItem>
+            <FormLabel>Años de Experiencia</FormLabel>
+            <FormControl>
+              <Input 
+                type="number" 
+                placeholder="Años de experiencia" 
+                v-bind="componentField" 
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+
+        <FormField v-slot="{ componentField }" name="motivation">
+          <FormItem>
+            <FormLabel>Motivación</FormLabel>
+            <FormControl>
+              <Textarea 
+                placeholder="¿Por qué quieres ser mentor?" 
+                v-bind="componentField" 
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+      </div>
+      
+      <DialogFooter>
+        <Button type="submit" class="w-full">
+          Enviar Postulación
+        </Button>
+      </DialogFooter>
+    </form>
+  </DialogContent>
         </Dialog>
       </div>
     </div>
