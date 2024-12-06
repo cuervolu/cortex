@@ -24,7 +24,6 @@ export const useDesktopErrorHandler = (): ErrorHandler => {
   }
 
   const handleError = async (err: unknown, options: ErrorOptions = {}) => {
-
     if (err instanceof AppError && err.isHandled) {
       return
     }
@@ -41,13 +40,28 @@ export const useDesktopErrorHandler = (): ErrorHandler => {
       }
     })
 
-
     if (!options.silent) {
+      // Determine toast variant based on error type
+      let toastVariant: 'destructive' | 'warning' | 'info' | 'unauthorized' = 'destructive'
+      
+      switch (true) {
+        case appError.statusCode >= 400 && appError.statusCode < 500:
+          toastVariant = appError.statusCode === 401 || appError.statusCode === 403 
+            ? 'unauthorized' 
+            : 'warning'
+          break
+        case appError.statusCode >= 500:
+          toastVariant = 'destructive'
+          break
+        default:
+          toastVariant = 'info'
+      }
+
       if (!appError.fatal) {
         toast({
           title: `Error ${appError.statusCode}`,
           description: appError.message,
-          variant: 'destructive',
+          variant: toastVariant,
         })
         return 
       }
@@ -58,14 +72,6 @@ export const useDesktopErrorHandler = (): ErrorHandler => {
           `¡Oops! Error ${appError.statusCode}`
       )
       await error(`Fatal error occurred: ${appError.message}, ${appError.stack}`)
-      return
-      // throw createError({
-      //   statusCode: appError.statusCode,
-      //   message: appError.message,
-      //   fatal: true,
-      //   data: appError.data,
-      //   stack: appError.stack,
-      // })
     }
   }
 

@@ -12,7 +12,10 @@ const emit = defineEmits<{
 }>();
 
 const handleFormSubmit = (values: RoadmapFormValues, imagePath: string | null) => {
-  emit('submit', values, imagePath);
+  emit('submit', {
+    ...values,
+    name: values.name || values.title
+  }, imagePath);
 };
 </script>
 

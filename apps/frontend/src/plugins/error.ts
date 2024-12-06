@@ -1,4 +1,4 @@
-import { useWebErrorHandler } from "~/composables/useWebErrorHandler"
+import { useWebErrorHandler } from "@cortex/shared/composables/front/useWebErrorHandler"
 import { AppError } from "@cortex/shared/types"
 
 export default defineNuxtPlugin((nuxtApp) => {

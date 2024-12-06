@@ -1,0 +1,15 @@
+meta {
+  name: Get Course Modules
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{BASEURL}}/api/v1/education/course/comenzando-con-java/modules
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

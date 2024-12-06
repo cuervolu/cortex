@@ -80,6 +80,8 @@ export interface Module {
   lessonIds: number[];
   createdAt: string;
   updatedAt: string | null;
+  is_published: boolean;
+  display_order?: number;
 }
 
 export interface ExerciseDetails extends Exercise {
@@ -185,7 +187,7 @@ export interface CourseCreateRequest {
 }
 
 export interface ModuleCreateRequest {
-  course_id: number;
+  course_id?: number;
   name: string;
   description: string;
   is_published: boolean;

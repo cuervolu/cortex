@@ -1,6 +1,7 @@
 <script setup lang="ts">
 defineProps<{
   modelValue: string;
+  label: string;
 }>();
 
 defineEmits<{
@@ -16,7 +17,7 @@ defineEmits<{
             v-bind="componentField"
             :value="modelValue"
             type="text"
-            placeholder="Título"
+            :placeholder="label"
             class="w-full text-4xl font-bold bg-transparent border-none outline-none
                  placeholder:text-muted-foreground/50 focus:ring-0 border-0
                  focus-visible:ring-0 focus-visible:ring-offset-0"

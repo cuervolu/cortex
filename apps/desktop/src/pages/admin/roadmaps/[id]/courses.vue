@@ -50,7 +50,10 @@ const handleCreateLesson = async (courseId: number) => {
 }
 
 const handleCreateModule = async (courseId: number) => {
-  await navigateTo(`/admin/courses/${courseId}/modules/create`)
+  await navigateTo({
+    path: `/admin/modules/create`,
+    query: { courseId }
+  })
 }
 
 const handleTogglePublish = async (courseId: number) => {
@@ -157,6 +160,7 @@ onMounted(loadCourses);
                 <TableCell>
                   <CourseActionsMenu
                       :course-id="course.id"
+                      :course-slug="course.slug"
                       :is-published="course.is_published"
                       @view-lessons="handleViewLessons"
                       @view-modules="handleViewModules"
