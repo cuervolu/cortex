@@ -1,5 +1,5 @@
 use crate::modules::{
-    create_module, delete_module, fetch_module_details, fetch_modules, update_module
+    create_module, delete_module, fetch_module_details, fetch_modules, update_module, fetch_module_by_id
 };
 use crate::{Module, ModuleCreateRequest, ModuleUpdateRequest, PaginatedModules};
 use common::state::AppState;
@@ -27,6 +27,21 @@ pub async fn get_module(
 ) -> Result<Module, AppError> {
     debug!("Fetching module with slug: {}", slug);
     match fetch_module_details(&slug, state).await {
+        Ok(module) => Ok(module),
+        Err(e) => {
+            log::error!("Failed to fetch module: {:?}", e);
+            Err(e)
+        }
+    }
+}
+
+#[tauri::command]
+pub async fn get_module_by_id(
+    id: u64,
+    state: State<'_, AppState>,
+) -> Result<Module, AppError> {
+    debug!("Fetching module with id: {}", id);
+    match fetch_module_by_id(id, state).await {
         Ok(module) => Ok(module),
         Err(e) => {
             log::error!("Failed to fetch module: {:?}", e);

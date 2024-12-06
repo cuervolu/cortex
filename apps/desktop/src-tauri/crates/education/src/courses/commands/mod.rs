@@ -1,4 +1,5 @@
 use super::*;
+use crate::{courses, Module, Course, CourseCreateRequest, CourseUpdateRequest, PaginatedCourses, PaginatedResponse};
 use common::{handle_content_image_upload};
 use log::{debug, error};
 use tauri::{AppHandle, State};
@@ -86,6 +87,27 @@ pub async fn delete_course_command(id: u64, state: State<'_, AppState>) -> Resul
         }
         Err(e) => {
             error!("Failed to delete course: {:?}", e);
+            Err(e)
+        }
+    }
+}
+
+#[tauri::command]
+pub async fn get_course_modules(
+    slug: &str,
+    page: Option<u32>,
+    size: Option<u32>,
+    sort: Option<Vec<String>>,
+    state: State<'_, AppState>,
+) -> Result<PaginatedResponse<Module>, AppError> {
+    debug!("Fetching modules for course with slug: {}", slug);
+    match courses::get_course_modules(slug, state, page, size, sort).await {
+        Ok(paginated_modules) => {
+            debug!("Successfully fetched {} modules", paginated_modules.content.len());
+            Ok(paginated_modules)
+        }
+        Err(e) => {
+            error!("Failed to fetch course modules: {:?}", e);
             Err(e)
         }
     }

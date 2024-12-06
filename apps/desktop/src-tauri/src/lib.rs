@@ -163,6 +163,7 @@ pub fn run() {
             education::courses::commands::fetch_all_courses,
             education::courses::commands::get_course,
             education::courses::commands::get_course_by_id,
+            education::courses::commands::get_course_modules,
             education::courses::commands::create_new_course,
             education::courses::commands::update_course_command,
             education::courses::commands::delete_course_command,
@@ -170,6 +171,11 @@ pub fn run() {
             // Modules
             education::modules::commands::fetch_all_modules,
             education::modules::commands::get_module,
+            education::modules::commands::get_module_by_id,
+            education::modules::commands::create_new_module,
+            education::modules::commands::update_module_command,
+            education::modules::commands::delete_module_command,
+            education::modules::commands::upload_module_image_command,
             // Lessons
             education::lessons::commands::fetch_all_lessons,
             education::lessons::commands::get_lesson,

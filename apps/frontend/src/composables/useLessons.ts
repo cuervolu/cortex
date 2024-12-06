@@ -1,3 +1,4 @@
+import { useWebErrorHandler } from "@cortex/shared/composables/front/useWebErrorHandler";
 import { API_ROUTES } from "@cortex/shared/config/api";
 import type { Lesson } from '@cortex/shared/types';
 import { AppError } from '@cortex/shared/types';

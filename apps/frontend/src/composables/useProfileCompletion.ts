@@ -6,7 +6,7 @@ import {
   type UpdateProfileRequest,
   type UserResponse
 } from "~/interfaces"
-import {useWebErrorHandler} from "~/composables/useWebErrorHandler"
+import { useWebErrorHandler } from '@cortex/shared/composables/front/useWebErrorHandler'
 
 interface PasswordUpdateData {
   password: string

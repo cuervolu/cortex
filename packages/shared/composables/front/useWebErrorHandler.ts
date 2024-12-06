@@ -27,11 +27,27 @@ export const useWebErrorHandler = (): ErrorHandler => {
     }
 
     if (!options.silent) {
+      // Determine toast variant based on error type
+      let toastVariant: 'destructive' | 'warning' | 'info' | 'unauthorized' = 'destructive'
+      
+      switch (true) {
+        case appError.statusCode >= 400 && appError.statusCode < 500:
+          toastVariant = appError.statusCode === 401 || appError.statusCode === 403 
+            ? 'unauthorized' 
+            : 'warning'
+          break
+        case appError.statusCode >= 500:
+          toastVariant = 'destructive'
+          break
+        default:
+          toastVariant = 'info'
+      }
+
       // Always show toast for both fatal and non-fatal errors
       toast({
         title: `Error ${appError.statusCode}`,
         description: appError.message,
-        variant: 'destructive',
+        variant: toastVariant,
       })
     }
   }

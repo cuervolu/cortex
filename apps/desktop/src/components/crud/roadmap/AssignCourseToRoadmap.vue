@@ -3,7 +3,7 @@ import draggable from 'vuedraggable'
 import { Search } from 'lucide-vue-next'
 import { useCourseAssignment } from '~/composables/useCourseAssignment'
 import { useRoadmaps } from '~/composables/useRoadmaps'
-import { useDesktopErrorHandler } from '~/composables/useDesktopErrorHandler'
+import { useDesktopErrorHandler } from '@cortex/shared/composables/desktop/useDesktopErrorHandler'
 import {useToast} from "@cortex/shared/components/ui/toast";
 
 const route = useRoute();

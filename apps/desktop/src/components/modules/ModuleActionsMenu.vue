@@ -12,21 +12,18 @@ import {
 } from 'lucide-vue-next'
 
 interface Props {
-  courseId: number
-  courseSlug: string
+  moduleId: number
   isPublished: boolean
 }
 
 const props = defineProps<Props>()
 
 const emit = defineEmits<{
-  (e: 'viewLessons', courseId: number): void
-  (e: 'viewModules', courseSlug: string): void
-  (e: 'createLesson', courseId: number): void
-  (e: 'createModule', courseId: number): void
-  (e: 'togglePublish', courseId: number): void
-  (e: 'edit', courseId: number): void
-  (e: 'delete', courseId: number): void
+  (e: 'viewLessons', moduleId: number): void
+  (e: 'createLesson', moduleId: number): void
+  (e: 'togglePublish', moduleId: number): void
+  (e: 'edit', moduleId: number): void
+  (e: 'delete', moduleId: number): void
 }>()
 </script>
 
@@ -43,11 +40,7 @@ const emit = defineEmits<{
       <DropdownMenuLabel>Acciones</DropdownMenuLabel>
 
       <DropdownMenuGroup>
-        <DropdownMenuItem @click="emit('viewModules', props.courseSlug)">
-          <Layout class="mr-2 h-4 w-4" />
-          <span>Ver módulos</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem @click="emit('viewLessons', courseId)">
+        <DropdownMenuItem @click="emit('viewLessons', moduleId)">
           <BookOpen class="mr-2 h-4 w-4" />
           <span>Ver lecciones</span>
         </DropdownMenuItem>
@@ -56,11 +49,7 @@ const emit = defineEmits<{
       <DropdownMenuSeparator />
 
       <DropdownMenuGroup>
-        <DropdownMenuItem @click="emit('createModule', courseId)">
-          <PlusCircle class="mr-2 h-4 w-4" />
-          <span>Crear módulo</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem @click="emit('createLesson', courseId)">
+        <DropdownMenuItem @click="emit('createLesson', moduleId)">
           <FileText class="mr-2 h-4 w-4" />
           <span>Crear lección</span>
         </DropdownMenuItem>
@@ -68,12 +57,12 @@ const emit = defineEmits<{
 
       <DropdownMenuSeparator />
 
-      <DropdownMenuItem @click="emit('togglePublish', courseId)">
+      <DropdownMenuItem @click="emit('togglePublish', moduleId)">
         <component :is="isPublished ? Lock : Globe" class="mr-2 h-4 w-4" />
         <span>{{ isPublished ? 'Despublicar' : 'Publicar' }}</span>
       </DropdownMenuItem>
 
-      <DropdownMenuItem @click="emit('edit', courseId)">
+      <DropdownMenuItem @click="emit('edit', moduleId)">
         <Edit class="mr-2 h-4 w-4" />
         <span>Editar</span>
       </DropdownMenuItem>
@@ -81,7 +70,7 @@ const emit = defineEmits<{
       <DropdownMenuSeparator />
 
       <DropdownMenuItem
-          @click="emit('delete', courseId)"
+          @click="emit('delete', moduleId)"
           class="text-destructive focus:text-destructive"
       >
         <Trash2 class="mr-2 h-4 w-4" />
