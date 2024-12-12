@@ -93,6 +93,22 @@ public class LessonController {
         .orElse(ResponseEntity.notFound().build());
   }
 
+  @GetMapping("/module")
+  @Operation(summary = "Get a lesson by module ID", description = "Retrieves a lesson by its module ID")
+  @ApiResponse(responseCode = "200", description = "Successful operation",
+      content = @Content(schema = @Schema(implementation = LessonResponse.class)))
+  @ApiResponse(responseCode = "404", description = "Lesson not found")
+  public ResponseEntity<PageResponse<LessonResponse>> getLessonByModuleId(
+      @RequestParam(name = "id") Long moduleID,
+      @RequestParam(name = "page", defaultValue = "0") int page,
+      @RequestParam(name = "size", defaultValue = "10") int size,
+      @RequestParam(name = "sort", required = false) String[] sort,
+      Authentication authentication
+  ) {
+    Long userId = authentication != null ? ((User) authentication.getPrincipal()).getId() : null;
+    return ResponseEntity.ok(lessonService.getLessonsByModule(moduleID, page, size, sort, userId));
+  }
+
 
   @PostMapping
   @PreAuthorize("hasAnyRole('MODERATOR', 'ADMIN')")

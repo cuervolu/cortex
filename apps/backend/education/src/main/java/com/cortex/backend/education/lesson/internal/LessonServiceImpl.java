@@ -42,7 +42,8 @@ public class LessonServiceImpl implements LessonService {
 
   @Override
   @Transactional(readOnly = true)
-  public PageResponse<LessonResponse> getAllPublishedLessons(int page, int size, String[] sort, Long userId) {
+  public PageResponse<LessonResponse> getAllPublishedLessons(int page, int size, String[] sort,
+      Long userId) {
     Sort sortBy = SortUtils.parseSort(sort);
     Pageable pageable = PageRequest.of(page, size, sortBy);
 
@@ -58,7 +59,8 @@ public class LessonServiceImpl implements LessonService {
 
   @Override
   @Transactional(readOnly = true)
-  public PageResponse<LessonResponse> getAllLessons(int page, int size, String[] sort, Long userId) {
+  public PageResponse<LessonResponse> getAllLessons(int page, int size, String[] sort,
+      Long userId) {
     Sort sortBy = SortUtils.parseSort(sort);
     Pageable pageable = PageRequest.of(page, size, sortBy);
 
@@ -84,6 +86,24 @@ public class LessonServiceImpl implements LessonService {
   public Optional<LessonResponse> getLessonBySlug(String slug, Long userId) {
     return lessonRepository.findBySlug(slug)
         .map(lesson -> lessonMapper.toLessonResponse(lesson, userId, userProgressService));
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public PageResponse<LessonResponse> getLessonsByModule(Long moduleID, int page, int size,
+      String[] sort, Long userId) {
+    Sort sortBy = SortUtils.parseSort(sort);
+    Pageable pageable = PageRequest.of(page, size, sortBy);
+
+    Page<Lesson> lessons = lessonRepository.findAllByModule(moduleID, pageable);
+
+    List<LessonResponse> response = lessons.stream()
+        .map(lesson -> lessonMapper.toLessonResponse(lesson, userId, userProgressService))
+        .toList();
+
+    return new PageResponse<>(response, lessons.getNumber(), lessons.getSize(),
+        lessons.getTotalElements(), lessons.getTotalPages(), lessons.isFirst(), lessons.isLast());
+
   }
 
   @Override
