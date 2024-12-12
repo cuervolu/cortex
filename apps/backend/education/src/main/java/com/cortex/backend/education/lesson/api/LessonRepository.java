@@ -35,4 +35,11 @@ public interface LessonRepository extends CrudRepository<Lesson, Long> {
   Page<Lesson> findAllPublishedLessons(Pageable pageable);
 
   Page<Lesson> findAll(Pageable pageable);
+
+  @Query("""
+      SELECT  lesson
+      FROM Lesson lesson
+      WHERE lesson.moduleEntity.id = :moduleID
+      """)
+  Page<Lesson> findAllByModule(Long moduleID, Pageable pageable);
 }

@@ -5,7 +5,6 @@ import com.cortex.backend.education.lesson.api.dto.LessonRequest;
 import com.cortex.backend.education.lesson.api.dto.LessonResponse;
 import com.cortex.backend.education.lesson.api.dto.LessonUpdateRequest;
 import java.util.Optional;
-import org.springframework.data.domain.Page;
 
 public interface LessonService {
 
@@ -17,6 +16,8 @@ public interface LessonService {
   Optional<LessonResponse> getLessonById(Long id, Long userId);
 
   Optional<LessonResponse> getLessonBySlug(String slug, Long userId);
+
+  PageResponse<LessonResponse> getLessonsByModule(Long moduleID, int page, int size, String[] sort, Long userId);
 
   LessonResponse createLesson(LessonRequest request);
 
