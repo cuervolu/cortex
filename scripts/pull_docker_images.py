@@ -97,7 +97,7 @@ def check_and_update_repo() -> Tuple[bool, str]:
 def build_custom_ts_image() -> None:
     print(f"Building custom TypeScript image: {custom_ts_image}")
 
-    # Change to the parent directory of capstone
+    # Change to the parent directory of cortex
     os.chdir(
         os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     )
@@ -110,7 +110,7 @@ def build_custom_ts_image() -> None:
         print(f"Error with repository: {message}")
         exit(1)
 
-    dockerfile_path = "./capstone/docker/typescript.Dockerfile"
+    dockerfile_path = "./cortex/docker/typescript.Dockerfile"
 
     # Verify paths
     if not os.path.exists(dockerfile_path):
