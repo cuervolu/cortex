@@ -24,7 +24,7 @@ const toggleMenu = () => {
       </NuxtLink>
 
       <!-- Desktop Navigation -->
-      <NavigationMenu class="hidden min-[913px]:flex">
+      <NavigationMenu class="hidden min-[913px]:flex z-50">
         <NavigationMenuList class="gap-3">
           <NavigationMenuItem>
             <NavigationMenuTrigger class="bg-transparent font-medium text-base">Roadmaps</NavigationMenuTrigger>

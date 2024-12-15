@@ -33,15 +33,15 @@ const formData = ref({} as RegisterSchemaType)
 
 const steps = [
   {
-    title: 'Account Information',
+    title: 'Información de la Cuenta',
     fields: ['email', 'password', 'username']
   },
   {
-    title: 'Personal Information',
+    title: 'Información Personal',
     fields: ['firstname', 'lastname', 'dateOfBirth']
   },
   {
-    title: 'Additional Details',
+    title: 'Detalles Adicionales',
     fields: ['countryCode', 'gender']
   }
 ]
@@ -75,11 +75,11 @@ const handlePrevious = () => {
 }
 
 const genderOptions = [
-  { value: 'MALE', label: 'Male' },
-  { value: 'FEMALE', label: 'Female' },
-  { value: 'OTHER', label: 'Other' },
-  { value: 'NON_BINARY', label: 'Non-binary' },
-  { value: 'PREFER_NOT_TO_SAY', label: 'Prefer not to say' }
+  { value: 'MALE', label: 'Masculino' },
+  { value: 'FEMALE', label: 'Femenino' },
+  { value: 'OTHER', label: 'Otro' },
+  { value: 'NON_BINARY', label: 'No binario' },
+  { value: 'PREFER_NOT_TO_SAY', label: 'Prefiero no decirlo' }
 ]
 
 </script>
@@ -92,7 +92,7 @@ const genderOptions = [
           {{ steps[currentStep - 1].title }}
         </CardTitle>
         <CardDescription class="grow shrink basis-0 inline-flex text-[16.85px] text-[#5e4a6e] dark:text-[#BEBEBE] text-center">
-          Step {{ currentStep }} of {{ steps.length }}
+          Paso {{ currentStep }} de {{ steps.length }}
         </CardDescription>
       </CardHeader>
       <CardContent class="self-stretch flex-col items-start justify-start flex gap-[19.26px] p-0">
@@ -129,7 +129,7 @@ const genderOptions = [
                   <template v-else-if="field === 'gender'">
                     <Select v-bind="componentField">
                       <SelectTrigger>
-                        <SelectValue placeholder="Select gender" />
+                        <SelectValue placeholder="Seleccionar género" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem v-for="option in genderOptions" :key="option.value" :value="option.value">
@@ -141,7 +141,7 @@ const genderOptions = [
                   <template v-else-if="field === 'countryCode'">
                     <Select v-bind="componentField">
                       <SelectTrigger>
-                        <SelectValue placeholder="Select country" />
+                        <SelectValue placeholder="Seleccionar país" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem v-for="option in countryOptions" :key="option.value" :value="option.value">
@@ -169,21 +169,15 @@ const genderOptions = [
               :disabled="props.loading"
           >
             <Loader2 v-if="props.loading" class="mr-2 h-4 w-4 animate-spin"/>
-            {{ currentStep === steps.length ? 'Create account' : 'Next' }}
+            {{ currentStep === steps.length ? 'Crear cuenta' : 'Siguiente' }}
           </Button>
         </form>
       </CardContent>
       <CardFooter>
         <div class="flex justify-between items-center w-full">
           <Button v-if="currentStep > 1" variant="outline" @click="handlePrevious">
-            Previous
+            Anterior
           </Button>
-          <p v-if="currentStep === steps.length" class="text-sm text-gray-600">
-            Already have an account?
-            <NuxtLink to="/auth/login" class="text-purple-700 hover:underline">
-              Sign in
-            </NuxtLink>
-          </p>
           <NuxtLink to="/auth/login">
             <Button variant="link" class="text-[#5e4a6e] dark:text-[#BEBEBE] text-sm font-medium p-0">
               Ya tienes cuenta? Inicia sesión

@@ -22,7 +22,7 @@ const handleLemonEvent = (event: any) => {
     <Button
         :class="[
         'relative self-stretch w-full h-[44.98px] text-lg rounded-[9px] overflow-hidden',
-        'bg-[#f296bd] text-white',
+        'bg-[#f296bd] dark:bg-[#92D2DD] text-white dark:text-primary',
         { 'opacity-50 cursor-not-allowed': disabled },
         className
       ]"

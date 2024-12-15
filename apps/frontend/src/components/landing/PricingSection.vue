@@ -73,7 +73,7 @@ const plans = [
       { text: 'Soporte prioritario' },
     ],
     buttonText: 'Contactanos',
-    highlighted: true,
+    highlighted: false,
     enable: true,
   },
 
