@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Send, AlertCircle } from "lucide-vue-next";
+import { Send, AlertCircle, BugOff, CircleHelp, Code, Footprints } from "lucide-vue-next";
 import { VueMarkdownIt } from '@f3ve/vue-markdown-it';
 import type { Message } from "~/types";
 import logo from "~/assets/img/cortex_logo_dark_mode.svg";
@@ -49,6 +49,29 @@ const handleKeydown = (event: KeyboardEvent) => {
 };
 
 const { $markdown } = useNuxtApp();
+
+const prompts = {
+  debugging: [
+    "Analiza las pruebas unitarias para identificar por qué mi solución no pasa todos los test",
+    "Compara mi implementación con los requisitos originales del ejercicio"
+  ],
+  consultas: [
+    "Explícame la estrategia de resolución más eficiente para este problema",
+    "Dame recomendaciones para optimizar mi código actual"
+  ],
+  codigo: [
+    "Muestra una implementación alternativa para resolver este ejercicio",
+    "Genera código de ejemplo que demuestre los conceptos clave de este problema"
+  ],
+  tutoriales: [
+    "Desglosa los conceptos de programación que se evalúan en este ejercicio",
+    "Explícame paso a paso la lógica que se requiere para resolver este desafío"
+  ]
+}
+
+const selectPrompt = (prompt: string) => {
+  userMessage.value = prompt
+}
 </script>
 
 <template>
@@ -80,6 +103,69 @@ const { $markdown } = useNuxtApp();
 
     <!-- Messages Container -->
     <div class="flex-grow overflow-y-auto overflow-x-hidden rounded-lg">
+      <!-- Placeholder para chat de Cortex -->
+      <div v-if="messages.length === 0" class="flex flex-col items-center justify-center h-full text-center py-10 px-4">
+        <div class="p-8 max-w-md mx-auto">
+          <div class="mb-6 flex justify-center items-center space-x-3">
+            <img
+              class="w-12"
+              alt="Cortex logo"
+              :src="cortexLogo"
+            >
+            <h2 class="text-2xl font-bold text-foreground tracking-tight">Tu Guía de Código</h2>
+          </div>
+          
+          <p class="text-base text-muted-foreground mb-6 leading-relaxed">
+            Estás listo para aprender, resolver dudas y mejorar tus habilidades de programación. 
+            ¿Qué quieres explorar hoy?
+          </p>
+          
+          <div class="grid grid-cols-2 gap-3 mb-6">
+            <Popover v-for="(categoryPrompts, category) in prompts" :key="category">
+              <PopoverTrigger as-child>
+                <div class="bg-primary/10 rounded-lg p-3 text-sm text-foreground hover:bg-primary/20 cursor-pointer transition-colors group">
+                  <div class="flex items-center space-x-2">
+                    <BugOff v-if="category === 'debugging'" class="text-primary"/>
+                    <CircleHelp v-else-if="category === 'consultas'" class="text-primary"/>
+                    <Code v-else-if="category === 'codigo'" class="text-primary"/>
+                    <Footprints v-else class="text-primary"/>
+                    <span>{{ 
+                      category === 'debugging' ? 'Debugging' : 
+                      category === 'consultas' ? 'Consultas' : 
+                      category === 'codigo' ? 'Código' : 
+                      'Tutoriales' 
+                    }}</span>
+                  </div>
+                </div>
+              </PopoverTrigger>
+              <PopoverContent class="w-80">
+                <div class="grid gap-4">
+                  <div class="space-y-2">
+                    <h4 class="font-medium leading-none capitalize">{{ category }}</h4>
+                    <p class="text-sm text-muted-foreground">Selecciona un prompt para tu consulta</p>
+                  </div>
+                  <div class="grid gap-2">
+                    <Button 
+                      v-for="prompt in categoryPrompts" 
+                      :key="prompt"
+                      variant="outline"
+                      class="w-full justify-start text-left whitespace-normal h-auto"
+                      @click="selectPrompt(prompt)"
+                    >
+                      {{ prompt }}
+                    </Button>
+                  </div>
+                </div>
+              </PopoverContent>
+            </Popover>
+          </div>
+          <div class="border-t border-primary/20 pt-4">
+            <p class="text-xs text-muted-foreground">
+              Comienza escribiendo tu primera consulta de programación
+            </p>
+          </div>
+        </div>
+      </div>
       <!-- Rendered Messages -->
       <div v-for="(message, index) in messages" :key="index">
         <!-- User Message -->

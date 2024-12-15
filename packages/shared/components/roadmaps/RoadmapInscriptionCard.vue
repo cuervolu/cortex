@@ -68,7 +68,7 @@ const handleEnroll = async (roadmap: RoadmapDetails) => {
                 :disabled="loading"
                 @click="handleEnroll(roadmap)"
             >
-                <span>Get Started</span>
+                <span>Comenzar</span>
                 <ArrowRight :size="18" />
             </Button>
         </CardContent>
